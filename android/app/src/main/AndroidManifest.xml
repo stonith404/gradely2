@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.gradely">
+    package="com.eliasschneider.gradely">
    <application
         android:label="gradely"
         android:icon="@mipmap/ic_launcher">

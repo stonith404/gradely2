@@ -51,7 +51,7 @@ class _LessonDetailState extends State<LessonDetail> {
                               ));
                         },
                         child:   Text(
-                          '${testNames[index]} ${testGradesFiltered[index]}',
+                          '${testNames[index]} ${testGrades[index]}',
                           style: TextStyle(fontSize: 18),
                         ),
                       )),

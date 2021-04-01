@@ -1,4 +1,4 @@
-package com.example.gradely
+package com.eliasschneider.gradely
 
 import io.flutter.embedding.android.FlutterActivity
 
