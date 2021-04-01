@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'LessonsDetail.dart';
+import 'data.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -30,7 +31,7 @@ class _State extends State<MyApp> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => addScreen()),
+                MaterialPageRoute(builder: (context) => addLesson()),
               );
             }),
         appBar: AppBar(
@@ -42,7 +43,6 @@ class _State extends State<MyApp> {
                   padding: const EdgeInsets.all(8),
                   itemCount: names.length,
                   itemBuilder: (BuildContext context, int index) {
-                 
                     return Container(
                       height: 50,
                       margin: EdgeInsets.all(2),
@@ -67,45 +67,48 @@ class _State extends State<MyApp> {
   }
 }
 
-List<String> names = <String>[
-  'Aby',
-  'Aish',
-  'Ayan',
-  'Ben',
-  'Bob',
-  'Charlie',
-  'Cook',
-  'Carline'
-];
+class addLesson extends StatefulWidget {
+  @override
+  _addLessonState createState() => _addLessonState();
+}
 
-class addScreen extends StatelessWidget {
+class _addLessonState extends State<addLesson> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("add"),
+      ),
       backgroundColor: Colors.white.withOpacity(
           0.85), // this is the main reason of transparency at next screen. I am ignoring rest implementation but what i have achieved is you can see.
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          TextField(
+            controller: addLessonController,
+            textAlign: TextAlign.left,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Enter Lesson Name',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
           TextButton(
             child: Text("add"),
             onPressed: () {
-              names.add("test");
-              Navigator.pushReplacement(
+              names.add(addLessonController.text);
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => MyApp()),
+                (Route<dynamic> route) => false,
               );
+              setState(() {
+                addLessonController.text = "";
+              });
             },
           ),
         ],
       ),
     );
   }
-}
-
-int currentIndex = 0;
-String currentName = "";
-LessonDetailIndex(int index, String names) {
-  currentIndex = index;
-  currentName = names;
 }
