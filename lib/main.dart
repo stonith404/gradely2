@@ -4,7 +4,7 @@ import 'data.dart';
 import 'userAuth/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 bool isLoggedIn = false;
 
@@ -31,7 +31,6 @@ class _State extends State<MyApp> {
 
   void initState() {
     super.initState();
- 
 
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
@@ -76,15 +75,16 @@ class HomeSite extends StatelessWidget {
             }),
         appBar: AppBar(
           actions: [
-            IconButton(icon:  Icon(Icons.login), onPressed: ()async{
-              await FirebaseAuth.instance.signOut();
-              
-              Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => MyApp()),
-  );
-            })
-           
+            IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyApp()),
+                  );
+                })
           ],
           title: Text('Flutter Tutorial - googleflutter.com'),
         ),
@@ -118,6 +118,23 @@ class HomeSite extends StatelessWidget {
   }
 }
 
+createLesson(String lessonName) {
+  CollectionReference gradesCollection =
+      FirebaseFirestore.instance.collection('grades');
+  return gradesCollection.doc(auth.currentUser.uid).update({
+    lessonName: [5, true, "hello"],
+  });
+}
+
+getLessons(String lessonName) {
+  CollectionReference gradesCollection =
+      FirebaseFirestore.instance.collection('grades');
+  var list = gradesCollection.doc(auth.currentUser.uid).get();
+  Future<DocumentSnapshot> names = list;
+}
+
+
+
 class addLesson extends StatefulWidget {
   @override
   _addLessonState createState() => _addLessonState();
@@ -147,12 +164,13 @@ class _addLessonState extends State<addLesson> {
           TextButton(
             child: Text("add"),
             onPressed: () {
-              names.add(addLessonController.text);
+              createLesson(addLessonController.text);
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => MyApp()),
                 (Route<dynamic> route) => false,
               );
+
               setState(() {
                 addLessonController.text = "";
               });
