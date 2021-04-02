@@ -6,7 +6,8 @@ import 'userAuth/login.dart';
 import 'test.dart';
 import 'testDetail.dart';
 
-String selectedTest= "";
+
+String selectedTest = "";
 
 class LessonsDetail extends StatefulWidget {
   @override
@@ -14,7 +15,6 @@ class LessonsDetail extends StatefulWidget {
 }
 
 class _LessonsDetailState extends State<LessonsDetail> {
-  
   getTests() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
@@ -37,6 +37,15 @@ class _LessonsDetailState extends State<LessonsDetail> {
   Widget build(BuildContext context) {
     print("object" + testList.toString());
     return Scaffold(
+        floatingActionButton: IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              createTest("chemie probe");
+               Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LessonsDetail()),
+                );
+            }),
         appBar: AppBar(),
         body: ListView.builder(
           itemCount: testList.length,
@@ -44,7 +53,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
             return ListTile(
               title: Text(testList[index]),
               onTap: () {
-              Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => TestDetail()),
                 );
@@ -58,3 +67,15 @@ class _LessonsDetailState extends State<LessonsDetail> {
         ));
   }
 }
+
+createTest(String testName) {
+FirebaseFirestore.instance
+      .collection('grades').doc(auth.currentUser.uid).collection("grades").doc(selectedLesson).collection("grades").doc(testName).set({
+       "name"    : testName,
+    "grade" : "4.5"
+        });
+
+
+
+}
+

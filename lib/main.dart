@@ -27,11 +27,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _State extends State<MyApp> {
-  addItem() {
-    setState(() {
-      names.add("test");
-    });
-  }
+
 
   void initState() {
     super.initState();
@@ -72,7 +68,10 @@ class HomeSite extends StatefulWidget {
   _HomeSiteState createState() => _HomeSiteState();
 }
 
+
+
 class _HomeSiteState extends State<HomeSite> {
+  
   @override
   Widget build(BuildContext context) {
         setState(() {
@@ -125,13 +124,6 @@ class _HomeSiteState extends State<HomeSite> {
   }
 }
 
-createLesson(String lessonName) {
-  CollectionReference gradesCollection =
-      FirebaseFirestore.instance.collection('grades');
-  return gradesCollection.doc(auth.currentUser.uid).update({
-    lessonName: [4.5, "10.11.2205", "hello"],
-  });
-}
 
 
 
@@ -193,4 +185,13 @@ class _addLessonState extends State<addLesson> {
       ),
     );
   }
+}
+
+createLesson(String lessonName) {
+  CollectionReference gradesCollection =
+      FirebaseFirestore.instance.collection('grades/${auth.currentUser.uid}/grades/');
+   gradesCollection.doc(lessonName).set({
+    
+  });
+  
 }
