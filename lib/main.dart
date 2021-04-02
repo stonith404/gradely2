@@ -35,6 +35,7 @@ class _State extends State<MyApp> {
   void initState() {
     super.initState();
 
+
     getLessons();
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
@@ -61,13 +62,21 @@ class _State extends State<MyApp> {
   }
 }
 
-class HomeSite extends StatelessWidget {
+class HomeSite extends StatefulWidget {
   const HomeSite({
     Key key,
   }) : super(key: key);
 
   @override
+  _HomeSiteState createState() => _HomeSiteState();
+}
+
+class _HomeSiteState extends State<HomeSite> {
+  @override
   Widget build(BuildContext context) {
+        setState(() {
+      testList = [];
+    });
     return Scaffold(
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
@@ -102,8 +111,11 @@ class HomeSite extends StatelessWidget {
                   context,
                   MaterialPageRoute(builder: (context) => LessonsDetail()),
                 );
-                getTests(courseList[index]);
-                selectedLesson = courseList[index];
+
+                setState(() {
+                  selectedLesson = courseList[index];
+                });
+
                 print(courseList[index]);
               },
             );
@@ -120,14 +132,7 @@ createLesson(String lessonName) {
   });
 }
 
-Future<String> getTests(String currentLesson) async {
-  final QuerySnapshot result = await FirebaseFirestore.instance
-      .collection('grades/${auth.currentUser.uid}/grades/$selectedLesson/grades')
-      .get();
-  List<DocumentSnapshot> documents = result.docs;
-  documents.forEach((data) => testList.add(data.id));
-  print(testList);
-}
+
 
 Future<String> getTestInfo() async {
   var data1 = (await FirebaseFirestore.instance
