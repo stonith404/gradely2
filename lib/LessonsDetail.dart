@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'userAuth/login.dart';
+import 'test.dart';
+import 'testDetail.dart';
+
+String selectedTest= "";
 
 class LessonsDetail extends StatefulWidget {
   @override
@@ -40,7 +44,14 @@ class _LessonsDetailState extends State<LessonsDetail> {
             return ListTile(
               title: Text(testList[index]),
               onTap: () {
-                print(testList[index]);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TestDetail()),
+                );
+
+                setState(() {
+                  selectedTest = testList[index];
+                });
               },
             );
           },

@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 bool isLoggedIn = false;
 
 var testList = [];
+
 String selectedLesson = "";
 
 void main() async {
@@ -134,16 +135,7 @@ createLesson(String lessonName) {
 
 
 
-Future<String> getTestInfo() async {
-  var data1 = (await FirebaseFirestore.instance
-              .collection("grades/${auth.currentUser.uid}/grades")
-              .doc("chemie")
-              .get())
-          .data()['chemie probe 1'] ??
-      '';
 
-  print(data1[1]);
-}
 
 var courseList = [];
 
