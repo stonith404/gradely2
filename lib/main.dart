@@ -7,7 +7,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 bool isLoggedIn = false;
-Future<DocumentSnapshot> namesList;
+
+var testList = [];
+String selectedLesson = "";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +35,7 @@ class _State extends State<MyApp> {
   void initState() {
     super.initState();
 
+    getLessons();
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
         setState(() {
@@ -65,7 +68,6 @@ class HomeSite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    getLessons();
     return Scaffold(
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
@@ -88,12 +90,23 @@ class HomeSite extends StatelessWidget {
                   );
                 })
           ],
-          title: Text('Flutter Tutorial - googleflutter.com'),
+          title: Text('Gradely'),
         ),
-        body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection("grades").snapshots(),
-          builder: (context, snapshot) {
-            return !snapshot.hasData ? Text('PLease Wait') : Text("");
+        body: ListView.builder(
+          itemCount: courseList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(courseList[index]),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LessonsDetail()),
+                );
+                getTests(courseList[index]);
+                selectedLesson = courseList[index];
+                print(courseList[index]);
+              },
+            );
           },
         ));
   }
@@ -107,15 +120,35 @@ createLesson(String lessonName) {
   });
 }
 
-Future<String> getLessons() async {
+Future<String> getTests(String currentLesson) async {
+  final QuerySnapshot result = await FirebaseFirestore.instance
+      .collection('grades/${auth.currentUser.uid}/grades/$selectedLesson/grades')
+      .get();
+  List<DocumentSnapshot> documents = result.docs;
+  documents.forEach((data) => testList.add(data.id));
+  print(testList);
+}
+
+Future<String> getTestInfo() async {
   var data1 = (await FirebaseFirestore.instance
-              .collection('grades')
-              .doc(auth.currentUser.uid)
+              .collection("grades/${auth.currentUser.uid}/grades")
+              .doc("chemie")
               .get())
-          .data()['chemie'] ??
+          .data()['chemie probe 1'] ??
       '';
 
   print(data1[1]);
+}
+
+var courseList = [];
+
+Future<String> getLessons() async {
+  final QuerySnapshot result = await FirebaseFirestore.instance
+      .collection('grades/${auth.currentUser.uid}/grades')
+      .get();
+  List<DocumentSnapshot> documents = result.docs;
+  documents.forEach((data) => courseList.add(data.id));
+  print(courseList);
 }
 
 class addLesson extends StatefulWidget {
