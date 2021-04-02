@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 bool isLoggedIn = false;
+Future<DocumentSnapshot> namesList;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,6 +65,7 @@ class HomeSite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getLessons();
     return Scaffold(
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
@@ -88,33 +90,12 @@ class HomeSite extends StatelessWidget {
           ],
           title: Text('Flutter Tutorial - googleflutter.com'),
         ),
-        body: Column(children: <Widget>[
-          Expanded(
-              child: ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: names.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      height: 50,
-                      margin: EdgeInsets.all(2),
-                      child: Center(
-                          child: GestureDetector(
-                        onTap: () {
-                          LessonDetailIndex(index, names[index]);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LessonDetail(),
-                              ));
-                        },
-                        child: Text(
-                          '${names[index]} $index',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      )),
-                    );
-                  }))
-        ]));
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection("grades").snapshots(),
+          builder: (context, snapshot) {
+            return !snapshot.hasData ? Text('PLease Wait') : Text("");
+          },
+        ));
   }
 }
 
@@ -122,18 +103,20 @@ createLesson(String lessonName) {
   CollectionReference gradesCollection =
       FirebaseFirestore.instance.collection('grades');
   return gradesCollection.doc(auth.currentUser.uid).update({
-    lessonName: [5, true, "hello"],
+    lessonName: [4.5, "10.11.2205", "hello"],
   });
 }
 
-getLessons(String lessonName) {
-  CollectionReference gradesCollection =
-      FirebaseFirestore.instance.collection('grades');
-  var list = gradesCollection.doc(auth.currentUser.uid).get();
-  Future<DocumentSnapshot> names = list;
+Future<String> getLessons() async {
+  var data1 = (await FirebaseFirestore.instance
+              .collection('grades')
+              .doc(auth.currentUser.uid)
+              .get())
+          .data()['chemie'] ??
+      '';
+
+  print(data1[1]);
 }
-
-
 
 class addLesson extends StatefulWidget {
   @override
