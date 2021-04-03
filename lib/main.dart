@@ -13,6 +13,7 @@ var testList = [];
 var courseListID = [];
 var allAverageList = [];
 String selectedLesson = "";
+String selectedLessonName;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -178,7 +179,7 @@ class _HomeSiteState extends State<HomeSite> {
               ],
               child: ListTile(
                 title: Text(courseList[index]),
-                subtitle: Text(allAverageList[index].toString()),
+                subtitle: Text(allAverageList[index].toStringAsFixed(2)),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -187,6 +188,7 @@ class _HomeSiteState extends State<HomeSite> {
 
                   setState(() {
                     selectedLesson = courseListID[index];
+                    selectedLessonName = courseList[index];
                   });
                 },
               ),
@@ -234,10 +236,8 @@ class _addLessonState extends State<addLesson> {
                 (Route<dynamic> route) => false,
               );
 
-              setState(() {
-                addLessonController.text = "";
-                courseList = [];
-              });
+              addLessonController.text = "";
+              courseList = [];
             },
           ),
         ],
