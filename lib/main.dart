@@ -27,8 +27,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _State extends State<MyApp> {
-
-
   void initState() {
     super.initState();
 
@@ -52,9 +50,6 @@ class _State extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      names = names;
-    });
     return isLoggedIn ? HomeSite() : LoginScreen();
   }
 }
@@ -68,13 +63,10 @@ class HomeSite extends StatefulWidget {
   _HomeSiteState createState() => _HomeSiteState();
 }
 
-
-
 class _HomeSiteState extends State<HomeSite> {
-  
   @override
   Widget build(BuildContext context) {
-        setState(() {
+    setState(() {
       testList = [];
     });
     return Scaffold(
@@ -124,11 +116,6 @@ class _HomeSiteState extends State<HomeSite> {
   }
 }
 
-
-
-
-
-
 var courseList = [];
 
 Future<String> getLessons() async {
@@ -136,6 +123,7 @@ Future<String> getLessons() async {
       .collection('grades/${auth.currentUser.uid}/grades')
       .get();
   List<DocumentSnapshot> documents = result.docs;
+
   documents.forEach((data) => courseList.add(data.id));
   print(courseList);
 }
@@ -178,6 +166,7 @@ class _addLessonState extends State<addLesson> {
 
               setState(() {
                 addLessonController.text = "";
+                courseList = [];
               });
             },
           ),
@@ -188,10 +177,7 @@ class _addLessonState extends State<addLesson> {
 }
 
 createLesson(String lessonName) {
-  CollectionReference gradesCollection =
-      FirebaseFirestore.instance.collection('grades/${auth.currentUser.uid}/grades/');
-   gradesCollection.doc(lessonName).set({
-    
-  });
-  
+  CollectionReference gradesCollection = FirebaseFirestore.instance
+      .collection('grades/${auth.currentUser.uid}/grades/');
+  gradesCollection.doc(lessonName).set({});
 }

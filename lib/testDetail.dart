@@ -37,10 +37,10 @@ class _TestDetailState extends State<TestDetail> {
   Widget build(BuildContext context) {
  
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(title: Text(testDetails["name"]),),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text(testDetails["name"]), Text(testDetails["grade"])],
+          children: [Text(testDetails["name"]), Text(testDetails["grade"].toString())],
         ));
   }
 }

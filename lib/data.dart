@@ -40,3 +40,5 @@ LessonDetailIndex(int index, String names) {
 TextEditingController addLessonController = new TextEditingController();
 TextEditingController addGradeNameController = new TextEditingController();
 TextEditingController addGradeGradeController = new TextEditingController();
+TextEditingController addTestNameController = new TextEditingController();
+TextEditingController addTestGradeController = new TextEditingController();
