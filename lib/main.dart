@@ -10,7 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 bool isLoggedIn = false;
 
 var testList = [];
-
+var courseListID = [];
+var allAverageList = [];
 String selectedLesson = "";
 
 void main() async {
@@ -67,10 +68,15 @@ class _HomeSiteState extends State<HomeSite> {
     List<DocumentSnapshot> documents = result.docs;
 
     courseList = [];
+    allAverageList = [];
 
     documents.forEach((data) => courseList.add(data["name"]));
+    documents.forEach((data) => courseListID.add(data.id));
+    documents.forEach((data) => allAverageList.add(data["average"]));
     setState(() {
+      courseListID = courseListID;
       courseList = courseList;
+      allAverageList = allAverageList;
     });
   }
 
@@ -115,8 +121,9 @@ class _HomeSiteState extends State<HomeSite> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => updateLesson(courseList[index])),
+                      MaterialPageRoute(builder: (context) => updateLesson()),
                     );
+                    selectedLesson = courseListID[index];
                   },
                 ),
                 IconSlideAction(
@@ -144,7 +151,12 @@ class _HomeSiteState extends State<HomeSite> {
                                   FirebaseFirestore.instance
                                       .collection(
                                           'grades/${auth.currentUser.uid}/grades/')
-                                      .doc(courseList[index])
+                                      .doc(courseListID[index])
+                                      .set({});
+                                  FirebaseFirestore.instance
+                                      .collection(
+                                          'grades/${auth.currentUser.uid}/grades/')
+                                      .doc(courseListID[index])
                                       .delete();
 
                                   Navigator.pushReplacement(
@@ -166,6 +178,7 @@ class _HomeSiteState extends State<HomeSite> {
               ],
               child: ListTile(
                 title: Text(courseList[index]),
+                subtitle: Text(allAverageList[index].toString()),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -173,7 +186,7 @@ class _HomeSiteState extends State<HomeSite> {
                   );
 
                   setState(() {
-                    selectedLesson = courseList[index];
+                    selectedLesson = courseListID[index];
                   });
                 },
               ),
@@ -236,13 +249,12 @@ class _addLessonState extends State<addLesson> {
 createLesson(String lessonName) {
   CollectionReference gradesCollection = FirebaseFirestore.instance
       .collection('grades/${auth.currentUser.uid}/grades/');
-  gradesCollection.doc(lessonName).set({"name": lessonName});
+  gradesCollection.doc(lessonName).set(
+    {"name": lessonName, "average": 0},
+  );
 }
 
-  var selectedLessonUpdate;
 class updateLesson extends StatefulWidget {
-
-  updateLesson(String selectedLessonUpdate);
   @override
   _updateLessonState createState() => _updateLessonState();
 }
@@ -271,7 +283,7 @@ class _updateLessonState extends State<updateLesson> {
           TextButton(
             child: Text("update"),
             onPressed: () {
-              updateLessonF(renameTestWeightController.text, selectedLessonUpdate);
+              updateLessonF(renameTestWeightController.text);
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => MyApp()),
@@ -290,11 +302,12 @@ class _updateLessonState extends State<updateLesson> {
   }
 }
 
-updateLessonF(String lessonUpdate, String _selectedLesson) {
+updateLessonF(String lessonUpdate) {
+  print(selectedLesson);
   FirebaseFirestore.instance
       .collection('grades')
       .doc(auth.currentUser.uid)
       .collection("grades")
-      .doc("test")
+      .doc(selectedLesson)
       .update({"name": lessonUpdate});
 }

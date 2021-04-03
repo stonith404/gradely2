@@ -55,7 +55,17 @@ class _LessonsDetailState extends State<LessonsDetail> {
       anzahl = anzahl + 1;
     }
 
-    averageOfTests = sum / anzahl;
+     averageOfTests = sum / anzahl;
+
+        FirebaseFirestore.instance
+        .collection('grades')
+        .doc(auth.currentUser.uid)
+        .collection("grades")
+        .doc(selectedLesson)
+        .update({
+          "average": averageOfTests
+        });
+  
   }
 
   void initState() {
