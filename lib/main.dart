@@ -68,7 +68,7 @@ class _HomeSiteState extends State<HomeSite> {
 
     courseList = [];
 
-    documents.forEach((data) => courseList.add(data.id));
+    documents.forEach((data) => courseList.add(data["name"]));
     setState(() {
       courseList = courseList;
     });
@@ -112,10 +112,12 @@ class _HomeSiteState extends State<HomeSite> {
                   caption: 'More',
                   color: Colors.black45,
                   icon: Icons.more_horiz,
-                  onTap: () { Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => updateLesson()),
-              );},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => updateLesson(courseList[index])),
+                    );
+                  },
                 ),
                 IconSlideAction(
                   caption: 'Delete',
@@ -234,11 +236,13 @@ class _addLessonState extends State<addLesson> {
 createLesson(String lessonName) {
   CollectionReference gradesCollection = FirebaseFirestore.instance
       .collection('grades/${auth.currentUser.uid}/grades/');
-  gradesCollection.doc(lessonName).set({});
+  gradesCollection.doc(lessonName).set({"name": lessonName});
 }
 
-
+  var selectedLessonUpdate;
 class updateLesson extends StatefulWidget {
+
+  updateLesson(String selectedLessonUpdate);
   @override
   _updateLessonState createState() => _updateLessonState();
 }
@@ -256,7 +260,7 @@ class _updateLessonState extends State<updateLesson> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextField(
-            controller: addLessonController,
+            controller: renameTestWeightController,
             textAlign: TextAlign.left,
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -267,7 +271,7 @@ class _updateLessonState extends State<updateLesson> {
           TextButton(
             child: Text("update"),
             onPressed: () {
-              updateLessonF(addLessonController.text);
+              updateLessonF(renameTestWeightController.text, selectedLessonUpdate);
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => MyApp()),
@@ -275,7 +279,7 @@ class _updateLessonState extends State<updateLesson> {
               );
 
               setState(() {
-                addLessonController.text = "";
+                renameTestWeightController.text = "";
                 courseList = [];
               });
             },
@@ -286,8 +290,11 @@ class _updateLessonState extends State<updateLesson> {
   }
 }
 
-updateLessonF(String lessonName) {
-  CollectionReference gradesCollection = FirebaseFirestore.instance
-      .collection('grades/${auth.currentUser.uid}/grades/');
-  gradesCollection.doc(lessonName).update({});
+updateLessonF(String lessonUpdate, String _selectedLesson) {
+  FirebaseFirestore.instance
+      .collection('grades')
+      .doc(auth.currentUser.uid)
+      .collection("grades")
+      .doc("test")
+      .update({"name": lessonUpdate});
 }

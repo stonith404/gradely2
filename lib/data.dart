@@ -34,6 +34,7 @@ LessonDetailIndex(int index, String names) {
 }
 
 TextEditingController addLessonController = new TextEditingController();
+TextEditingController renameTestWeightController = new TextEditingController();
 TextEditingController addGradeNameController = new TextEditingController();
 TextEditingController addGradeGradeController = new TextEditingController();
 TextEditingController addTestNameController = new TextEditingController();
