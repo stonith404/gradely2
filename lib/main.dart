@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
 import 'userAuth/login.dart';
@@ -30,17 +31,12 @@ class _State extends State<MyApp> {
   void initState() {
     super.initState();
 
-
-    getLessons();
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
         setState(() {
           isLoggedIn = false;
         });
-        print('User is currently signed out!');
       } else {
-        print('User is signed in!');
-        print(auth.currentUser.uid);
         setState(() {
           isLoggedIn = true;
         });
@@ -64,11 +60,23 @@ class HomeSite extends StatefulWidget {
 }
 
 class _HomeSiteState extends State<HomeSite> {
+  getLessons() async {
+    final QuerySnapshot result = await FirebaseFirestore.instance
+        .collection('grades/${auth.currentUser.uid}/grades')
+        .get();
+    List<DocumentSnapshot> documents = result.docs;
+
+    courseList = [];
+
+    documents.forEach((data) => courseList.add(data.id));
+    setState(() {
+      courseList = courseList;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      testList = [];
-    });
+    getLessons();
     return Scaffold(
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
@@ -96,20 +104,77 @@ class _HomeSiteState extends State<HomeSite> {
         body: ListView.builder(
           itemCount: courseList.length,
           itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(courseList[index]),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LessonsDetail()),
-                );
+            return Slidable(
+              actionPane: SlidableDrawerActionPane(),
+              actionExtentRatio: 0.25,
+              secondaryActions: <Widget>[
+                IconSlideAction(
+                  caption: 'More',
+                  color: Colors.black45,
+                  icon: Icons.more_horiz,
+                  onTap: () { Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => updateLesson()),
+              );},
+                ),
+                IconSlideAction(
+                  caption: 'Delete',
+                  color: Colors.red,
+                  icon: Icons.delete,
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Attention."),
+                            content: Text(
+                                "Do you want to delete ${courseList[index]} ?"),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text("No"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              FlatButton(
+                                child: Text("Delete"),
+                                onPressed: () {
+                                  FirebaseFirestore.instance
+                                      .collection(
+                                          'grades/${auth.currentUser.uid}/grades/')
+                                      .doc(courseList[index])
+                                      .delete();
 
-                setState(() {
-                  selectedLesson = courseList[index];
-                });
+                                  Navigator.pushReplacement(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder:
+                                          (context, animation1, animation2) =>
+                                              HomeSite(),
+                                      transitionDuration: Duration(seconds: 0),
+                                    ),
+                                  );
+                                },
+                              )
+                            ],
+                          );
+                        });
+                  },
+                ),
+              ],
+              child: ListTile(
+                title: Text(courseList[index]),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LessonsDetail()),
+                  );
 
-                print(courseList[index]);
-              },
+                  setState(() {
+                    selectedLesson = courseList[index];
+                  });
+                },
+              ),
             );
           },
         ));
@@ -117,16 +182,6 @@ class _HomeSiteState extends State<HomeSite> {
 }
 
 var courseList = [];
-
-Future<String> getLessons() async {
-  final QuerySnapshot result = await FirebaseFirestore.instance
-      .collection('grades/${auth.currentUser.uid}/grades')
-      .get();
-  List<DocumentSnapshot> documents = result.docs;
-
-  documents.forEach((data) => courseList.add(data.id));
-  print(courseList);
-}
 
 class addLesson extends StatefulWidget {
   @override
@@ -180,4 +235,59 @@ createLesson(String lessonName) {
   CollectionReference gradesCollection = FirebaseFirestore.instance
       .collection('grades/${auth.currentUser.uid}/grades/');
   gradesCollection.doc(lessonName).set({});
+}
+
+
+class updateLesson extends StatefulWidget {
+  @override
+  _updateLessonState createState() => _updateLessonState();
+}
+
+class _updateLessonState extends State<updateLesson> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("update"),
+      ),
+      backgroundColor: Colors.white.withOpacity(
+          0.85), // this is the main reason of transparency at next screen. I am ignoring rest implementation but what i have achieved is you can see.
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextField(
+            controller: addLessonController,
+            textAlign: TextAlign.left,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Enter Lesson Name',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
+          TextButton(
+            child: Text("update"),
+            onPressed: () {
+              updateLessonF(addLessonController.text);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => MyApp()),
+                (Route<dynamic> route) => false,
+              );
+
+              setState(() {
+                addLessonController.text = "";
+                courseList = [];
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+updateLessonF(String lessonName) {
+  CollectionReference gradesCollection = FirebaseFirestore.instance
+      .collection('grades/${auth.currentUser.uid}/grades/');
+  gradesCollection.doc(lessonName).update({});
 }

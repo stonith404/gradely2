@@ -7,10 +7,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'userAuth/login.dart';
 import 'test.dart';
 import 'testDetail.dart';
-import '';
+import 'data.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 String selectedTest = "";
 String errorMessage = "";
+double averageOfTests;
 
 class LessonsDetail extends StatefulWidget {
   @override
@@ -47,15 +49,13 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
     num sum = 0;
     num anzahl = 0;
-    double averageOfTests;
+
     for (num e in averageList) {
       sum += e;
       anzahl = anzahl + 1;
     }
 
     averageOfTests = sum / anzahl;
-        print(averageOfTests);
-
   }
 
   void initState() {
@@ -66,7 +66,8 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   @override
   Widget build(BuildContext context) {
-    print("object" + testList.toString());
+
+    getPluspoints();
     return Scaffold(
         floatingActionButton: IconButton(
             icon: Icon(Icons.add),
@@ -79,28 +80,81 @@ class _LessonsDetailState extends State<LessonsDetail> {
         appBar: AppBar(
           title: Text(selectedLesson),
         ),
-        body: ListView.builder(
-          itemCount: testList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(testList[index]),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TestDetail()),
-                );
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: testList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                      title: Text(testList[index]),
+                      subtitle: Text(averageList[index].toString()),
+                      onTap: () async {
+                        setState(() {
+                          selectedTest = testList[index];
+                        });
+                        testDetails = (await FirebaseFirestore.instance
+                                .collection(
+                                    "grades/${auth.currentUser.uid}/grades/$selectedLesson/grades/")
+                                .doc(selectedTest)
+                                .get())
+                            .data();
 
-                setState(() {
-                  selectedTest = testList[index];
-                });
-              },
-            );
-          },
+                        setState(() {
+                          testDetails = testDetails;
+                        });
+
+                        testDetail(context);
+                      });
+                },
+              ),
+            ),
+            Container(
+              color: Colors.grey,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
+                child: Expanded(
+                  child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: Column(
+                      children: [
+                        Text(averageOfTests.toStringAsFixed(2)),
+                        Text(plusPoints.toString())
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ));
+  }
+
+  Future testDetail(BuildContext context) {
+    return showCupertinoModalBottomSheet(
+      expand: true,
+      context: context,
+      builder: (context) => SingleChildScrollView(
+          controller: ModalScrollController.of(context),
+          child: Material(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 60, 0, 20),
+                  child: Text(
+                    testDetails["name"],
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  ),
+                ),
+                Text(testDetails["grade"].toString())
+              ],
+            ),
+          )),
+    );
   }
 }
 
-createTest(String testName, double grade) {
+createTest(String testName, double grade, double weight) {
   FirebaseFirestore.instance
       .collection('grades')
       .doc(auth.currentUser.uid)
@@ -108,7 +162,7 @@ createTest(String testName, double grade) {
       .doc(selectedLesson)
       .collection("grades")
       .doc(testName)
-      .set({"name": testName, "grade": grade});
+      .set({"name": testName, "grade": grade, "weight:": weight});
 }
 
 class addTest extends StatefulWidget {
@@ -147,6 +201,16 @@ class _addTestState extends State<addTest> {
               hintStyle: TextStyle(color: Colors.grey),
             ),
           ),
+          TextField(
+            controller: addTestWeightController,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.left,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Enter TestWeight',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
           TextButton(
             child: Text("add"),
             onPressed: () {
@@ -171,6 +235,7 @@ class _addTestState extends State<addTest> {
               createTest(
                 addTestNameController.text,
                 double.parse(addTestGradeController.text),
+                  double.parse(addTestWeightController.text),
               );
               setState(() {
                 addLessonController.text = "";
