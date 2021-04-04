@@ -6,6 +6,7 @@ import 'userAuth/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'shared/defaultWidgets.dart';
 
 bool isLoggedIn = false;
 
@@ -21,6 +22,19 @@ void main() async {
 
   runApp(MaterialApp(
     home: MyApp(),
+    theme: ThemeData(
+      brightness: Brightness.light,
+      primaryColor: Colors.grey[50],
+    ),
+    darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        appBarTheme: AppBarTheme(
+          color: Colors.black87,
+        ),
+        textTheme: TextTheme(
+          subhead: TextStyle(color: Colors.white),
+          title: TextStyle(color: Colors.white),
+        )),
   ));
 }
 
@@ -69,21 +83,30 @@ class _HomeSiteState extends State<HomeSite> {
     List<DocumentSnapshot> documents = result.docs;
 
     courseList = [];
+    courseListID = [];
     allAverageList = [];
 
     documents.forEach((data) => courseList.add(data["name"]));
     documents.forEach((data) => courseListID.add(data.id));
     documents.forEach((data) => allAverageList.add(data["average"]));
-    setState(() {
-      courseListID = courseListID;
-      courseList = courseList;
-      allAverageList = allAverageList;
-    });
+
+
+  }
+
+  @override
+  void initState() { 
+    super.initState();
+       getLessons();
   }
 
   @override
   Widget build(BuildContext context) {
-    getLessons();
+   getLessons();
+setState(() {
+  courseListID  = courseListID;
+});
+
+
     return Scaffold(
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
@@ -94,6 +117,16 @@ class _HomeSiteState extends State<HomeSite> {
               );
             }),
         appBar: AppBar(
+          leading: IconButton(
+              icon: Icon(Icons.more_vert),
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyApp()),
+                );
+              }),
           actions: [
             IconButton(
                 icon: Icon(Icons.login),
@@ -104,12 +137,13 @@ class _HomeSiteState extends State<HomeSite> {
                     context,
                     MaterialPageRoute(builder: (context) => MyApp()),
                   );
-                })
+                }),
           ],
-          title: Text('Gradely'),
+          shape: defaultRoundedCorners(),
+          title: Image.asset('assets/iconT.png', height: 60),
         ),
         body: ListView.builder(
-          itemCount: courseList.length,
+          itemCount: courseListID.length,
           itemBuilder: (BuildContext context, int index) {
             return Slidable(
               actionPane: SlidableDrawerActionPane(),
@@ -124,6 +158,7 @@ class _HomeSiteState extends State<HomeSite> {
                       context,
                       MaterialPageRoute(builder: (context) => updateLesson()),
                     );
+
                     selectedLesson = courseListID[index];
                   },
                 ),
@@ -160,15 +195,13 @@ class _HomeSiteState extends State<HomeSite> {
                                       .doc(courseListID[index])
                                       .delete();
 
-                                  Navigator.pushReplacement(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder:
-                                          (context, animation1, animation2) =>
-                                              HomeSite(),
-                                      transitionDuration: Duration(seconds: 0),
-                                    ),
-                                  );
+                                  Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => MyApp()),
+                (Route<dynamic> route) => false,
+              );
+
+                                  selectedLesson = courseListID[index];
                                 },
                               )
                             ],
@@ -177,20 +210,25 @@ class _HomeSiteState extends State<HomeSite> {
                   },
                 ),
               ],
-              child: ListTile(
-                title: Text(courseList[index]),
-                subtitle: Text(allAverageList[index].toStringAsFixed(2)),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LessonsDetail()),
-                  );
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(color: Colors.grey, width: 1))),
+                child: ListTile(
+                  title: Text(courseList[index]),
+                  subtitle: Text(allAverageList[index].toStringAsFixed(2)),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LessonsDetail()),
+                    );
 
-                  setState(() {
-                    selectedLesson = courseListID[index];
-                    selectedLessonName = courseList[index];
-                  });
-                },
+                    setState(() {
+                      selectedLesson = courseListID[index];
+                      selectedLessonName = courseList[index];
+                    });
+                  },
+                ),
               ),
             );
           },
@@ -211,9 +249,8 @@ class _addLessonState extends State<addLesson> {
     return Scaffold(
       appBar: AppBar(
         title: Text("add"),
+        shape: defaultRoundedCorners(),
       ),
-      backgroundColor: Colors.white.withOpacity(
-          0.85), // this is the main reason of transparency at next screen. I am ignoring rest implementation but what i have achieved is you can see.
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -249,7 +286,7 @@ class _addLessonState extends State<addLesson> {
 createLesson(String lessonName) {
   CollectionReference gradesCollection = FirebaseFirestore.instance
       .collection('grades/${auth.currentUser.uid}/grades/');
-  gradesCollection.doc(lessonName).set(
+  gradesCollection.doc().set(
     {"name": lessonName, "average": 0},
   );
 }
@@ -265,9 +302,8 @@ class _updateLessonState extends State<updateLesson> {
     return Scaffold(
       appBar: AppBar(
         title: Text("update"),
+        shape: defaultRoundedCorners(),
       ),
-      backgroundColor: Colors.white.withOpacity(
-          0.85), // this is the main reason of transparency at next screen. I am ignoring rest implementation but what i have achieved is you can see.
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -290,10 +326,8 @@ class _updateLessonState extends State<updateLesson> {
                 (Route<dynamic> route) => false,
               );
 
-              setState(() {
-                renameTestWeightController.text = "";
-                courseList = [];
-              });
+              renameTestWeightController.text = "";
+              courseList = [];
             },
           ),
         ],

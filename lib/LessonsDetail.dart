@@ -9,6 +9,7 @@ import 'test.dart';
 import 'testDetail.dart';
 import 'data.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'shared/defaultWidgets.dart';
 
 String selectedTest = "";
 String errorMessage = "";
@@ -34,13 +35,13 @@ class _LessonsDetailState extends State<LessonsDetail> {
       testList = [];
       documents.forEach((data) => testListID.add(data.id));
       documents.forEach((data) => testList.add(data["name"]));
-      print(testList);
     });
 
-    print(testList);
+    print(selectedLesson);
   }
 
   List averageList = [];
+  List averageListWeight = [];
   getTestAvarage() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
@@ -50,18 +51,30 @@ class _LessonsDetailState extends State<LessonsDetail> {
     List<DocumentSnapshot> documents = result.docs;
     setState(() {
       averageList = [];
-      documents.forEach((data) => averageList.add(data["grade"]));
+      documents.forEach((data) {
+        double _averageSum;
+
+        _averageSum = data["grade"] * data["weight"];
+        averageList.add(_averageSum);
+        averageListWeight.add(data["weight"]);
+      });
     });
 
-    num sum = 0;
-    num anzahl = 0;
+    num _sumW = 0;
+    num _sum = 0;
 
-    for (num e in averageList) {
-      sum += e;
-      anzahl = anzahl + 1;
+    for (num e in averageListWeight) {
+      _sumW += e;
     }
 
-    averageOfTests = sum / anzahl;
+    for (num e in averageList) {
+      _sum += e;
+    }
+setState(() {
+      averageOfTests = _sum / _sumW;
+});
+
+ 
 
     FirebaseFirestore.instance
         .collection('grades')
@@ -82,16 +95,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
     getPluspoints();
 
     return Scaffold(
-        floatingActionButton: IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => addTest()),
-              );
-            }),
         appBar: AppBar(
           title: Text(selectedLessonName),
+          shape: defaultRoundedCorners(),
         ),
         body: Column(
           children: [
@@ -101,7 +107,13 @@ class _LessonsDetailState extends State<LessonsDetail> {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                       title: Text(testList[index]),
-                      subtitle: Text(averageList[index].toString()),
+                      subtitle: Row(
+                        children: [
+                          Text((averageList[index] / averageListWeight[index])
+                              .toString()),
+                          Text(averageListWeight[index].toString()),
+                        ],
+                      ),
                       onTap: () async {
                         setState(() {
                           selectedTest = testListID[index];
@@ -123,17 +135,40 @@ class _LessonsDetailState extends State<LessonsDetail> {
               ),
             ),
             Container(
-              color: Colors.grey,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25),
+                  topRight: Radius.circular(25),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
                 child: Expanded(
                   child: Align(
                     alignment: FractionalOffset.bottomCenter,
-                    child: Column(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(averageOfTests.toStringAsFixed(2)),
                         Text(plusPoints.toString()),
-                     
+                        IconButton(
+                            icon: Icon(Icons.add),
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => addTest()),
+                              );
+                            }),
+                        Text(averageOfTests.toStringAsFixed(2)),
                       ],
                     ),
                   ),
@@ -147,6 +182,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
   Future testDetail(BuildContext context) {
     editTestInfoGrade.text = testDetails["grade"].toString();
     editTestInfoName.text = testDetails["name"];
+    editTestInfoWeight.text = testDetails["weight"].toString();
     return showCupertinoModalBottomSheet(
       expand: true,
       context: context,
@@ -200,7 +236,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         "grade": double.parse(
                           editTestInfoGrade.text,
                         ),
-                        "weight:": double.parse(editTestInfoGrade.text)
+                        "weight": double.parse(editTestInfoWeight.text)
                       });
                       Navigator.pushReplacement(
                         context,
@@ -212,28 +248,29 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       );
                     },
                     child: Text("update")),
-                    TextButton(onPressed: (){
-     FirebaseFirestore.instance
+                TextButton(
+                    onPressed: () {
+                      FirebaseFirestore.instance
                           .collection(
                               'grades/${auth.currentUser.uid}/grades/$selectedLesson/grades')
                           .doc(selectedTest)
                           .set({});
-                                  FirebaseFirestore.instance
-                                     .collection(
+                      FirebaseFirestore.instance
+                          .collection(
                               'grades/${auth.currentUser.uid}/grades/$selectedLesson/grades')
                           .doc(selectedTest)
-                                      .delete();
+                          .delete();
 
-                                  Navigator.pushReplacement(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder:
-                                          (context, animation1, animation2) =>
-                                              LessonsDetail(),
-                                      transitionDuration: Duration(seconds: 0),
-                                    ),
-                                  );
-                    }, child: Text("Delete"))
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              LessonsDetail(),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
+                      );
+                    },
+                    child: Text("Delete"))
               ],
             ),
           )),
@@ -249,7 +286,7 @@ createTest(String testName, double grade, double weight) {
       .doc(selectedLesson)
       .collection("grades")
       .doc(testName)
-      .set({"name": testName, "grade": grade, "weight:": weight});
+      .set({"name": testName, "grade": grade, "weight": weight});
 }
 
 class addTest extends StatefulWidget {
@@ -262,7 +299,8 @@ class _addTestState extends State<addTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("add"),
+        title: Text('neuer Test'),
+        shape: defaultRoundedCorners(),
       ),
       backgroundColor: Colors.white.withOpacity(
           0.85), // this is the main reason of transparency at next screen. I am ignoring rest implementation but what i have achieved is you can see.
