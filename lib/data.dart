@@ -1,6 +1,11 @@
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'LessonsDetail.dart';
+import 'main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'userAuth/login.dart';
+import 'LessonsDetail.dart';
 
 
 double plusPoints = 0;
@@ -38,3 +43,16 @@ TextEditingController addGradeGradeController = new TextEditingController();
 TextEditingController addTestNameController = new TextEditingController();
 TextEditingController addTestGradeController = new TextEditingController();
 TextEditingController addTestWeightController = new TextEditingController();
+
+
+var testDetails;
+
+  getTestDetails() async {
+     testDetails = (await FirebaseFirestore.instance
+                                .collection(
+                                    "grades/${auth.currentUser.uid}/grades/$selectedLesson/grades/")
+                                .doc(selectedTest)
+                                .get())
+                            .data();
+      
+    }

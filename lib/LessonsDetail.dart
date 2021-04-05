@@ -25,7 +25,7 @@ class LessonsDetail extends StatefulWidget {
 }
 
 class _LessonsDetailState extends State<LessonsDetail> {
-  getTests() async {
+  _getTests() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
             'grades/${auth.currentUser.uid}/grades/$selectedLesson/grades')
@@ -74,7 +74,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
       averageOfTests = _sum / _sumW;
     });
 
-
     FirebaseFirestore.instance
         .collection('grades')
         .doc(auth.currentUser.uid)
@@ -85,7 +84,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   void initState() {
     super.initState();
-    getTests();
+    _getTests();
     getTestAvarage();
   }
 
@@ -95,6 +94,17 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+            ),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MyApp()),
+              );
+            },
+          ),
           title: Text(selectedLessonName),
           shape: defaultRoundedCorners(),
         ),
@@ -114,9 +124,11 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         ],
                       ),
                       onTap: () async {
-                        setState(() {
-                          selectedTest = testListID[index];
-                        });
+                        _getTests();
+
+                        selectedTest = testListID[index];
+
+                        print(selectedTest);
                         testDetails = (await FirebaseFirestore.instance
                                 .collection(
                                     "grades/${auth.currentUser.uid}/grades/$selectedLesson/grades/")
@@ -124,10 +136,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                 .get())
                             .data();
 
-                        setState(() {
-                          testDetails = testDetails;
-                        });
-
+                
                         testDetail(context);
                       });
                 },
@@ -151,35 +160,33 @@ class _LessonsDetailState extends State<LessonsDetail> {
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
-           
-                  child: Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(plusPoints.toString()),
-                        IconButton(
-                            icon: Icon(Icons.add),
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => addTest()),
-                              );
-                            }),
-                       Text((() {
-                      if (averageOfTests.isNaN) {
-                        return "-";
-                      } else {
-                        return averageOfTests.toStringAsFixed(2);
-                      }
-                    })()),
-                      ],
-                    ),
+                child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(plusPoints.toString()),
+                      IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => addTest()),
+                            );
+                          }),
+                      Text((() {
+                        if (averageOfTests.isNaN) {
+                          return "-";
+                        } else {
+                          return averageOfTests.toStringAsFixed(2);
+                        }
+                      })()),
+                    ],
                   ),
                 ),
               ),
-            
+            ),
           ],
         ));
   }

@@ -11,7 +11,6 @@ class TestDetail extends StatefulWidget {
   _TestDetailState createState() => _TestDetailState();
 }
 
-var testDetails;
 
 class _TestDetailState extends State<TestDetail> {
   
