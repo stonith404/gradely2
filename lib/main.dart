@@ -120,16 +120,8 @@ class _HomeSiteState extends State<HomeSite> {
     }
   }
 
-  String username = "";
-  getUserName() async {
-    DocumentSnapshot _userNameReceiver = await FirebaseFirestore.instance
-        .collection('userData')
-        .doc(auth.currentUser.uid)
-        .get();
-    setState(() {
-      username = _userNameReceiver.data()['username'];
-    });
-  }
+
+
 
   _getChoosenSemester() async {
     DocumentSnapshot _db = await FirebaseFirestore.instance
@@ -145,7 +137,7 @@ class _HomeSiteState extends State<HomeSite> {
     super.initState();
     getLessons();
     getChoosenSemester();
-    getUserName();
+  
   }
 
   void setState(fn) {
@@ -186,7 +178,7 @@ class _HomeSiteState extends State<HomeSite> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Good Morning $username",
+                               choosenSemesterName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 25),
                               ),
@@ -197,7 +189,7 @@ class _HomeSiteState extends State<HomeSite> {
                                     if (averageOfLessons.isNaN) {
                                       return "Currently you don't have any grades.";
                                     } else {
-                                      return "Dein aktueller Notendurchschnitt in $choosenSemesterName, ist ${averageOfLessons.toStringAsFixed(2)}";
+                                      return "Notendurchschnitt: ${averageOfLessons.toStringAsFixed(2)}";
                                     }
                                   })()))
                             ],

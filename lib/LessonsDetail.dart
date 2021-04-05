@@ -131,7 +131,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
                         testDetails = (await FirebaseFirestore.instance
                                 .collection(
-                                    "grades/${auth.currentUser.uid}/grades/$selectedLesson/grades/")
+                                    "userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
                                 .doc(selectedTest)
                                 .get())
                             .data();
@@ -240,7 +240,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                     onPressed: () {
                       FirebaseFirestore.instance
                           .collection(
-                              'grades/${auth.currentUser.uid}/grades/$selectedLesson/grades')
+                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                           .doc(selectedTest)
                           .set({
                         "name": editTestInfoName.text,
@@ -263,12 +263,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
                     onPressed: () {
                       FirebaseFirestore.instance
                           .collection(
-                              'grades/${auth.currentUser.uid}/grades/$selectedLesson/grades')
+                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                           .doc(selectedTest)
                           .set({});
                       FirebaseFirestore.instance
                           .collection(
-                              'grades/${auth.currentUser.uid}/grades/$selectedLesson/grades')
+                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                           .doc(selectedTest)
                           .delete();
 
