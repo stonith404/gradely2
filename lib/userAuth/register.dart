@@ -67,10 +67,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 TextField(
                   controller: _passwordController,
                   textAlign: TextAlign.left,
+                  obscureText: true,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Dein Passwort...',
                     hintStyle: TextStyle(color: Colors.grey),
+                    
                   ),
                 ),
                 TextButton(
