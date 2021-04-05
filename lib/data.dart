@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'userAuth/login.dart';
 import 'LessonsDetail.dart';
-
+import 'chooseSemester.dart';
 
 double plusPoints = 0;
 getPluspoints(double value) {
@@ -20,39 +20,48 @@ getPluspoints(double value) {
     plusPoints = 0.5;
   } else if (value >= 3.75) {
     plusPoints = 0;
-  }else if (value >= 3.25) {
+  } else if (value >= 3.25) {
     plusPoints = -1;
-  }else if (value >= 2.75) {
+  } else if (value >= 2.75) {
     plusPoints = -2;
-  }else if (value >= 2.25) {
+  } else if (value >= 2.25) {
     plusPoints = -3;
-  }else if (value >= 1.75) {
+  } else if (value >= 1.75) {
     plusPoints = -4;
-  }else if (value >= 1.25) {
+  } else if (value >= 1.25) {
     plusPoints = -5;
-  }else if (value >= 1) {
+  } else if (value >= 1) {
     plusPoints = -6;
   }
 }
 
-
 TextEditingController addLessonController = new TextEditingController();
+TextEditingController addSemesterController = new TextEditingController();
 TextEditingController renameTestWeightController = new TextEditingController();
+TextEditingController renameSemesterController = new TextEditingController();
 TextEditingController addGradeNameController = new TextEditingController();
 TextEditingController addGradeGradeController = new TextEditingController();
 TextEditingController addTestNameController = new TextEditingController();
 TextEditingController addTestGradeController = new TextEditingController();
 TextEditingController addTestWeightController = new TextEditingController();
 
-
 var testDetails;
 
-  getTestDetails() async {
-     testDetails = (await FirebaseFirestore.instance
-                                .collection(
-                                    "grades/${auth.currentUser.uid}/grades/$selectedLesson/grades/")
-                                .doc(selectedTest)
-                                .get())
-                            .data();
-      
-    }
+getTestDetails() async {
+  testDetails = (await FirebaseFirestore.instance
+          .collection(
+              "grades/${auth.currentUser.uid}/grades/$selectedLesson/grades/")
+          .doc(selectedTest)
+          .get())
+      .data();
+}
+
+getChoosenSemester() async {
+  DocumentSnapshot _db = await FirebaseFirestore.instance
+      .collection('userData')
+      .doc(auth.currentUser.uid)
+      .get();
+
+  choosenSemester = _db.data()['choosenSemester'];
+  print(choosenSemester);
+}

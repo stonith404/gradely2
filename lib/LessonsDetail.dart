@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'userAuth/login.dart';
-import 'test.dart';
-import 'testDetail.dart';
+import 'chooseSemester.dart';
 import 'data.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'shared/defaultWidgets.dart';
@@ -28,12 +27,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
   _getTests() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
-            'grades/${auth.currentUser.uid}/grades/$selectedLesson/grades')
+            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
         .get();
     List<DocumentSnapshot> documents = result.docs;
     setState(() {
       testList = [];
-            testListID = [];
+      testListID = [];
       documents.forEach((data) => testListID.add(data.id));
       documents.forEach((data) => testList.add(data["name"]));
     });
@@ -44,7 +43,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
   getTestAvarage() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
-            'grades/${auth.currentUser.uid}/grades/$selectedLesson/grades')
+            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
         .get();
 
     List<DocumentSnapshot> documents = result.docs;
@@ -74,15 +73,18 @@ class _LessonsDetailState extends State<LessonsDetail> {
     });
 
     FirebaseFirestore.instance
-        .collection('grades')
+        .collection('userData')
         .doc(auth.currentUser.uid)
-        .collection("grades")
+        .collection('semester')
+        .doc(choosenSemester)
+        .collection('lessons')
         .doc(selectedLesson)
         .update({"average": averageOfTests});
   }
 
   void initState() {
     super.initState();
+    getChoosenSemester();
     _getTests();
     getTestAvarage();
   }
@@ -126,9 +128,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         _getTests();
 
                         selectedTest = testListID[index];
-
-                     
-                        
 
                         testDetails = (await FirebaseFirestore.instance
                                 .collection(
@@ -292,11 +291,13 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
 createTest(String testName, double grade, double weight) {
   FirebaseFirestore.instance
-      .collection('grades')
+      .collection('userData')
       .doc(auth.currentUser.uid)
-      .collection("grades")
+      .collection('semester')
+      .doc(choosenSemester)
+      .collection('lessons')
       .doc(selectedLesson)
-      .collection("grades")
+      .collection('grades')
       .doc()
       .set({"name": testName, "grade": grade, "weight": weight});
 }

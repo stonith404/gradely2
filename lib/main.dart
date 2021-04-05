@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'shared/defaultWidgets.dart';
+import 'chooseSemester.dart';
 
 bool isLoggedIn = false;
 
@@ -47,8 +48,9 @@ class MyApp extends StatefulWidget {
 class _State extends State<MyApp> {
   void initState() {
     super.initState();
-    
 
+    getChoosenSemester();
+    print(choosenSemester);
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
         setState(() {
@@ -61,7 +63,11 @@ class _State extends State<MyApp> {
       }
     });
   }
-
+ void setState(fn) {
+    if(mounted) {
+      super.setState(fn);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return isLoggedIn ? HomeSite() : LoginScreen();
@@ -80,17 +86,21 @@ class HomeSite extends StatefulWidget {
 class _HomeSiteState extends State<HomeSite> {
   getLessons() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
-        .collection('grades/${auth.currentUser.uid}/grades')
+        .collection(
+            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
         .get();
     List<DocumentSnapshot> documents = result.docs;
 
     courseList = [];
     courseListID = [];
     allAverageList = [];
-
-    documents.forEach((data) => courseList.add(data["name"]));
+    setState(() {
+         documents.forEach((data) => courseList.add(data["name"]));
     documents.forEach((data) => courseListID.add(data.id));
-    documents.forEach((data) => allAverageList.add(data["average"]));
+    documents.forEach((data) => allAverageList.add(data["average"]));     
+        });
+
+
 
     //get average of all
 
@@ -110,7 +120,7 @@ class _HomeSiteState extends State<HomeSite> {
   String username = "";
   getUserName() async {
     DocumentSnapshot _userNameReceiver = await FirebaseFirestore.instance
-        .collection('grades')
+        .collection('userData')
         .doc(auth.currentUser.uid)
         .get();
     setState(() {
@@ -118,20 +128,33 @@ class _HomeSiteState extends State<HomeSite> {
     });
   }
 
+  _getChoosenSemester() async {
+    DocumentSnapshot _db = await FirebaseFirestore.instance
+        .collection('userData')
+        .doc(auth.currentUser.uid)
+        .get();
+
+    choosenSemester = _db.data()['choosenSemester'];
+  }
+
   @override
   void initState() {
     super.initState();
     getLessons();
+    getChoosenSemester();
     getUserName();
+
+  }
+   void setState(fn) {
+    if(mounted) {
+      super.setState(fn);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    getLessons();
-    setState(() {
-      allAverageList = allAverageList;
-      averageOfLessons = averageOfLessons;
-    });
+       getLessons();
+
 
     return Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -184,11 +207,10 @@ class _HomeSiteState extends State<HomeSite> {
                 leading: IconButton(
                     icon: Icon(Icons.more_vert),
                     onPressed: () async {
-                      await FirebaseAuth.instance.signOut();
-
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => MyApp()),
+                        MaterialPageRoute(
+                            builder: (context) => chooseSemester()),
                       );
                     }),
                 floating: true,
@@ -256,12 +278,12 @@ class _HomeSiteState extends State<HomeSite> {
                                     onPressed: () {
                                       FirebaseFirestore.instance
                                           .collection(
-                                              'grades/${auth.currentUser.uid}/grades/')
+                                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
                                           .doc(courseListID[index])
                                           .set({});
                                       FirebaseFirestore.instance
                                           .collection(
-                                              'grades/${auth.currentUser.uid}/grades/')
+                                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
                                           .doc(courseListID[index])
                                           .delete();
 
@@ -364,8 +386,8 @@ class _addLessonState extends State<addLesson> {
 }
 
 createLesson(String lessonName) {
-  CollectionReference gradesCollection = FirebaseFirestore.instance
-      .collection('grades/${auth.currentUser.uid}/grades/');
+  CollectionReference gradesCollection = FirebaseFirestore.instance.collection(
+      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/');
   gradesCollection.doc().set(
     {"name": lessonName, "average": 0 / -0}, //generate NaN
   );
@@ -419,9 +441,11 @@ class _updateLessonState extends State<updateLesson> {
 updateLessonF(String lessonUpdate) {
   print(selectedLesson);
   FirebaseFirestore.instance
-      .collection('grades')
+      .collection('userData')
       .doc(auth.currentUser.uid)
-      .collection("grades")
+      .collection('semester')
+      .doc(choosenSemester)
+      .collection('lessons')
       .doc(selectedLesson)
       .update({"name": lessonUpdate});
 }
