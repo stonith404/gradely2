@@ -15,6 +15,7 @@ var courseListID = [];
 var allAverageList = [];
 String selectedLesson = "";
 String selectedLessonName;
+double averageOfLessons = 0;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -90,22 +91,47 @@ class _HomeSiteState extends State<HomeSite> {
     documents.forEach((data) => courseListID.add(data.id));
     documents.forEach((data) => allAverageList.add(data["average"]));
 
+    //get average of all
 
+    double _sum = 0;
+    double _anzahl = 0;
+    for (num e in allAverageList) {
+       
+      if (e.isNaN) {
+   
+      } else {    print(e);
+        _sum += e;
+        _anzahl = _anzahl + 1;
+          averageOfLessons = _sum / _anzahl;
+      }
+
+    
+    }
+  }
+
+  String username = "";
+  getUserName() async {
+    DocumentSnapshot _userNameReceiver = await FirebaseFirestore.instance
+        .collection('grades')
+        .doc(auth.currentUser.uid)
+        .get();
+
+    username = _userNameReceiver.data()['username'];
   }
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-       getLessons();
+    getLessons();
   }
 
   @override
   Widget build(BuildContext context) {
-   getLessons();
-setState(() {
-  courseListID  = courseListID;
-});
+    getUserName();
+    getLessons();
 
+    allAverageList = allAverageList;
+    courseListID = courseListID;
 
     return Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -116,122 +142,168 @@ setState(() {
                 MaterialPageRoute(builder: (context) => addLesson()),
               );
             }),
-        appBar: AppBar(
-          leading: IconButton(
-              icon: Icon(Icons.more_vert),
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
-                );
-              }),
-          actions: [
-            IconButton(
-                icon: Icon(Icons.login),
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
-
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyApp()),
-                  );
-                }),
-          ],
-          shape: defaultRoundedCorners(),
-          title: Image.asset('assets/iconT.png', height: 60),
-        ),
-        body: ListView.builder(
-          itemCount: courseListID.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Slidable(
-              actionPane: SlidableDrawerActionPane(),
-              actionExtentRatio: 0.25,
-              secondaryActions: <Widget>[
-                IconSlideAction(
-                  caption: 'More',
-                  color: Colors.black45,
-                  icon: Icons.more_horiz,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => updateLesson()),
-                    );
-
-                    selectedLesson = courseListID[index];
-                  },
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                forceElevated: true,
+                title: Image.asset(
+                  'assets/iconT.png',
+                  height: 60,
                 ),
-                IconSlideAction(
-                  caption: 'Delete',
-                  color: Colors.red,
-                  icon: Icons.delete,
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Attention."),
-                            content: Text(
-                                "Do you want to delete ${courseList[index]} ?"),
-                            actions: <Widget>[
-                              FlatButton(
-                                child: Text("No"),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
+                bottom: PreferredSize(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Good Morning $username",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 25),
                               ),
-                              FlatButton(
-                                child: Text("Delete"),
-                                onPressed: () {
-                                  FirebaseFirestore.instance
-                                      .collection(
-                                          'grades/${auth.currentUser.uid}/grades/')
-                                      .doc(courseListID[index])
-                                      .set({});
-                                  FirebaseFirestore.instance
-                                      .collection(
-                                          'grades/${auth.currentUser.uid}/grades/')
-                                      .doc(courseListID[index])
-                                      .delete();
-
-                                  Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => MyApp()),
-                (Route<dynamic> route) => false,
-              );
-
-                                  selectedLesson = courseListID[index];
-                                },
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15.0),
+                                child: Text(
+                                    "Your current grade average is $averageOfLessons"),
                               )
                             ],
-                          );
-                        });
-                  },
-                ),
-              ],
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(color: Colors.grey, width: 1))),
-                child: ListTile(
-                  title: Text(courseList[index]),
-                  subtitle: Text(allAverageList[index].toStringAsFixed(2)),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LessonsDetail()),
-                    );
+                          ),
+                        ),
+                      ],
+                    ),
+                    preferredSize: Size(0, 130)),
+                leading: IconButton(
+                    icon: Icon(Icons.more_vert),
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signOut();
 
-                    setState(() {
-                      selectedLesson = courseListID[index];
-                      selectedLessonName = courseList[index];
-                    });
-                  },
-                ),
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyApp()),
+                      );
+                    }),
+                floating: true,
+                backgroundColor: Colors.grey[300],
+                actions: [
+                  IconButton(
+                      icon: Icon(Icons.login),
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyApp()),
+                        );
+                      }),
+                ],
+                shape: defaultRoundedCorners(),
               ),
-            );
+            ];
           },
+          body: ListView.builder(
+            itemCount: courseListID.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Slidable(
+                actionPane: SlidableDrawerActionPane(),
+                actionExtentRatio: 0.25,
+                secondaryActions: <Widget>[
+                  IconSlideAction(
+                    caption: 'More',
+                    color: Colors.black45,
+                    icon: Icons.more_horiz,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => updateLesson()),
+                      );
+
+                      selectedLesson = courseListID[index];
+                    },
+                  ),
+                  IconSlideAction(
+                    caption: 'Delete',
+                    color: Colors.red,
+                    icon: Icons.delete,
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Attention."),
+                              content: Text(
+                                  "Do you want to delete ${courseList[index]} ?"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("No"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text("Delete"),
+                                  onPressed: () {
+                                    FirebaseFirestore.instance
+                                        .collection(
+                                            'grades/${auth.currentUser.uid}/grades/')
+                                        .doc(courseListID[index])
+                                        .set({});
+                                    FirebaseFirestore.instance
+                                        .collection(
+                                            'grades/${auth.currentUser.uid}/grades/')
+                                        .doc(courseListID[index])
+                                        .delete();
+
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MyApp()),
+                                      (Route<dynamic> route) => false,
+                                    );
+
+                                    selectedLesson = courseListID[index];
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                    },
+                  ),
+                ],
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: Colors.grey, width: 1))),
+                  child: ListTile(
+                    title: Text(courseList[index]),
+                    subtitle: Text((() {
+                      if (allAverageList[index].isNaN) {
+                        return "-";
+                      } else {
+                        return allAverageList[index].toStringAsFixed(2);
+                      }
+                    })()),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LessonsDetail()),
+                      );
+
+                      setState(() {
+                        selectedLesson = courseListID[index];
+                        selectedLessonName = courseList[index];
+                      });
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
         ));
   }
 }

@@ -13,7 +13,7 @@ import 'shared/defaultWidgets.dart';
 
 String selectedTest = "";
 String errorMessage = "";
-double averageOfTests;
+double averageOfTests = 0;
 List testListID = [];
 TextEditingController editTestInfoName = new TextEditingController();
 TextEditingController editTestInfoGrade = new TextEditingController();
@@ -70,11 +70,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
     for (num e in averageList) {
       _sum += e;
     }
-setState(() {
+    setState(() {
       averageOfTests = _sum / _sumW;
-});
+    });
 
- 
 
     FirebaseFirestore.instance
         .collection('grades')
@@ -92,7 +91,7 @@ setState(() {
 
   @override
   Widget build(BuildContext context) {
-    getPluspoints();
+    getPluspoints(averageOfTests);
 
     return Scaffold(
         appBar: AppBar(
@@ -152,7 +151,7 @@ setState(() {
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
-                child: Expanded(
+           
                   child: Align(
                     alignment: FractionalOffset.bottomCenter,
                     child: Row(
@@ -168,13 +167,19 @@ setState(() {
                                     builder: (context) => addTest()),
                               );
                             }),
-                        Text(averageOfTests.toStringAsFixed(2)),
+                       Text((() {
+                      if (averageOfTests.isNaN) {
+                        return "-";
+                      } else {
+                        return averageOfTests.toStringAsFixed(2);
+                      }
+                    })()),
                       ],
                     ),
                   ),
                 ),
               ),
-            ),
+            
           ],
         ));
   }
@@ -285,7 +290,7 @@ createTest(String testName, double grade, double weight) {
       .collection("grades")
       .doc(selectedLesson)
       .collection("grades")
-      .doc(testName)
+      .doc()
       .set({"name": testName, "grade": grade, "weight": weight});
 }
 
