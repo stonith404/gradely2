@@ -33,11 +33,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
     List<DocumentSnapshot> documents = result.docs;
     setState(() {
       testList = [];
+            testListID = [];
       documents.forEach((data) => testListID.add(data.id));
       documents.forEach((data) => testList.add(data["name"]));
     });
-
-    print(selectedLesson);
   }
 
   List averageList = [];
@@ -128,7 +127,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
                         selectedTest = testListID[index];
 
-                        print(selectedTest);
+                     
+                        
+
                         testDetails = (await FirebaseFirestore.instance
                                 .collection(
                                     "grades/${auth.currentUser.uid}/grades/$selectedLesson/grades/")
@@ -136,7 +137,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                 .get())
                             .data();
 
-                
                         testDetail(context);
                       });
                 },
