@@ -33,20 +33,18 @@ class _chooseSemesterState extends State<chooseSemester> {
     documents.forEach((data) => semesterList.add(data["name"]));
     documents.forEach((data) => semesterListID.add(data.id));
 
-
-      setState(() {
-        semesterListID = semesterListID;
-        semesterList = semesterList;
-      });
-    
+    setState(() {
+      semesterListID = semesterListID;
+      semesterList = semesterList;
+    });
   }
 
-  saveChoosenSemester(String _choosenSemester) {
+  saveChoosenSemester(String _choosenSemester, _choosenSemesterName) {
     print(choosenSemester);
     FirebaseFirestore.instance
         .collection('userData')
         .doc(auth.currentUser.uid)
-        .update({"choosenSemester": _choosenSemester});
+        .update({"choosenSemester": _choosenSemester, "choosenSemesterName": _choosenSemesterName});
   }
 
   @override
@@ -54,8 +52,9 @@ class _chooseSemesterState extends State<chooseSemester> {
     super.initState();
     _getSemesters();
   }
-     void setState(fn) {
-    if(mounted) {
+
+  void setState(fn) {
+    if (mounted) {
       super.setState(fn);
     }
   }
@@ -170,7 +169,11 @@ class _chooseSemesterState extends State<chooseSemester> {
                             icon: Icon(Icons.arrow_forward),
                             onPressed: () {
                               choosenSemester = semesterListID[index];
-                              saveChoosenSemester(choosenSemester);
+                              choosenSemesterName = semesterList[index];
+                              saveChoosenSemester(
+                                choosenSemester,
+                                choosenSemesterName
+                              );
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(

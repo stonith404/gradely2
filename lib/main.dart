@@ -17,6 +17,7 @@ var allAverageList = [];
 String selectedLesson = "";
 String selectedLessonName;
 double averageOfLessons = 0 / -0;
+String choosenSemesterName = "";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,11 +64,13 @@ class _State extends State<MyApp> {
       }
     });
   }
- void setState(fn) {
-    if(mounted) {
+
+  void setState(fn) {
+    if (mounted) {
       super.setState(fn);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return isLoggedIn ? HomeSite() : LoginScreen();
@@ -95,12 +98,10 @@ class _HomeSiteState extends State<HomeSite> {
     courseListID = [];
     allAverageList = [];
     setState(() {
-         documents.forEach((data) => courseList.add(data["name"]));
-    documents.forEach((data) => courseListID.add(data.id));
-    documents.forEach((data) => allAverageList.add(data["average"]));     
-        });
-
-
+      documents.forEach((data) => courseList.add(data["name"]));
+      documents.forEach((data) => courseListID.add(data.id));
+      documents.forEach((data) => allAverageList.add(data["average"]));
+    });
 
     //get average of all
 
@@ -112,7 +113,9 @@ class _HomeSiteState extends State<HomeSite> {
         print(e);
         _sum += e;
         _anzahl = _anzahl + 1;
-        averageOfLessons = _sum / _anzahl;
+        setState(() {
+          averageOfLessons = _sum / _anzahl;
+        });
       }
     }
   }
@@ -143,18 +146,17 @@ class _HomeSiteState extends State<HomeSite> {
     getLessons();
     getChoosenSemester();
     getUserName();
-
   }
-   void setState(fn) {
-    if(mounted) {
+
+  void setState(fn) {
+    if (mounted) {
       super.setState(fn);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-       getLessons();
-
+    getLessons();
 
     return Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -195,7 +197,7 @@ class _HomeSiteState extends State<HomeSite> {
                                     if (averageOfLessons.isNaN) {
                                       return "Currently you don't have any grades.";
                                     } else {
-                                      return "Your current grade average is ${averageOfLessons.toStringAsFixed(2)}";
+                                      return "Dein aktueller Notendurchschnitt in $choosenSemesterName, ist ${averageOfLessons.toStringAsFixed(2)}";
                                     }
                                   })()))
                             ],

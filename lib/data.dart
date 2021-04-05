@@ -63,5 +63,15 @@ getChoosenSemester() async {
       .get();
 
   choosenSemester = _db.data()['choosenSemester'];
-  print(choosenSemester);
+
+  getChoosenSemesterName();
+}
+
+getChoosenSemesterName() async {
+  DocumentSnapshot _userNameReceiver = await FirebaseFirestore.instance
+      .collection('userData')
+      .doc(auth.currentUser.uid)
+      .get();
+
+  choosenSemesterName = _userNameReceiver.data()['choosenSemesterName'];
 }
