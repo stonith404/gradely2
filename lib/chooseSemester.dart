@@ -44,7 +44,10 @@ class _chooseSemesterState extends State<chooseSemester> {
     FirebaseFirestore.instance
         .collection('userData')
         .doc(auth.currentUser.uid)
-        .update({"choosenSemester": _choosenSemester, "choosenSemesterName": _choosenSemesterName});
+        .update({
+      "choosenSemester": _choosenSemester,
+      "choosenSemesterName": _choosenSemesterName
+    });
   }
 
   @override
@@ -64,6 +67,7 @@ class _chooseSemesterState extends State<chooseSemester> {
     _getSemesters();
     return Scaffold(
       appBar: AppBar(
+        title: Text("Semester"),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -171,9 +175,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                               choosenSemester = semesterListID[index];
                               choosenSemesterName = semesterList[index];
                               saveChoosenSemester(
-                                choosenSemester,
-                                choosenSemesterName
-                              );
+                                  choosenSemester, choosenSemesterName);
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -203,7 +205,7 @@ class _updateSemesterState extends State<updateSemester> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("update"),
+        title: Text("Semester update"),
         shape: defaultRoundedCorners(),
       ),
       body: Column(
@@ -214,11 +216,11 @@ class _updateSemesterState extends State<updateSemester> {
             textAlign: TextAlign.left,
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: 'Enter Lesson Name',
+              hintText: 'Semester Name eingeben...',
               hintStyle: TextStyle(color: Colors.grey),
             ),
           ),
-          TextButton(
+          ElevatedButton(
             child: Text("update"),
             onPressed: () {
               updateSemesterF(renameSemesterController.text);
@@ -257,7 +259,7 @@ class _addSemesterState extends State<addSemester> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("add"),
+        title: Text("Semester hinzufügen"),
         shape: defaultRoundedCorners(),
       ),
       body: Column(
@@ -268,12 +270,12 @@ class _addSemesterState extends State<addSemester> {
             textAlign: TextAlign.left,
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: 'Enter Lesson Name',
+              hintText: 'Semester Name eingeben...',
               hintStyle: TextStyle(color: Colors.grey),
             ),
           ),
-          TextButton(
-            child: Text("add"),
+          ElevatedButton(
+            child: Text("Hinzufügen"),
             onPressed: () {
               createSemester(addSemesterController.text);
               Navigator.pushAndRemoveUntil(

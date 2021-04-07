@@ -72,10 +72,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     border: InputBorder.none,
                     hintText: 'Dein Passwort...',
                     hintStyle: TextStyle(color: Colors.grey),
-                    
                   ),
                 ),
-                TextButton(
+                ElevatedButton(
                     onPressed: () {
                       setState(() {
                         _email = _emailController.text;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gradely/maintance.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
 import 'userAuth/login.dart';
@@ -8,9 +9,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'shared/defaultWidgets.dart';
 import 'chooseSemester.dart';
+import 'dart:math' as math;
+import 'settings/settings.dart';
 
 bool isLoggedIn = false;
-
+const defaultBlue = Color(0xff000000);
 var testList = [];
 var courseListID = [];
 var allAverageList = [];
@@ -26,11 +29,17 @@ void main() async {
   runApp(MaterialApp(
     home: MyApp(),
     theme: ThemeData(
+      fontFamily: 'Nunito',
       brightness: Brightness.light,
-      primaryColor: Colors.grey[50],
+      primaryColor: defaultBlue,
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(defaultBlue)),
+      ),
     ),
     darkTheme: ThemeData(
         brightness: Brightness.dark,
+        primaryColor: defaultBlue,
         appBarTheme: AppBarTheme(
           color: Colors.black87,
         ),
@@ -49,9 +58,9 @@ class MyApp extends StatefulWidget {
 class _State extends State<MyApp> {
   void initState() {
     super.initState();
-
+    getMaintanceStatus();
     getChoosenSemester();
-    print(choosenSemester);
+
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
         setState(() {
@@ -73,7 +82,12 @@ class _State extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoggedIn ? HomeSite() : LoginScreen();
+    getMaintanceStatus();
+    if (isMaintanceEnabled) {
+      return MaintanceMode();
+    } else {
+      return isLoggedIn ? HomeSite() : LoginScreen();
+    }
   }
 }
 
@@ -110,7 +124,6 @@ class _HomeSiteState extends State<HomeSite> {
     for (num e in allAverageList) {
       if (e.isNaN) {
       } else {
-        print(e);
         _sum += e;
         _anzahl = _anzahl + 1;
         setState(() {
@@ -120,24 +133,11 @@ class _HomeSiteState extends State<HomeSite> {
     }
   }
 
-
-
-
-  _getChoosenSemester() async {
-    DocumentSnapshot _db = await FirebaseFirestore.instance
-        .collection('userData')
-        .doc(auth.currentUser.uid)
-        .get();
-
-    choosenSemester = _db.data()['choosenSemester'];
-  }
-
   @override
   void initState() {
     super.initState();
     getLessons();
     getChoosenSemester();
-  
   }
 
   void setState(fn) {
@@ -178,7 +178,7 @@ class _HomeSiteState extends State<HomeSite> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                               choosenSemesterName,
+                                choosenSemesterName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 25),
                               ),
@@ -198,26 +198,29 @@ class _HomeSiteState extends State<HomeSite> {
                       ],
                     ),
                     preferredSize: Size(0, 130)),
-                leading: IconButton(
-                    icon: Icon(Icons.more_vert),
-                    onPressed: () async {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => chooseSemester()),
-                      );
-                    }),
+                leading: Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.rotationY(math.pi),
+                  child: IconButton(
+                      icon: Icon(Icons.segment),
+                      onPressed: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingsPage()),
+                        );
+                      }),
+                ),
                 floating: true,
                 backgroundColor: Colors.grey[300],
                 actions: [
                   IconButton(
-                      icon: Icon(Icons.login),
+                      icon: Icon(Icons.switch_left),
                       onPressed: () async {
-                        await FirebaseAuth.instance.signOut();
-
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => MyApp()),
+                          MaterialPageRoute(
+                              builder: (context) => chooseSemester()),
                         );
                       }),
                 ],
@@ -244,7 +247,7 @@ class _HomeSiteState extends State<HomeSite> {
                           MaterialPageRoute(
                               builder: (context) => updateLesson()),
                         );
-
+                        selectedLessonName = courseList[index];
                         selectedLesson = courseListID[index];
                       },
                     ),
@@ -359,7 +362,7 @@ class _addLessonState extends State<addLesson> {
               hintStyle: TextStyle(color: Colors.grey),
             ),
           ),
-          TextButton(
+          ElevatedButton(
             child: Text("add"),
             onPressed: () {
               createLesson(addLessonController.text);
@@ -395,45 +398,44 @@ class updateLesson extends StatefulWidget {
 class _updateLessonState extends State<updateLesson> {
   @override
   Widget build(BuildContext context) {
+    print(selectedLessonName);
+    renameTestWeightController.text = selectedLessonName;
     return Scaffold(
       appBar: AppBar(
         title: Text("update"),
         shape: defaultRoundedCorners(),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextField(
-            controller: renameTestWeightController,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Enter Lesson Name',
-              hintStyle: TextStyle(color: Colors.grey),
-            ),
-          ),
-          TextButton(
-            child: Text("update"),
-            onPressed: () {
-              updateLessonF(renameTestWeightController.text);
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => MyApp()),
-                (Route<dynamic> route) => false,
-              );
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+                controller: renameTestWeightController,
+                textAlign: TextAlign.left,
+                decoration: inputDec("Fach Name")),
+            ElevatedButton(
+              child: Text("update"),
+              onPressed: () {
+                updateLessonF(renameTestWeightController.text);
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyApp()),
+                  (Route<dynamic> route) => false,
+                );
 
-              renameTestWeightController.text = "";
-              courseList = [];
-            },
-          ),
-        ],
+                renameTestWeightController.text = "";
+                courseList = [];
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
 updateLessonF(String lessonUpdate) {
-  print(selectedLesson);
   FirebaseFirestore.instance
       .collection('userData')
       .doc(auth.currentUser.uid)

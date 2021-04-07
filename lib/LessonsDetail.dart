@@ -10,7 +10,7 @@ import 'data.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'shared/defaultWidgets.dart';
 
-String selectedTest = "";
+String selectedTest = "selectedTest";
 String errorMessage = "";
 double averageOfTests = 0;
 List testListID = [];
@@ -93,6 +93,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
   Widget build(BuildContext context) {
     getPluspoints(averageOfTests);
 
+    print(courseListID.length);
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -117,13 +118,16 @@ class _LessonsDetailState extends State<LessonsDetail> {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                       title: Text(testList[index]),
-                      subtitle: Row(
-                        children: [
-                          Text((averageList[index] / averageListWeight[index])
-                              .toString()),
-                          Text(averageListWeight[index].toString()),
-                        ],
-                      ),
+                      subtitle: averageList.isEmpty
+                          ? Text("")
+                          : Row(
+                              children: [
+                                Text((averageList[index] /
+                                        averageListWeight[index])
+                                    .toString()),
+                                Text(averageListWeight[index].toString()),
+                              ],
+                            ),
                       onTap: () async {
                         _getTests();
 
@@ -200,89 +204,96 @@ class _LessonsDetailState extends State<LessonsDetail> {
       builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
           child: Material(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 60, 0, 20),
-                  child: Text(
-                    testDetails["name"],
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+                    child: Text(
+                      testDetails["name"],
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                    ),
                   ),
-                ),
-                TextField(
-                  controller: editTestInfoName,
-                  textAlign: TextAlign.left,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Enter Lesson Name',
-                    hintStyle: TextStyle(color: Colors.grey),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Divider(
+                      thickness: 2,
+                    ),
                   ),
-                ),
-                TextField(
-                  controller: editTestInfoGrade,
-                  textAlign: TextAlign.left,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Enter Lesson Name',
-                    hintStyle: TextStyle(color: Colors.grey),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: editTestInfoName,
+                      textAlign: TextAlign.left,
+                      decoration: inputDec("Test Name"),
+                    ),
                   ),
-                ),
-                TextField(
-                  controller: editTestInfoWeight,
-                  textAlign: TextAlign.left,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Enter Lesson Name',
-                    hintStyle: TextStyle(color: Colors.grey),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: editTestInfoGrade,
+                      textAlign: TextAlign.left,
+                      decoration: inputDec("Gewichtung"),
+                    ),
                   ),
-                ),
-                TextButton(
-                    onPressed: () {
-                      FirebaseFirestore.instance
-                          .collection(
-                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                          .doc(selectedTest)
-                          .set({
-                        "name": editTestInfoName.text,
-                        "grade": double.parse(
-                          editTestInfoGrade.text,
-                        ),
-                        "weight": double.parse(editTestInfoWeight.text)
-                      });
-                      Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, animation1, animation2) =>
-                              LessonsDetail(),
-                          transitionDuration: Duration(seconds: 0),
-                        ),
-                      );
-                    },
-                    child: Text("update")),
-                TextButton(
-                    onPressed: () {
-                      FirebaseFirestore.instance
-                          .collection(
-                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                          .doc(selectedTest)
-                          .set({});
-                      FirebaseFirestore.instance
-                          .collection(
-                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                          .doc(selectedTest)
-                          .delete();
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: editTestInfoWeight,
+                      textAlign: TextAlign.left,
+                      decoration: inputDec("Gewichtung"),
+                    ),
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        FirebaseFirestore.instance
+                            .collection(
+                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                            .doc(selectedTest)
+                            .set({
+                          "name": editTestInfoName.text,
+                          "grade": double.parse(
+                            editTestInfoGrade.text,
+                          ),
+                          "weight": double.parse(editTestInfoWeight.text)
+                        });
+                        Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation1, animation2) =>
+                                LessonsDetail(),
+                            transitionDuration: Duration(seconds: 0),
+                          ),
+                        );
+                      },
+                      child: Text("update")),
+                  ElevatedButton(
+                      onPressed: () {
+                        FirebaseFirestore.instance
+                            .collection(
+                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                            .doc(selectedTest)
+                            .set({});
+                        FirebaseFirestore.instance
+                            .collection(
+                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                            .doc(selectedTest)
+                            .delete();
 
-                      Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, animation1, animation2) =>
-                              LessonsDetail(),
-                          transitionDuration: Duration(seconds: 0),
-                        ),
-                      );
-                    },
-                    child: Text("Delete"))
-              ],
+                        Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation1, animation2) =>
+                                LessonsDetail(),
+                            transitionDuration: Duration(seconds: 0),
+                          ),
+                        );
+                      },
+                      child: Text("Delete"))
+                ],
+              ),
             ),
           )),
     );
@@ -349,7 +360,7 @@ class _addTestState extends State<addTest> {
               hintStyle: TextStyle(color: Colors.grey),
             ),
           ),
-          TextButton(
+          ElevatedButton(
             child: Text("add"),
             onPressed: () {
               bool isNumeric() {

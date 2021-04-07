@@ -9,6 +9,8 @@ import 'LessonsDetail.dart';
 import 'chooseSemester.dart';
 
 double plusPoints = 0;
+bool isMaintanceEnabled = false;
+
 getPluspoints(double value) {
   if (value >= 5.75) {
     plusPoints = 2;
@@ -48,6 +50,7 @@ TextEditingController addTestWeightController = new TextEditingController();
 var testDetails;
 
 getTestDetails() async {
+  print(selectedTest);
   testDetails = (await FirebaseFirestore.instance
           .collection(
               "grades/${auth.currentUser.uid}/grades/$selectedLesson/grades/")
@@ -68,10 +71,20 @@ getChoosenSemester() async {
 }
 
 getChoosenSemesterName() async {
-  DocumentSnapshot _userNameReceiver = await FirebaseFirestore.instance
+  DocumentSnapshot _db = await FirebaseFirestore.instance
       .collection('userData')
       .doc(auth.currentUser.uid)
       .get();
 
-  choosenSemesterName = _userNameReceiver.data()['choosenSemesterName'];
+  choosenSemesterName = _db.data()['choosenSemesterName'];
 }
+
+getMaintanceStatus() async {
+  DocumentSnapshot _db = await FirebaseFirestore.instance
+      .collection('shared')
+      .doc("appConfs")
+      .get();
+
+  isMaintanceEnabled = _db.data()['maintance'];
+}
+

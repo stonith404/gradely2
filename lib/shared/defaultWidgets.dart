@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gradely/main.dart';
 
   RoundedRectangleBorder defaultRoundedCorners() {
     return RoundedRectangleBorder(
@@ -35,4 +36,20 @@ import 'package:flutter/material.dart';
       ),
     ],
                     );
+  }
+
+    InputDecoration inputDec(String _label) {
+    return InputDecoration(
+                  
+                  labelText:_label,
+                  labelStyle:  TextStyle( fontSize: 20.0, height: 0.8, color: defaultBlue),
+                  
+ 
+                    enabledBorder:OutlineInputBorder(
+
+                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    borderSide: BorderSide( width: 2, color: defaultBlue)),
+        
+                    hintStyle: TextStyle(color: Colors.grey),
+                  );
   }

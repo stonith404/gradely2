@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'register.dart';
 import '../main.dart';
 import '../shared/loading.dart';
+import '../shared/defaultWidgets.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -46,27 +47,37 @@ class _LoginScreenState extends State<LoginScreen> {
       body: isLoading
           ? LoadingScreen()
           : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                TextField(
-                  controller: _emailController,
-                  textAlign: TextAlign.left,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Deine Email...',
-                    hintStyle: TextStyle(color: Colors.grey),
-                  ),
+                Spacer(
+                  flex: 2,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "👋",
+                      style: TextStyle(fontSize: 50),
+                    ),
+                    Image.asset(
+                      'assets/iconT.png',
+                      height: 170,
+                    ),
+                  ],
+                ),
+                Spacer(
+                  flex: 1,
                 ),
                 TextField(
-                  controller: _passwordController,
-                  textAlign: TextAlign.left,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Dein Passwort...',
-                    hintStyle: TextStyle(color: Colors.grey),
-                  ),
-                ),
-                TextButton(
+                    controller: _emailController,
+                    textAlign: TextAlign.left,
+                    decoration: inputDec("Deine Email")),
+                TextField(
+                    controller: _passwordController,
+                    textAlign: TextAlign.left,
+                    obscureText: true,
+                    decoration: inputDec("Dein Passwort")),
+                ElevatedButton(
                     onPressed: () {
                       setState(() {
                         _email = _emailController.text;
@@ -75,7 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
                       createUser();
                     },
-                    child: Text("Einloggen"))
+                    child: Text("Einloggen")),
+                Spacer(
+                  flex: 4,
+                ),
               ],
             ),
     );
