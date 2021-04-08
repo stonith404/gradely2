@@ -28,12 +28,13 @@ class SettingsPage extends StatelessWidget {
             title: Text("Logout"),
             onTap:
              () async {
-                        await FirebaseAuth.instance.signOut();
-
-                        Navigator.pushReplacement(
+               Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => LoginScreen()),
                         );
+                        await FirebaseAuth.instance.signOut();
+
+                        
             },
           ),
         ],

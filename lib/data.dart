@@ -60,6 +60,18 @@ getTestDetails() async {
 }
 
 getChoosenSemester() async {
+
+  if(choosenSemester == null){
+FirebaseFirestore.instance
+      .collection('userData')
+      .doc(auth.currentUser.uid)
+      .set(
+        {
+        'choosenSemester': 'noSemesterChoosed'  
+        }
+      );
+  }
+    
   DocumentSnapshot _db = await FirebaseFirestore.instance
       .collection('userData')
       .doc(auth.currentUser.uid)
@@ -71,20 +83,12 @@ getChoosenSemester() async {
 }
 
 getChoosenSemesterName() async {
-  DocumentSnapshot _db = await FirebaseFirestore.instance
+
+
+     DocumentSnapshot _db = await FirebaseFirestore.instance
       .collection('userData')
       .doc(auth.currentUser.uid)
       .get();
-
+  choosenSemesterName = "nope";
   choosenSemesterName = _db.data()['choosenSemesterName'];
 }
-
-getMaintanceStatus() async {
-  DocumentSnapshot _db = await FirebaseFirestore.instance
-      .collection('shared')
-      .doc("appConfs")
-      .get();
-
-  isMaintanceEnabled = _db.data()['maintance'];
-}
-

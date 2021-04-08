@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gradely/maintance.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
 import 'userAuth/login.dart';
@@ -11,6 +10,7 @@ import 'shared/defaultWidgets.dart';
 import 'chooseSemester.dart';
 import 'dart:math' as math;
 import 'settings/settings.dart';
+import 'package:gradely/introScreen.dart';
 
 bool isLoggedIn = false;
 const defaultBlue = Color(0xff000000);
@@ -58,8 +58,8 @@ class MyApp extends StatefulWidget {
 class _State extends State<MyApp> {
   void initState() {
     super.initState();
-    getMaintanceStatus();
-    getChoosenSemester();
+
+
 
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
@@ -82,11 +82,18 @@ class _State extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    getMaintanceStatus();
-    if (isMaintanceEnabled) {
-      return MaintanceMode();
+
+
+    if (isLoggedIn) {
+            getChoosenSemester();
+      if (choosenSemester == "noSemesterChoosed") {
+        return IntroScreen();
+      } else {
+            getChoosenSemester();
+        return HomeSite();
+      }
     } else {
-      return isLoggedIn ? HomeSite() : LoginScreen();
+      return LoginScreen();
     }
   }
 }

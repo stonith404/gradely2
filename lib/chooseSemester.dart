@@ -44,7 +44,7 @@ class _chooseSemesterState extends State<chooseSemester> {
     FirebaseFirestore.instance
         .collection('userData')
         .doc(auth.currentUser.uid)
-        .update({
+        .set({
       "choosenSemester": _choosenSemester,
       "choosenSemesterName": _choosenSemesterName
     });
@@ -298,6 +298,6 @@ createSemester(String semesterName) {
   CollectionReference gradesCollection = FirebaseFirestore.instance
       .collection('userData/${auth.currentUser.uid}/semester/');
   gradesCollection.doc().set(
-    {"name": semesterName}, //generate NaN
+    {"name": semesterName},
   );
 }

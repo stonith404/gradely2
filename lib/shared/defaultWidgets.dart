@@ -40,16 +40,25 @@ import 'package:gradely/main.dart';
 
     InputDecoration inputDec(String _label) {
     return InputDecoration(
-                  
+                  filled: true,
                   labelText:_label,
                   labelStyle:  TextStyle( fontSize: 20.0, height: 0.8, color: defaultBlue),
+        
+                focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              borderSide:  BorderSide.none),
                   
- 
+
                     enabledBorder:OutlineInputBorder(
 
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    borderSide: BorderSide( width: 2, color: defaultBlue)),
+                     borderSide: BorderSide.none, ),
         
                     hintStyle: TextStyle(color: Colors.grey),
+                     fillColor: Colors.grey[200],
+
+                     
                   );
+
+                  
   }
