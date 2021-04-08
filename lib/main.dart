@@ -20,6 +20,7 @@ var allAverageList = [];
 String selectedLesson = "";
 String selectedLessonName;
 double averageOfLessons = 0 / -0;
+num averageOfLessonsPP = 0 / -0;
 String choosenSemesterName = "";
 
 void main() async {
@@ -59,8 +60,6 @@ class _State extends State<MyApp> {
   void initState() {
     super.initState();
 
-
-
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
         setState(() {
@@ -82,14 +81,12 @@ class _State extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
-
     if (isLoggedIn) {
-            getChoosenSemester();
+      getChoosenSemester();
       if (choosenSemester == "noSemesterChoosed") {
-        return IntroScreen();
+        return OnBoardingPage();
       } else {
-            getChoosenSemester();
+        getChoosenSemester();
         return HomeSite();
       }
     } else {
@@ -124,6 +121,8 @@ class _HomeSiteState extends State<HomeSite> {
       documents.forEach((data) => allAverageList.add(data["average"]));
     });
 
+    
+
     //get average of all
 
     double _sum = 0;
@@ -138,6 +137,13 @@ class _HomeSiteState extends State<HomeSite> {
         });
       }
     }
+
+
+      getPluspoints(averageOfLessons);
+      setState(() {
+        averageOfLessonsPP = plusPoints;
+      });
+    
   }
 
   @override
@@ -192,13 +198,14 @@ class _HomeSiteState extends State<HomeSite> {
                               Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 15.0),
-                                  child: Text((() {
-                                    if (averageOfLessons.isNaN) {
-                                      return "Currently you don't have any grades.";
-                                    } else {
+                                  child: 
+                                  Text((() {
+                                    if (gradesResult == "Durchschnitt") {
                                       return "Notendurchschnitt: ${averageOfLessons.toStringAsFixed(2)}";
+                                    } else {
+                                      return "Pluspunkte: ${averageOfLessonsPP.toStringAsFixed(2)} / Notendurchschnitt: ${averageOfLessons.toStringAsFixed(2)}";
                                     }
-                                  })()))
+                                  })())),
                             ],
                           ),
                         ),

@@ -8,10 +8,12 @@ import 'userAuth/login.dart';
 import 'LessonsDetail.dart';
 import 'chooseSemester.dart';
 
-double plusPoints = 0;
+num plusPoints = 0;
 bool isMaintanceEnabled = false;
+String gradesResult = "Pluspunkte";
+num plusPointsallAverageList = 0;
 
-getPluspoints(double value) {
+getPluspoints(num value) {
   if (value >= 5.75) {
     plusPoints = 2;
   } else if (value >= 5.25) {
@@ -34,6 +36,32 @@ getPluspoints(double value) {
     plusPoints = -5;
   } else if (value >= 1) {
     plusPoints = -6;
+  }
+}
+
+getPluspointsallAverageList(num value) {
+  if (value >= 5.75) {
+    plusPointsallAverageList = 2;
+  } else if (value >= 5.25) {
+    plusPointsallAverageList = 1.5;
+  } else if (value >= 4.75) {
+    plusPointsallAverageList = 1;
+  } else if (value >= 4.25) {
+    plusPointsallAverageList = 0.5;
+  } else if (value >= 3.75) {
+    plusPointsallAverageList = 0;
+  } else if (value >= 3.25) {
+    plusPointsallAverageList = -1;
+  } else if (value >= 2.75) {
+    plusPointsallAverageList = -2;
+  } else if (value >= 2.25) {
+    plusPointsallAverageList = -3;
+  } else if (value >= 1.75) {
+    plusPointsallAverageList = -4;
+  } else if (value >= 1.25) {
+    plusPointsallAverageList = -5;
+  } else if (value >= 1) {
+    plusPointsallAverageList = -6;
   }
 }
 
@@ -60,35 +88,29 @@ getTestDetails() async {
 }
 
 getChoosenSemester() async {
-
-  if(choosenSemester == null){
-FirebaseFirestore.instance
-      .collection('userData')
-      .doc(auth.currentUser.uid)
-      .set(
-        {
-        'choosenSemester': 'noSemesterChoosed'  
-        }
-      );
-  }
-    
   DocumentSnapshot _db = await FirebaseFirestore.instance
       .collection('userData')
       .doc(auth.currentUser.uid)
       .get();
 
-  choosenSemester = _db.data()['choosenSemester'];
+  if (_db.data()['choosenSemester'] == null) {
+    print("made");
+    FirebaseFirestore.instance
+        .collection('userData')
+        .doc(auth.currentUser.uid)
+        .set({'choosenSemester': 'noSemesterChoosed'});
+  } else {
+    choosenSemester = _db.data()['choosenSemester'];
 
-  getChoosenSemesterName();
+    getChoosenSemesterName();
+  }
 }
 
 getChoosenSemesterName() async {
-
-
-     DocumentSnapshot _db = await FirebaseFirestore.instance
+  DocumentSnapshot _db = await FirebaseFirestore.instance
       .collection('userData')
       .doc(auth.currentUser.uid)
       .get();
-  choosenSemesterName = "nope";
+
   choosenSemesterName = _db.data()['choosenSemesterName'];
 }

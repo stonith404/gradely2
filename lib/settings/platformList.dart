@@ -1,50 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:gradely/main.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlatformList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Plattformen"),),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Pla", style: TextStyle( fontWeight: FontWeight.bold, fontSize: 30),),
-          Expanded(
-            child: ListView(
-              children: [
-                ExpansionTile(title: Text("Ios"),
-                children: [
-                  Text("expanded"),
-                ],
-                ),
-                                ExpansionTile(title: Text("Android"),
-                children: [
-                  Text("expanded"),
-                ],
-                ),
-                                ExpansionTile(title: Text("MacOS"),
-                children: [
-                  Text("expanded"),
-                ],
-                ),
-                                ExpansionTile(title: Text("Windows 10"),
-                children: [
-                  Text("expanded"),
-                ],
-                ),
-                                ExpansionTile(title: Text("Web"),
-                children: [
-                  Text("expanded"),
-                ],
-                ),
-
-              ],
+      appBar: AppBar(
+        title: Text("Plattformen"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          SizedBox(height: 50),
+            Text(
+              "Die Verfügbarkeit und Synchronisation mach Gradely einzigartig. ",
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-          ),
-          
-        ],
+            SizedBox(height: 15),
+            Text('Auf "gradelyapp.com/download" kannst du Gradely für all deine Gerät herunterladen'),
+                 SizedBox(height: 15),
+             Text(
+              "Gradely ist auf folgenden Plattformen erhältlich:",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+                 SizedBox(height: 50),
+            Expanded(
+              child: ListView(
+                children: [
+                  ListTile(
+                    title: Text("Ios"),
+                    trailing: FaIcon(FontAwesomeIcons.appStoreIos),
+                  ),
+                  ListTile(
+                    title: Text("Android"),
+                     trailing: FaIcon(FontAwesomeIcons.android),
+                  ),
+                  ListTile(
+                    title: Text("MacOS"),
+                     trailing: FaIcon(FontAwesomeIcons.appStoreIos),
+                  ),
+                  ListTile(
+                    title: Text("Windows 10"),
+                     trailing: FaIcon(FontAwesomeIcons.windows),
+                  ),
+                  ListTile(
+                    title: Text("Web"),
+                     trailing: FaIcon(FontAwesomeIcons.chrome),
+                  ),
+                ],
+              ),
+            ),
+
+      
+          ],
+        ),
       ),
     );
   }
