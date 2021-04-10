@@ -62,10 +62,11 @@ class _IntroScreenState extends State<IntroScreen> {
                 IconButton(
                   icon: FaIcon(FontAwesomeIcons.signOutAlt),
                   onPressed: () async {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
+                   Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                  (Route<dynamic> route) => false,
+                );
                     await FirebaseAuth.instance.signOut();
                   },
                 ),

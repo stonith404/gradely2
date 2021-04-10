@@ -181,11 +181,11 @@ class _chooseSemesterState extends State<chooseSemester> {
                                 choosenSemesterName = semesterList[index];
                                 saveChoosenSemester(
                                     choosenSemester, choosenSemesterName);
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MyApp()),
-                                );
+                               Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyApp()),
+                  (Route<dynamic> route) => false,
+                );
                               }),
                         ),
                       ),

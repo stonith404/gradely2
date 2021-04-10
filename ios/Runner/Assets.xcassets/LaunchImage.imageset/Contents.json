@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "macOSlogo.png",
+      "filename" : "macOSlogo copy-2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "macOSlogo-1.png",
+      "filename" : "macOSlogo copy-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "macOSlogo-2.png",
+      "filename" : "macOSlogo copy.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

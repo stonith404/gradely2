@@ -28,16 +28,16 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
           title: Text("Einstellungen"),
           leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-            ),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => MyApp()),
-              );
-            },
-          )),
+              icon: Icon(
+                Icons.arrow_back,
+              ),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyApp()),
+                  (Route<dynamic> route) => false,
+                );
+              })),
       body: Column(
         children: [
           Expanded(
@@ -52,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     );
                   },
                 ),
-                 ListTile(
+                ListTile(
                   title: Text("App Info"),
                   onTap: () {
                     Navigator.push(
@@ -78,10 +78,10 @@ class _SettingsPageState extends State<SettingsPage> {
                           );
                         }).toList(),
                         onChanged: (_) {
-                           FirebaseFirestore.instance
-          .collection('userData')
-          .doc(auth.currentUser.uid)
-          .update({'gradesResult': _});
+                          FirebaseFirestore.instance
+                              .collection('userData')
+                              .doc(auth.currentUser.uid)
+                              .update({'gradesResult': _});
                           setState(() {
                             gradesResult = _;
                           });

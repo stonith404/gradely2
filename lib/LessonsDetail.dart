@@ -121,16 +121,16 @@ class _LessonsDetailState extends State<LessonsDetail> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-            ),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => MyApp()),
-              );
-            },
-          ),
+              icon: Icon(
+                Icons.arrow_back,
+              ),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyApp()),
+                  (Route<dynamic> route) => false,
+                );
+              }),
           title: Text(selectedLessonName),
           shape: defaultRoundedCorners(),
         ),
@@ -145,18 +145,23 @@ class _LessonsDetailState extends State<LessonsDetail> {
                     child: Container(
                       decoration: boxDec(),
                       child: ListTile(
-                          title: Text(testList[index]),
+                          title: Text(testList[index],
+                              style: TextStyle(color: Colors.white)),
                           subtitle: averageList.isEmpty
                               ? Text("")
                               : Row(
                                   children: [
-                                    Text("Gewichtung:"),
-                                    Text(averageListWeight[index].toString()),
+                                    Text(
+                                      "Gewichtung: " +
+                                          averageListWeight[index].toString(),
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ],
                                 ),
                           trailing: Text(
                               (averageList[index] / averageListWeight[index])
-                                  .toString()),
+                                  .toString(),
+                              style: TextStyle(color: Colors.white)),
                           onTap: () async {
                             _getTests();
 
@@ -295,17 +300,17 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             .set({
                           "name": editTestInfoName.text,
                           "grade": double.parse(
-                            editTestInfoGrade.text,
+                            editTestInfoGrade.text.replaceAll(",", "."),
                           ),
-                          "weight": double.parse(editTestInfoWeight.text)
+                          "weight": double.parse(
+                              editTestInfoWeight.text.replaceAll(",", "."))
                         });
-                        Navigator.pushReplacement(
+
+                        Navigator.pushAndRemoveUntil(
                           context,
-                          PageRouteBuilder(
-                            pageBuilder: (context, animation1, animation2) =>
-                                LessonsDetail(),
-                            transitionDuration: Duration(seconds: 0),
-                          ),
+                          MaterialPageRoute(
+                              builder: (context) => LessonsDetail()),
+                          (Route<dynamic> route) => false,
                         );
                       },
                       child: Text("Test updaten")),
@@ -421,17 +426,20 @@ Future addTest(BuildContext context) {
 
                       createTest(
                         addTestNameController.text,
-                        double.parse(addTestGradeController.text),
-                        double.parse(addTestWeightController.text),
+                        double.parse(
+                            addTestGradeController.text.replaceAll(",", ".")),
+                        double.parse(
+                            addTestWeightController.text.replaceAll(",", ".")),
                       );
 
                       addLessonController.text = "";
                       courseList = [];
 
-                      Navigator.pushReplacement(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                             builder: (context) => LessonsDetail()),
+                        (Route<dynamic> route) => false,
                       );
                     },
                   ),
