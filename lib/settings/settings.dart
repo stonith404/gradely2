@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../userAuth/login.dart';
 import 'package:gradely/data.dart';
+import 'aboutApp.dart';
 
 import 'platformList.dart';
 
@@ -48,6 +49,15 @@ class _SettingsPageState extends State<SettingsPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => PlatformList()),
+                    );
+                  },
+                ),
+                 ListTile(
+                  title: Text("App Info"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AppInfo()),
                     );
                   },
                 ),

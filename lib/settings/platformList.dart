@@ -16,7 +16,7 @@ class PlatformList extends StatelessWidget {
           children: [
           SizedBox(height: 50),
             Text(
-              "Die Verfügbarkeit und Synchronisation mach Gradely einzigartig. ",
+              "Die Verfügbarkeit und Synchronisation macht Gradely einzigartig.",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 15),

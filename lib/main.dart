@@ -14,7 +14,7 @@ import 'package:gradely/introScreen.dart';
 import 'dart:async';
 
 bool isLoggedIn = false;
-const defaultBlue = Colors.blue;
+const defaultBlue = Color(0xFF6C63FF);
 var testList = [];
 var courseListID = [];
 var allAverageList = [];
@@ -61,7 +61,6 @@ class MyApp extends StatefulWidget {
 
 class _State extends State<MyApp> {
   void initState() {
-    
     super.initState();
     timer = Timer.periodic(
         Duration(seconds: 1), (Timer t) => darkModeColorChanger());
@@ -197,7 +196,7 @@ class _HomeSiteState extends State<HomeSite> {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                backgroundColor: Colors.blue,
+                backgroundColor: defaultBlue,
                 forceElevated: true,
                 title: Image.asset(
                   'assets/iconT.png',
@@ -224,21 +223,15 @@ class _HomeSiteState extends State<HomeSite> {
                                       vertical: 15.0),
                                   child: (() {
                                     if (gradesResult == "Durchschnitt") {
-
-                                      if(averageOfLessons.isNaN){
-                                         return Text(
-                                          "Notendurchschnitt: -",
-                                          style:
-                                              TextStyle(color: Colors.white));
+                                      if (averageOfLessons.isNaN) {
+                                        return Text("Notendurchschnitt: -",
+                                            style:
+                                                TextStyle(color: Colors.white));
                                       }
                                       return Text(
                                           "Notendurchschnitt: ${averageOfLessons.toStringAsFixed(2)}",
                                           style:
                                               TextStyle(color: Colors.white));
-
-
-
-
                                     } else if (averageOfLessons.isNaN) {
                                       return Text(
                                           "Pluspunkte: ${averageOfLessonsPP.toStringAsFixed(2)} / Notendurchschnitt: -",
@@ -468,7 +461,7 @@ class _updateLessonState extends State<updateLesson> {
     renameTestWeightController.text = selectedLessonName;
     return Scaffold(
       appBar: AppBar(
-        title: Text("update"),
+        title: Text("Fach unbennen"),
         shape: defaultRoundedCorners(),
       ),
       body: Padding(
@@ -481,7 +474,7 @@ class _updateLessonState extends State<updateLesson> {
                 textAlign: TextAlign.left,
                 decoration: inputDec("Fach Name")),
             ElevatedButton(
-              child: Text("update"),
+              child: Text("unbennen"),
               onPressed: () {
                 updateLessonF(renameTestWeightController.text);
                 Navigator.pushAndRemoveUntil(

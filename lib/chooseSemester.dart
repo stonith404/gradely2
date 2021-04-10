@@ -81,8 +81,7 @@ class _chooseSemesterState extends State<chooseSemester> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-       
- child: Icon(Icons.add),
+          child: Icon(Icons.add),
           onPressed: () {
             Navigator.push(
               context,
@@ -98,7 +97,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                 return Padding(
                   padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
                   child: Padding(
-                       padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
+                    padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
                     child: Slidable(
                       actionPane: SlidableDrawerActionPane(),
                       actionExtentRatio: 0.25,
@@ -168,30 +167,30 @@ class _chooseSemesterState extends State<chooseSemester> {
                           },
                         ),
                       ],
-         
-         
-                        child: Container(
-                          decoration: boxDec(),
-                          child: ListTile(
-                            title: Text(semesterList[index] ,style: TextStyle(color: Colors.white),),
-                            trailing: IconButton(
-                                icon: Icon(Icons.arrow_forward),
-                                onPressed: () {
-                                  choosenSemester = semesterListID[index];
-                                  choosenSemesterName = semesterList[index];
-                                  saveChoosenSemester(
-                                      choosenSemester, choosenSemesterName);
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MyApp()),
-                                  );
-                                }),
+                      child: Container(
+                        decoration: boxDec(),
+                        child: ListTile(
+                          title: Text(
+                            semesterList[index],
+                            style: TextStyle(color: Colors.white),
                           ),
+                          trailing: IconButton(
+                              icon: Icon(Icons.arrow_forward),
+                              onPressed: () {
+                                choosenSemester = semesterListID[index];
+                                choosenSemesterName = semesterList[index];
+                                saveChoosenSemester(
+                                    choosenSemester, choosenSemesterName);
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MyApp()),
+                                );
+                              }),
                         ),
                       ),
+                    ),
                   ),
-                  
                 );
               },
             ),
@@ -212,36 +211,37 @@ class _updateSemesterState extends State<updateSemester> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Semester update"),
+        title: Text("Semester unbenennen"),
         shape: defaultRoundedCorners(),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextField(
-            controller: renameSemesterController,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Semester Name eingeben...',
-              hintStyle: TextStyle(color: Colors.grey),
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+                controller: renameSemesterController,
+                textAlign: TextAlign.left,
+                decoration: inputDec("Semester Name")),
+            SizedBox(
+              height: 15,
             ),
-          ),
-          ElevatedButton(
-            child: Text("update"),
-            onPressed: () {
-              updateSemesterF(renameSemesterController.text);
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => chooseSemester()),
-                (Route<dynamic> route) => false,
-              );
+            ElevatedButton(
+              child: Text("unbennen"),
+              onPressed: () {
+                updateSemesterF(renameSemesterController.text);
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => chooseSemester()),
+                  (Route<dynamic> route) => false,
+                );
 
-              renameSemesterController.text = "";
-              semesterList = [];
-            },
-          ),
-        ],
+                renameSemesterController.text = "";
+                semesterList = [];
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

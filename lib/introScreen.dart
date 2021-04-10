@@ -81,7 +81,10 @@ class _IntroScreenState extends State<IntroScreen> {
           title: "Willkommen!",
           body:
               "Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen.",
-          image: _buildImage('welcome.png'),
+          image: Padding(
+            padding: const EdgeInsets.only(top: 80.0),
+            child: _buildImage('welcome.png'),
+          ),
           decoration: pageDecoration,
         ),
         PageViewModel(
@@ -90,6 +93,13 @@ class _IntroScreenState extends State<IntroScreen> {
               "Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf deinem Laptop, Handy oder iPad Noten hinzufügen und anschauen",
           image: _buildImage('sync.png'),
           footer: Text("Mehr Infos findest du in den Einstellungen."),
+          decoration: pageDecoration,
+        ),
+          PageViewModel(
+          title: "Pluspunkte oder Durchschnitt?",
+          body:
+              "In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.",
+          image: _buildImage('choose.png'),
           decoration: pageDecoration,
         ),
         PageViewModel(

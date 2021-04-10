@@ -36,6 +36,7 @@ dependencies:
   flutter_launcher_icons:
   introduction_screen: ^2.1.0
   font_awesome_flutter:
+  package_info:
 
 
 dev_dependencies:
@@ -64,6 +65,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/icon/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

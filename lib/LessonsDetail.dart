@@ -268,6 +268,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
                       controller: editTestInfoGrade,
+                      keyboardType: TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
                       decoration: inputDec("Gewichtung"),
                     ),
@@ -276,6 +277,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
                       controller: editTestInfoWeight,
+                      keyboardType: TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
                       decoration: inputDec("Gewichtung"),
                     ),
@@ -303,6 +305,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         );
                       },
                       child: Text("Test updaten")),
+                      SizedBox(height: 10,),
                   ElevatedButton(
                       onPressed: () {
                         FirebaseFirestore.instance
@@ -375,7 +378,7 @@ Future addTest(BuildContext context) {
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
                         controller: addTestGradeController,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.numberWithOptions(decimal: true),
                         textAlign: TextAlign.left,
                         decoration: inputDec("Note")),
                   ),
@@ -383,7 +386,7 @@ Future addTest(BuildContext context) {
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
                         controller: addTestWeightController,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.numberWithOptions(decimal: true),
                         textAlign: TextAlign.left,
                         decoration: inputDec("Gewichtung")),
                   ),
