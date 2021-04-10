@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ic_launcher.png",
+      "filename" : "macOSlogo.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "ic_launcher-1.png",
+      "filename" : "macOSlogo-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ic_launcher-2.png",
+      "filename" : "macOSlogo-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
