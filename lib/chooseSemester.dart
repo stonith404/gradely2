@@ -44,7 +44,7 @@ class _chooseSemesterState extends State<chooseSemester> {
     FirebaseFirestore.instance
         .collection('userData')
         .doc(auth.currentUser.uid)
-        .set({
+        .update({
       "choosenSemester": _choosenSemester,
       "choosenSemesterName": _choosenSemesterName
     });
@@ -80,8 +80,9 @@ class _chooseSemesterState extends State<chooseSemester> {
           },
         ),
       ),
-      floatingActionButton: IconButton(
-          icon: Icon(Icons.add),
+      floatingActionButton: FloatingActionButton(
+       
+ child: Icon(Icons.add),
           onPressed: () {
             Navigator.push(
               context,
@@ -96,95 +97,101 @@ class _chooseSemesterState extends State<chooseSemester> {
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
-                  child: Slidable(
-                    actionPane: SlidableDrawerActionPane(),
-                    actionExtentRatio: 0.25,
-                    secondaryActions: <Widget>[
-                      IconSlideAction(
-                        caption: 'More',
-                        color: Colors.black45,
-                        icon: Icons.more_horiz,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => updateSemester()),
-                          );
+                  child: Padding(
+                       padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
+                    child: Slidable(
+                      actionPane: SlidableDrawerActionPane(),
+                      actionExtentRatio: 0.25,
+                      secondaryActions: <Widget>[
+                        IconSlideAction(
+                          caption: 'unbennen',
+                          color: Colors.black45,
+                          icon: Icons.edit,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => updateSemester()),
+                            );
 
-                          selectedSemester = semesterListID[index];
-                        },
-                      ),
-                      IconSlideAction(
-                        caption: 'Delete',
-                        color: Colors.red,
-                        icon: Icons.delete,
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Attention."),
-                                  content: Text(
-                                      "Do you want to delete ${semesterList[index]} ?"),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      child: Text("No"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    FlatButton(
-                                      child: Text("Delete"),
-                                      onPressed: () {
-                                        FirebaseFirestore.instance
-                                            .collection(
-                                                'userData/${auth.currentUser.uid}/semester/')
-                                            .doc(semesterListID[index])
-                                            .set({});
-                                        FirebaseFirestore.instance
-                                            .collection(
-                                                'userData/${auth.currentUser.uid}/semester/')
-                                            .doc(semesterListID[index])
-                                            .delete();
+                            selectedSemester = semesterListID[index];
+                          },
+                        ),
+                        IconSlideAction(
+                          caption: 'löschen',
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Achtung!"),
+                                    content: Text(
+                                        "Bist du sicher, dass du ${semesterList[index]} löschen willst?"),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("Nein"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text("Löschen"),
+                                        onPressed: () {
+                                          FirebaseFirestore.instance
+                                              .collection(
+                                                  'userData/${auth.currentUser.uid}/semester/')
+                                              .doc(semesterListID[index])
+                                              .set({});
+                                          FirebaseFirestore.instance
+                                              .collection(
+                                                  'userData/${auth.currentUser.uid}/semester/')
+                                              .doc(semesterListID[index])
+                                              .delete();
 
-                                        Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  chooseSemester()),
-                                          (Route<dynamic> route) => false,
-                                        );
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    chooseSemester()),
+                                            (Route<dynamic> route) => false,
+                                          );
 
-                                        selectedSemester =
-                                            semesterListID[index];
-                                      },
-                                    )
-                                  ],
-                                );
-                              });
-                        },
+                                          selectedSemester =
+                                              semesterListID[index];
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          },
+                        ),
+                      ],
+         
+         
+                        child: Container(
+                          decoration: boxDec(),
+                          child: ListTile(
+                            title: Text(semesterList[index] ,style: TextStyle(color: Colors.white),),
+                            trailing: IconButton(
+                                icon: Icon(Icons.arrow_forward),
+                                onPressed: () {
+                                  choosenSemester = semesterListID[index];
+                                  choosenSemesterName = semesterList[index];
+                                  saveChoosenSemester(
+                                      choosenSemester, choosenSemesterName);
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyApp()),
+                                  );
+                                }),
+                          ),
+                        ),
                       ),
-                    ],
-                    child: Container(
-                      decoration: boxDec(),
-                      child: ListTile(
-                        title: Text(semesterList[index]),
-                        trailing: IconButton(
-                            icon: Icon(Icons.arrow_forward),
-                            onPressed: () {
-                              choosenSemester = semesterListID[index];
-                              choosenSemesterName = semesterList[index];
-                              saveChoosenSemester(
-                                  choosenSemester, choosenSemesterName);
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MyApp()),
-                              );
-                            }),
-                      ),
-                    ),
                   ),
+                  
                 );
               },
             ),

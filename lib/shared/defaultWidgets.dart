@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradely/main.dart';
+import 'package:gradely/main.dart';
 
   RoundedRectangleBorder defaultRoundedCorners() {
     return RoundedRectangleBorder(
@@ -13,10 +14,11 @@ import 'package:gradely/main.dart';
   
   BoxDecoration boxDec() {
     return BoxDecoration(
+   
       borderRadius: BorderRadius.all(
             Radius.circular(10)
             ),
-      gradient: new LinearGradient(
+      gradient:  LinearGradient(
                 colors: [
                   const Color(0xFF3366FF),
                   const Color(0xFF00CCFF),
@@ -40,9 +42,10 @@ import 'package:gradely/main.dart';
 
     InputDecoration inputDec(String _label) {
     return InputDecoration(
+      
                   filled: true,
                   labelText:_label,
-                  labelStyle:  TextStyle( fontSize: 20.0, height: 0.8, color: defaultBlue),
+                  labelStyle:  TextStyle( fontSize: 20.0, height: 0.8, color: Colors.blue),
         
                 focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),

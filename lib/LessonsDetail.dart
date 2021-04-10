@@ -9,6 +9,7 @@ import 'chooseSemester.dart';
 import 'data.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'shared/defaultWidgets.dart';
+import 'dart:async';
 
 String selectedTest = "selectedTest";
 String errorMessage = "";
@@ -36,6 +37,19 @@ class _LessonsDetailState extends State<LessonsDetail> {
       documents.forEach((data) => testListID.add(data.id));
       documents.forEach((data) => testList.add(data["name"]));
     });
+  }
+
+  darkModeColorChanger() {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    if (brightness == Brightness.dark) {
+      setState(() {
+        bwColor = Colors.black;
+        wbColor = Colors.white;
+      });
+    } else {
+      bwColor = Colors.white;
+      wbColor = Colors.black;
+    }
   }
 
   List averageList = [];
@@ -84,16 +98,26 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   void initState() {
     super.initState();
+
     getChoosenSemester();
     _getTests();
     getTestAvarage();
+
+    timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
+      darkModeColorChanger();
+    });
+  }
+
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     getPluspoints(averageOfTests);
 
-    print(courseListID.length);
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -101,6 +125,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
               Icons.arrow_back,
             ),
             onPressed: () {
+             
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => MyApp()),
@@ -116,38 +141,45 @@ class _LessonsDetailState extends State<LessonsDetail> {
               child: ListView.builder(
                 itemCount: testList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                      title: Text(testList[index]),
-                      subtitle: averageList.isEmpty
-                          ? Text("")
-                          : Row(
-                              children: [
-                                Text((averageList[index] /
-                                        averageListWeight[index])
-                                    .toString()),
-                                Text(averageListWeight[index].toString()),
-                              ],
-                            ),
-                      onTap: () async {
-                        _getTests();
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
+                    child: Container(
+                      decoration: boxDec(),
+                      child: ListTile(
+                          title: Text(testList[index]),
+                          subtitle: averageList.isEmpty
+                              ? Text("")
+                              : Row(
+                                  children: [
+                                    Text("Gewichtung:"),
+                                    Text(averageListWeight[index].toString()),
+                                  ],
+                                ),
+                          trailing: Text(
+                              (averageList[index] / averageListWeight[index])
+                                  .toString()),
+                          onTap: () async {
+                            _getTests();
 
-                        selectedTest = testListID[index];
+                            selectedTest = testListID[index];
 
-                        testDetails = (await FirebaseFirestore.instance
-                                .collection(
-                                    "userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
-                                .doc(selectedTest)
-                                .get())
-                            .data();
+                            testDetails = (await FirebaseFirestore.instance
+                                    .collection(
+                                        "userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
+                                    .doc(selectedTest)
+                                    .get())
+                                .data();
 
-                        testDetail(context);
-                      });
+                            testDetail(context);
+                          }),
+                    ),
+                  );
                 },
               ),
             ),
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: bwColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25),
                   topRight: Radius.circular(25),
@@ -168,15 +200,17 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text(plusPoints.toString()),
+                      Text(() {
+                        if (gradesResult == "Pluspunkte") {
+                          return plusPoints.toString();
+                        } else {
+                          return "";
+                        }
+                      }()),
                       IconButton(
                           icon: Icon(Icons.add),
                           onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => addTest()),
-                            );
+                            addTest(context);
                           }),
                       Text((() {
                         if (averageOfTests.isNaN) {
@@ -268,7 +302,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                           ),
                         );
                       },
-                      child: Text("update")),
+                      child: Text("Test updaten")),
                   ElevatedButton(
                       onPressed: () {
                         FirebaseFirestore.instance
@@ -291,13 +325,107 @@ class _LessonsDetailState extends State<LessonsDetail> {
                           ),
                         );
                       },
-                      child: Text("Delete"))
+                      child: Text("Test löschen"))
                 ],
               ),
             ),
           )),
     );
   }
+}
+
+Future addTest(BuildContext context) {
+  addTestNameController.text = "";
+  addTestGradeController.text = "";
+  addTestWeightController.text = "1";
+
+  return showCupertinoModalBottomSheet(
+    expand: true,
+    context: context,
+    builder: (context) => SingleChildScrollView(
+        controller: ModalScrollController.of(context),
+        child: Material(
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+                    child: Text(
+                      "Test hinzufügen",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Divider(
+                      thickness: 2,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                        controller: addTestNameController,
+                        textAlign: TextAlign.left,
+                        decoration: inputDec("Name")),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                        controller: addTestGradeController,
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.left,
+                        decoration: inputDec("Note")),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                        controller: addTestWeightController,
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.left,
+                        decoration: inputDec("Gewichtung")),
+                  ),
+                  ElevatedButton(
+                    child: Text("hinzufügen"),
+                    onPressed: () {
+                      bool isNumeric() {
+                        if (addTestGradeController.text == null) {
+                          return false;
+                        }
+                        return double.tryParse(addTestGradeController.text) !=
+                            null;
+                      }
+
+                      if (isNumeric() == false) {
+                        errorMessage = "Bitte eine gültige Note eingeben.";
+
+                        Future.delayed(Duration(seconds: 4))
+                            .then((value) => {errorMessage = ""});
+                      }
+
+                      createTest(
+                        addTestNameController.text,
+                        double.parse(addTestGradeController.text),
+                        double.parse(addTestWeightController.text),
+                      );
+
+                      addLessonController.text = "";
+                      courseList = [];
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LessonsDetail()),
+                      );
+                    },
+                  ),
+                  Text(errorMessage)
+                ],
+              )),
+        )),
+  );
 }
 
 createTest(String testName, double grade, double weight) {
@@ -311,95 +439,4 @@ createTest(String testName, double grade, double weight) {
       .collection('grades')
       .doc()
       .set({"name": testName, "grade": grade, "weight": weight});
-}
-
-class addTest extends StatefulWidget {
-  @override
-  _addTestState createState() => _addTestState();
-}
-
-class _addTestState extends State<addTest> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('neuer Test'),
-        shape: defaultRoundedCorners(),
-      ),
-      backgroundColor: Colors.white.withOpacity(
-          0.85), // this is the main reason of transparency at next screen. I am ignoring rest implementation but what i have achieved is you can see.
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextField(
-            controller: addTestNameController,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Enter TestName',
-              hintStyle: TextStyle(color: Colors.grey),
-            ),
-          ),
-          TextField(
-            controller: addTestGradeController,
-            keyboardType: TextInputType.number,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Enter TestGrade',
-              hintStyle: TextStyle(color: Colors.grey),
-            ),
-          ),
-          TextField(
-            controller: addTestWeightController,
-            keyboardType: TextInputType.number,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Enter TestWeight',
-              hintStyle: TextStyle(color: Colors.grey),
-            ),
-          ),
-          ElevatedButton(
-            child: Text("add"),
-            onPressed: () {
-              bool isNumeric() {
-                if (addTestGradeController.text == null) {
-                  return false;
-                }
-                return double.tryParse(addTestGradeController.text) != null;
-              }
-
-              if (isNumeric() == false) {
-                setState(() {
-                  errorMessage = "Bitte eine gültige Note eingeben.";
-                });
-                Future.delayed(Duration(seconds: 4)).then((value) => {
-                      setState(() {
-                        errorMessage = "";
-                      })
-                    });
-              }
-
-              createTest(
-                addTestNameController.text,
-                double.parse(addTestGradeController.text),
-                double.parse(addTestWeightController.text),
-              );
-              setState(() {
-                addLessonController.text = "";
-                courseList = [];
-              });
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LessonsDetail()),
-              );
-            },
-          ),
-          Text(errorMessage)
-        ],
-      ),
-    );
-  }
 }

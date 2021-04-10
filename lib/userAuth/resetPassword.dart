@@ -4,6 +4,7 @@ import 'register.dart';
 import '../main.dart';
 import '../shared/loading.dart';
 import '../shared/defaultWidgets.dart';
+import 'login.dart';
 
 class ResetPW extends StatefulWidget {
   @override
@@ -28,7 +29,7 @@ class _ResetPWState extends State<ResetPW> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Einloggen"),
+        title: Text("Passwort vergessen"),
       ),
       body: isLoading
           ? LoadingScreen()
@@ -63,11 +64,16 @@ class _ResetPWState extends State<ResetPW> {
                         });
                        sendPasswordResetEmail(_email);
                       },
-                      child: Text("Einloggen")),
+                      child: Text("Link anfordern")),
                   Spacer(flex: 1),
                   TextButton(
-                      onPressed: null,
-                      child: Text("Hast du noch kein Account?")),
+                      onPressed: (){
+                        Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );},
+                      
+                      child: Text("zurück")),
                   Spacer(
                     flex: 3,
                   ),

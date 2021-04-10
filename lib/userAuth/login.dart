@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gradely/LessonsDetail.dart';
 import 'register.dart';
 import '../main.dart';
 import '../shared/loading.dart';
@@ -18,9 +19,11 @@ FirebaseAuth auth = FirebaseAuth.instance;
 bool isLoading = false;
 String _email = "";
 String _password = "";
+String _errorMessage = "";
 
 class _LoginScreenState extends State<LoginScreen> {
-  createUser() async {
+  signInUser() async {
+    FocusScope.of(context).unfocus();
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _email, password: _password);
@@ -29,9 +32,13 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        setState(() {
+          _errorMessage = "Der Account mit dieser Email existiert nicht.";
+        });
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        setState(() {
+          _errorMessage = "Falsches Passwort.";
+        });
       }
       setState(() {
         isLoading = false;
@@ -54,18 +61,16 @@ class _LoginScreenState extends State<LoginScreen> {
       body: isLoading
           ? LoadingScreen()
           : Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Spacer(
                     flex: 2,
                   ),
-                 
-                      Image.asset(
-                        'assets/iconT.png',
-                        height: 170,
-                     
+                  Image.asset(
+                    'assets/iconT.png',
+                    height: 170,
                   ),
                   Spacer(
                     flex: 1,
@@ -92,24 +97,40 @@ class _LoginScreenState extends State<LoginScreen> {
                           _password = _passwordController.text;
                           isLoading = true;
                         });
-                        createUser();
+                        signInUser();
                       },
                       child: Text("Einloggen")),
-                      Spacer(flex: 1),
-                      TextButton(onPressed: (){ Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RegisterScreen()),
-              );}, child: Text("Hast du noch kein Account?")),
-                TextButton(onPressed: (){ Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ResetPW()),
-              );}, child: Text("PW")),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    _errorMessage,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  Spacer(flex: 1),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterScreen()),
+                        );
+                      },
+                      child: Text("Hast du noch kein Account?")),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => ResetPW()),
+                        );
+                      },
+                      child: Text("Passwort vergessen?")),
                   Spacer(
                     flex: 3,
                   ),
                 ],
               ),
-          ),
+            ),
     );
   }
 }

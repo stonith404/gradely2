@@ -11,17 +11,21 @@ import 'chooseSemester.dart';
 import 'dart:math' as math;
 import 'settings/settings.dart';
 import 'package:gradely/introScreen.dart';
+import 'dart:async';
 
 bool isLoggedIn = false;
-const defaultBlue = Color(0xff000000);
+const defaultBlue = Colors.blue;
 var testList = [];
 var courseListID = [];
 var allAverageList = [];
+var allAverageListPP = [];
 String selectedLesson = "";
 String selectedLessonName;
 double averageOfLessons = 0 / -0;
 num averageOfLessonsPP = 0 / -0;
-String choosenSemesterName = "";
+String choosenSemesterName = "noSemesterChoosed";
+var wbColor = Colors.white;
+var bwColor = Colors.black;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,9 +45,8 @@ void main() async {
     darkTheme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: defaultBlue,
-        appBarTheme: AppBarTheme(
-          color: Colors.black87,
-        ),
+        appBarTheme:
+            AppBarTheme(color: Colors.black87, foregroundColor: Colors.white),
         textTheme: TextTheme(
           subhead: TextStyle(color: Colors.white),
           title: TextStyle(color: Colors.white),
@@ -58,8 +61,10 @@ class MyApp extends StatefulWidget {
 
 class _State extends State<MyApp> {
   void initState() {
+    
     super.initState();
-
+    timer = Timer.periodic(
+        Duration(seconds: 1), (Timer t) => darkModeColorChanger());
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
         setState(() {
@@ -73,6 +78,19 @@ class _State extends State<MyApp> {
     });
   }
 
+  darkModeColorChanger() {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    if (brightness == Brightness.dark) {
+      setState(() {
+        bwColor = Colors.black;
+        wbColor = Colors.white;
+      });
+    } else {
+      bwColor = Colors.white;
+      wbColor = Colors.black;
+    }
+  }
+
   void setState(fn) {
     if (mounted) {
       super.setState(fn);
@@ -81,12 +99,11 @@ class _State extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    getChoosenSemester();
     if (isLoggedIn) {
-      getChoosenSemester();
       if (choosenSemester == "noSemesterChoosed") {
-        return OnBoardingPage();
+        return chooseSemester();
       } else {
-        getChoosenSemester();
         return HomeSite();
       }
     } else {
@@ -115,13 +132,18 @@ class _HomeSiteState extends State<HomeSite> {
     courseList = [];
     courseListID = [];
     allAverageList = [];
+    allAverageListPP = [];
     setState(() {
       documents.forEach((data) => courseList.add(data["name"]));
       documents.forEach((data) => courseListID.add(data.id));
       documents.forEach((data) => allAverageList.add(data["average"]));
-    });
 
-    
+      documents.forEach((data) {
+        getPluspointsallAverageList(data["average"]);
+
+        allAverageListPP.add(plusPointsallAverageList.toString());
+      });
+    });
 
     //get average of all
 
@@ -138,12 +160,10 @@ class _HomeSiteState extends State<HomeSite> {
       }
     }
 
-
-      getPluspoints(averageOfLessons);
-      setState(() {
-        averageOfLessonsPP = plusPoints;
-      });
-    
+    getPluspointsallAverageList(averageOfLessons);
+    setState(() {
+      averageOfLessonsPP = plusPointsallAverageList;
+    });
   }
 
   @override
@@ -151,6 +171,7 @@ class _HomeSiteState extends State<HomeSite> {
     super.initState();
     getLessons();
     getChoosenSemester();
+    getgradesResult();
   }
 
   void setState(fn) {
@@ -176,6 +197,7 @@ class _HomeSiteState extends State<HomeSite> {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
+                backgroundColor: Colors.blue,
                 forceElevated: true,
                 title: Image.asset(
                   'assets/iconT.png',
@@ -193,19 +215,42 @@ class _HomeSiteState extends State<HomeSite> {
                               Text(
                                 choosenSemesterName,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 25),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25,
+                                    color: Colors.white),
                               ),
                               Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 15.0),
-                                  child: 
-                                  Text((() {
+                                  child: (() {
                                     if (gradesResult == "Durchschnitt") {
-                                      return "Notendurchschnitt: ${averageOfLessons.toStringAsFixed(2)}";
+
+                                      if(averageOfLessons.isNaN){
+                                         return Text(
+                                          "Notendurchschnitt: -",
+                                          style:
+                                              TextStyle(color: Colors.white));
+                                      }
+                                      return Text(
+                                          "Notendurchschnitt: ${averageOfLessons.toStringAsFixed(2)}",
+                                          style:
+                                              TextStyle(color: Colors.white));
+
+
+
+
+                                    } else if (averageOfLessons.isNaN) {
+                                      return Text(
+                                          "Pluspunkte: ${averageOfLessonsPP.toStringAsFixed(2)} / Notendurchschnitt: -",
+                                          style:
+                                              TextStyle(color: Colors.white));
                                     } else {
-                                      return "Pluspunkte: ${averageOfLessonsPP.toStringAsFixed(2)} / Notendurchschnitt: ${averageOfLessons.toStringAsFixed(2)}";
+                                      return Text(
+                                          "Pluspunkte: ${averageOfLessonsPP.toStringAsFixed(2)} / Notendurchschnitt: ${averageOfLessons.toStringAsFixed(2)}",
+                                          style:
+                                              TextStyle(color: Colors.white));
                                     }
-                                  })())),
+                                  }())),
                             ],
                           ),
                         ),
@@ -218,7 +263,7 @@ class _HomeSiteState extends State<HomeSite> {
                   child: IconButton(
                       icon: Icon(Icons.segment),
                       onPressed: () async {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => SettingsPage()),
@@ -226,7 +271,6 @@ class _HomeSiteState extends State<HomeSite> {
                       }),
                 ),
                 floating: true,
-                backgroundColor: Colors.grey[300],
                 actions: [
                   IconButton(
                       icon: Icon(Icons.switch_left),
@@ -252,9 +296,9 @@ class _HomeSiteState extends State<HomeSite> {
                   actionExtentRatio: 0.25,
                   secondaryActions: <Widget>[
                     IconSlideAction(
-                      caption: 'More',
+                      caption: 'unbennen',
                       color: Colors.black45,
-                      icon: Icons.more_horiz,
+                      icon: Icons.edit,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -266,7 +310,7 @@ class _HomeSiteState extends State<HomeSite> {
                       },
                     ),
                     IconSlideAction(
-                      caption: 'Delete',
+                      caption: 'löschen',
                       color: Colors.red,
                       icon: Icons.delete,
                       onTap: () {
@@ -276,16 +320,16 @@ class _HomeSiteState extends State<HomeSite> {
                               return AlertDialog(
                                 title: Text("Attention."),
                                 content: Text(
-                                    "Do you want to delete ${courseList[index]} ?"),
+                                    "Bist du sicher, dass du ${courseList[index]} löschen willst?"),
                                 actions: <Widget>[
                                   FlatButton(
-                                    child: Text("No"),
+                                    child: Text("Nein"),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
                                   ),
                                   FlatButton(
-                                    child: Text("Delete"),
+                                    child: Text("Löschen"),
                                     onPressed: () {
                                       FirebaseFirestore.instance
                                           .collection(
@@ -317,12 +361,20 @@ class _HomeSiteState extends State<HomeSite> {
                   child: Container(
                     decoration: boxDec(),
                     child: ListTile(
-                      title: Text(courseList[index]),
-                      subtitle: Text((() {
+                      title: Text(courseList[index],
+                          style: TextStyle(color: Colors.white)),
+                      trailing: ((() {
                         if (allAverageList[index].isNaN) {
-                          return "-";
+                          return Text("-",
+                              style: TextStyle(color: Colors.white));
+                        } else if (gradesResult == "Pluspunkte") {
+                          return Text(allAverageListPP[index],
+                              style: TextStyle(color: Colors.white));
                         } else {
-                          return allAverageList[index].toStringAsFixed(2);
+                          return Text(allAverageList[index].toStringAsFixed(2),
+                              style: TextStyle(
+                                color: Colors.white,
+                              ));
                         }
                       })()),
                       onTap: () {
@@ -361,23 +413,24 @@ class _addLessonState extends State<addLesson> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("add"),
+        title: Text("Fach Hinzufügen"),
         shape: defaultRoundedCorners(),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextField(
-            controller: addLessonController,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Enter Lesson Name',
-              hintStyle: TextStyle(color: Colors.grey),
-            ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+                controller: addLessonController,
+                textAlign: TextAlign.left,
+                decoration: inputDec("Fach Name")),
+          ),
+          SizedBox(
+            height: 40,
           ),
           ElevatedButton(
-            child: Text("add"),
+            child: Text("hinzufügen"),
             onPressed: () {
               createLesson(addLessonController.text);
               Navigator.pushAndRemoveUntil(
@@ -412,7 +465,6 @@ class updateLesson extends StatefulWidget {
 class _updateLessonState extends State<updateLesson> {
   @override
   Widget build(BuildContext context) {
-    print(selectedLessonName);
     renameTestWeightController.text = selectedLessonName;
     return Scaffold(
       appBar: AppBar(

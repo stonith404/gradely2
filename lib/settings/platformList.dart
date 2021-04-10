@@ -42,10 +42,7 @@ class PlatformList extends StatelessWidget {
                     title: Text("MacOS"),
                      trailing: FaIcon(FontAwesomeIcons.appStoreIos),
                   ),
-                  ListTile(
-                    title: Text("Windows 10"),
-                     trailing: FaIcon(FontAwesomeIcons.windows),
-                  ),
+                
                   ListTile(
                     title: Text("Web"),
                      trailing: FaIcon(FontAwesomeIcons.chrome),

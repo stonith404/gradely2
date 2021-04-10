@@ -7,11 +7,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'userAuth/login.dart';
 import 'LessonsDetail.dart';
 import 'chooseSemester.dart';
-
+import 'dart:async';
 num plusPoints = 0;
 bool isMaintanceEnabled = false;
 String gradesResult = "Pluspunkte";
 num plusPointsallAverageList = 0;
+Timer timer;
 
 getPluspoints(num value) {
   if (value >= 5.75) {
@@ -98,7 +99,7 @@ getChoosenSemester() async {
     FirebaseFirestore.instance
         .collection('userData')
         .doc(auth.currentUser.uid)
-        .set({'choosenSemester': 'noSemesterChoosed'});
+        .update({'choosenSemester': 'noSemesterChoosed'});
   } else {
     choosenSemester = _db.data()['choosenSemester'];
 
@@ -114,3 +115,14 @@ getChoosenSemesterName() async {
 
   choosenSemesterName = _db.data()['choosenSemesterName'];
 }
+
+
+getgradesResult() async {
+  DocumentSnapshot _db = await FirebaseFirestore.instance
+      .collection('userData')
+      .doc(auth.currentUser.uid)
+      .get();
+
+  gradesResult = _db.data()['gradesResult'];
+}
+

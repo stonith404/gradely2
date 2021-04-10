@@ -1,20 +1,21 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:gradely/main.dart';
 import 'package:gradely/chooseSemester.dart';
 import 'data.dart';
 import 'shared/defaultWidgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'userAuth/login.dart';
 
-
-
-class OnBoardingPage extends StatefulWidget {
+class IntroScreen extends StatefulWidget {
   @override
-  _OnBoardingPageState createState() => _OnBoardingPageState();
+  _IntroScreenState createState() => _IntroScreenState();
 }
 
-class _OnBoardingPageState extends State<OnBoardingPage> {
+class _IntroScreenState extends State<IntroScreen> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {
@@ -45,7 +46,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
       descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-
       imagePadding: EdgeInsets.zero,
     );
 
@@ -56,7 +56,22 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(top: 16, right: 16),
-            child: Image.asset('assets/iconT.png', width: 50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: FaIcon(FontAwesomeIcons.signOutAlt),
+                  onPressed: () async {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
+                    await FirebaseAuth.instance.signOut();
+                  },
+                ),
+                Image.asset('assets/iconT.png', width: 50),
+              ],
+            ),
           ),
         ),
       ),
@@ -88,10 +103,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 45, 8, 0),
                 child: TextField(
-                  controller: addSemesterController,
-                  textAlign: TextAlign.left,
-                  decoration: inputDec("Semester Name")
-                ),
+                    controller: addSemesterController,
+                    textAlign: TextAlign.left,
+                    decoration: inputDec("Semester Name")),
               ),
             ],
           ),
@@ -117,7 +131,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           reverse: true,
         ),
       ],
-   
+
       showDoneButton: false,
       //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
       showSkipButton: true,
@@ -141,7 +155,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         ),
       ),
       dotsContainerDecorator: const ShapeDecoration(
- 
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),
