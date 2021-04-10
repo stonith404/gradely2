@@ -2,11 +2,10 @@ import 'package:gradely/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 String appVersion = "";
 String appbuildNumber = "";
-
-
 
 class AppInfo extends StatefulWidget {
   @override
@@ -14,24 +13,29 @@ class AppInfo extends StatefulWidget {
 }
 
 class _AppInfoState extends State<AppInfo> {
+  getAppInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    if(kIsWeb){
 
+    }else{
+ setState(() {
+      appVersion = packageInfo.version;
+      appbuildNumber = packageInfo.buildNumber;
+      appVersion = "Version: $appVersion";
+       appbuildNumber = "Build: $appbuildNumber";
+    });
+    }
+   
+  }
 
-getAppInfo() async {
-  PackageInfo packageInfo = await PackageInfo.fromPlatform();
-setState(() {
-  appVersion = packageInfo.version;
-  appbuildNumber = packageInfo.buildNumber;
-});
-  
-}
-@override
-void initState() { 
-  super.initState();
-      getAppInfo();
-}
+  @override
+  void initState() {
+    super.initState();
+    getAppInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text("App Infos"),
@@ -53,8 +57,8 @@ void initState() {
             SizedBox(
               height: 20,
             ),
-            Text("Version: $appVersion"),
-            Text("Build: $appbuildNumber"),
+            Text(appVersion),
+            Text(appbuildNumber),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Divider(),

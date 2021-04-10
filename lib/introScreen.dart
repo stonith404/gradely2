@@ -95,7 +95,7 @@ class _IntroScreenState extends State<IntroScreen> {
           footer: Text("Mehr Infos findest du in den Einstellungen."),
           decoration: pageDecoration,
         ),
-          PageViewModel(
+        PageViewModel(
           title: "Pluspunkte oder Durchschnitt?",
           body:
               "In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.",
@@ -113,6 +113,7 @@ class _IntroScreenState extends State<IntroScreen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 45, 8, 0),
                 child: TextField(
+                    style: TextStyle(color: Colors.black),
                     controller: addSemesterController,
                     textAlign: TextAlign.left,
                     decoration: inputDec("Semester Name")),

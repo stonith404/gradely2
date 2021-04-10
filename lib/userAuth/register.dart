@@ -32,7 +32,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       FirebaseFirestore.instance
           .collection('userData')
           .doc(auth.currentUser.uid)
-          .set({'choosenSemester': 'noSemesterChoosed', 'gradesResult': 'Durchschnitt'});
+          .set({
+        'choosenSemester': 'noSemesterChoosed',
+        'gradesResult': 'Durchschnitt'
+      });
       setState(() {
         isLoading = false;
       });
@@ -50,13 +53,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           isLoading = false;
         });
       } else if (e.code == 'email-already-in-use') {
-       setState(() {
+        setState(() {
           _errorMessage = "Diese Email hat schon einen Account.";
           isLoading = false;
-        }); 
-      }
-       else if (e.code == 'invalid-email') {
-       setState(() {
+        });
+      } else if (e.code == 'invalid-email') {
+        setState(() {
           _errorMessage = "Deine Email ist nicht gültig.";
           isLoading = false;
         });
@@ -66,23 +68,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isLoading = false;
       });
     } catch (e) {
-
       setState(() {
         _errorMessage = e;
         isLoading = false;
       });
     }
-                 
   }
 
-    
-    
-void setState(fn) {
+  void setState(fn) {
     if (mounted) {
       super.setState(fn);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +107,7 @@ void setState(fn) {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                        style: TextStyle(color: Colors.black),
                         controller: _emailController,
                         textAlign: TextAlign.left,
                         decoration: inputDec("Deine Email")),
@@ -117,6 +115,7 @@ void setState(fn) {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                        style: TextStyle(color: Colors.black),
                         controller: _passwordController,
                         textAlign: TextAlign.left,
                         obscureText: true,
@@ -130,14 +129,14 @@ void setState(fn) {
                           isLoading = true;
                         });
                         createUser();
-                           Navigator.pushReplacement(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => IntroScreen()),
                         );
                       },
                       child: Text("Registrieren")),
-                      SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   Text(

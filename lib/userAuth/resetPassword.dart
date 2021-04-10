@@ -21,8 +21,8 @@ String _password = "";
 
 class _ResetPWState extends State<ResetPW> {
   sendPasswordResetEmail(String _email) async {
-    var userCredential = await FirebaseAuth.instance
-        .sendPasswordResetEmail(email: _email);
+    var userCredential =
+        await FirebaseAuth.instance.sendPasswordResetEmail(email: _email);
   }
 
   @override
@@ -51,6 +51,7 @@ class _ResetPWState extends State<ResetPW> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                        style: TextStyle(color: Colors.black),
                         controller: _emailController,
                         textAlign: TextAlign.left,
                         decoration: inputDec("Deine Email")),
@@ -62,17 +63,18 @@ class _ResetPWState extends State<ResetPW> {
 
                           isLoading = true;
                         });
-                       sendPasswordResetEmail(_email);
+                        sendPasswordResetEmail(_email);
                       },
                       child: Text("Link anfordern")),
                   Spacer(flex: 1),
                   TextButton(
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );},
-                      
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()),
+                        );
+                      },
                       child: Text("zurück")),
                   Spacer(
                     flex: 3,

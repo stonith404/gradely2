@@ -125,7 +125,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
               Icons.arrow_back,
             ),
             onPressed: () {
-             
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => MyApp()),
@@ -259,6 +258,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      style: TextStyle(color: Colors.black),
                       controller: editTestInfoName,
                       textAlign: TextAlign.left,
                       decoration: inputDec("Test Name"),
@@ -267,8 +267,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      style: TextStyle(color: Colors.black),
                       controller: editTestInfoGrade,
-                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
                       decoration: inputDec("Gewichtung"),
                     ),
@@ -276,8 +278,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      style: TextStyle(color: Colors.black),
                       controller: editTestInfoWeight,
-                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
                       decoration: inputDec("Gewichtung"),
                     ),
@@ -305,7 +309,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         );
                       },
                       child: Text("Test updaten")),
-                      SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   ElevatedButton(
                       onPressed: () {
                         FirebaseFirestore.instance
@@ -370,6 +376,7 @@ Future addTest(BuildContext context) {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                        style: TextStyle(color: Colors.black),
                         controller: addTestNameController,
                         textAlign: TextAlign.left,
                         decoration: inputDec("Name")),
@@ -377,16 +384,20 @@ Future addTest(BuildContext context) {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                        style: TextStyle(color: Colors.black),
                         controller: addTestGradeController,
-                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
                         textAlign: TextAlign.left,
                         decoration: inputDec("Note")),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                        style: TextStyle(color: Colors.black),
                         controller: addTestWeightController,
-                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
                         textAlign: TextAlign.left,
                         decoration: inputDec("Gewichtung")),
                   ),
