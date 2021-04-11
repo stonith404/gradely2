@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
+import 'package:easy_localization/easy_localization.dart';
 String appVersion = "";
 String appbuildNumber = "";
 
@@ -67,7 +67,7 @@ class _AppInfoState extends State<AppInfo> {
               flex: 1,
             ),
             Text(
-                "Gradely wurde von einem Schüler, für Schüler erstellt. Ich freue mich wenn ihr Verbesserungsvorschläge oder Ideen habt. Gerne könnt ihr mich unter elias@eliasschneider.com kontaktieren."),
+                "Gradely wurde von einem Schüler, für Schüler erstellt. Ich freue mich wenn ihr Verbesserungsvorschläge oder Ideen habt. Gerne könnt ihr mich unter elias@eliasschneider.com kontaktieren.".tr()),
             Spacer(
               flex: 8,
             ),

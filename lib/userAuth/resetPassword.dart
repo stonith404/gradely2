@@ -5,6 +5,7 @@ import '../main.dart';
 import '../shared/loading.dart';
 import '../shared/defaultWidgets.dart';
 import 'login.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ResetPW extends StatefulWidget {
   @override
@@ -29,7 +30,7 @@ class _ResetPWState extends State<ResetPW> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Passwort vergessen"),
+        title: Text("Passwort vergessen?".tr()),
       ),
       body: isLoading
           ? LoadingScreen()
@@ -54,7 +55,7 @@ class _ResetPWState extends State<ResetPW> {
                         style: TextStyle(color: Colors.black),
                         controller: _emailController,
                         textAlign: TextAlign.left,
-                        decoration: inputDec("Deine Email")),
+                        decoration: inputDec("Deine Email".tr())),
                   ),
                   ElevatedButton(
                       onPressed: () {
@@ -65,7 +66,7 @@ class _ResetPWState extends State<ResetPW> {
                         });
                         sendPasswordResetEmail(_email);
                       },
-                      child: Text("Link anfordern")),
+                      child: Text("Link anfordern".tr())),
                   Spacer(flex: 1),
                   TextButton(
                       onPressed: () {
@@ -75,7 +76,7 @@ class _ResetPWState extends State<ResetPW> {
                               builder: (context) => LoginScreen()),
                         );
                       },
-                      child: Text("zurück")),
+                      child: Text("zurück".tr())),
                   Spacer(
                     flex: 3,
                   ),

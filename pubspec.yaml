@@ -40,6 +40,7 @@ dependencies:
   introduction_screen: ^2.1.0
   font_awesome_flutter:
   package_info:
+  easy_localization: 
 
 
 dev_dependencies:
@@ -69,6 +70,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/icon/
+    - assets/translations/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

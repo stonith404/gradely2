@@ -6,6 +6,7 @@ import '../main.dart';
 import '../shared/loading.dart';
 import '../shared/defaultWidgets.dart';
 import 'resetPassword.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -33,11 +34,11 @@ class _LoginScreenState extends State<LoginScreen> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         setState(() {
-          _errorMessage = "Der Account mit dieser Email existiert nicht.";
+          _errorMessage = "This account doesn't exist.";
         });
       } else if (e.code == 'wrong-password') {
         setState(() {
-          _errorMessage = "Falsches Passwort.";
+          _errorMessage = "Wrong password.";
         });
       }
       setState(() {
@@ -56,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Einloggen"),
+        title: Text("Einloggen".tr()),
       ),
       body: isLoading
           ? LoadingScreen()
@@ -81,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(color: Colors.black),
                         controller: _emailController,
                         textAlign: TextAlign.left,
-                        decoration: inputDec("Deine Email")),
+                        decoration: inputDec("Deine Email".tr())),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -90,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: _passwordController,
                         textAlign: TextAlign.left,
                         obscureText: true,
-                        decoration: inputDec("Dein Passwort")),
+                        decoration: inputDec("Dein Passwort".tr())),
                   ),
                   ElevatedButton(
                       onPressed: () {
@@ -118,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               builder: (context) => RegisterScreen()),
                         );
                       },
-                      child: Text("Hast du noch kein Account?")),
+                      child: Text("Hast du noch kein Account?".tr())),
                   TextButton(
                       onPressed: () {
                         Navigator.pushReplacement(
@@ -126,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           MaterialPageRoute(builder: (context) => ResetPW()),
                         );
                       },
-                      child: Text("Passwort vergessen?")),
+                      child: Text("Passwort vergessen?".tr())),
                   Spacer(
                     flex: 3,
                   ),

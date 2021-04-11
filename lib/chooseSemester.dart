@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'shared/defaultWidgets.dart';
 import 'main.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 bool isChecked = false;
 String choosenSemester;
@@ -75,7 +76,7 @@ class _chooseSemesterState extends State<chooseSemester> {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => MyApp()),
+              MaterialPageRoute(builder: (context) => HomeWrapper()),
             );
           },
         ),
@@ -103,7 +104,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                       actionExtentRatio: 0.25,
                       secondaryActions: <Widget>[
                         IconSlideAction(
-                          caption: 'unbennen',
+                          caption: 'unbenennen'.tr(),
                           color: Colors.black45,
                           icon: Icons.edit,
                           onTap: () {
@@ -117,7 +118,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                           },
                         ),
                         IconSlideAction(
-                          caption: 'löschen',
+                          caption: 'löschen'.tr(),
                           color: Colors.red,
                           icon: Icons.delete,
                           onTap: () {
@@ -125,18 +126,18 @@ class _chooseSemesterState extends State<chooseSemester> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Text("Achtung!"),
+                                    title: Text("Achtung".tr()),
                                     content: Text(
-                                        "Bist du sicher, dass du ${semesterList[index]} löschen willst?"),
+                                        "${'Bist du sicher, dass du'.tr()} ${semesterList[index]} ${'löschen willst?'.tr()}"),
                                     actions: <Widget>[
                                       FlatButton(
-                                        child: Text("Nein"),
+                                        child: Text("Nein".tr()),
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
                                       ),
                                       FlatButton(
-                                        child: Text("Löschen"),
+                                        child: Text("Löschen".tr()),
                                         onPressed: () {
                                           FirebaseFirestore.instance
                                               .collection(
@@ -181,11 +182,12 @@ class _chooseSemesterState extends State<chooseSemester> {
                                 choosenSemesterName = semesterList[index];
                                 saveChoosenSemester(
                                     choosenSemester, choosenSemesterName);
-                               Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
-                  (Route<dynamic> route) => false,
-                );
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeWrapper()),
+                                  (Route<dynamic> route) => false,
+                                );
                               }),
                         ),
                       ),
@@ -211,7 +213,7 @@ class _updateSemesterState extends State<updateSemester> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Semester unbenennen"),
+        title: Text("Semester ${'unbenennen'.tr()}"),
         shape: defaultRoundedCorners(),
       ),
       body: Padding(
@@ -228,7 +230,7 @@ class _updateSemesterState extends State<updateSemester> {
               height: 15,
             ),
             ElevatedButton(
-              child: Text("unbennen"),
+              child: Text("unbenennen".tr()),
               onPressed: () {
                 updateSemesterF(renameSemesterController.text);
                 Navigator.pushAndRemoveUntil(
@@ -267,37 +269,38 @@ class _addSemesterState extends State<addSemester> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Semester hinzufügen"),
+        title: Text("Semester hinzufügen".tr()),
         shape: defaultRoundedCorners(),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextField(
-            style: TextStyle(color: Colors.black),
-            controller: addSemesterController,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Semester Name eingeben...',
-              hintStyle: TextStyle(color: Colors.grey),
+      body: Padding(
+        padding: const EdgeInsets.all(21.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+                style: TextStyle(color: Colors.black),
+                controller: addSemesterController,
+                textAlign: TextAlign.left,
+                decoration: inputDec("Semester Name")),
+            SizedBox(
+              height: 20,
             ),
-          ),
-          ElevatedButton(
-            child: Text("Hinzufügen"),
-            onPressed: () {
-              createSemester(addSemesterController.text);
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => chooseSemester()),
-                (Route<dynamic> route) => false,
-              );
+            ElevatedButton(
+              child: Text("hinzufügen".tr()),
+              onPressed: () {
+                createSemester(addSemesterController.text);
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => chooseSemester()),
+                  (Route<dynamic> route) => false,
+                );
 
-              addLessonController.text = "";
-              semesterList = [];
-            },
-          ),
-        ],
+                addLessonController.text = "";
+                semesterList = [];
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

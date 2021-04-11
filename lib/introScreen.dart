@@ -9,6 +9,8 @@ import 'data.dart';
 import 'shared/defaultWidgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'userAuth/login.dart';
+import 'package:gradely/semesterDetail.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class IntroScreen extends StatefulWidget {
   @override
@@ -62,11 +64,11 @@ class _IntroScreenState extends State<IntroScreen> {
                 IconButton(
                   icon: FaIcon(FontAwesomeIcons.signOutAlt),
                   onPressed: () async {
-                   Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                  (Route<dynamic> route) => false,
-                );
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      (Route<dynamic> route) => false,
+                    );
                     await FirebaseAuth.instance.signOut();
                   },
                 ),
@@ -79,9 +81,9 @@ class _IntroScreenState extends State<IntroScreen> {
 
       pages: [
         PageViewModel(
-          title: "Willkommen!",
+          title: "Willkommen!".tr(),
           body:
-              "Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen.",
+              "Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen.".tr(),
           image: Padding(
             padding: const EdgeInsets.only(top: 80.0),
             child: _buildImage('welcome.png'),
@@ -89,26 +91,26 @@ class _IntroScreenState extends State<IntroScreen> {
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Überall verfügbar",
+          title: "Überall verfügbar".tr(),
           body:
-              "Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf deinem Laptop, Handy oder iPad Noten hinzufügen und anschauen",
+              "Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf deinem Laptop, Handy oder iPad Noten hinzufügen und anschauen".tr(),
           image: _buildImage('sync.png'),
-          footer: Text("Mehr Infos findest du in den Einstellungen."),
+          footer: Text("Mehr Infos findest du in den Einstellungen.".tr()),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Pluspunkte oder Durchschnitt?",
+          title: "Pluspunkte oder Durchschnitt?".tr(),
           body:
-              "In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.",
+              "In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.".tr(),
           image: _buildImage('choose.png'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Fast Fertig...",
+          title: "Fast Fertig...".tr(),
           bodyWidget: Column(
             children: [
               Text(
-                "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbennen.",
+                "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbenennen.".tr(),
                 style: TextStyle(fontSize: 19),
               ),
               Padding(
@@ -117,12 +119,12 @@ class _IntroScreenState extends State<IntroScreen> {
                     style: TextStyle(color: Colors.black),
                     controller: addSemesterController,
                     textAlign: TextAlign.left,
-                    decoration: inputDec("Semester Name")),
+                    decoration: inputDec("Semester Name".tr())),
               ),
             ],
           ),
           footer: ElevatedButton(
-            child: Text("Hinzufügen"),
+            child: Text("hinzufügen".tr()),
             onPressed: () {
               createSemester(addSemesterController.text);
               Navigator.pushAndRemoveUntil(

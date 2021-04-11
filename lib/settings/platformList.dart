@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gradely/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PlatformList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Plattformen"),
+        title: Text("Plattformen".tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -16,14 +17,14 @@ class PlatformList extends StatelessWidget {
           children: [
           SizedBox(height: 50),
             Text(
-              "Die Verfügbarkeit und Synchronisation macht Gradely einzigartig.",
+              "Die Plattformen und Synchronisation macht Gradely einzigartig.".tr(),
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 15),
-            Text('Auf "gradelyapp.com/download" kannst du Gradely für all deine Gerät herunterladen'),
+            Text("Auf 'gradelyapp.com/download' kannst du Gradely für all deine Gerät herunterladen".tr()),
                  SizedBox(height: 15),
              Text(
-              "Gradely ist auf folgenden Plattformen erhältlich:",
+              "Gradely ist auf folgenden Plattformen erhältlich:".tr(),
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
                  SizedBox(height: 50),

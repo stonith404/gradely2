@@ -7,7 +7,7 @@ import '../shared/loading.dart';
 import '../shared/defaultWidgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gradely/introScreen.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -41,7 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MyApp()),
+        MaterialPageRoute(builder: (context) => HomeWrapper()),
       );
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -49,17 +49,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
       if (e.code == 'weak-password') {
         setState(() {
-          _errorMessage = "Dieses Passwort ist zu schwach.";
+          _errorMessage = "To weak password.";
           isLoading = false;
         });
       } else if (e.code == 'email-already-in-use') {
         setState(() {
-          _errorMessage = "Diese Email hat schon einen Account.";
+          _errorMessage = "This email is already in use.";
           isLoading = false;
         });
       } else if (e.code == 'invalid-email') {
         setState(() {
-          _errorMessage = "Deine Email ist nicht gültig.";
+          _errorMessage = "Invalid Email.";
           isLoading = false;
         });
       }
@@ -85,7 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Registrieren"),
+        title: Text("Registrieren".tr()),
       ),
       body: isLoading
           ? LoadingScreen()
@@ -110,7 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: TextStyle(color: Colors.black),
                         controller: _emailController,
                         textAlign: TextAlign.left,
-                        decoration: inputDec("Deine Email")),
+                        decoration: inputDec("Deine Email".tr())),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -119,7 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: _passwordController,
                         textAlign: TextAlign.left,
                         obscureText: true,
-                        decoration: inputDec("Dein Passwort")),
+                        decoration: inputDec("Dein Passwort".tr())),
                   ),
                   ElevatedButton(
                       onPressed: () {
@@ -135,7 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               builder: (context) => IntroScreen()),
                         );
                       },
-                      child: Text("Registrieren")),
+                      child: Text("Registrieren".tr())),
                   SizedBox(
                     height: 10,
                   ),
@@ -152,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               builder: (context) => LoginScreen()),
                         );
                       },
-                      child: Text("Hast du schon ein Account?")),
+                      child: Text("Hast du schon ein Account?".tr())),
                   Spacer(
                     flex: 3,
                   ),

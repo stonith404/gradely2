@@ -10,7 +10,8 @@ import 'data.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'shared/defaultWidgets.dart';
 import 'dart:async';
-
+import 'package:gradely/semesterDetail.dart';
+import 'package:easy_localization/easy_localization.dart';
 String selectedTest = "selectedTest";
 String errorMessage = "";
 double averageOfTests = 0;
@@ -127,7 +128,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
               onPressed: () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
+                  MaterialPageRoute(builder: (context) => HomeWrapper()),
                   (Route<dynamic> route) => false,
                 );
               }),
@@ -152,7 +153,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                               : Row(
                                   children: [
                                     Text(
-                                      "Gewichtung: " +
+                                      "${'Gewichtung'.tr()} :" +
                                           averageListWeight[index].toString(),
                                       style: TextStyle(color: Colors.white),
                                     ),
@@ -266,7 +267,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       style: TextStyle(color: Colors.black),
                       controller: editTestInfoName,
                       textAlign: TextAlign.left,
-                      decoration: inputDec("Test Name"),
+                      decoration: inputDec("Test Name".tr()),
                     ),
                   ),
                   Padding(
@@ -277,7 +278,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
-                      decoration: inputDec("Gewichtung"),
+                      decoration: inputDec("Note".tr()),
                     ),
                   ),
                   Padding(
@@ -288,7 +289,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
-                      decoration: inputDec("Gewichtung"),
+                      decoration: inputDec("Gewichtung".tr()),
                     ),
                   ),
                   ElevatedButton(
@@ -313,7 +314,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                           (Route<dynamic> route) => false,
                         );
                       },
-                      child: Text("Test updaten")),
+                      child: Text("Test updaten".tr())),
                   SizedBox(
                     height: 10,
                   ),
@@ -339,7 +340,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                           ),
                         );
                       },
-                      child: Text("Test löschen"))
+                      child: Text("Test löschen".tr()))
                 ],
               ),
             ),
@@ -367,7 +368,7 @@ Future addTest(BuildContext context) {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
                     child: Text(
-                      "Test hinzufügen",
+                      "Test hinzufügen".tr(),
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                     ),
@@ -384,7 +385,7 @@ Future addTest(BuildContext context) {
                         style: TextStyle(color: Colors.black),
                         controller: addTestNameController,
                         textAlign: TextAlign.left,
-                        decoration: inputDec("Name")),
+                        decoration: inputDec("Test Name".tr())),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -394,7 +395,7 @@ Future addTest(BuildContext context) {
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),
                         textAlign: TextAlign.left,
-                        decoration: inputDec("Note")),
+                        decoration: inputDec("Note".tr())),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -404,10 +405,10 @@ Future addTest(BuildContext context) {
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),
                         textAlign: TextAlign.left,
-                        decoration: inputDec("Gewichtung")),
+                        decoration: inputDec("Gewichtung".tr())),
                   ),
                   ElevatedButton(
-                    child: Text("hinzufügen"),
+                    child: Text("Test hinzufügen".tr()),
                     onPressed: () {
                       bool isNumeric() {
                         if (addTestGradeController.text == null) {

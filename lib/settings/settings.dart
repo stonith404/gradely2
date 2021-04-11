@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../userAuth/login.dart';
 import 'package:gradely/data.dart';
 import 'aboutApp.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'platformList.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -26,7 +26,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Einstellungen"),
+          title: Text("Einstellungen".tr()),
           leading: IconButton(
               icon: Icon(
                 Icons.arrow_back,
@@ -34,7 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onPressed: () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
+                  MaterialPageRoute(builder: (context) => HomeWrapper()),
                   (Route<dynamic> route) => false,
                 );
               })),
@@ -44,7 +44,7 @@ class _SettingsPageState extends State<SettingsPage> {
             child: ListView(
               children: [
                 ListTile(
-                  title: Text("Plattformen"),
+                  title: Text("Plattformen".tr()),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -65,7 +65,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Noten Resultate"),
+                      Text("Noten Resultate".tr()),
                       DropdownButton<String>(
                         hint: Text(gradesResult),
                         items: <String>[
