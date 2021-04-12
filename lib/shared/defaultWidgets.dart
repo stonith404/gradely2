@@ -47,7 +47,7 @@ InputDecoration inputDec(String _label) {
       borderRadius: BorderRadius.all(Radius.circular(15.0)),
       borderSide: BorderSide.none,
     ),
-    hintStyle: TextStyle(color: Colors.grey),
-    fillColor: Colors.grey[200],
+
+
   );
 }

@@ -321,7 +321,6 @@ class _addLessonState extends State<addLesson> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-                style: TextStyle(color: Colors.black),
                 controller: addLessonController,
                 textAlign: TextAlign.left,
                 decoration: inputDec("Fach Name".tr())),
@@ -377,7 +376,6 @@ class _updateLessonState extends State<updateLesson> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-                style: TextStyle(color: Colors.black),
                 controller: renameTestWeightController,
                 textAlign: TextAlign.left,
                 decoration: inputDec("Fach Name".tr())),

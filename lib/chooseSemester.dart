@@ -222,7 +222,6 @@ class _updateSemesterState extends State<updateSemester> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-                style: TextStyle(color: Colors.black),
                 controller: renameSemesterController,
                 textAlign: TextAlign.left,
                 decoration: inputDec("Semester Name")),
@@ -278,7 +277,6 @@ class _addSemesterState extends State<addSemester> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-                style: TextStyle(color: Colors.black),
                 controller: addSemesterController,
                 textAlign: TextAlign.left,
                 decoration: inputDec("Semester Name")),

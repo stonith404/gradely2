@@ -12,6 +12,7 @@ import 'shared/defaultWidgets.dart';
 import 'dart:async';
 import 'package:gradely/semesterDetail.dart';
 import 'package:easy_localization/easy_localization.dart';
+
 String selectedTest = "selectedTest";
 String errorMessage = "";
 double averageOfTests = 0;
@@ -44,12 +45,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
     var brightness = MediaQuery.of(context).platformBrightness;
     if (brightness == Brightness.dark) {
       setState(() {
-        bwColor = Colors.black;
+        bwColor = Colors.grey[850];
         wbColor = Colors.white;
       });
     } else {
       bwColor = Colors.white;
-      wbColor = Colors.black;
+      wbColor = Colors.grey[850];
     }
   }
 
@@ -264,7 +265,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      style: TextStyle(color: Colors.black),
                       controller: editTestInfoName,
                       textAlign: TextAlign.left,
                       decoration: inputDec("Test Name".tr()),
@@ -273,7 +273,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      style: TextStyle(color: Colors.black),
                       controller: editTestInfoGrade,
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
@@ -284,7 +283,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      style: TextStyle(color: Colors.black),
                       controller: editTestInfoWeight,
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
@@ -382,7 +380,6 @@ Future addTest(BuildContext context) {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                        style: TextStyle(color: Colors.black),
                         controller: addTestNameController,
                         textAlign: TextAlign.left,
                         decoration: inputDec("Test Name".tr())),
@@ -390,7 +387,6 @@ Future addTest(BuildContext context) {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                        style: TextStyle(color: Colors.black),
                         controller: addTestGradeController,
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),
@@ -400,7 +396,6 @@ Future addTest(BuildContext context) {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                        style: TextStyle(color: Colors.black),
                         controller: addTestWeightController,
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),

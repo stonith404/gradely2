@@ -83,7 +83,8 @@ class _IntroScreenState extends State<IntroScreen> {
         PageViewModel(
           title: "Willkommen!".tr(),
           body:
-              "Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen.".tr(),
+              "Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen."
+                  .tr(),
           image: Padding(
             padding: const EdgeInsets.only(top: 80.0),
             child: _buildImage('welcome.png'),
@@ -93,7 +94,8 @@ class _IntroScreenState extends State<IntroScreen> {
         PageViewModel(
           title: "Überall verfügbar".tr(),
           body:
-              "Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf deinem Laptop, Handy oder iPad Noten hinzufügen und anschauen".tr(),
+              "Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf deinem Laptop, Handy oder iPad Noten hinzufügen und anschauen"
+                  .tr(),
           image: _buildImage('sync.png'),
           footer: Text("Mehr Infos findest du in den Einstellungen.".tr()),
           decoration: pageDecoration,
@@ -101,7 +103,8 @@ class _IntroScreenState extends State<IntroScreen> {
         PageViewModel(
           title: "Pluspunkte oder Durchschnitt?".tr(),
           body:
-              "In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.".tr(),
+              "In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll."
+                  .tr(),
           image: _buildImage('choose.png'),
           decoration: pageDecoration,
         ),
@@ -110,13 +113,13 @@ class _IntroScreenState extends State<IntroScreen> {
           bodyWidget: Column(
             children: [
               Text(
-                "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbenennen.".tr(),
+                "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbenennen."
+                    .tr(),
                 style: TextStyle(fontSize: 19),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 45, 8, 0),
                 child: TextField(
-                    style: TextStyle(color: Colors.black),
                     controller: addSemesterController,
                     textAlign: TextAlign.left,
                     decoration: inputDec("Semester Name".tr())),

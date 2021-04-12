@@ -33,11 +33,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp();
+  
   runApp(EasyLocalization(
     supportedLocales: [Locale('de'), Locale('en')],
     useOnlyLangCode: true,
     path: 'assets/translations',
-    fallbackLocale: Locale('de'),
+    fallbackLocale: Locale('en'),
     saveLocale: true,
     child: MaterialWrapper(),
   ));
@@ -57,23 +58,27 @@ class MaterialWrapper extends StatelessWidget {
       locale: context.locale,
       home: HomeWrapper(),
       theme: ThemeData(
+       
         fontFamily: 'Nunito',
         brightness: Brightness.light,
         primaryColor: defaultBlue,
+        inputDecorationTheme: InputDecorationTheme(fillColor: Colors.grey[200], filled: true),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(defaultBlue)),
         ),
       ),
       darkTheme: ThemeData(
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(defaultBlue)),
+        ),
+        inputDecorationTheme: InputDecorationTheme(fillColor: Colors.grey[800], filled: true, ),
           brightness: Brightness.dark,
           primaryColor: defaultBlue,
-          appBarTheme:
-              AppBarTheme(color: Colors.black87, foregroundColor: Colors.white),
-          textTheme: TextTheme(
-            subhead: TextStyle(color: Colors.white),
-            title: TextStyle(color: Colors.white),
-          )),
+   floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: defaultBlue),
+             
+         ),
     );
   }
 }
@@ -86,8 +91,7 @@ class HomeWrapper extends StatefulWidget {
 class _State extends State<HomeWrapper> {
   void initState() {
     super.initState();
-    timer = Timer.periodic(
-        Duration(seconds: 1), (Timer t) => darkModeColorChanger());
+  
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
         setState(() {
@@ -101,18 +105,7 @@ class _State extends State<HomeWrapper> {
     });
   }
 
-  darkModeColorChanger() {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    if (brightness == Brightness.dark) {
-      setState(() {
-        bwColor = Colors.black;
-        wbColor = Colors.white;
-      });
-    } else {
-      bwColor = Colors.white;
-      wbColor = Colors.black;
-    }
-  }
+
 
   void setState(fn) {
     if (mounted) {

@@ -8,6 +8,7 @@ import '../shared/defaultWidgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gradely/introScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
+
 class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -107,7 +108,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                        style: TextStyle(color: Colors.black),
                         controller: _emailController,
                         textAlign: TextAlign.left,
                         decoration: inputDec("Deine Email".tr())),
@@ -115,7 +115,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                        style: TextStyle(color: Colors.black),
                         controller: _passwordController,
                         textAlign: TextAlign.left,
                         obscureText: true,

@@ -52,7 +52,6 @@ class _ResetPWState extends State<ResetPW> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                        style: TextStyle(color: Colors.black),
                         controller: _emailController,
                         textAlign: TextAlign.left,
                         decoration: inputDec("Deine Email".tr())),
