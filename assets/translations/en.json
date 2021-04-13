@@ -12,8 +12,8 @@
     "Test Name":"Exam Name",
     "Gradely wurde von einem Schüler, für Schüler erstellt. Ich freue mich wenn ihr Verbesserungsvorschläge oder Ideen habt. Gerne könnt ihr mich unter elias@eliasschneider.com kontaktieren.": "Gradely was created by a student for students. I am happy if you have suggestions for improvement or when you have ideas. You are welcome to contact me at elias@eliasschneider.com.",
     "Die Plattformen und Synchronisation macht Gradely einzigartig.": "The platforms and synchronization make Gradely unique.",
-    "Auf 'gradelyapp.com/download' kannst du Gradely für all deine Gerät herunterladen": "On 'gradelyapp.com/download' can you download Gradely for all your devices.",
-    "Gradely ist auf folgenden Plattformen erhältlich:" : "Gradely is available on the following platforms:",
+    "Auf 'gradelyapp.com' kannst du Gradely für all deine Gerät herunterladen.": "On 'gradelyapp.com' can you download Gradely for all your devices.",
+
     "Achtung" : "Attention",
     "löschen" : "delete",
     "Nein" : "No",
@@ -43,5 +43,6 @@
     "Pluspunkte oder Durchschnitt?" : "Pluspoints or average?",
     "In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.": "In the settings you can manage, if your grades should display as an average or pluspoints.",
     "Fast Fertig...": "Almost finished...",
-    "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbenennen." : "Add a semester. No worries, you can delete or edit this semester later."
+    "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbenennen." : "Add a semester. No worries, you can delete or edit this semester later.",
+    "pl3": "Download Gradely for your other devices."
 }

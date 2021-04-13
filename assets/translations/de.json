@@ -12,9 +12,9 @@
     "Test Name":"Test Name",
     "Gradely wurde von einem Schüler, für Schüler erstellt. Ich freue mich wenn ihr Verbesserungsvorschläge oder Ideen habt. Gerne könnt ihr mich unter elias@eliasschneider.com kontaktieren.": "Gradely wurde von einem Schüler, für Schüler erstellt. Ich freue mich wenn ihr Verbesserungsvorschläge oder Ideen habt. Gerne könnt ihr mich unter elias@eliasschneider.com kontaktieren.",
     "Die Plattformen und Synchronisation macht Gradely einzigartig." : "Die Verfügbarkeit und Synchronisation macht Gradely einzigartig.",
-    "Auf 'gradelyapp.com/download' kannst du Gradely für all deine Gerät herunterladen": "Auf 'gradelyapp.com/download' kannst du Gradely für all deine Gerät herunterladen",
-    "Gradely ist auf folgenden Plattformen erhältlich:":      "Gradely ist auf folgenden Plattformen erhältlich:",
-    "Achtung" : "Attention",
+    "Auf 'gradelyapp.com' kannst du Gradely für all deine Gerät herunterladen.": "Auf 'gradelyapp.com' kannst du Gradely für all deine Gerät herunterladen.",
+
+    "Achtung" : "Achtung",
     "löschen" : "löschen",
     "Nein" : "Nein",
     "zurück" : "zurück",
@@ -43,5 +43,6 @@
     "Pluspunkte oder Durchschnitt?" : "Pluspunkte oder Durchschnitt?",
     "In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.":"In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.",
     "Fast Fertig...":"Fast Fertig...",
-    "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbenennen.": "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbenennen."
+    "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbenennen.": "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbenennen.",
+    "pl3" : "Gradely für deine anderen Geräte herunterladen"
    }

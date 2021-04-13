@@ -16,7 +16,7 @@ BoxDecoration boxDec() {
     gradient: LinearGradient(
         colors: [
           const Color(0xFF6C63FF),
-          const Color(0xFF00CCFF),
+          const Color(0xFF4940f5),
         ],
         begin: const FractionalOffset(0.0, 0.0),
         end: const FractionalOffset(1.0, 0.0),
@@ -26,8 +26,8 @@ BoxDecoration boxDec() {
       BoxShadow(
         color: Colors.grey.withOpacity(0.5),
 
-        spreadRadius: 5,
-        blurRadius: 7,
+        spreadRadius: 1,
+        blurRadius: 2,
         offset: Offset(0, 3), // changes position of shadow
       ),
     ],

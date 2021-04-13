@@ -15,6 +15,8 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'main.dart';
 
+List semesterAveragePP = [];
+
 class HomeSite extends StatefulWidget {
   const HomeSite({
     Key key,
@@ -36,6 +38,8 @@ class _HomeSiteState extends State<HomeSite> {
     courseListID = [];
     allAverageList = [];
     allAverageListPP = [];
+    semesterAveragePP = [];
+
     setState(() {
       documents.forEach((data) => courseList.add(data["name"]));
       documents.forEach((data) => courseListID.add(data.id));
@@ -43,9 +47,26 @@ class _HomeSiteState extends State<HomeSite> {
 
       documents.forEach((data) {
         getPluspointsallAverageList(data["average"]);
-
-        allAverageListPP.add(plusPointsallAverageList.toString());
+if(data["average"].isNaN){
+   allAverageListPP.add(0.toString());
+        semesterAveragePP.add(0);
+}else{
+   allAverageListPP.add(plusPointsallAverageList.toString());
+        semesterAveragePP.add(plusPointsallAverageList);
+}
+       
       });
+    });
+
+    //getSemesteraverage
+    num _pp = 0;
+    print(semesterAveragePP);
+    print(allAverageListPP);
+    for (num e in semesterAveragePP) {
+      _pp += e;
+    }
+    setState(() {
+      averageOfSemesterPP = _pp;
     });
 
     //get average of all
@@ -58,15 +79,10 @@ class _HomeSiteState extends State<HomeSite> {
         _sum += e;
         _anzahl = _anzahl + 1;
         setState(() {
-          averageOfLessons = _sum / _anzahl;
+          averageOfSemester = _sum / _anzahl;
         });
       }
     }
-
-    getPluspointsallAverageList(averageOfLessons);
-    setState(() {
-      averageOfLessonsPP = plusPointsallAverageList;
-    });
   }
 
   @override
@@ -126,25 +142,25 @@ class _HomeSiteState extends State<HomeSite> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 15.0),
                                   child: (() {
-                                    if (gradesResult == "Notendurchschnitt") {
-                                      if (averageOfLessons.isNaN) {
+                                    if (gradesResult == "Durchschnitt") {
+                                      if (averageOfSemester.isNaN) {
                                         return Text(
                                             "${'Notendurchschnitt'.tr()}: -",
                                             style:
                                                 TextStyle(color: Colors.white));
                                       }
                                       return Text(
-                                          "${'Notendurchschnitt'.tr()}: ${averageOfLessons.toStringAsFixed(2)}",
+                                          "${'Notendurchschnitt'.tr()}: ${averageOfSemester.toStringAsFixed(2)}",
                                           style:
                                               TextStyle(color: Colors.white));
-                                    } else if (averageOfLessons.isNaN) {
+                                    } else if (averageOfSemester.isNaN) {
                                       return Text(
-                                          "${'Pluspunkte'.tr()}: ${averageOfLessonsPP.toStringAsFixed(2)} / ${'Notendurchschnitt'.tr()}: -",
+                                          "${'Pluspunkte'.tr()}: ${averageOfSemesterPP.toStringAsFixed(2)} / ${'Notendurchschnitt'.tr()}: -",
                                           style:
                                               TextStyle(color: Colors.white));
                                     } else {
                                       return Text(
-                                          "${'Pluspunkte'.tr()}: ${averageOfLessonsPP.toStringAsFixed(2)} / ${'Notendurchschnitt'.tr()}: ${averageOfLessons.toStringAsFixed(2)}",
+                                          "${'Pluspunkte'.tr()}: ${averageOfSemesterPP.toStringAsFixed(2)} / ${'Notendurchschnitt'.tr()}: ${averageOfSemester.toStringAsFixed(2)}",
                                           style:
                                               TextStyle(color: Colors.white));
                                     }

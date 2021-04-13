@@ -23,17 +23,17 @@ var allAverageList = [];
 var allAverageListPP = [];
 String selectedLesson = "";
 String selectedLessonName;
-double averageOfLessons = 0 / -0;
-num averageOfLessonsPP = 0 / -0;
+double averageOfSemester = 0 / -0;
+num averageOfSemesterPP = 0 / -0;
 String choosenSemesterName = "noSemesterChoosed";
-var wbColor = Colors.white;
-var bwColor = Colors.black;
+var wbColor;
+var bwColor;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp();
-  
+
   runApp(EasyLocalization(
     supportedLocales: [Locale('de'), Locale('en')],
     useOnlyLangCode: true,
@@ -58,11 +58,11 @@ class MaterialWrapper extends StatelessWidget {
       locale: context.locale,
       home: HomeWrapper(),
       theme: ThemeData(
-       
         fontFamily: 'Nunito',
         brightness: Brightness.light,
         primaryColor: defaultBlue,
-        inputDecorationTheme: InputDecorationTheme(fillColor: Colors.grey[200], filled: true),
+        inputDecorationTheme:
+            InputDecorationTheme(fillColor: Colors.grey[200], filled: true),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(defaultBlue)),
@@ -73,12 +73,15 @@ class MaterialWrapper extends StatelessWidget {
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(defaultBlue)),
         ),
-        inputDecorationTheme: InputDecorationTheme(fillColor: Colors.grey[800], filled: true, ),
-          brightness: Brightness.dark,
-          primaryColor: defaultBlue,
-   floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: defaultBlue),
-             
-         ),
+        inputDecorationTheme: InputDecorationTheme(
+          fillColor: Colors.grey[800],
+          filled: true,
+        ),
+        brightness: Brightness.dark,
+        primaryColor: defaultBlue,
+        floatingActionButtonTheme:
+            FloatingActionButtonThemeData(backgroundColor: defaultBlue),
+      ),
     );
   }
 }
@@ -91,7 +94,7 @@ class HomeWrapper extends StatefulWidget {
 class _State extends State<HomeWrapper> {
   void initState() {
     super.initState();
-  
+
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
         setState(() {
@@ -104,8 +107,6 @@ class _State extends State<HomeWrapper> {
       }
     });
   }
-
-
 
   void setState(fn) {
     if (mounted) {

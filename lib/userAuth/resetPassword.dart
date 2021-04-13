@@ -28,60 +28,66 @@ class _ResetPWState extends State<ResetPW> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Passwort vergessen?".tr()),
-      ),
-      body: isLoading
-          ? LoadingScreen()
-          : Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Spacer(
-                    flex: 2,
-                  ),
-                  Image.asset(
-                    'assets/iconT.png',
-                    height: 170,
-                  ),
-                  Spacer(
-                    flex: 1,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                        controller: _emailController,
-                        textAlign: TextAlign.left,
-                        decoration: inputDec("Deine Email".tr())),
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _email = _emailController.text;
+    return GestureDetector(
+        onTap: () {
+      FocusScope.of(context).requestFocus(new FocusNode());
+        },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Passwort vergessen?".tr()),
+        ),
+        body: isLoading
+            ? LoadingScreen()
+            : Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Spacer(
+                      flex: 2,
+                    ),
+                    Image.asset(
+                      'assets/iconT.png',
+                      height: 170,
+                    ),
+                    Spacer(
+                      flex: 1,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                                             keyboardType: TextInputType.emailAddress,
+                          controller: _emailController,
+                          textAlign: TextAlign.left,
+                          decoration: inputDec("Deine Email".tr())),
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _email = _emailController.text;
 
-                          isLoading = true;
-                        });
-                        sendPasswordResetEmail(_email);
-                      },
-                      child: Text("Link anfordern".tr())),
-                  Spacer(flex: 1),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()),
-                        );
-                      },
-                      child: Text("zurück".tr())),
-                  Spacer(
-                    flex: 3,
-                  ),
-                ],
+                            isLoading = true;
+                          });
+                          sendPasswordResetEmail(_email);
+                        },
+                        child: Text("Link anfordern".tr())),
+                    Spacer(flex: 1),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()),
+                          );
+                        },
+                        child: Text("zurück".tr())),
+                    Spacer(
+                      flex: 3,
+                    ),
+                  ],
+                ),
               ),
-            ),
+      ),
     );
   }
 }

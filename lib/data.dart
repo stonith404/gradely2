@@ -8,7 +8,10 @@ import 'userAuth/login.dart';
 import 'LessonsDetail.dart';
 import 'chooseSemester.dart';
 import 'dart:async';
+import 'package:url_launcher/url_launcher.dart';
+
 num plusPoints = 0;
+
 bool isMaintanceEnabled = false;
 String gradesResult = "Pluspunkte";
 num plusPointsallAverageList = 0;
@@ -38,6 +41,9 @@ getPluspoints(num value) {
   } else if (value >= 1) {
     plusPoints = -6;
   }
+  else if (value == "NaN") {
+    plusPoints = 0;
+  }
 }
 
 getPluspointsallAverageList(num value) {
@@ -63,8 +69,13 @@ getPluspointsallAverageList(num value) {
     plusPointsallAverageList = -5;
   } else if (value >= 1) {
     plusPointsallAverageList = -6;
+  }else if (value == "NaN") {
+    plusPoints = 0;
   }
 }
+
+
+
 
 TextEditingController addLessonController = new TextEditingController();
 TextEditingController addSemesterController = new TextEditingController();
@@ -116,7 +127,6 @@ getChoosenSemesterName() async {
   choosenSemesterName = _db.data()['choosenSemesterName'];
 }
 
-
 getgradesResult() async {
   DocumentSnapshot _db = await FirebaseFirestore.instance
       .collection('userData')
@@ -126,3 +136,5 @@ getgradesResult() async {
   gradesResult = _db.data()['gradesResult'];
 }
 
+void launchURL(_url) async =>
+    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';

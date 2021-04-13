@@ -176,7 +176,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                             style: TextStyle(color: Colors.white),
                           ),
                           trailing: IconButton(
-                              icon: Icon(Icons.arrow_forward),
+                              icon: Icon(Icons.arrow_forward, color: Colors.white,),
                               onPressed: () {
                                 choosenSemester = semesterListID[index];
                                 choosenSemesterName = semesterList[index];

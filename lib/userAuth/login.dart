@@ -31,6 +31,11 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isLoading = false;
       });
+       Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeWrapper()),
+                            );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         setState(() {
@@ -55,83 +60,90 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Einloggen".tr()),
-      ),
-      body: isLoading
-          ? LoadingScreen()
-          : Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Spacer(
-                    flex: 2,
-                  ),
-                  Image.asset(
-                    'assets/iconT.png',
-                    height: 170,
-                  ),
-                  Spacer(
-                    flex: 1,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                        controller: _emailController,
-                        textAlign: TextAlign.left,
-                        decoration: inputDec("Deine Email".tr())),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                        controller: _passwordController,
-                        textAlign: TextAlign.left,
-                        obscureText: true,
-                        decoration: inputDec("Dein Passwort".tr())),
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _email = _emailController.text;
-                          _password = _passwordController.text;
-                          isLoading = true;
-                        });
-                        signInUser();
-                      },
-                      child: Text("Einloggen")),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    _errorMessage,
-                    style: TextStyle(color: Colors.red),
-                  ),
-                  Spacer(flex: 1),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterScreen()),
-                        );
-                      },
-                      child: Text("Hast du noch kein Account?".tr())),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => ResetPW()),
-                        );
-                      },
-                      child: Text("Passwort vergessen?".tr())),
-                  Spacer(
-                    flex: 3,
-                  ),
-                ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Einloggen".tr()),
+        ),
+        body: isLoading
+            ? LoadingScreen()
+            : Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Spacer(
+                      flex: 2,
+                    ),
+                    Image.asset(
+                      'assets/iconT.png',
+                      height: 170,
+                    ),
+                    Spacer(
+                      flex: 1,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _emailController,
+                          textAlign: TextAlign.left,
+                          decoration: inputDec("Deine Email".tr())),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                          controller: _passwordController,
+                          textAlign: TextAlign.left,
+                          obscureText: true,
+                          decoration: inputDec("Dein Passwort".tr())),
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _email = _emailController.text;
+                            _password = _passwordController.text;
+                            isLoading = true;
+                          });
+                          signInUser();
+                         
+                        },
+                        child: Text("Einloggen")),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      _errorMessage,
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    Spacer(flex: 1),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegisterScreen()),
+                          );
+                        },
+                        child: Text("Hast du noch kein Account?".tr())),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => ResetPW()),
+                          );
+                        },
+                        child: Text("Passwort vergessen?".tr())),
+                    Spacer(
+                      flex: 3,
+                    ),
+                  ],
+                ),
               ),
-            ),
+      ),
     );
   }
 }
