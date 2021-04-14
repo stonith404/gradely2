@@ -82,6 +82,7 @@ class _chooseSemesterState extends State<chooseSemester> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: defaultBlue,
           child: Icon(Icons.add),
           onPressed: () {
             Navigator.push(
@@ -173,10 +174,10 @@ class _chooseSemesterState extends State<chooseSemester> {
                         child: ListTile(
                           title: Text(
                             semesterList[index],
-                            style: TextStyle(color: Colors.white),
+                           
                           ),
                           trailing: IconButton(
-                              icon: Icon(Icons.arrow_forward, color: Colors.white,),
+                              icon: Icon(Icons.arrow_forward),
                               onPressed: () {
                                 choosenSemester = semesterListID[index];
                                 choosenSemesterName = semesterList[index];

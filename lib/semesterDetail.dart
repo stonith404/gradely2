@@ -47,14 +47,13 @@ class _HomeSiteState extends State<HomeSite> {
 
       documents.forEach((data) {
         getPluspointsallAverageList(data["average"]);
-if(data["average"].isNaN){
-   allAverageListPP.add(0.toString());
-        semesterAveragePP.add(0);
-}else{
-   allAverageListPP.add(plusPointsallAverageList.toString());
-        semesterAveragePP.add(plusPointsallAverageList);
-}
-       
+        if (data["average"].isNaN) {
+          allAverageListPP.add(0.toString());
+          semesterAveragePP.add(0);
+        } else {
+          allAverageListPP.add(plusPointsallAverageList.toString());
+          semesterAveragePP.add(plusPointsallAverageList);
+        }
       });
     });
 
@@ -85,12 +84,26 @@ if(data["average"].isNaN){
     }
   }
 
+  darkModeColorChanger() {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    if (brightness == Brightness.dark) {
+      setState(() {
+        bwColor = Colors.grey[850];
+        wbColor = Colors.white;
+      });
+    } else {
+      bwColor = Colors.white;
+      wbColor = Colors.grey[850];
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     getLessons();
     getChoosenSemester();
     getgradesResult();
+
   }
 
   void setState(fn) {
@@ -102,10 +115,11 @@ if(data["average"].isNaN){
   @override
   Widget build(BuildContext context) {
     getLessons();
-
+    darkModeColorChanger();
     return Scaffold(
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
+            backgroundColor: defaultBlue,
             onPressed: () {
               Navigator.push(
                 context,
@@ -203,112 +217,118 @@ if(data["average"].isNaN){
           body: ListView.builder(
             itemCount: courseListID.length,
             itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
-                child: Slidable(
-                  actionPane: SlidableDrawerActionPane(),
-                  actionExtentRatio: 0.25,
-                  secondaryActions: <Widget>[
-                    IconSlideAction(
-                      caption: 'unbenennen'.tr(),
-                      color: Colors.black45,
-                      icon: Icons.edit,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => updateLesson()),
-                        );
-                        selectedLessonName = courseList[index];
-                        selectedLesson = courseListID[index];
-                      },
-                    ),
-                    IconSlideAction(
-                      caption: 'löschen'.tr(),
-                      color: Colors.red,
-                      icon: Icons.delete,
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text("Achtung".tr()),
-                                content: Text(
-                                    "${'Bist du sicher, dass du'.tr()} ${courseList[index]} ${'löschen willst?'.tr()}"),
-                                actions: <Widget>[
-                                  FlatButton(
-                                    child: Text("Nein".tr()),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  FlatButton(
-                                    child: Text("Löschen".tr()),
-                                    onPressed: () {
-                                      FirebaseFirestore.instance
-                                          .collection(
-                                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
-                                          .doc(courseListID[index])
-                                          .set({});
-                                      FirebaseFirestore.instance
-                                          .collection(
-                                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
-                                          .doc(courseListID[index])
-                                          .delete();
+              return Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
+                    child: Slidable(
+                      actionPane: SlidableDrawerActionPane(),
+                      actionExtentRatio: 0.25,
+                      secondaryActions: <Widget>[
+                        IconSlideAction(
+                          caption: 'unbenennen'.tr(),
+                          color: Colors.black45,
+                          icon: Icons.edit,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => updateLesson()),
+                            );
+                            selectedLessonName = courseList[index];
+                            selectedLesson = courseListID[index];
+                          },
+                        ),
+                        IconSlideAction(
+                          caption: 'löschen'.tr(),
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Achtung".tr()),
+                                    content: Text(
+                                        "${'Bist du sicher, dass du'.tr()} ${courseList[index]} ${'löschen willst?'.tr()}"),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("Nein".tr()),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text("Löschen".tr()),
+                                        onPressed: () {
+                                          FirebaseFirestore.instance
+                                              .collection(
+                                                  'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+                                              .doc(courseListID[index])
+                                              .set({});
+                                          FirebaseFirestore.instance
+                                              .collection(
+                                                  'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+                                              .doc(courseListID[index])
+                                              .delete();
 
-                                      Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                HomeWrapper()),
-                                        (Route<dynamic> route) => false,
-                                      );
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomeWrapper()),
+                                            (Route<dynamic> route) => false,
+                                          );
 
-                                      selectedLesson = courseListID[index];
-                                    },
-                                  )
-                                ],
+                                          selectedLesson = courseListID[index];
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          },
+                        ),
+                      ],
+                      child: Container(
+                        decoration: boxDec(),
+                        child: ListTile(
+                          title: Text(
+                            courseList[index],
+                          ),
+                          trailing: ((() {
+                            if (allAverageList[index].isNaN) {
+                              return Text(
+                                "-",
                               );
+                            } else if (gradesResult == "Pluspunkte") {
+                              return Text(
+                                allAverageListPP[index],
+                              );
+                            } else {
+                              return Text(
+                                allAverageList[index].toStringAsFixed(2),
+                              );
+                            }
+                          })()),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LessonsDetail()),
+                            );
+
+                            setState(() {
+                              selectedLesson = courseListID[index];
+                              selectedLessonName = courseList[index];
                             });
-                      },
-                    ),
-                  ],
-                  child: Container(
-                    decoration: boxDec(),
-                    child: ListTile(
-                      title: Text(courseList[index],
-                          style: TextStyle(color: Colors.white)),
-                      trailing: ((() {
-                        if (allAverageList[index].isNaN) {
-                          return Text("-",
-                              style: TextStyle(color: Colors.white));
-                        } else if (gradesResult == "Pluspunkte") {
-                          return Text(allAverageListPP[index],
-                              style: TextStyle(color: Colors.white));
-                        } else {
-                          return Text(allAverageList[index].toStringAsFixed(2),
-                              style: TextStyle(
-                                color: Colors.white,
-                              ));
-                        }
-                      })()),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LessonsDetail()),
-                        );
 
-                        setState(() {
-                          selectedLesson = courseListID[index];
-                          selectedLessonName = courseList[index];
-                        });
-
-                        getTestDetails();
-                      },
+                            getTestDetails();
+                          },
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               );
             },
           ),

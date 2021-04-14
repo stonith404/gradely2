@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'main.dart';
 import 'package:flutter/material.dart';
@@ -104,10 +105,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
     getChoosenSemester();
     _getTests();
     getTestAvarage();
-
-    timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
-      darkModeColorChanger();
-    });
   }
 
   void setState(fn) {
@@ -119,7 +116,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
   @override
   Widget build(BuildContext context) {
     getPluspoints(averageOfTests);
-
+    darkModeColorChanger();
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -143,27 +140,28 @@ class _LessonsDetailState extends State<LessonsDetail> {
                 itemCount: testList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
-                    padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
+                    padding: EdgeInsets.fromLTRB(8, 6, 8, 0),
                     child: Container(
                       decoration: boxDec(),
                       child: ListTile(
                           title: Text(testList[index],
-                              style: TextStyle(color: Colors.white)),
+                          ),
                           subtitle: averageList.isEmpty
                               ? Text("")
                               : Row(
                                   children: [
-                                    Text(
-                                      "${'Gewichtung'.tr()} :" +
+                                  Icon(Icons.calculate_outlined, size: 20,),
+                                    Text(" "+
+                                     
                                           averageListWeight[index].toString(),
-                                      style: TextStyle(color: Colors.white),
+                                     
                                     ),
                                   ],
                                 ),
                           trailing: Text(
                               (averageList[index] / averageListWeight[index])
                                   .toString(),
-                              style: TextStyle(color: Colors.white)),
+                           ),
                           onTap: () async {
                             _getTests();
 

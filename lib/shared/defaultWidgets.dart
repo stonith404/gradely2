@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradely/main.dart';
-import 'package:gradely/main.dart';
+
 
 RoundedRectangleBorder defaultRoundedCorners() {
   return RoundedRectangleBorder(
@@ -11,26 +11,12 @@ RoundedRectangleBorder defaultRoundedCorners() {
 }
 
 BoxDecoration boxDec() {
-  return BoxDecoration(
-    borderRadius: BorderRadius.all(Radius.circular(10)),
-    gradient: LinearGradient(
-        colors: [
-          const Color(0xFF6C63FF),
-          const Color(0xFF4940f5),
-        ],
-        begin: const FractionalOffset(0.0, 0.0),
-        end: const FractionalOffset(1.0, 0.0),
-        stops: [0.0, 1.0],
-        tileMode: TileMode.clamp),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.grey.withOpacity(0.5),
 
-        spreadRadius: 1,
-        blurRadius: 2,
-        offset: Offset(0, 3), // changes position of shadow
-      ),
-    ],
+  return BoxDecoration(
+ color: bwColor,
+    borderRadius: BorderRadius.all(Radius.circular(10)),
+
+
   );
 }
 

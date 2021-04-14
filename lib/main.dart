@@ -60,7 +60,9 @@ class MaterialWrapper extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Nunito',
         brightness: Brightness.light,
+
         primaryColor: defaultBlue,
+             scaffoldBackgroundColor:  Colors.grey[200],
         inputDecorationTheme:
             InputDecorationTheme(fillColor: Colors.grey[200], filled: true),
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -69,6 +71,8 @@ class MaterialWrapper extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData(
+      
+        scaffoldBackgroundColor:  Colors.grey[900],
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(defaultBlue)),
