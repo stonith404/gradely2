@@ -17,27 +17,23 @@ class PlatformList extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+             SizedBox(height: 50),
+           Image.asset("assets/images/sync.png", height: 200,),
             SizedBox(height: 50),
             Text(
-              "Die Plattformen und Synchronisation macht Gradely einzigartig."
+              "pl1"
                   .tr(),
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 15),
+            
             Text(
                 "Auf 'gradelyapp.com' kannst du Gradely für all deine Gerät herunterladen."
                     .tr()), 
             SizedBox(height: 15),
             SizedBox(height: 50),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                FaIcon(FontAwesomeIcons.appStoreIos),
-                FaIcon(FontAwesomeIcons.android),
-                FaIcon(FontAwesomeIcons.appStoreIos),
-                FaIcon(FontAwesomeIcons.chrome),
-              ],
-            ),
+             
+            
             SizedBox(height: 50),
             ElevatedButton(
                 onPressed: () {

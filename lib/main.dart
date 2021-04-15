@@ -62,9 +62,9 @@ class MaterialWrapper extends StatelessWidget {
         brightness: Brightness.light,
 
         primaryColor: defaultBlue,
-             scaffoldBackgroundColor:  Colors.grey[200],
-        inputDecorationTheme:
-            InputDecorationTheme(fillColor: Colors.grey[200], filled: true),
+             scaffoldBackgroundColor:  Colors.grey[300],
+       
+       
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(defaultBlue)),
@@ -77,10 +77,7 @@ class MaterialWrapper extends StatelessWidget {
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(defaultBlue)),
         ),
-        inputDecorationTheme: InputDecorationTheme(
-          fillColor: Colors.grey[800],
-          filled: true,
-        ),
+       
         brightness: Brightness.dark,
         primaryColor: defaultBlue,
         floatingActionButtonTheme:
