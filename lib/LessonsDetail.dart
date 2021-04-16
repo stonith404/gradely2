@@ -18,6 +18,7 @@ String selectedTest = "selectedTest";
 String errorMessage = "";
 double averageOfTests = 0;
 List testListID = [];
+var defaultBGColor;
 TextEditingController editTestInfoName = new TextEditingController();
 TextEditingController editTestInfoGrade = new TextEditingController();
 TextEditingController editTestInfoWeight = new TextEditingController();
@@ -48,10 +49,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
       setState(() {
         bwColor = Colors.grey[850];
         wbColor = Colors.white;
+        defaultBGColor = Colors.grey[900];
       });
     } else {
       bwColor = Colors.white;
       wbColor = Colors.grey[850];
+      defaultBGColor = Colors.grey[300];
     }
   }
 
@@ -144,24 +147,26 @@ class _LessonsDetailState extends State<LessonsDetail> {
                     child: Container(
                       decoration: boxDec(),
                       child: ListTile(
-                          title: Text(testList[index],
+                          title: Text(
+                            testList[index],
                           ),
                           subtitle: averageList.isEmpty
                               ? Text("")
                               : Row(
                                   children: [
-                                  Icon(Icons.calculate_outlined, size: 20,),
-                                    Text(" "+
-                                     
-                                          averageListWeight[index].toString(),
-                                     
+                                    Icon(
+                                      Icons.calculate_outlined,
+                                      size: 20,
+                                    ),
+                                    Text(
+                                      " " + averageListWeight[index].toString(),
                                     ),
                                   ],
                                 ),
                           trailing: Text(
-                              (averageList[index] / averageListWeight[index])
-                                  .toString(),
-                           ),
+                            (averageList[index] / averageListWeight[index])
+                                .toString(),
+                          ),
                           onTap: () async {
                             _getTests();
 
@@ -188,9 +193,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   topLeft: Radius.circular(25),
                   topRight: Radius.circular(25),
                 ),
-                boxShadow: [
-                 
-                ],
+                boxShadow: [],
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
@@ -232,11 +235,13 @@ class _LessonsDetailState extends State<LessonsDetail> {
     editTestInfoName.text = testDetails["name"];
     editTestInfoWeight.text = testDetails["weight"].toString();
     return showCupertinoModalBottomSheet(
+      backgroundColor: defaultBGColor,
       expand: true,
       context: context,
       builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
           child: Material(
+            color: defaultBGColor,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Column(
@@ -351,6 +356,7 @@ Future addTest(BuildContext context) {
     builder: (context) => SingleChildScrollView(
         controller: ModalScrollController.of(context),
         child: Material(
+          color: defaultBGColor,
           child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Column(

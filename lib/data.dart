@@ -40,8 +40,7 @@ getPluspoints(num value) {
     plusPoints = -5;
   } else if (value >= 1) {
     plusPoints = -6;
-  }
-  else if (value == "NaN") {
+  } else if (value == "NaN") {
     plusPoints = 0;
   }
 }
@@ -69,13 +68,10 @@ getPluspointsallAverageList(num value) {
     plusPointsallAverageList = -5;
   } else if (value >= 1) {
     plusPointsallAverageList = -6;
-  }else if (value == "NaN") {
+  } else if (value == "NaN") {
     plusPoints = 0;
   }
 }
-
-
-
 
 TextEditingController addLessonController = new TextEditingController();
 TextEditingController addSemesterController = new TextEditingController();

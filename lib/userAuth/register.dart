@@ -85,9 +85,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-      FocusScope.of(context).requestFocus(new FocusNode());
-        },
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
       child: Scaffold(
         appBar: AppBar(
           title: Text("Registrieren".tr()),
@@ -103,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       flex: 2,
                     ),
                     Image.asset(
-                      'assets/iconT.png',
+                      'assets/images/iconT.png',
                       height: 170,
                     ),
                     Spacer(
@@ -112,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
-                                             keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.emailAddress,
                           controller: _emailController,
                           textAlign: TextAlign.left,
                           decoration: inputDec("Deine Email".tr())),

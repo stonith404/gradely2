@@ -63,7 +63,7 @@ class MaterialWrapper extends StatelessWidget {
 
         primaryColor: defaultBlue,
              scaffoldBackgroundColor:  Colors.grey[300],
-       
+             backgroundColor: Colors.grey[300],
        
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
@@ -71,7 +71,7 @@ class MaterialWrapper extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData(
-      
+      backgroundColor: Colors.grey[900],
         scaffoldBackgroundColor:  Colors.grey[900],
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(

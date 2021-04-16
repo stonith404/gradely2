@@ -72,7 +72,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     await FirebaseAuth.instance.signOut();
                   },
                 ),
-                Image.asset('assets/iconT.png', width: 50),
+                Image.asset('assets/images/iconT.png', width: 50),
               ],
             ),
           ),

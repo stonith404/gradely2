@@ -41,7 +41,6 @@ class _chooseSemesterState extends State<chooseSemester> {
   }
 
   saveChoosenSemester(String _choosenSemester, _choosenSemesterName) {
-    print(choosenSemester);
     FirebaseFirestore.instance
         .collection('userData')
         .doc(auth.currentUser.uid)
@@ -82,7 +81,7 @@ class _chooseSemesterState extends State<chooseSemester> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: defaultBlue,
+          backgroundColor: defaultBlue,
           child: Icon(Icons.add),
           onPressed: () {
             Navigator.push(
@@ -174,7 +173,6 @@ class _chooseSemesterState extends State<chooseSemester> {
                         child: ListTile(
                           title: Text(
                             semesterList[index],
-                           
                           ),
                           trailing: IconButton(
                               icon: Icon(Icons.arrow_forward),

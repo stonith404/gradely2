@@ -31,11 +31,10 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isLoading = false;
       });
-       Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomeWrapper()),
-                            );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeWrapper()),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         setState(() {
@@ -79,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       flex: 2,
                     ),
                     Image.asset(
-                      'assets/iconT.png',
+                      'assets/images/iconT.png',
                       height: 170,
                     ),
                     Spacer(
@@ -109,9 +108,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             isLoading = true;
                           });
                           signInUser();
-                         
                         },
-                        child: Text("Einloggen")),
+                        child: Text("Einloggen").tr()),
                     SizedBox(
                       height: 10,
                     ),
