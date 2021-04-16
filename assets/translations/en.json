@@ -44,5 +44,12 @@
     "In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.": "In the settings you can manage, if your grades should display as an average or pluspoints.",
     "Fast Fertig...": "Almost finished...",
     "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbenennen." : "Add a semester. No worries, you can delete or edit this semester later.",
-    "pl3": "Download Gradely for your other devices."
+    "pl3": "Download Gradely for your other devices.",
+    "noNetwork1": "No Network.",
+    "noNetwork2": "Because this app is cloud based, you need an active network connection.",
+    "erneut versuchen":  "try again",
+    "restartIntro": "Restart Intro",
+    "contactDev": "Contact Developer",
+   "Deine Nachricht" : "Your message",
+   "send" : "send"
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gradely/introScreen.dart';
 import 'package:gradely/main.dart';
 import 'aboutDev.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,6 +10,7 @@ import 'package:gradely/data.dart';
 import 'aboutApp.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'platformList.dart';
+import 'contact.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -52,15 +54,16 @@ class _SettingsPageState extends State<SettingsPage> {
                     );
                   },
                 ),
-                ListTile(
-                  title: Text("App Info"),
+                 ListTile(
+                  title: Text("contactDev".tr()),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AppInfo()),
+                      MaterialPageRoute(builder: (context) => ContactScreen()),
                     );
                   },
                 ),
+                
                 ListTile(
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,6 +94,24 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     ],
                   ),
+                ),
+                    ListTile(
+                  title: Text("restartIntro".tr()),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => IntroScreen()),
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Text("App Info"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AppInfo()),
+                    );
+                  },
                 ),
                 ListTile(
                   title: Text("Logout"),

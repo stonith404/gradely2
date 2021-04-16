@@ -44,6 +44,8 @@ dependencies:
   easy_localization: 
   url_launcher:
   firebase_messaging: 
+  connectivity:
+  mailer:
 
 
 dev_dependencies:

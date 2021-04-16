@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:easy_localization/easy_localization.dart';
+import 'devInfo.dart';
 String appVersion = "";
 String appbuildNumber = "";
 
@@ -34,6 +35,9 @@ class _AppInfoState extends State<AppInfo> {
     getAppInfo();
   }
 
+  int _lastTap = DateTime.now().millisecondsSinceEpoch;
+  int _consecutiveTaps = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,13 +51,31 @@ class _AppInfoState extends State<AppInfo> {
             Spacer(
               flex: 2,
             ),
-            ClipRRect(
+ GestureDetector(
+                  onTap: () {
+                    int now = DateTime.now().millisecondsSinceEpoch;
+                    if (now - _lastTap < 1000) {
+    
+                      _consecutiveTaps++;
+
+                      if (_consecutiveTaps > 8) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => DevInfo()),
+                        );
+                      }
+                    } else {
+                      _consecutiveTaps = 0;
+                    }
+                    _lastTap = now;
+                  },
+                  child:             ClipRRect(
               borderRadius: BorderRadius.circular(12.0),
               child: Image.asset(
                 "assets/icon/logo.jpg",
                 height: 130,
               ),
-            ),
+            ),),
             SizedBox(
               height: 20,
             ),

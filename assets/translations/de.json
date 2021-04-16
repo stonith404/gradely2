@@ -13,7 +13,6 @@
     "Gradely wurde von einem Schüler, für Schüler erstellt. Ich freue mich wenn ihr Verbesserungsvorschläge oder Ideen habt. Gerne könnt ihr mich unter elias@eliasschneider.com kontaktieren.": "Gradely wurde von einem Schüler, für Schüler erstellt. Ich freue mich wenn ihr Verbesserungsvorschläge oder Ideen habt. Gerne könnt ihr mich unter elias@eliasschneider.com kontaktieren.",
     "pl1" : "Die Verfügbarkeit und Synchronisation macht Gradely einzigartig. Du kannst deine Noten hier hinzufügen und zur selben Zeit, sind deine Noten auf all deinen anderen Geräten!",
     "Auf 'gradelyapp.com' kannst du Gradely für all deine Gerät herunterladen.": "Auf 'gradelyapp.com' kannst du Gradely für all deine Gerät herunterladen.",
-
     "Achtung" : "Achtung",
     "löschen" : "löschen",
     "Nein" : "Nein",
@@ -44,5 +43,12 @@
     "In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.":"In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.",
     "Fast Fertig...":"Fast Fertig...",
     "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbenennen.": "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbenennen.",
-    "pl3" : "Gradely für deine anderen Geräte herunterladen"
+    "pl3" : "Gradely für deine anderen Geräte herunterladen",
+    "noNetwork1": "Kein Internet.",
+    "noNetwork2": "Da diese App cloud basiert ist, muss du eine aktive Internetverbindung haben...",
+    "erneut versuchen":  "erneut versuchen",
+    "restartIntro": "Intro wiederholen",
+    "contactDev": "Entwickler Kontaktieren",
+    "Deine Nachricht" : "Deine Nachricht",
+    "send": "senden"
    }

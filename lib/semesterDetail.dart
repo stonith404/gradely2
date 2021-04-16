@@ -4,17 +4,14 @@ import 'package:gradely/shared/loading.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
 import 'userAuth/login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'shared/defaultWidgets.dart';
 import 'chooseSemester.dart';
 import 'dart:math' as math;
 import 'settings/settings.dart';
-import 'package:gradely/introScreen.dart';
-import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'main.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 List semesterAveragePP = [];
 
@@ -28,6 +25,18 @@ class HomeSite extends StatefulWidget {
 }
 
 class _HomeSiteState extends State<HomeSite> {
+  pushNotification() {
+ 
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+    });
+// Asks permission for push notifcations in ios
+    _firebaseMessaging.requestPermission(sound: true, badge: true, alert: true);
+  }
+
   getLessons() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
@@ -103,6 +112,7 @@ class _HomeSiteState extends State<HomeSite> {
     getLessons();
     getChoosenSemester();
     getgradesResult();
+        pushNotification();
   }
 
   void setState(fn) {
@@ -115,6 +125,8 @@ class _HomeSiteState extends State<HomeSite> {
   Widget build(BuildContext context) {
     getLessons();
     darkModeColorChanger();
+
+
     if (choosenSemesterName == "noSemesterChoosed") {
       return LoadingScreen();
     } else {
