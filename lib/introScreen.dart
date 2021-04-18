@@ -130,6 +130,7 @@ class _IntroScreenState extends State<IntroScreen> {
             child: Text("hinzufügen".tr()),
             onPressed: () {
               createSemester(addSemesterController.text);
+               HapticFeedback.mediumImpact();
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => chooseSemester()),

@@ -8,6 +8,7 @@ import '../shared/defaultWidgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gradely/introScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/services.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -138,6 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             MaterialPageRoute(
                                 builder: (context) => IntroScreen()),
                           );
+                           HapticFeedback.lightImpact();
                         },
                         child: Text("Registrieren".tr())),
                     SizedBox(

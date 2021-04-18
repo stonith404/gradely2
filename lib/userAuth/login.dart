@@ -7,6 +7,7 @@ import '../shared/loading.dart';
 import '../shared/defaultWidgets.dart';
 import 'resetPassword.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/services.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -108,6 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             isLoading = true;
                           });
                           signInUser();
+                           HapticFeedback.lightImpact();
                         },
                         child: Text("Einloggen").tr()),
                     SizedBox(

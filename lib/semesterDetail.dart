@@ -12,6 +12,7 @@ import 'settings/settings.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/services.dart';
 
 List semesterAveragePP = [];
 
@@ -131,15 +132,7 @@ class _HomeSiteState extends State<HomeSite> {
       return LoadingScreen();
     } else {
       return Scaffold(
-          floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
-              backgroundColor: defaultBlue,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => addLesson()),
-                );
-              }),
+ 
           body: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
@@ -154,6 +147,7 @@ class _HomeSiteState extends State<HomeSite> {
                   bottom: PreferredSize(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
+                 crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
@@ -197,6 +191,22 @@ class _HomeSiteState extends State<HomeSite> {
                               ],
                             ),
                           ),
+                          Spacer(flex:  1),
+                           Padding(
+                             padding: const EdgeInsets.fromLTRB(0, 0, 15, 10),
+                             child: IconButton(
+              icon: Icon(Icons.add),
+              color: Colors.white,
+
+              onPressed: () {
+                 HapticFeedback.lightImpact();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => addLesson()),
+                );
+              }),
+                           ),
+    
                         ],
                       ),
                       preferredSize: Size(0, 130)),
@@ -206,6 +216,8 @@ class _HomeSiteState extends State<HomeSite> {
                     child: IconButton(
                         icon: Icon(Icons.segment),
                         onPressed: () async {
+                           HapticFeedback.lightImpact();
+
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -218,6 +230,7 @@ class _HomeSiteState extends State<HomeSite> {
                     IconButton(
                         icon: Icon(Icons.switch_left),
                         onPressed: () async {
+                           HapticFeedback.lightImpact();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -270,6 +283,7 @@ class _HomeSiteState extends State<HomeSite> {
                                         FlatButton(
                                           child: Text("Nein".tr()),
                                           onPressed: () {
+                                                HapticFeedback.lightImpact();
                                             Navigator.of(context).pop();
                                           },
                                         ),
@@ -286,7 +300,7 @@ class _HomeSiteState extends State<HomeSite> {
                                                     'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
                                                 .doc(courseListID[index])
                                                 .delete();
-
+    HapticFeedback.heavyImpact();
                                             Navigator.pushAndRemoveUntil(
                                               context,
                                               MaterialPageRoute(
@@ -327,8 +341,10 @@ class _HomeSiteState extends State<HomeSite> {
                               }
                             })()),
                             onTap: () {
+                                  HapticFeedback.lightImpact();
                               Navigator.push(
                                 context,
+
                                 MaterialPageRoute(
                                     builder: (context) => LessonsDetail()),
                               );
@@ -385,6 +401,7 @@ class _addLessonState extends State<addLesson> {
             child: Text("hinzufügen".tr()),
             onPressed: () {
               createLesson(addLessonController.text);
+                  HapticFeedback.mediumImpact();
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => HomeWrapper()),
@@ -436,6 +453,7 @@ class _updateLessonState extends State<updateLesson> {
               child: Text("unbenennen".tr()),
               onPressed: () {
                 updateLessonF(renameTestWeightController.text);
+                    HapticFeedback.mediumImpact();
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => HomeWrapper()),

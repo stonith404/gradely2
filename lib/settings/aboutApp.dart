@@ -5,6 +5,7 @@ import 'package:package_info/package_info.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:easy_localization/easy_localization.dart';
 import 'devInfo.dart';
+import 'package:flutter/services.dart';
 String appVersion = "";
 String appbuildNumber = "";
 
@@ -58,7 +59,8 @@ class _AppInfoState extends State<AppInfo> {
     
                       _consecutiveTaps++;
 
-                      if (_consecutiveTaps > 8) {
+                      if (_consecutiveTaps > 9) {
+                         HapticFeedback.heavyImpact();
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => DevInfo()),

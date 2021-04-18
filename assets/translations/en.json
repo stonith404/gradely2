@@ -51,5 +51,11 @@
     "restartIntro": "Restart Intro",
     "contactDev": "Contact Developer",
    "Deine Nachricht" : "Your message",
-   "send" : "send"
+   "send" : "send",
+   "bearbeiten": "edit",
+   "contactSuccess1": "sent!",
+   "contactSuccess2": "Thanks for your message. I will contact you with this email:  ",
+   "fehler" : "error",
+   "contactError1": "Unfortunately there is an error. You can try it later or you can contact me under elias@eliasschneider.com",
+   "contact1": "Do you have a feature suggestion, an error to report or something else? You can contact me."
 }

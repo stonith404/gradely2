@@ -82,8 +82,9 @@ TextEditingController addGradeGradeController = new TextEditingController();
 TextEditingController addTestNameController = new TextEditingController();
 TextEditingController addTestGradeController = new TextEditingController();
 TextEditingController addTestWeightController = new TextEditingController();
-TextEditingController contactMail = new TextEditingController();
 TextEditingController contactMessage = new TextEditingController();
+TextEditingController dreamGradeGrade = new TextEditingController();
+TextEditingController dreamGradeWeight = new TextEditingController();
 
 var testDetails;
 

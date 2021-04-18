@@ -50,5 +50,11 @@
     "restartIntro": "Intro wiederholen",
     "contactDev": "Entwickler Kontaktieren",
     "Deine Nachricht" : "Deine Nachricht",
-    "send": "senden"
+    "send": "senden",
+    "bearbeiten": "bearbeiten",
+    "contactSuccess1": "gesendet!",
+    "contactSuccess2": "Danke für deine Nachricht. Ich werde mich bei dir unter dieser Email melden: ",
+    "fehler" : "fehler",
+    "contactError1": "Leider ist ein Fehler aufgetreten. Versuche es später nochmals, oder konatkiere mich unter elias@eliasschneider.com",
+    "contact1" : "Hast du ein Feature Vorschlag, einen Fehler zu melden oder etwas anderes? Gerne kannst du mich kontaktieren."
    }

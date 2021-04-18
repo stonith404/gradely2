@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gradely/introScreen.dart';
 import 'package:gradely/main.dart';
+import 'package:gradely/semesterDetail.dart';
 import 'aboutDev.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,7 +49,13 @@ class _SettingsPageState extends State<SettingsPage> {
             child: ListView(
               children: [
                 ListTile(
-                  title: Text("Plattformen".tr()),
+                  title: Row(
+                    children: [
+                      FaIcon(FontAwesomeIcons.laptop, size: 15,),
+                      SizedBox(width: 10,),
+                      Text("Plattformen".tr()),
+                    ],
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -54,21 +63,18 @@ class _SettingsPageState extends State<SettingsPage> {
                     );
                   },
                 ),
-                 ListTile(
-                  title: Text("contactDev".tr()),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ContactScreen()),
-                    );
-                  },
-                ),
+               
                 
-                ListTile(
+               ListTile(
                   title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   
+
                     children: [
+                                            FaIcon(FontAwesomeIcons.userGraduate, size: 15,),
+                      SizedBox(width: 10,),
+                     
                       Text("Noten Resultate".tr()),
+                       Spacer(flex: 1),
                       DropdownButton<String>(
                         hint: Text(gradesResult),
                         items: <String>[
@@ -95,26 +101,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                 ),
-                    ListTile(
-                  title: Text("restartIntro".tr()),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => IntroScreen()),
-                    );
-                  },
-                ),
                 ListTile(
-                  title: Text("App Info"),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AppInfo()),
-                    );
-                  },
-                ),
-                ListTile(
-                  title: Text("Logout"),
+                  title: Row(
+                    children: [
+                                            FaIcon(FontAwesomeIcons.signOutAlt, size: 15,),
+                      SizedBox(width: 10,),
+                      Text("Logout"),
+                    ],
+                  ),
                   onTap: () async {
                     Navigator.pushAndRemoveUntil(
                       context,
@@ -125,6 +119,53 @@ class _SettingsPageState extends State<SettingsPage> {
                     await FirebaseAuth.instance.signOut();
                   },
                 ),
+               Divider(),
+            ListTile(
+                  title: Row(
+                    children: [
+                                            FaIcon(FontAwesomeIcons.envelope, size: 15,),
+                      SizedBox(width: 10,),
+                      Text("contactDev".tr()),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => kIsWeb ? AppInfo() : ContactScreen()),
+                    );
+                  },
+                ),
+                    ListTile(
+                  title: Row(
+                    children: [
+                                            FaIcon(FontAwesomeIcons.redo, size: 15,),
+                      SizedBox(width: 10,),
+                      Text("restartIntro".tr()),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => IntroScreen()),
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                                            FaIcon(FontAwesomeIcons.infoCircle, size: 15,),
+                      SizedBox(width: 10,),
+                      Text("App Info"),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AppInfo()),
+                    );
+                  },
+                ),
+                
               ],
             ),
           ),

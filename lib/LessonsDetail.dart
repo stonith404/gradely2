@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'data.dart';
@@ -18,6 +18,8 @@ String selectedTest = "selectedTest";
 String errorMessage = "";
 double averageOfTests = 0;
 List testListID = [];
+    num _sumW = 0;
+    num _sum = 0;
 var defaultBGColor;
 TextEditingController editTestInfoName = new TextEditingController();
 TextEditingController editTestInfoGrade = new TextEditingController();
@@ -77,9 +79,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
         averageListWeight.add(data["weight"]);
       });
     });
+     _sumW = 0;
+     _sum = 0;
 
-    num _sumW = 0;
-    num _sum = 0;
 
     for (num e in averageListWeight) {
       _sumW += e;
@@ -146,41 +148,78 @@ class _LessonsDetailState extends State<LessonsDetail> {
                     padding: EdgeInsets.fromLTRB(8, 6, 8, 0),
                     child: Container(
                       decoration: boxDec(),
-                      child: ListTile(
-                          title: Text(
-                            testList[index],
+                      child:Slidable(
+                        actionPane: SlidableDrawerActionPane(),
+                        actionExtentRatio: 0.25,
+                        secondaryActions: <Widget>[
+                         
+                          IconSlideAction(
+                            caption: 'löschen'.tr(),
+                            color: Colors.red,
+                            icon: Icons.delete,
+                            onTap: () {
+                                                            _getTests();
+
+                              selectedTest = testListID[index];
+                                                      FirebaseFirestore.instance
+                            .collection(
+                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                            .doc(selectedTest)
+                            .set({});
+                        FirebaseFirestore.instance
+                            .collection(
+                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                            .doc(selectedTest)
+                            .delete();
+        HapticFeedback.mediumImpact();
+                        Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation1, animation2) =>
+                                LessonsDetail(),
+                            transitionDuration: Duration(seconds: 0),
                           ),
-                          subtitle: averageList.isEmpty
-                              ? Text("")
-                              : Row(
-                                  children: [
-                                    Icon(
-                                      Icons.calculate_outlined,
-                                      size: 20,
-                                    ),
-                                    Text(
-                                      " " + averageListWeight[index].toString(),
-                                    ),
-                                  ],
-                                ),
-                          trailing: Text(
-                            (averageList[index] / averageListWeight[index])
-                                .toString(),
+                        );
+
+                            },
                           ),
-                          onTap: () async {
-                            _getTests();
+                        ],
+                        child: ListTile(
+                            title: Text(
+                              testList[index],
+                            ),
+                            subtitle: averageList.isEmpty
+                                ? Text("")
+                                : Row(
+                                    children: [
+                                      Icon(
+                                        Icons.calculate_outlined,
+                                        size: 20,
+                                      ),
+                                      Text(
+                                        " " + averageListWeight[index].toString(),
+                                      ),
+                                    ],
+                                  ),
+                            trailing: Text(
+                              (averageList[index] / averageListWeight[index])
+                                  .toString(),
+                            ),
+                            onTap: () async {
+                              _getTests();
 
-                            selectedTest = testListID[index];
+                              selectedTest = testListID[index];
 
-                            testDetails = (await FirebaseFirestore.instance
-                                    .collection(
-                                        "userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
-                                    .doc(selectedTest)
-                                    .get())
-                                .data();
+                              testDetails = (await FirebaseFirestore.instance
+                                      .collection(
+                                          "userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
+                                      .doc(selectedTest)
+                                      .get())
+                                  .data();
 
-                            testDetail(context);
-                          }),
+                              testDetail(context);
+                            }),
+                      ),
                     ),
                   );
                 },
@@ -202,25 +241,45 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text(() {
-                        if (gradesResult == "Pluspunkte") {
-                          return plusPoints.toString();
-                        } else {
-                          return "";
-                        }
-                      }()),
-                      IconButton(
-                          icon: Icon(Icons.add),
-                          onPressed: () {
-                            addTest(context);
-                          }),
-                      Text((() {
+                      Column(
+                        children: [
+                          Text(() {
+                            if (gradesResult == "Pluspunkte") {
+                              return plusPoints.toString();
+                            } else {
+                              return "";
+                            }
+                          }()),
+                           Text((() {
                         if (averageOfTests.isNaN) {
                           return "-";
                         } else {
                           return averageOfTests.toStringAsFixed(2);
                         }
                       })()),
+                        ],
+                      ),
+                      IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () {
+                            addTest(context);
+                             HapticFeedback.lightImpact();
+                          }),
+                           IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () {
+                             Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          DreamGradeC(),
+                                  transitionDuration: Duration(seconds: 0),
+                                ),
+                              );
+                             HapticFeedback.lightImpact();
+                          }),
+                     
                     ],
                   ),
                 ),
@@ -302,7 +361,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                           "weight": double.parse(
                               editTestInfoWeight.text.replaceAll(",", "."))
                         });
-
+        HapticFeedback.mediumImpact();
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
@@ -326,7 +385,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                 'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                             .doc(selectedTest)
                             .delete();
-
+        HapticFeedback.mediumImpact();
                         Navigator.pushReplacement(
                           context,
                           PageRouteBuilder(
@@ -429,7 +488,7 @@ Future addTest(BuildContext context) {
 
                       addLessonController.text = "";
                       courseList = [];
-
+                      HapticFeedback.lightImpact();
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
@@ -456,4 +515,78 @@ createTest(String testName, double grade, double weight) {
       .collection('grades')
       .doc()
       .set({"name": testName, "grade": grade, "weight": weight});
+}
+
+
+
+
+
+class DreamGradeC extends StatefulWidget {
+  @override
+  _DreamGradeCState createState() => _DreamGradeCState();
+}
+
+class _DreamGradeCState extends State<DreamGradeC> {
+
+  num dreamgradeResult = 0;
+  double dreamgrade = 0;
+  double dreamgradeWeight = 1;
+
+  getDreamGrade() {
+    setState(() {
+      dreamgradeResult =
+          ((dreamgrade * (_sumW + dreamgradeWeight) - _sum) / dreamgradeWeight);
+    });
+
+  }
+  
+    @override
+    @override
+    void initState() { 
+      super.initState();
+          dreamGradeGrade.text = "";
+          dreamGradeWeight.text = "1";
+
+    }
+    Widget build(BuildContext context) {
+      
+      return Scaffold(
+            appBar: AppBar(title: Text("DreamGrade"),),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Column(
+                children: [
+                
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: dreamGradeGrade,
+                      onChanged: (String value) async {
+                        dreamgrade = double.parse(dreamGradeGrade.text);
+                        getDreamGrade();
+                      },
+                      textAlign: TextAlign.left,
+                      decoration: inputDec("Dream Grade".tr()),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: dreamGradeWeight,
+                      onChanged: (String value) async {
+                        dreamgradeWeight = double.parse(dreamGradeWeight.text);
+                        getDreamGrade();
+                      },
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
+                      textAlign: TextAlign.left,
+                      decoration: inputDec("Dream Grade weight".tr()),
+                    ),
+                  ),
+                  Text(dreamgradeResult.toString())
+                ],
+              ),
+            ),
+          );
+    }
 }

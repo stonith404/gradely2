@@ -3,12 +3,11 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
 import 'userAuth/login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'shared/defaultWidgets.dart';
 import 'main.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/services.dart';
 
 bool isChecked = false;
 String choosenSemester;
@@ -134,7 +133,9 @@ class _chooseSemesterState extends State<chooseSemester> {
                                         child: Text("Nein".tr()),
                                         onPressed: () {
                                           Navigator.of(context).pop();
+                                               HapticFeedback.lightImpact();
                                         },
+                                   
                                       ),
                                       FlatButton(
                                         child: Text("Löschen".tr()),
@@ -149,7 +150,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                                                   'userData/${auth.currentUser.uid}/semester/')
                                               .doc(semesterListID[index])
                                               .delete();
-
+ HapticFeedback.heavyImpact();
                                           Navigator.pushAndRemoveUntil(
                                             context,
                                             MaterialPageRoute(
@@ -181,6 +182,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                                 choosenSemesterName = semesterList[index];
                                 saveChoosenSemester(
                                     choosenSemester, choosenSemesterName);
+                                        HapticFeedback.mediumImpact();
                                 Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
@@ -231,6 +233,7 @@ class _updateSemesterState extends State<updateSemester> {
               child: Text("unbenennen".tr()),
               onPressed: () {
                 updateSemesterF(renameSemesterController.text);
+                     HapticFeedback.mediumImpact();
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => chooseSemester()),
@@ -286,6 +289,7 @@ class _addSemesterState extends State<addSemester> {
               child: Text("hinzufügen".tr()),
               onPressed: () {
                 createSemester(addSemesterController.text);
+                    HapticFeedback.mediumImpact();
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => chooseSemester()),

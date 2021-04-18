@@ -6,6 +6,7 @@ import '../shared/loading.dart';
 import '../shared/defaultWidgets.dart';
 import 'login.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/services.dart';
 
 class ResetPW extends StatefulWidget {
   @override
@@ -74,6 +75,7 @@ class _ResetPWState extends State<ResetPW> {
                     Spacer(flex: 1),
                     TextButton(
                         onPressed: () {
+                           HapticFeedback.lightImpact();
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
