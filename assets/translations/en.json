@@ -57,5 +57,9 @@
    "contactSuccess2": "Thanks for your message. I will contact you with this email:  ",
    "fehler" : "error",
    "contactError1": "Unfortunately there is an error. You can try it later or you can contact me under elias@eliasschneider.com",
-   "contact1": "Do you have a feature suggestion, an error to report or something else? You can contact me."
+   "contact1": "Do you have a feature suggestion, an error to report or something else? You can contact me.",
+   "dream grade" : "dream grade",
+   "dream grade calculator" : "dream grade calculator",
+   "dreamGrade1" : "Your grade for the next exam should be:     ",
+   "dream grade weight" : "dream grade weight"
 }

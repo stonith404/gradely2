@@ -56,5 +56,9 @@
     "contactSuccess2": "Danke für deine Nachricht. Ich werde mich bei dir unter dieser Email melden: ",
     "fehler" : "fehler",
     "contactError1": "Leider ist ein Fehler aufgetreten. Versuche es später nochmals, oder konatkiere mich unter elias@eliasschneider.com",
-    "contact1" : "Hast du ein Feature Vorschlag, einen Fehler zu melden oder etwas anderes? Gerne kannst du mich kontaktieren."
+    "contact1" : "Hast du ein Feature Vorschlag, einen Fehler zu melden oder etwas anderes? Gerne kannst du mich kontaktieren.",
+    "dream grade" : "Wunschnote",
+    "dream grade calculator" : "Wunschnoten rechner",
+    "dreamGrade1" : "Deine Note für den nächsten test:     ",
+    "dream grade weight" : "Wunschnoten Gewichtung"
    }

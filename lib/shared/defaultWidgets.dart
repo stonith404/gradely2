@@ -26,7 +26,7 @@ InputDecoration inputDec(String _label) {
     labelText: _label,
     fillColor: bwColor,
     labelStyle:
-        TextStyle(fontSize: 20.0, height: 0.8, color: Color(0xFF6C63FF)),
+        TextStyle(fontSize: 17.0, height: 0.8, color:defaultBlue),
     focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         borderSide: BorderSide.none),
