@@ -15,6 +15,9 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/semesterDetail.dart';
 
+//flutter is awesome
+//2021
+
 bool isLoggedIn = false;
 const defaultBlue = Color(0xFF6C63FF);
 var testList = [];

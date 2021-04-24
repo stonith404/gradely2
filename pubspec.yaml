@@ -45,6 +45,7 @@ dependencies:
   url_launcher:
   firebase_messaging: 
   mailer:
+  emoji_chooser:
 
 
 dev_dependencies:

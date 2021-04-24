@@ -198,13 +198,13 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                       ),
                                       Text(
                                         " " +
-                                            averageListWeight[index].toString(),
+                                            averageListWeight[index].toString()
                                       ),
                                     ],
                                   ),
                             trailing: Text(
                               (averageList[index] / averageListWeight[index])
-                                  .toString(),
+                                  .toStringAsFixed(2),
                             ),
                             onTap: () async {
                               _getTests();
@@ -279,14 +279,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
                           icon: FaIcon(FontAwesomeIcons.calculator, size: 17),
                           onPressed: () {
                             Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation1, animation2) =>
-                                        DreamGradeC(),
-                                transitionDuration: Duration(seconds: 0),
-                              ),
-                            );
+    context,
+    MaterialPageRoute(builder: (context) => DreamGradeC()),
+  );
                             HapticFeedback.lightImpact();
                           }),
                     ],
