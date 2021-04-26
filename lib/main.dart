@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gradely/shared/loading.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
 import 'userAuth/login.dart';
@@ -14,6 +15,7 @@ import 'package:gradely/introScreen.dart';
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/semesterDetail.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 //flutter is awesome
 //2021
@@ -35,6 +37,7 @@ var bwColor;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  InAppPurchaseConnection.enablePendingPurchases();
   await Firebase.initializeApp();
 
   runApp(EasyLocalization(
@@ -121,14 +124,14 @@ class _State extends State<HomeWrapper> {
   @override
   Widget build(BuildContext context) {
     getChoosenSemester();
-    if (isLoggedIn) {
-      if (choosenSemester == "noSemesterChoosed") {
+    if (!isLoggedIn) {
+        return LoginScreen();
+    } else {
+    if (choosenSemester == "noSemesterChoosed") {
         return chooseSemester();
       } else {
-        return HomeSite();
+        return HomeSite(); 
       }
-    } else {
-      return LoginScreen();
     }
   }
 }

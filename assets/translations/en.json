@@ -55,6 +55,7 @@
    "bearbeiten": "edit",
    "contactSuccess1": "sent!",
    "contactSuccess2": "Thanks for your message. I will contact you with this email:  ",
+   "pwResetSuccess1": "An email to reset your password was sent. Please check also your spam folder.",
    "fehler" : "error",
    "contactError1": "Unfortunately there is an error. You can try it later or you can contact me under elias@eliasschneider.com",
    "contact1": "Do you have a feature suggestion, an error to report or something else? You can contact me.",

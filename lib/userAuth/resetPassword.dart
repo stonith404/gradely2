@@ -7,6 +7,7 @@ import '../shared/defaultWidgets.dart';
 import 'login.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ResetPW extends StatefulWidget {
   @override
@@ -64,18 +65,45 @@ class _ResetPWState extends State<ResetPW> {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          setState(() {
-                            _email = _emailController.text;
+                          _email = _emailController.text;
 
-                            isLoading = true;
-                          });
                           sendPasswordResetEmail(_email);
+
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()),
+                          );
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Row(
+                                    children: [
+                                      FaIcon(FontAwesomeIcons.checkCircle),
+                                      Spacer(flex: 1),
+                                      Text("contactSuccess1".tr()),
+                                      Spacer(flex: 10)
+                                    ],
+                                  ),
+                                  content: Text("pwResetSuccess1".tr()),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text("ok"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        HapticFeedback.lightImpact();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              });
                         },
                         child: Text("Link anfordern".tr())),
                     Spacer(flex: 1),
                     TextButton(
                         onPressed: () {
-                           HapticFeedback.lightImpact();
+                          HapticFeedback.lightImpact();
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

@@ -46,7 +46,8 @@ dependencies:
   firebase_messaging: 
   mailer:
   emoji_chooser:
-
+  in_app_purchase: 
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:

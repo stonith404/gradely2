@@ -14,6 +14,7 @@ import 'aboutApp.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'platformList.dart';
 import 'contact.dart';
+import 'gradelyPlus.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -51,8 +52,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(
                   title: Row(
                     children: [
-                      FaIcon(FontAwesomeIcons.laptop, size: 15,),
-                      SizedBox(width: 10,),
+                      FaIcon(
+                        FontAwesomeIcons.laptop,
+                        size: 15,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Text("Plattformen".tr()),
                     ],
                   ),
@@ -63,18 +69,38 @@ class _SettingsPageState extends State<SettingsPage> {
                     );
                   },
                 ),
-               
-                
-               ListTile(
+                ListTile(
                   title: Row(
-                   
-
                     children: [
-                                            FaIcon(FontAwesomeIcons.userGraduate, size: 15,),
-                      SizedBox(width: 10,),
-                     
+                      FaIcon(
+                        FontAwesomeIcons.laptop,
+                        size: 15,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("plus".tr()),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => GradelyPlus()),
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.userGraduate,
+                        size: 15,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Text("Noten Resultate".tr()),
-                       Spacer(flex: 1),
+                      Spacer(flex: 1),
                       DropdownButton<String>(
                         hint: Text(gradesResult),
                         items: <String>[
@@ -104,8 +130,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(
                   title: Row(
                     children: [
-                                            FaIcon(FontAwesomeIcons.signOutAlt, size: 15,),
-                      SizedBox(width: 10,),
+                      FaIcon(
+                        FontAwesomeIcons.signOutAlt,
+                        size: 15,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Text("Logout"),
                     ],
                   ),
@@ -119,27 +150,39 @@ class _SettingsPageState extends State<SettingsPage> {
                     await FirebaseAuth.instance.signOut();
                   },
                 ),
-               Divider(),
-            ListTile(
+                Divider(),
+                ListTile(
                   title: Row(
                     children: [
-                                            FaIcon(FontAwesomeIcons.envelope, size: 15,),
-                      SizedBox(width: 10,),
+                      FaIcon(
+                        FontAwesomeIcons.envelope,
+                        size: 15,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Text("contactDev".tr()),
                     ],
                   ),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => kIsWeb ? AppInfo() : ContactScreen()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              kIsWeb ? AppInfo() : ContactScreen()),
                     );
                   },
                 ),
-                    ListTile(
+                ListTile(
                   title: Row(
                     children: [
-                                            FaIcon(FontAwesomeIcons.redo, size: 15,),
-                      SizedBox(width: 10,),
+                      FaIcon(
+                        FontAwesomeIcons.redo,
+                        size: 15,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Text("restartIntro".tr()),
                     ],
                   ),
@@ -153,8 +196,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(
                   title: Row(
                     children: [
-                                            FaIcon(FontAwesomeIcons.infoCircle, size: 15,),
-                      SizedBox(width: 10,),
+                      FaIcon(
+                        FontAwesomeIcons.infoCircle,
+                        size: 15,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Text("App Info"),
                     ],
                   ),
@@ -165,7 +213,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     );
                   },
                 ),
-                
               ],
             ),
           ),

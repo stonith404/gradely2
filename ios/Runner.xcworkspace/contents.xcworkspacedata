@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/elisc/ES Cloud/Privat/Informatik/Flutter/gradely/ios/Configuration.storekit">
+   </FileRef>
+   <FileRef
       location = "group:Runner.xcodeproj">
    </FileRef>
    <FileRef
