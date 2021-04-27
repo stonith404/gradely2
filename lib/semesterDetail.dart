@@ -13,11 +13,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
-import 'package:emoji_chooser/emoji_chooser.dart';
+
 
 List semesterAveragePP = [];
-List emojiList = [];
-var emoji;
+
 
 class HomeSite extends StatefulWidget {
   const HomeSite({
@@ -49,7 +48,7 @@ class _HomeSiteState extends State<HomeSite> {
 
     courseList = [];
     courseListID = [];
-    emojiList = [];
+ 
     allAverageList = [];
     allAverageListPP = [];
     semesterAveragePP = [];
@@ -58,13 +57,7 @@ class _HomeSiteState extends State<HomeSite> {
       documents.forEach((data) => courseList.add(data["name"]));
       documents.forEach((data) => courseListID.add(data.id));
       documents.forEach((data) => allAverageList.add(data["average"]));
-      documents.forEach((data) {
-        try {
-          emojiList.add(data["emoji"]);
-        } catch (e) {
-          emojiList.add("");
-        }
-      });
+
 
       documents.forEach((data) {
         getPluspointsallAverageList(data["average"]);
@@ -325,7 +318,7 @@ class _HomeSiteState extends State<HomeSite> {
                       child: ListTile(
                         title: Row(
                           children: [
-                            Text(emojiList[index] + "  "),
+                        
                             Text(
                               courseList[index],
                             ),
@@ -450,27 +443,8 @@ class _updateLessonState extends State<updateLesson> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext subcontext) {
-                      return Container(
-                        height: 266,
-                        child: EmojiChooser(
-                          onSelected: (_emoji) {
-                            setState(() {
-                                      emoji = _emoji.char;                     
-                                                        });
-                           
-                            Navigator.of(subcontext).pop(_emoji);
-                          },
-                        ),
-                      );
-                    },
-                  );
-                },
-                child: Text(emoji.toString())),
+
+
             TextField(
                 controller: renameTestWeightController,
                 textAlign: TextAlign.left,
@@ -505,5 +479,5 @@ updateLessonF(String lessonUpdate) {
       .doc(choosenSemester)
       .collection('lessons')
       .doc(selectedLesson)
-      .update({"name": lessonUpdate, "emoji" : emoji});
+      .update({"name": lessonUpdate});
 }

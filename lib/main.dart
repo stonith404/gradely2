@@ -17,8 +17,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/semesterDetail.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
-//flutter is awesome
-//2021
 
 bool isLoggedIn = false;
 const defaultBlue = Color(0xFF6C63FF);
@@ -58,12 +56,14 @@ class MaterialWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       home: HomeWrapper(),
       theme: ThemeData(
+        appBarTheme: AppBarTheme(centerTitle: true),
         fontFamily: 'Nunito',
         brightness: Brightness.light,
 
@@ -77,6 +77,7 @@ class MaterialWrapper extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData(
+         appBarTheme: AppBarTheme(centerTitle: true),
       backgroundColor: Colors.grey[900],
         scaffoldBackgroundColor:  Colors.grey[900],
         elevatedButtonTheme: ElevatedButtonThemeData(

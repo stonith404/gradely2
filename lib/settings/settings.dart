@@ -69,26 +69,26 @@ class _SettingsPageState extends State<SettingsPage> {
                     );
                   },
                 ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.laptop,
-                        size: 15,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text("plus".tr()),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => GradelyPlus()),
-                    );
-                  },
-                ),
+                // ListTile(
+                //   title: Row(
+                //     children: [
+                //       FaIcon(
+                //         FontAwesomeIcons.laptop,
+                //         size: 15,
+                //       ),
+                //       SizedBox(
+                //         width: 10,
+                //       ),
+                //       Text("plus".tr()),
+                //     ],
+                //   ),
+                //   onTap: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(builder: (context) => GradelyPlus()),
+                //     );
+                //   },
+                // ),
                 ListTile(
                   title: Row(
                     children: [

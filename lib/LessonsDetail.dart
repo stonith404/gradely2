@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -20,9 +18,12 @@ String selectedTest = "selectedTest";
 String errorMessage = "";
 double averageOfTests = 0;
 List testListID = [];
+List dateList = [];
 num _sumW = 0;
 num _sum = 0;
 var defaultBGColor;
+
+var selectedDate = DateTime.now();
 TextEditingController editTestInfoName = new TextEditingController();
 TextEditingController editTestInfoGrade = new TextEditingController();
 TextEditingController editTestInfoWeight = new TextEditingController();
@@ -42,8 +43,17 @@ class _LessonsDetailState extends State<LessonsDetail> {
     setState(() {
       testList = [];
       testListID = [];
+      dateList = [];
       documents.forEach((data) => testListID.add(data.id));
       documents.forEach((data) => testList.add(data["name"]));
+      documents.forEach((data) {
+        try {
+          dateList.add(data["date"]);
+        } catch (e) {
+          dateList.add("-");
+        }
+        print(dateList);
+      });
     });
   }
 
@@ -196,10 +206,14 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                         Icons.calculate_outlined,
                                         size: 20,
                                       ),
-                                      Text(
-                                        " " +
-                                            averageListWeight[index].toString()
+                                      Text(" " +
+                                          averageListWeight[index].toString() +
+                                          "   "),
+                                      Icon(
+                                        Icons.date_range,
+                                        size: 20,
                                       ),
+                                      Text(" " + dateList[index].toString()),
                                     ],
                                   ),
                             trailing: Text(
@@ -279,9 +293,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
                           icon: FaIcon(FontAwesomeIcons.calculator, size: 17),
                           onPressed: () {
                             Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => DreamGradeC()),
-  );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DreamGradeC()),
+                            );
                             HapticFeedback.lightImpact();
                           }),
                     ],
@@ -297,6 +312,13 @@ class _LessonsDetailState extends State<LessonsDetail> {
     editTestInfoGrade.text = testDetails["grade"].toString();
     editTestInfoName.text = testDetails["name"];
     editTestInfoWeight.text = testDetails["weight"].toString();
+    if(testDetails["date"].toString() == "null"){
+ editTestDateController.text = "";
+    }else{
+       editTestDateController.text = testDetails["date"].toString();
+    }
+   
+
     return showCupertinoModalBottomSheet(
       backgroundColor: defaultBGColor,
       expand: true,
@@ -333,6 +355,32 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () async {
+                        final DateTime picked = await showDatePicker(
+                          context: context,
+                          initialDate: selectedDate,
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2025),
+                        );
+
+                        if (picked != null && picked != selectedDate)
+                          setState(() {
+                            var _formatted = DateTime.parse(picked.toString());
+                            editTestDateController.text =
+                                "${_formatted.day}.${_formatted.month}.${_formatted.year}";
+                          });
+                      },
+                      child: AbsorbPointer(
+                        child: TextField(
+                            controller: editTestDateController,
+                            textAlign: TextAlign.left,
+                            decoration: inputDec("date".tr())),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: TextField(
                       controller: editTestInfoGrade,
                       keyboardType:
@@ -363,7 +411,8 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             editTestInfoGrade.text.replaceAll(",", "."),
                           ),
                           "weight": double.parse(
-                              editTestInfoWeight.text.replaceAll(",", "."))
+                              editTestInfoWeight.text.replaceAll(",", ".")),
+                          "date": editTestDateController.text
                         });
                         HapticFeedback.mediumImpact();
                         Navigator.pushAndRemoveUntil(
@@ -416,99 +465,129 @@ Future addTest(BuildContext context) {
   return showCupertinoModalBottomSheet(
     expand: true,
     context: context,
-    builder: (context) => SingleChildScrollView(
-        controller: ModalScrollController.of(context),
-        child: Material(
-          color: defaultBGColor,
-          child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
-                    child: Text(
-                      "Test hinzufügen".tr(),
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+    builder: (context) => StatefulBuilder(builder:
+        (BuildContext context, StateSetter setState /*You can rename this!*/) {
+      return SingleChildScrollView(
+          controller: ModalScrollController.of(context),
+          child: Material(
+            color: defaultBGColor,
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+                      child: Text(
+                        "Test hinzufügen".tr(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 30),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Divider(
-                      thickness: 2,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Divider(
+                        thickness: 2,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                        controller: addTestNameController,
-                        textAlign: TextAlign.left,
-                        decoration: inputDec("Test Name".tr())),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                        controller: addTestGradeController,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
-                        textAlign: TextAlign.left,
-                        decoration: inputDec("Note".tr())),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                        controller: addTestWeightController,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
-                        textAlign: TextAlign.left,
-                        decoration: inputDec("Gewichtung".tr())),
-                  ),
-                  ElevatedButton(
-                    child: Text("Test hinzufügen".tr()),
-                    onPressed: () {
-                      bool isNumeric() {
-                        if (addTestGradeController.text == null) {
-                          return false;
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                          controller: addTestNameController,
+                          textAlign: TextAlign.left,
+                          decoration: inputDec("Test Name".tr())),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        onTap: () async {
+                          final DateTime picked = await showDatePicker(
+                            context: context,
+                            initialDate: selectedDate,
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2025),
+                          );
+
+                          if (picked != null && picked != selectedDate)
+                            setState(() {
+                              var _formatted =
+                                  DateTime.parse(picked.toString());
+                              addTestDateController.text =
+                                  "${_formatted.day}.${_formatted.month}.${_formatted.year}";
+                            });
+                        },
+                        child: AbsorbPointer(
+                          child: TextField(
+                              controller: addTestDateController,
+                              textAlign: TextAlign.left,
+                              decoration: inputDec("date".tr())),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                          controller: addTestGradeController,
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          textAlign: TextAlign.left,
+                          decoration: inputDec("Note".tr())),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                          controller: addTestWeightController,
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          textAlign: TextAlign.left,
+                          decoration: inputDec("Gewichtung".tr())),
+                    ),
+                    ElevatedButton(
+                      child: Text("Test hinzufügen".tr()),
+                      onPressed: () {
+                        bool isNumeric() {
+                          if (addTestGradeController.text == null) {
+                            return false;
+                          }
+                          return double.tryParse(addTestGradeController.text) !=
+                              null;
                         }
-                        return double.tryParse(addTestGradeController.text) !=
-                            null;
-                      }
 
-                      if (isNumeric() == false) {
-                        errorMessage = "Bitte eine gültige Note eingeben.";
+                        if (isNumeric() == false) {
+                          errorMessage = "Bitte eine gültige Note eingeben.";
 
-                        Future.delayed(Duration(seconds: 4))
-                            .then((value) => {errorMessage = ""});
-                      }
+                          Future.delayed(Duration(seconds: 4))
+                              .then((value) => {errorMessage = ""});
+                        }
 
-                      createTest(
-                        addTestNameController.text,
-                        double.parse(
-                            addTestGradeController.text.replaceAll(",", ".")),
-                        double.parse(
-                            addTestWeightController.text.replaceAll(",", ".")),
-                      );
+                        createTest(
+                            addTestNameController.text,
+                            double.parse(addTestGradeController.text
+                                .replaceAll(",", ".")),
+                            double.parse(addTestWeightController.text
+                                .replaceAll(",", ".")),
+                            addTestDateController.text);
 
-                      addLessonController.text = "";
-                      courseList = [];
-                      HapticFeedback.lightImpact();
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LessonsDetail()),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                  ),
-                  Text(errorMessage)
-                ],
-              )),
-        )),
+                        addLessonController.text = "";
+                        courseList = [];
+                        HapticFeedback.lightImpact();
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LessonsDetail()),
+                          (Route<dynamic> route) => false,
+                        );
+                      },
+                    ),
+                    Text(errorMessage)
+                  ],
+                )),
+          ));
+    }),
   );
 }
 
-createTest(String testName, double grade, double weight) {
+createTest(String testName, double grade, double weight, String date) {
   FirebaseFirestore.instance
       .collection('userData')
       .doc(auth.currentUser.uid)
@@ -518,7 +597,7 @@ createTest(String testName, double grade, double weight) {
       .doc(selectedLesson)
       .collection('grades')
       .doc()
-      .set({"name": testName, "grade": grade, "weight": weight});
+      .set({"name": testName, "grade": grade, "weight": weight, "date": date});
 }
 
 class DreamGradeC extends StatefulWidget {
@@ -596,7 +675,7 @@ class _DreamGradeCState extends State<DreamGradeC> {
                   if (dreamgradeResult.isInfinite) {
                     return "-";
                   } else {
-                   return dreamgradeResult.toStringAsFixed(2);
+                    return dreamgradeResult.toStringAsFixed(2);
                   }
                 })(), style: TextStyle(fontSize: 20)),
               ],
