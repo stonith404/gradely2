@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradely/main.dart';
 
-
 RoundedRectangleBorder defaultRoundedCorners() {
   return RoundedRectangleBorder(
     borderRadius: BorderRadius.vertical(
@@ -11,12 +10,9 @@ RoundedRectangleBorder defaultRoundedCorners() {
 }
 
 BoxDecoration boxDec() {
-
   return BoxDecoration(
- color: bwColor,
+    color: bwColor,
     borderRadius: BorderRadius.all(Radius.circular(10)),
-
-
   );
 }
 
@@ -25,8 +21,7 @@ InputDecoration inputDec(String _label) {
     filled: true,
     labelText: _label,
     fillColor: bwColor,
-    labelStyle:
-        TextStyle(fontSize: 17.0, height: 0.8, color:defaultBlue),
+    labelStyle: TextStyle(fontSize: 17.0, height: 0.8, color: defaultColor),
     focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         borderSide: BorderSide.none),
@@ -34,7 +29,5 @@ InputDecoration inputDec(String _label) {
       borderRadius: BorderRadius.all(Radius.circular(15.0)),
       borderSide: BorderSide.none,
     ),
-
-
   );
 }

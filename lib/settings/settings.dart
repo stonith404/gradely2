@@ -69,26 +69,26 @@ class _SettingsPageState extends State<SettingsPage> {
                     );
                   },
                 ),
-                // ListTile(
-                //   title: Row(
-                //     children: [
-                //       FaIcon(
-                //         FontAwesomeIcons.laptop,
-                //         size: 15,
-                //       ),
-                //       SizedBox(
-                //         width: 10,
-                //       ),
-                //       Text("plus".tr()),
-                //     ],
-                //   ),
-                //   onTap: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(builder: (context) => GradelyPlus()),
-                //     );
-                //   },
-                // ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.laptop,
+                        size: 15,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("plus".tr()),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => GradelyPlus()),
+                    );
+                  },
+                ),
                 ListTile(
                   title: Row(
                     children: [
@@ -219,7 +219,7 @@ class _SettingsPageState extends State<SettingsPage> {
           Padding(
             padding: const EdgeInsets.only(bottom: 15.0),
             child: Text(
-              "Made with ❤️ by Elias Schneider",
+              "www.gradelyapp.com",
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
           )

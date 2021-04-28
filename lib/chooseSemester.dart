@@ -80,7 +80,7 @@ class _chooseSemesterState extends State<chooseSemester> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          backgroundColor: defaultBlue,
+          backgroundColor: defaultColor,
           child: Icon(Icons.add),
           onPressed: () {
             Navigator.push(
@@ -104,7 +104,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                       secondaryActions: <Widget>[
                         IconSlideAction(
                           caption: 'unbenennen'.tr(),
-                          color: Colors.black45,
+                          color: defaultColor,
                           icon: Icons.edit,
                           onTap: () {
                             Navigator.push(
@@ -118,7 +118,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                         ),
                         IconSlideAction(
                           caption: 'löschen'.tr(),
-                          color: Colors.red,
+                          color: defaultColor,
                           icon: Icons.delete,
                           onTap: () {
                             showDialog(
@@ -133,9 +133,8 @@ class _chooseSemesterState extends State<chooseSemester> {
                                         child: Text("Nein".tr()),
                                         onPressed: () {
                                           Navigator.of(context).pop();
-                                               HapticFeedback.lightImpact();
+                                          HapticFeedback.lightImpact();
                                         },
-                                   
                                       ),
                                       FlatButton(
                                         child: Text("Löschen".tr()),
@@ -150,7 +149,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                                                   'userData/${auth.currentUser.uid}/semester/')
                                               .doc(semesterListID[index])
                                               .delete();
- HapticFeedback.heavyImpact();
+                                          HapticFeedback.heavyImpact();
                                           Navigator.pushAndRemoveUntil(
                                             context,
                                             MaterialPageRoute(
@@ -182,7 +181,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                                 choosenSemesterName = semesterList[index];
                                 saveChoosenSemester(
                                     choosenSemester, choosenSemesterName);
-                                        HapticFeedback.mediumImpact();
+                                HapticFeedback.mediumImpact();
                                 Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
@@ -233,7 +232,7 @@ class _updateSemesterState extends State<updateSemester> {
               child: Text("unbenennen".tr()),
               onPressed: () {
                 updateSemesterF(renameSemesterController.text);
-                     HapticFeedback.mediumImpact();
+                HapticFeedback.mediumImpact();
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => chooseSemester()),
@@ -289,7 +288,7 @@ class _addSemesterState extends State<addSemester> {
               child: Text("hinzufügen".tr()),
               onPressed: () {
                 createSemester(addSemesterController.text);
-                    HapticFeedback.mediumImpact();
+                HapticFeedback.mediumImpact();
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => chooseSemester()),

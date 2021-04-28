@@ -14,9 +14,7 @@ import 'main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 
-
 List semesterAveragePP = [];
-
 
 class HomeSite extends StatefulWidget {
   const HomeSite({
@@ -48,7 +46,7 @@ class _HomeSiteState extends State<HomeSite> {
 
     courseList = [];
     courseListID = [];
- 
+
     allAverageList = [];
     allAverageListPP = [];
     semesterAveragePP = [];
@@ -57,7 +55,6 @@ class _HomeSiteState extends State<HomeSite> {
       documents.forEach((data) => courseList.add(data["name"]));
       documents.forEach((data) => courseListID.add(data.id));
       documents.forEach((data) => allAverageList.add(data["average"]));
-
 
       documents.forEach((data) {
         getPluspointsallAverageList(data["average"]);
@@ -138,7 +135,7 @@ class _HomeSiteState extends State<HomeSite> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              backgroundColor: defaultBlue,
+              backgroundColor: defaultColor,
               forceElevated: true,
               title: Image.asset(
                 'assets/images/iconT.png',
@@ -250,7 +247,7 @@ class _HomeSiteState extends State<HomeSite> {
                     secondaryActions: <Widget>[
                       IconSlideAction(
                         caption: 'unbenennen'.tr(),
-                        color: Colors.black45,
+                        color: defaultColor,
                         icon: Icons.edit,
                         onTap: () {
                           Navigator.push(
@@ -264,7 +261,7 @@ class _HomeSiteState extends State<HomeSite> {
                       ),
                       IconSlideAction(
                         caption: 'löschen'.tr(),
-                        color: Colors.red,
+                        color: defaultColor,
                         icon: Icons.delete,
                         onTap: () {
                           showDialog(
@@ -318,7 +315,6 @@ class _HomeSiteState extends State<HomeSite> {
                       child: ListTile(
                         title: Row(
                           children: [
-                        
                             Text(
                               courseList[index],
                             ),
@@ -443,8 +439,6 @@ class _updateLessonState extends State<updateLesson> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-
             TextField(
                 controller: renameTestWeightController,
                 textAlign: TextAlign.left,

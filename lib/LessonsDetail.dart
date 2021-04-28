@@ -165,7 +165,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         secondaryActions: <Widget>[
                           IconSlideAction(
                             caption: 'löschen'.tr(),
-                            color: Colors.red,
+                            color: defaultColor,
                             icon: Icons.delete,
                             onTap: () {
                               _getTests();
@@ -312,12 +312,11 @@ class _LessonsDetailState extends State<LessonsDetail> {
     editTestInfoGrade.text = testDetails["grade"].toString();
     editTestInfoName.text = testDetails["name"];
     editTestInfoWeight.text = testDetails["weight"].toString();
-    if(testDetails["date"].toString() == "null"){
- editTestDateController.text = "";
-    }else{
-       editTestDateController.text = testDetails["date"].toString();
+    if (testDetails["date"].toString() == "null") {
+      editTestDateController.text = "";
+    } else {
+      editTestDateController.text = testDetails["date"].toString();
     }
-   
 
     return showCupertinoModalBottomSheet(
       backgroundColor: defaultBGColor,
@@ -331,8 +330,45 @@ class _LessonsDetailState extends State<LessonsDetail> {
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CircleAvatar(
+                        radius: 22,
+                        backgroundColor: defaultColor,
+                        child: IconButton(
+                            color: Colors.white,
+                            onPressed: () {
+                              FirebaseFirestore.instance
+                                  .collection(
+                                      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                                  .doc(selectedTest)
+                                  .set({
+                                "name": editTestInfoName.text,
+                                "grade": double.parse(
+                                  editTestInfoGrade.text.replaceAll(",", "."),
+                                ),
+                                "weight": double.parse(editTestInfoWeight.text
+                                    .replaceAll(",", ".")),
+                                "date": editTestDateController.text
+                              });
+                              HapticFeedback.lightImpact();
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LessonsDetail()),
+                                (Route<dynamic> route) => false,
+                              );
+                            },
+                            icon: Icon(Icons.edit)),
+                      ),
+                    ],
+                  ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Text(
                       testDetails["name"],
                       style:
@@ -399,56 +435,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       decoration: inputDec("Gewichtung".tr()),
                     ),
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        FirebaseFirestore.instance
-                            .collection(
-                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                            .doc(selectedTest)
-                            .set({
-                          "name": editTestInfoName.text,
-                          "grade": double.parse(
-                            editTestInfoGrade.text.replaceAll(",", "."),
-                          ),
-                          "weight": double.parse(
-                              editTestInfoWeight.text.replaceAll(",", ".")),
-                          "date": editTestDateController.text
-                        });
-                        HapticFeedback.mediumImpact();
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LessonsDetail()),
-                          (Route<dynamic> route) => false,
-                        );
-                      },
-                      child: Text("Test updaten".tr())),
                   SizedBox(
                     height: 10,
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        FirebaseFirestore.instance
-                            .collection(
-                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                            .doc(selectedTest)
-                            .set({});
-                        FirebaseFirestore.instance
-                            .collection(
-                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                            .doc(selectedTest)
-                            .delete();
-                        HapticFeedback.mediumImpact();
-                        Navigator.pushReplacement(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (context, animation1, animation2) =>
-                                LessonsDetail(),
-                            transitionDuration: Duration(seconds: 0),
-                          ),
-                        );
-                      },
-                      child: Text("Test löschen".tr()))
                 ],
               ),
             ),
@@ -476,10 +465,61 @@ Future addTest(BuildContext context) {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CircleAvatar(
+                          radius: 22,
+                          backgroundColor: defaultColor,
+                          child: IconButton(
+                              color: Colors.white,
+                              onPressed: () {
+                                bool isNumeric() {
+                                  if (addTestGradeController.text == null) {
+                                    return false;
+                                  }
+                                  return double.tryParse(
+                                          addTestGradeController.text) !=
+                                      null;
+                                }
+
+                                if (isNumeric() == false) {
+                                  errorMessage =
+                                      "Bitte eine gültige Note eingeben.";
+
+                                  Future.delayed(Duration(seconds: 4))
+                                      .then((value) => {errorMessage = ""});
+                                }
+
+                                createTest(
+                                    addTestNameController.text,
+                                    double.parse(addTestGradeController.text
+                                        .replaceAll(",", ".")),
+                                    double.parse(addTestWeightController.text
+                                        .replaceAll(",", ".")),
+                                    addTestDateController.text);
+
+                                addLessonController.text = "";
+                                courseList = [];
+                                HapticFeedback.lightImpact();
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LessonsDetail()),
+                                  (Route<dynamic> route) => false,
+                                );
+                              },
+                              icon: Icon(Icons.add)),
+                        ),
+                      ],
+                    ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                       child: Text(
-                        "Test hinzufügen".tr(),
+                        "addexam".tr(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 30),
                       ),
@@ -541,43 +581,6 @@ Future addTest(BuildContext context) {
                               TextInputType.numberWithOptions(decimal: true),
                           textAlign: TextAlign.left,
                           decoration: inputDec("Gewichtung".tr())),
-                    ),
-                    ElevatedButton(
-                      child: Text("Test hinzufügen".tr()),
-                      onPressed: () {
-                        bool isNumeric() {
-                          if (addTestGradeController.text == null) {
-                            return false;
-                          }
-                          return double.tryParse(addTestGradeController.text) !=
-                              null;
-                        }
-
-                        if (isNumeric() == false) {
-                          errorMessage = "Bitte eine gültige Note eingeben.";
-
-                          Future.delayed(Duration(seconds: 4))
-                              .then((value) => {errorMessage = ""});
-                        }
-
-                        createTest(
-                            addTestNameController.text,
-                            double.parse(addTestGradeController.text
-                                .replaceAll(",", ".")),
-                            double.parse(addTestWeightController.text
-                                .replaceAll(",", ".")),
-                            addTestDateController.text);
-
-                        addLessonController.text = "";
-                        courseList = [];
-                        HapticFeedback.lightImpact();
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LessonsDetail()),
-                          (Route<dynamic> route) => false,
-                        );
-                      },
                     ),
                     Text(errorMessage)
                   ],

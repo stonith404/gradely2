@@ -17,9 +17,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/semesterDetail.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
-
 bool isLoggedIn = false;
-const defaultBlue = Color(0xFF6C63FF);
+const defaultColor = Color(0xFF6C63FF);
 var testList = [];
 var courseListID = [];
 var allAverageList = [];
@@ -56,7 +55,6 @@ class MaterialWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
@@ -66,29 +64,26 @@ class MaterialWrapper extends StatelessWidget {
         appBarTheme: AppBarTheme(centerTitle: true),
         fontFamily: 'Nunito',
         brightness: Brightness.light,
-
-        primaryColor: defaultBlue,
-             scaffoldBackgroundColor:  Colors.grey[300],
-             backgroundColor: Colors.grey[300],
-       
+        primaryColor: defaultColor,
+        scaffoldBackgroundColor: Colors.grey[300],
+        backgroundColor: Colors.grey[300],
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(defaultBlue)),
+              backgroundColor: MaterialStateProperty.all<Color>(defaultColor)),
         ),
       ),
       darkTheme: ThemeData(
-         appBarTheme: AppBarTheme(centerTitle: true),
-      backgroundColor: Colors.grey[900],
-        scaffoldBackgroundColor:  Colors.grey[900],
+        appBarTheme: AppBarTheme(centerTitle: true),
+        backgroundColor: Colors.grey[900],
+        scaffoldBackgroundColor: Colors.grey[900],
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(defaultBlue)),
+              backgroundColor: MaterialStateProperty.all<Color>(defaultColor)),
         ),
-       
         brightness: Brightness.dark,
-        primaryColor: defaultBlue,
+        primaryColor: defaultColor,
         floatingActionButtonTheme:
-            FloatingActionButtonThemeData(backgroundColor: defaultBlue),
+            FloatingActionButtonThemeData(backgroundColor: defaultColor),
       ),
     );
   }
@@ -126,12 +121,12 @@ class _State extends State<HomeWrapper> {
   Widget build(BuildContext context) {
     getChoosenSemester();
     if (!isLoggedIn) {
-        return LoginScreen();
+      return LoginScreen();
     } else {
-    if (choosenSemester == "noSemesterChoosed") {
+      if (choosenSemester == "noSemesterChoosed") {
         return chooseSemester();
       } else {
-        return HomeSite(); 
+        return HomeSite();
       }
     }
   }

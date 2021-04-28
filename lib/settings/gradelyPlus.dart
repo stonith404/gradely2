@@ -1,22 +1,20 @@
-// Copyright 2013 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 const bool _kAutoConsume = true;
 
-
+const String _kConsumableId = '';
 const String _kUpgradeId = 'com.eliasschneider.gradely.gradelyplus';
-
+const String _kSilverSubscriptionId = 'subscription_silver';
+const String _kGoldSubscriptionId = 'subscription_gold';
 const List<String> _kProductIds = <String>[
-
+  _kConsumableId,
   _kUpgradeId,
-
+  _kSilverSubscriptionId,
+  _kGoldSubscriptionId,
 ];
 
 class GradelyPlus extends StatefulWidget {
@@ -250,10 +248,26 @@ class GradelyPlusState extends State<GradelyPlus> {
                       // verify the latest status of you your subscription by using server side receipt validation
                       // and update the UI accordingly. The subscription purchase status shown
                       // inside the app may not be accurate.
-
-    
-
-                      
+                      final oldSubscription =
+                          _getOldSubscription(productDetails, purchases);
+                      PurchaseParam purchaseParam = PurchaseParam(
+                          productDetails: productDetails,
+                          applicationUserName: null,
+                          changeSubscriptionParam: Platform.isAndroid &&
+                                  oldSubscription != null
+                              ? ChangeSubscriptionParam(
+                                  oldPurchaseDetails: oldSubscription,
+                                  prorationMode:
+                                      ProrationMode.immediateWithTimeProration)
+                              : null);
+                      if (productDetails.id == _kConsumableId) {
+                        _connection.buyConsumable(
+                            purchaseParam: purchaseParam,
+                            autoConsume: _kAutoConsume || Platform.isIOS);
+                      } else {
+                        _connection.buyNonConsumable(
+                            purchaseParam: purchaseParam);
+                      }
                     },
                   ));
       },
@@ -271,7 +285,9 @@ class GradelyPlusState extends State<GradelyPlus> {
               leading: CircularProgressIndicator(),
               title: Text('Fetching consumables...'))));
     }
-
+    if (!_isAvailable || _notFoundIds.contains(_kConsumableId)) {
+      return Card();
+    }
     final ListTile consumableHeader =
         ListTile(title: Text('Purchased consumables'));
     final List<Widget> tokens = _consumables.map((String id) {
@@ -316,12 +332,19 @@ class GradelyPlusState extends State<GradelyPlus> {
 
   void deliverProduct(PurchaseDetails purchaseDetails) async {
     // IMPORTANT!! Always verify purchase details before delivering the product.
-
+    if (purchaseDetails.productID == _kConsumableId) {
+      await ConsumableStore.save(purchaseDetails.purchaseID);
+      List<String> consumables = await ConsumableStore.load();
+      setState(() {
+        _purchasePending = false;
+        _consumables = consumables;
+      });
+    } else {
       setState(() {
         _purchases.add(purchaseDetails);
         _purchasePending = false;
       });
-    
+    }
   }
 
   void handleError(IAPError error) {
@@ -356,7 +379,12 @@ class GradelyPlusState extends State<GradelyPlus> {
             return;
           }
         }
-
+        if (Platform.isAndroid) {
+          if (!_kAutoConsume && purchaseDetails.productID == _kConsumableId) {
+            await InAppPurchaseConnection.instance
+                .consumePurchase(purchaseDetails);
+          }
+        }
         if (purchaseDetails.pendingCompletePurchase) {
           await InAppPurchaseConnection.instance
               .completePurchase(purchaseDetails);
@@ -365,9 +393,31 @@ class GradelyPlusState extends State<GradelyPlus> {
     });
   }
 
-
+  PurchaseDetails _getOldSubscription(
+      ProductDetails productDetails, Map<String, PurchaseDetails> purchases) {
+    // This is just to demonstrate a subscription upgrade or downgrade.
+    // This method assumes that you have only 2 subscriptions under a group, 'subscription_silver' & 'subscription_gold'.
+    // The 'subscription_silver' subscription can be upgraded to 'subscription_gold' and
+    // the 'subscription_gold' subscription can be downgraded to 'subscription_silver'.
+    // Please remember to replace the logic of finding the old subscription Id as per your app.
+    // The old subscription is only required on Android since Apple handles this internally
+    // by using the subscription group feature in iTunesConnect.
+    PurchaseDetails oldSubscription;
+    if (productDetails.id == _kSilverSubscriptionId &&
+        purchases[_kGoldSubscriptionId] != null) {
+      oldSubscription = purchases[_kGoldSubscriptionId];
+    } else if (productDetails.id == _kGoldSubscriptionId &&
+        purchases[_kSilverSubscriptionId] != null) {
+      oldSubscription = purchases[_kSilverSubscriptionId];
+    }
+    return oldSubscription;
+  }
 }
 
+/// A store of consumable items.
+///
+/// This is a development prototype tha stores consumables in the shared
+/// preferences. Do not use this in real world apps.
 class ConsumableStore {
   static const String _kPrefKey = 'consumables';
   static Future<void> _writes = Future.value();

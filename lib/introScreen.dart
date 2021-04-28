@@ -130,7 +130,7 @@ class _IntroScreenState extends State<IntroScreen> {
             child: Text("hinzufügen".tr()),
             onPressed: () {
               createSemester(addSemesterController.text);
-               HapticFeedback.mediumImpact();
+              HapticFeedback.mediumImpact();
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => chooseSemester()),
@@ -166,7 +166,7 @@ class _IntroScreenState extends State<IntroScreen> {
           : const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
-        color: defaultBlue,
+        color: defaultColor,
         activeSize: Size(22.0, 10.0),
         activeShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0)),

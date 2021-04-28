@@ -74,7 +74,7 @@ class _LoadingScreenState extends State<LoadingScreen>
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
-            backgroundColor: defaultBlue,
+            backgroundColor: defaultColor,
             forceElevated: true,
             title: Image.asset(
               'assets/images/iconT.png',
@@ -105,7 +105,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                color: defaultBlue,
+                                color: defaultColor,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                               ),
@@ -130,7 +130,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: defaultBlue,
+                                  color: defaultColor,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
                                 ),
@@ -183,15 +183,16 @@ class _LoadingScreenState extends State<LoadingScreen>
             rect,
           );
         },
-        child: ListView.builder(itemCount: 10,itemBuilder: (index, context) {
-          
-          return Padding(
-              padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
-              child: Container(
-                decoration: boxDec(),
-                child: ListTile(),
-              ));
-        }),
+        child: ListView.builder(
+            itemCount: 10,
+            itemBuilder: (index, context) {
+              return Padding(
+                  padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
+                  child: Container(
+                    decoration: boxDec(),
+                    child: ListTile(),
+                  ));
+            }),
       ),
     ));
   }
