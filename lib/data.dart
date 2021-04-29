@@ -141,12 +141,18 @@ void launchURL(_url) async =>
     await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 
 getPlusStatus() async {
-  DocumentSnapshot _db = await FirebaseFirestore.instance
-      .collection('userData')
-      .doc(auth.currentUser.uid)
-      .get();
+  try {
+    DocumentSnapshot _db = await FirebaseFirestore.instance
+        .collection('userData')
+        .doc(auth.currentUser.uid)
+        .get();
 
-  if (_db.data()['gradelyPlus'] == true) {
-    gradelyPlus = true;
+    if (_db.data()['gradelyPlus'] == true) {
+      gradelyPlus = true;
+    } else {
+      gradelyPlus = false;
+    }
+  } catch (e) {
+    gradelyPlus = false;
   }
 }

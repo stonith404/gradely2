@@ -6,9 +6,10 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gradely/userAuth/login.dart';
 import 'package:gradely/data.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 const bool _kAutoConsume = true;
-String successText = "";
+
 
 const String _kConsumableId = 'com.eliasschneider.gradely.gradelyplus';
 
@@ -35,6 +36,7 @@ class GradelyPlusState extends State<GradelyPlus> {
 
   @override
   void initState() {
+    getPlusStatus();
     final Stream<List<PurchaseDetails>> purchaseUpdated =
         InAppPurchaseConnection.instance.purchaseUpdatedStream;
     _subscription = purchaseUpdated.listen((purchaseDetailsList) {
@@ -165,8 +167,6 @@ class GradelyPlusState extends State<GradelyPlus> {
   }
 
   Widget _buildProductList() {
-
-
     final ListTile productHeader = ListTile(title: Text('Products for Sale'));
     List<ListTile> productList = <ListTile>[];
     if (_notFoundIds.isNotEmpty) {
@@ -224,8 +224,10 @@ class GradelyPlusState extends State<GradelyPlus> {
       },
     ));
 
-    return 
-            Column(children: <Widget>[Divider(), Text(successText), productList[0]]);
+    return gradelyPlus
+        ? Text("premium")
+        : Column(
+            children:[SizedBox(height: 40),Image.asset("assets/images/gradelyplus.png", height: 200), SizedBox(height: 40), Text("gradelyp1",), productList[0]]);
   }
 
   void showPendingUI() {
@@ -235,18 +237,15 @@ class GradelyPlusState extends State<GradelyPlus> {
   }
 
   void deliverProduct(PurchaseDetails purchaseDetails) async {
-  DocumentSnapshot _db = await FirebaseFirestore.instance
-      .collection('userData')
-      .doc(auth.currentUser.uid)
-      .get();
-
+    DocumentSnapshot _db = await FirebaseFirestore.instance
+        .collection('userData')
+        .doc(auth.currentUser.uid)
+        .get();
 
     FirebaseFirestore.instance
         .collection('userData')
         .doc(auth.currentUser.uid)
         .update({'gradelyPlus': true});
-
-
 
     setState(() {
       _purchases.add(purchaseDetails);
@@ -280,10 +279,7 @@ class GradelyPlusState extends State<GradelyPlus> {
         } else if (purchaseDetails.status == PurchaseStatus.purchased) {
           bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
-            setState(() {
-              successText = "bought";
-              
-            });
+            
             deliverProduct(purchaseDetails);
           } else {
             _handleInvalidPurchase(purchaseDetails);

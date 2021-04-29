@@ -110,6 +110,7 @@ class _HomeSiteState extends State<HomeSite> {
   @override
   void initState() {
     super.initState();
+       getPlusStatus();
     getLessons();
     getChoosenSemester();
     getgradesResult();
