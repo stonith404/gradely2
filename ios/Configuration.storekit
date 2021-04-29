@@ -5,9 +5,9 @@
   ],
   "products" : [
     {
-      "displayPrice" : "2",
+      "displayPrice" : "0.99",
       "familyShareable" : false,
-      "internalID" : "C58C7445",
+      "internalID" : "B4D024CD",
       "localizations" : [
         {
           "description" : "",
@@ -16,8 +16,8 @@
         }
       ],
       "productID" : "com.eliasschneider.gradely.gradelyplus",
-      "referenceName" : "gradelyplus",
-      "type" : "NonConsumable"
+      "referenceName" : "gradely plus",
+      "type" : "Consumable"
     }
   ],
   "settings" : {

@@ -11,7 +11,7 @@ import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
 
 num plusPoints = 0;
-
+bool gradelyPlus = false;
 bool isMaintanceEnabled = false;
 String gradesResult = "Pluspunkte";
 num plusPointsallAverageList = 0;
@@ -88,7 +88,6 @@ TextEditingController contactMessage = new TextEditingController();
 TextEditingController dreamGradeGrade = new TextEditingController();
 TextEditingController dreamGradeWeight = new TextEditingController();
 
-
 var testDetails;
 
 getTestDetails() async {
@@ -140,3 +139,14 @@ getgradesResult() async {
 
 void launchURL(_url) async =>
     await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
+
+getPlusStatus() async {
+  DocumentSnapshot _db = await FirebaseFirestore.instance
+      .collection('userData')
+      .doc(auth.currentUser.uid)
+      .get();
+
+  if (_db.data()['gradelyPlus'] == true) {
+    gradelyPlus = true;
+  }
+}

@@ -3,18 +3,17 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gradely/userAuth/login.dart';
+import 'package:gradely/data.dart';
 
 const bool _kAutoConsume = true;
+String successText = "";
 
-const String _kConsumableId = '';
-const String _kUpgradeId = 'com.eliasschneider.gradely.gradelyplus';
-const String _kSilverSubscriptionId = 'subscription_silver';
-const String _kGoldSubscriptionId = 'subscription_gold';
+const String _kConsumableId = 'com.eliasschneider.gradely.gradelyplus';
+
 const List<String> _kProductIds = <String>[
   _kConsumableId,
-  _kUpgradeId,
-  _kSilverSubscriptionId,
-  _kGoldSubscriptionId,
 ];
 
 class GradelyPlus extends StatefulWidget {
@@ -105,13 +104,13 @@ class GradelyPlusState extends State<GradelyPlus> {
         verifiedPurchases.add(purchase);
       }
     }
-    List<String> consumables = await ConsumableStore.load();
+
     setState(() {
       _isAvailable = isAvailable;
       _products = productDetailResponse.productDetails;
       _purchases = verifiedPurchases;
       _notFoundIds = productDetailResponse.notFoundIDs;
-      _consumables = consumables;
+
       _purchasePending = false;
       _loading = false;
     });
@@ -130,9 +129,7 @@ class GradelyPlusState extends State<GradelyPlus> {
       stack.add(
         ListView(
           children: [
-            _buildConnectionCheckTile(),
             _buildProductList(),
-            _buildConsumableBox(),
           ],
         ),
       );
@@ -157,54 +154,19 @@ class GradelyPlusState extends State<GradelyPlus> {
       );
     }
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('IAP Example'),
-        ),
-        body: Stack(
-          children: stack,
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('IAP Example'),
+      ),
+      body: Stack(
+        children: stack,
       ),
     );
   }
 
-  Card _buildConnectionCheckTile() {
-    if (_loading) {
-      return Card(child: ListTile(title: const Text('Trying to connect...')));
-    }
-    final Widget storeHeader = ListTile(
-      leading: Icon(_isAvailable ? Icons.check : Icons.block,
-          color: _isAvailable ? Colors.green : ThemeData.light().errorColor),
-      title: Text(
-          'The store is ' + (_isAvailable ? 'available' : 'unavailable') + '.'),
-    );
-    final List<Widget> children = <Widget>[storeHeader];
+  Widget _buildProductList() {
 
-    if (!_isAvailable) {
-      children.addAll([
-        Divider(),
-        ListTile(
-          title: Text('Not connected',
-              style: TextStyle(color: ThemeData.light().errorColor)),
-          subtitle: const Text(
-              'Unable to connect to the payments processor. Has this app been configured correctly? See the example README for instructions.'),
-        ),
-      ]);
-    }
-    return Card(child: Column(children: children));
-  }
 
-  Card _buildProductList() {
-    if (_loading) {
-      return Card(
-          child: (ListTile(
-              leading: CircularProgressIndicator(),
-              title: Text('Fetching products...'))));
-    }
-    if (!_isAvailable) {
-      return Card();
-    }
     final ListTile productHeader = ListTile(title: Text('Products for Sale'));
     List<ListTile> productList = <ListTile>[];
     if (_notFoundIds.isNotEmpty) {
@@ -227,7 +189,6 @@ class GradelyPlusState extends State<GradelyPlus> {
     }));
     productList.addAll(_products.map(
       (ProductDetails productDetails) {
-        PurchaseDetails previousPurchase = purchases[productDetails.id];
         return ListTile(
             title: Text(
               productDetails.title,
@@ -235,93 +196,36 @@ class GradelyPlusState extends State<GradelyPlus> {
             subtitle: Text(
               productDetails.description,
             ),
-            trailing: previousPurchase != null
-                ? Icon(Icons.check)
-                : TextButton(
-                    child: Text(productDetails.price),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.green[800],
-                      primary: Colors.white,
-                    ),
-                    onPressed: () {
-                      // NOTE: If you are making a subscription purchase/upgrade/downgrade, we recommend you to
-                      // verify the latest status of you your subscription by using server side receipt validation
-                      // and update the UI accordingly. The subscription purchase status shown
-                      // inside the app may not be accurate.
-                      final oldSubscription =
-                          _getOldSubscription(productDetails, purchases);
-                      PurchaseParam purchaseParam = PurchaseParam(
-                          productDetails: productDetails,
-                          applicationUserName: null,
-                          changeSubscriptionParam: Platform.isAndroid &&
-                                  oldSubscription != null
-                              ? ChangeSubscriptionParam(
-                                  oldPurchaseDetails: oldSubscription,
-                                  prorationMode:
-                                      ProrationMode.immediateWithTimeProration)
-                              : null);
-                      if (productDetails.id == _kConsumableId) {
-                        _connection.buyConsumable(
-                            purchaseParam: purchaseParam,
-                            autoConsume: _kAutoConsume || Platform.isIOS);
-                      } else {
-                        _connection.buyNonConsumable(
-                            purchaseParam: purchaseParam);
-                      }
-                    },
-                  ));
+            trailing: TextButton(
+              child: Text(productDetails.price),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.green[800],
+                primary: Colors.white,
+              ),
+              onPressed: () {
+                // NOTE: If you are making a subscription purchase/upgrade/downgrade, we recommend you to
+                // verify the latest status of you your subscription by using server side receipt validation
+                // and update the UI accordingly. The subscription purchase status shown
+                // inside the app may not be accurate.
+
+                PurchaseParam purchaseParam = PurchaseParam(
+                  productDetails: productDetails,
+                  applicationUserName: null,
+                );
+                if (productDetails.id == _kConsumableId) {
+                  _connection.buyConsumable(
+                      purchaseParam: purchaseParam,
+                      autoConsume: _kAutoConsume || Platform.isIOS);
+                } else {
+                  _connection.buyNonConsumable(purchaseParam: purchaseParam);
+                }
+              },
+            ));
       },
     ));
 
-    return Card(
-        child:
-            Column(children: <Widget>[productHeader, Divider()] + productList));
-  }
-
-  Card _buildConsumableBox() {
-    if (_loading) {
-      return Card(
-          child: (ListTile(
-              leading: CircularProgressIndicator(),
-              title: Text('Fetching consumables...'))));
-    }
-    if (!_isAvailable || _notFoundIds.contains(_kConsumableId)) {
-      return Card();
-    }
-    final ListTile consumableHeader =
-        ListTile(title: Text('Purchased consumables'));
-    final List<Widget> tokens = _consumables.map((String id) {
-      return GridTile(
-        child: IconButton(
-          icon: Icon(
-            Icons.stars,
-            size: 42.0,
-            color: Colors.orange,
-          ),
-          splashColor: Colors.yellowAccent,
-          onPressed: () => consume(id),
-        ),
-      );
-    }).toList();
-    return Card(
-        child: Column(children: <Widget>[
-      consumableHeader,
-      Divider(),
-      GridView.count(
-        crossAxisCount: 5,
-        children: tokens,
-        shrinkWrap: true,
-        padding: EdgeInsets.all(16.0),
-      )
-    ]));
-  }
-
-  Future<void> consume(String id) async {
-    await ConsumableStore.consume(id);
-    final List<String> consumables = await ConsumableStore.load();
-    setState(() {
-      _consumables = consumables;
-    });
+    return 
+            Column(children: <Widget>[Divider(), Text(successText), productList[0]]);
   }
 
   void showPendingUI() {
@@ -331,20 +235,23 @@ class GradelyPlusState extends State<GradelyPlus> {
   }
 
   void deliverProduct(PurchaseDetails purchaseDetails) async {
-    // IMPORTANT!! Always verify purchase details before delivering the product.
-    if (purchaseDetails.productID == _kConsumableId) {
-      await ConsumableStore.save(purchaseDetails.purchaseID);
-      List<String> consumables = await ConsumableStore.load();
-      setState(() {
-        _purchasePending = false;
-        _consumables = consumables;
-      });
-    } else {
-      setState(() {
-        _purchases.add(purchaseDetails);
-        _purchasePending = false;
-      });
-    }
+  DocumentSnapshot _db = await FirebaseFirestore.instance
+      .collection('userData')
+      .doc(auth.currentUser.uid)
+      .get();
+
+
+    FirebaseFirestore.instance
+        .collection('userData')
+        .doc(auth.currentUser.uid)
+        .update({'gradelyPlus': true});
+
+
+
+    setState(() {
+      _purchases.add(purchaseDetails);
+      _purchasePending = false;
+    });
   }
 
   void handleError(IAPError error) {
@@ -373,6 +280,10 @@ class GradelyPlusState extends State<GradelyPlus> {
         } else if (purchaseDetails.status == PurchaseStatus.purchased) {
           bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
+            setState(() {
+              successText = "bought";
+              
+            });
             deliverProduct(purchaseDetails);
           } else {
             _handleInvalidPurchase(purchaseDetails);
@@ -391,70 +302,5 @@ class GradelyPlusState extends State<GradelyPlus> {
         }
       }
     });
-  }
-
-  PurchaseDetails _getOldSubscription(
-      ProductDetails productDetails, Map<String, PurchaseDetails> purchases) {
-    // This is just to demonstrate a subscription upgrade or downgrade.
-    // This method assumes that you have only 2 subscriptions under a group, 'subscription_silver' & 'subscription_gold'.
-    // The 'subscription_silver' subscription can be upgraded to 'subscription_gold' and
-    // the 'subscription_gold' subscription can be downgraded to 'subscription_silver'.
-    // Please remember to replace the logic of finding the old subscription Id as per your app.
-    // The old subscription is only required on Android since Apple handles this internally
-    // by using the subscription group feature in iTunesConnect.
-    PurchaseDetails oldSubscription;
-    if (productDetails.id == _kSilverSubscriptionId &&
-        purchases[_kGoldSubscriptionId] != null) {
-      oldSubscription = purchases[_kGoldSubscriptionId];
-    } else if (productDetails.id == _kGoldSubscriptionId &&
-        purchases[_kSilverSubscriptionId] != null) {
-      oldSubscription = purchases[_kSilverSubscriptionId];
-    }
-    return oldSubscription;
-  }
-}
-
-/// A store of consumable items.
-///
-/// This is a development prototype tha stores consumables in the shared
-/// preferences. Do not use this in real world apps.
-class ConsumableStore {
-  static const String _kPrefKey = 'consumables';
-  static Future<void> _writes = Future.value();
-
-  /// Adds a consumable with ID `id` to the store.
-  ///
-  /// The consumable is only added after the returned Future is complete.
-  static Future<void> save(String id) {
-    _writes = _writes.then((void _) => _doSave(id));
-    return _writes;
-  }
-
-  /// Consumes a consumable with ID `id` from the store.
-  ///
-  /// The consumable was only consumed after the returned Future is complete.
-  static Future<void> consume(String id) {
-    _writes = _writes.then((void _) => _doConsume(id));
-    return _writes;
-  }
-
-  /// Returns the list of consumables from the store.
-  static Future<List<String>> load() async {
-    return (await SharedPreferences.getInstance()).getStringList(_kPrefKey) ??
-        [];
-  }
-
-  static Future<void> _doSave(String id) async {
-    List<String> cached = await load();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    cached.add(id);
-    await prefs.setStringList(_kPrefKey, cached);
-  }
-
-  static Future<void> _doConsume(String id) async {
-    List<String> cached = await load();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    cached.remove(id);
-    await prefs.setStringList(_kPrefKey, cached);
   }
 }
