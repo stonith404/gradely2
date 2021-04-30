@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/loading.dart';
+import 'package:gradely/shared/theme.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
 import 'userAuth/login.dart';
@@ -16,9 +17,11 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/semesterDetail.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:provider/provider.dart';
+import 'shared/theme.dart';
 
 bool isLoggedIn = false;
-const defaultColor = Color(0xFF6C63FF);
+var defaultColor = Color(0xFF6C63FF);
 var testList = [];
 var courseListID = [];
 var allAverageList = [];
@@ -43,7 +46,8 @@ void main() async {
     path: 'assets/translations',
     fallbackLocale: Locale('en'),
     saveLocale: true,
-    child: MaterialWrapper(),
+    child: ChangeNotifierProvider<ThemeModel>(
+    create: (BuildContext context) => ThemeModel(), child: MaterialWrapper()),
   ));
 }
 

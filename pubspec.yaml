@@ -47,6 +47,7 @@ dependencies:
   mailer:
   in_app_purchase: 
   shared_preferences:
+  provider:
 
 dev_dependencies:
   flutter_test:

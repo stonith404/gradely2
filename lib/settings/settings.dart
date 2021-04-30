@@ -15,6 +15,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'platformList.dart';
 import 'contact.dart';
 import 'gradelyPlus.dart';
+import 'customize.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -66,6 +67,26 @@ class _SettingsPageState extends State<SettingsPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => PlatformList()),
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.laptop,
+                        size: 15,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("plus".tr()),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Customize()),
                     );
                   },
                 ),

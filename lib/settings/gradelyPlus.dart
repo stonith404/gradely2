@@ -227,7 +227,9 @@ class GradelyPlusState extends State<GradelyPlus> {
     return gradelyPlus
         ? Text("premium")
         : Column(
-            children:[SizedBox(height: 40),Image.asset("assets/images/gradelyplus.png", height: 200), SizedBox(height: 40), Text("gradelyp1",), productList[0]]);
+            children:[SizedBox(height: 40),Image.asset("assets/images/gradelyplus.png", height: 200), SizedBox(height: 40), Text("gradelyp1"), ListTile(title: Row(children: [
+Icon(Icons.support), SizedBox(width: 20), Text("gradelyp2")
+              ],),), productList[0]]);
   }
 
   void showPendingUI() {
