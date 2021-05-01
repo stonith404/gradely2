@@ -48,6 +48,7 @@ dependencies:
   in_app_purchase: 
   shared_preferences:
   stacked_themes:
+  flutter_colorpicker:
 
 dev_dependencies:
   flutter_test:
