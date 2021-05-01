@@ -47,7 +47,7 @@ dependencies:
   mailer:
   in_app_purchase: 
   shared_preferences:
-  provider:
+  stacked_themes:
 
 dev_dependencies:
   flutter_test:

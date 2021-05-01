@@ -91,6 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: defaultColor,
           title: Text("Registrieren".tr()),
         ),
         body: isLoading
@@ -127,6 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           decoration: inputDec("Dein Passwort".tr())),
                     ),
                     ElevatedButton(
+                        style: elev(),
                         onPressed: () {
                           setState(() {
                             _email = _emailController.text;
@@ -139,7 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             MaterialPageRoute(
                                 builder: (context) => IntroScreen()),
                           );
-                           HapticFeedback.lightImpact();
+                          HapticFeedback.lightImpact();
                         },
                         child: Text("Registrieren".tr())),
                     SizedBox(

@@ -137,6 +137,23 @@ getgradesResult() async {
   gradesResult = _db.data()['gradesResult'];
 }
 
+getDefaultColor() async {
+  print("done");
+  try {
+    DocumentSnapshot _db = await FirebaseFirestore.instance
+        .collection('userData')
+        .doc(auth.currentUser.uid)
+        .get();
+
+    defaultColor = Color(
+        int.parse(_db.data()['defaultColor'].substring(1, 7), radix: 16) +
+            0xFF000000);
+  } catch (e) {
+    print(e);
+    defaultColor = Color(0xFF6C63FF);
+  }
+}
+
 void launchURL(_url) async =>
     await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 

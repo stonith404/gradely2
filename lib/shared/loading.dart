@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gradely/main.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/LessonsDetail.dart';
 import 'package:gradely/shared/loading.dart';
@@ -162,12 +163,17 @@ class _LoadingScreenState extends State<LoadingScreen>
             leading: Transform(
               alignment: Alignment.center,
               transform: Matrix4.rotationY(math.pi),
-              child:
-                  IconButton(icon: Icon(Icons.segment), onPressed: () async {}),
+              child: IconButton(
+         
+                  icon: Icon(Icons.segment),
+                  onPressed: () async {}),
             ),
             floating: true,
             actions: [
-              IconButton(icon: Icon(Icons.switch_left), onPressed: () async {}),
+              IconButton(
+                
+                  icon: Icon(Icons.switch_left),
+                  onPressed: () async {}),
             ],
             shape: defaultRoundedCorners(),
           ),

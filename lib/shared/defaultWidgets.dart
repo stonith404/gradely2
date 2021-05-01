@@ -31,3 +31,10 @@ InputDecoration inputDec(String _label) {
     ),
   );
 }
+
+ButtonStyle elev() {
+  ElevatedButton.styleFrom(
+    primary: defaultColor, // background
+  
+  );
+}

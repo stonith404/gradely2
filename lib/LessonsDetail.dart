@@ -135,7 +135,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
     darkModeColorChanger();
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: defaultColor,
           leading: IconButton(
+             
               icon: Icon(
                 Icons.arrow_back,
               ),
@@ -284,12 +286,14 @@ class _LessonsDetailState extends State<LessonsDetail> {
                               }
                             })(), style: TextStyle(fontSize: 17)),
                       IconButton(
+                         
                           icon: Icon(Icons.add),
                           onPressed: () {
                             addTest(context);
                             HapticFeedback.lightImpact();
                           }),
                       IconButton(
+                        
                           icon: FaIcon(FontAwesomeIcons.calculator, size: 17),
                           onPressed: () {
                             Navigator.push(
@@ -631,6 +635,7 @@ class _DreamGradeCState extends State<DreamGradeC> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: defaultColor,
         title: Text("dream grade calculator".tr()),
       ),
       body: Padding(

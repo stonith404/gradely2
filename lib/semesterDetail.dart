@@ -110,7 +110,7 @@ class _HomeSiteState extends State<HomeSite> {
   @override
   void initState() {
     super.initState();
-       getPlusStatus();
+    getPlusStatus();
     getLessons();
     getChoosenSemester();
     getgradesResult();
@@ -208,6 +208,7 @@ class _HomeSiteState extends State<HomeSite> {
                 alignment: Alignment.center,
                 transform: Matrix4.rotationY(math.pi),
                 child: IconButton(
+                    
                     icon: Icon(Icons.segment),
                     onPressed: () async {
                       HapticFeedback.lightImpact();
@@ -221,6 +222,7 @@ class _HomeSiteState extends State<HomeSite> {
               floating: true,
               actions: [
                 IconButton(
+      
                     icon: Icon(Icons.switch_left),
                     onPressed: () async {
                       HapticFeedback.lightImpact();
@@ -274,6 +276,7 @@ class _HomeSiteState extends State<HomeSite> {
                                       "${'Bist du sicher, dass du'.tr()} ${courseList[index]} ${'löschen willst?'.tr()}"),
                                   actions: <Widget>[
                                     FlatButton(
+                                      color: defaultColor,
                                       child: Text("Nein".tr()),
                                       onPressed: () {
                                         HapticFeedback.lightImpact();
@@ -281,6 +284,7 @@ class _HomeSiteState extends State<HomeSite> {
                                       },
                                     ),
                                     FlatButton(
+                                      color: defaultColor,
                                       child: Text("Löschen".tr()),
                                       onPressed: () {
                                         FirebaseFirestore.instance
@@ -376,6 +380,7 @@ class _addLessonState extends State<addLesson> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: defaultColor,
         title: Text("Fach hinzufügen".tr()),
         shape: defaultRoundedCorners(),
       ),
@@ -393,6 +398,9 @@ class _addLessonState extends State<addLesson> {
             height: 40,
           ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: defaultColor,
+            ),
             child: Text("hinzufügen".tr()),
             onPressed: () {
               createLesson(addLessonController.text);
@@ -432,6 +440,7 @@ class _updateLessonState extends State<updateLesson> {
     renameTestWeightController.text = selectedLessonName;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: defaultColor,
         title: Text("Fach unbenennen".tr()),
         shape: defaultRoundedCorners(),
       ),
@@ -445,6 +454,9 @@ class _updateLessonState extends State<updateLesson> {
                 textAlign: TextAlign.left,
                 decoration: inputDec("Fach Name".tr())),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: defaultColor,
+              ),
               child: Text("unbenennen".tr()),
               onPressed: () {
                 updateLessonF(renameTestWeightController.text);

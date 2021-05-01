@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
+import 'package:gradely/main.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
@@ -9,7 +10,6 @@ import 'package:gradely/data.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 const bool _kAutoConsume = true;
-
 
 const String _kConsumableId = 'com.eliasschneider.gradely.gradelyplus';
 
@@ -158,6 +158,7 @@ class GradelyPlusState extends State<GradelyPlus> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: defaultColor,
         title: const Text('IAP Example'),
       ),
       body: Stack(
@@ -198,10 +199,6 @@ class GradelyPlusState extends State<GradelyPlus> {
             ),
             trailing: TextButton(
               child: Text(productDetails.price),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.green[800],
-                primary: Colors.white,
-              ),
               onPressed: () {
                 // NOTE: If you are making a subscription purchase/upgrade/downgrade, we recommend you to
                 // verify the latest status of you your subscription by using server side receipt validation
@@ -226,10 +223,22 @@ class GradelyPlusState extends State<GradelyPlus> {
 
     return gradelyPlus
         ? Text("premium")
-        : Column(
-            children:[SizedBox(height: 40),Image.asset("assets/images/gradelyplus.png", height: 200), SizedBox(height: 40), Text("gradelyp1"), ListTile(title: Row(children: [
-Icon(Icons.support), SizedBox(width: 20), Text("gradelyp2")
-              ],),), productList[0]]);
+        : Column(children: [
+            SizedBox(height: 40),
+            Image.asset("assets/images/gradelyplus.png", height: 200),
+            SizedBox(height: 40),
+            Text("gradelyp1"),
+            ListTile(
+              title: Row(
+                children: [
+                  Icon(Icons.support),
+                  SizedBox(width: 20),
+                  Text("gradelyp2")
+                ],
+              ),
+            ),
+            productList[0]
+          ]);
   }
 
   void showPendingUI() {
@@ -281,7 +290,6 @@ Icon(Icons.support), SizedBox(width: 20), Text("gradelyp2")
         } else if (purchaseDetails.status == PurchaseStatus.purchased) {
           bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
-            
             deliverProduct(purchaseDetails);
           } else {
             _handleInvalidPurchase(purchaseDetails);

@@ -66,6 +66,7 @@ class _chooseSemesterState extends State<chooseSemester> {
     _getSemesters();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: defaultColor,
         title: Text("Semester"),
         leading: IconButton(
           icon: Icon(
@@ -130,6 +131,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                                         "${'Bist du sicher, dass du'.tr()} ${semesterList[index]} ${'löschen willst?'.tr()}"),
                                     actions: <Widget>[
                                       FlatButton(
+                                        color: defaultColor,
                                         child: Text("Nein".tr()),
                                         onPressed: () {
                                           Navigator.of(context).pop();
@@ -137,6 +139,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                                         },
                                       ),
                                       FlatButton(
+                                        color: defaultColor,
                                         child: Text("Löschen".tr()),
                                         onPressed: () {
                                           FirebaseFirestore.instance
@@ -175,6 +178,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                             semesterList[index],
                           ),
                           trailing: IconButton(
+                              color: defaultColor,
                               icon: Icon(Icons.arrow_forward),
                               onPressed: () {
                                 choosenSemester = semesterListID[index];
@@ -213,6 +217,7 @@ class _updateSemesterState extends State<updateSemester> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: defaultColor,
         title: Text("Semester ${'unbenennen'.tr()}"),
         shape: defaultRoundedCorners(),
       ),
@@ -229,6 +234,9 @@ class _updateSemesterState extends State<updateSemester> {
               height: 15,
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: defaultColor, // background
+              ),
               child: Text("unbenennen".tr()),
               onPressed: () {
                 updateSemesterF(renameSemesterController.text);
@@ -269,6 +277,7 @@ class _addSemesterState extends State<addSemester> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: defaultColor,
         title: Text("Semester hinzufügen".tr()),
         shape: defaultRoundedCorners(),
       ),
@@ -285,6 +294,9 @@ class _addSemesterState extends State<addSemester> {
               height: 20,
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: defaultColor, // background
+              ),
               child: Text("hinzufügen".tr()),
               onPressed: () {
                 createSemester(addSemesterController.text);

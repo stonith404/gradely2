@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:easy_localization/easy_localization.dart';
 import 'devInfo.dart';
 import 'package:flutter/services.dart';
+
 String appVersion = "";
 String appbuildNumber = "";
 
@@ -17,17 +18,15 @@ class AppInfo extends StatefulWidget {
 class _AppInfoState extends State<AppInfo> {
   getAppInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    if(kIsWeb){
-
-    }else{
- setState(() {
-      appVersion = packageInfo.version;
-      appbuildNumber = packageInfo.buildNumber;
-      appVersion = "Version: $appVersion";
-       appbuildNumber = "Build: $appbuildNumber";
-    });
+    if (kIsWeb) {
+    } else {
+      setState(() {
+        appVersion = packageInfo.version;
+        appbuildNumber = packageInfo.buildNumber;
+        appVersion = "Version: $appVersion";
+        appbuildNumber = "Build: $appbuildNumber";
+      });
     }
-   
   }
 
   @override
@@ -43,6 +42,7 @@ class _AppInfoState extends State<AppInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: defaultColor,
         title: Text("App Infos"),
       ),
       body: Padding(
@@ -52,32 +52,32 @@ class _AppInfoState extends State<AppInfo> {
             Spacer(
               flex: 2,
             ),
- GestureDetector(
-                  onTap: () {
-                    int now = DateTime.now().millisecondsSinceEpoch;
-                    if (now - _lastTap < 1000) {
-    
-                      _consecutiveTaps++;
+            GestureDetector(
+              onTap: () {
+                int now = DateTime.now().millisecondsSinceEpoch;
+                if (now - _lastTap < 1000) {
+                  _consecutiveTaps++;
 
-                      if (_consecutiveTaps > 9) {
-                         HapticFeedback.heavyImpact();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => DevInfo()),
-                        );
-                      }
-                    } else {
-                      _consecutiveTaps = 0;
-                    }
-                    _lastTap = now;
-                  },
-                  child:             ClipRRect(
-              borderRadius: BorderRadius.circular(12.0),
-              child: Image.asset(
-                "assets/icon/logo.jpg",
-                height: 130,
+                  if (_consecutiveTaps > 9) {
+                    HapticFeedback.heavyImpact();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DevInfo()),
+                    );
+                  }
+                } else {
+                  _consecutiveTaps = 0;
+                }
+                _lastTap = now;
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12.0),
+                child: Image.asset(
+                  "assets/icon/logo.jpg",
+                  height: 130,
+                ),
               ),
-            ),),
+            ),
             SizedBox(
               height: 20,
             ),
@@ -91,7 +91,8 @@ class _AppInfoState extends State<AppInfo> {
               flex: 1,
             ),
             Text(
-                "Gradely wurde von einem Schüler, für Schüler erstellt. Ich freue mich wenn ihr Verbesserungsvorschläge oder Ideen habt. Gerne könnt ihr mich unter elias@eliasschneider.com kontaktieren.".tr()),
+                "Gradely wurde von einem Schüler, für Schüler erstellt. Ich freue mich wenn ihr Verbesserungsvorschläge oder Ideen habt. Gerne könnt ihr mich unter elias@eliasschneider.com kontaktieren."
+                    .tr()),
             Spacer(
               flex: 8,
             ),

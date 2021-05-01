@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/loading.dart';
-import 'package:gradely/shared/theme.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
 import 'userAuth/login.dart';
@@ -17,8 +16,6 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/semesterDetail.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:provider/provider.dart';
-import 'shared/theme.dart';
 
 bool isLoggedIn = false;
 var defaultColor = Color(0xFF6C63FF);
@@ -39,6 +36,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   InAppPurchaseConnection.enablePendingPurchases();
   await Firebase.initializeApp();
+  getDefaultColor();
 
   runApp(EasyLocalization(
     supportedLocales: [Locale('de'), Locale('en')],
@@ -46,8 +44,7 @@ void main() async {
     path: 'assets/translations',
     fallbackLocale: Locale('en'),
     saveLocale: true,
-    child: ChangeNotifierProvider<ThemeModel>(
-    create: (BuildContext context) => ThemeModel(), child: MaterialWrapper()),
+    child: MaterialWrapper(),
   ));
 }
 
@@ -65,25 +62,23 @@ class MaterialWrapper extends StatelessWidget {
       locale: context.locale,
       home: HomeWrapper(),
       theme: ThemeData(
-        appBarTheme: AppBarTheme(centerTitle: true),
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
         fontFamily: 'Nunito',
         brightness: Brightness.light,
         primaryColor: defaultColor,
         scaffoldBackgroundColor: Colors.grey[300],
         backgroundColor: Colors.grey[300],
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(defaultColor)),
-        ),
       ),
       darkTheme: ThemeData(
-        appBarTheme: AppBarTheme(centerTitle: true),
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
         backgroundColor: Colors.grey[900],
         scaffoldBackgroundColor: Colors.grey[900],
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(defaultColor)),
-        ),
         brightness: Brightness.dark,
         primaryColor: defaultColor,
         floatingActionButtonTheme:

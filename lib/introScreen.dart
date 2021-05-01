@@ -62,6 +62,7 @@ class _IntroScreenState extends State<IntroScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
+                  color: defaultColor,
                   icon: FaIcon(FontAwesomeIcons.signOutAlt),
                   onPressed: () async {
                     Navigator.pushAndRemoveUntil(
@@ -127,6 +128,9 @@ class _IntroScreenState extends State<IntroScreen> {
             ],
           ),
           footer: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: defaultColor,
+            ),
             child: Text("hinzufügen".tr()),
             onPressed: () {
               createSemester(addSemesterController.text);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:gradely/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class DevInfo extends StatefulWidget {
@@ -8,8 +8,6 @@ class DevInfo extends StatefulWidget {
 }
 
 class _DevInfoState extends State<DevInfo> {
-
-
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   String _homeScreenText = "";
@@ -26,38 +24,31 @@ class _DevInfoState extends State<DevInfo> {
     });
   }
 
-  
-
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-         appBar: AppBar(
-
-    
+        appBar: AppBar(
+          backgroundColor: defaultColor,
           title: Text(
             "developer infos",
             style: TextStyle(fontWeight: FontWeight.w300),
           ),
         ),
-      body: 
-          Column(
-            children: [
-            
-              Padding(
-                padding: 
-                EdgeInsets.fromLTRB(15, 70, 15, 50),
-                child: Column(
-                  children: [
-                    Text('Push Notifications Token:', style: TextStyle(fontWeight: FontWeight.bold),),
-                    SelectableText(_homeScreenText),
-                  ],
-                ),
+        body: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(15, 70, 15, 50),
+              child: Column(
+                children: [
+                  Text(
+                    'Push Notifications Token:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SelectableText(_homeScreenText),
+                ],
               ),
-
-            ],
-          )
-
-    );
+            ),
+          ],
+        ));
   }
 }

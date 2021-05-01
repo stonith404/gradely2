@@ -40,7 +40,7 @@ class _ContactScreenState extends State<ContactScreen> {
       setState(() {
         isEmailsent = false;
       });
-  contactMessage.text = "";
+      contactMessage.text = "";
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomeSite()),
@@ -61,6 +61,7 @@ class _ContactScreenState extends State<ContactScreen> {
                   Text("${"contactSuccess2".tr()} ${auth.currentUser.email}."),
               actions: <Widget>[
                 FlatButton(
+                  color: defaultColor,
                   child: Text("ok"),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -70,7 +71,6 @@ class _ContactScreenState extends State<ContactScreen> {
               ],
             );
           });
-    
     } on MailerException catch (e) {
       setState(() {
         isEmailsent = false;
@@ -94,6 +94,7 @@ class _ContactScreenState extends State<ContactScreen> {
               content: Text("contactError1".tr()),
               actions: <Widget>[
                 FlatButton(
+                  color: defaultColor,
                   child: Text("Super".tr()),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -110,18 +111,19 @@ class _ContactScreenState extends State<ContactScreen> {
   Widget build(BuildContext context) {
     return Container(
       child: GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
-      },
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
         child: Scaffold(
-          appBar: AppBar(title: Text("contactDev".tr())),
+          appBar: AppBar(
+              backgroundColor: defaultColor, title: Text("contactDev".tr())),
           body: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(
               children: [
                 SizedBox(height: 50),
-         Text("contact1".tr()),
-                     SizedBox(height: 50),
+                Text("contact1".tr()),
+                SizedBox(height: 50),
                 Container(
                   child: TextField(
                       controller: contactMessage,
@@ -129,22 +131,16 @@ class _ContactScreenState extends State<ContactScreen> {
                       decoration: inputDec("Deine Nachricht".tr())),
                 ),
                 SizedBox(height: 50),
-           
-           
-               
-                
                 ElevatedButton(
+                    style: elev(),
                     onPressed: isEmailsent
                         ? null
                         : () {
-                          if(contactMessage.text == ""){
-
-                          }else{
-                            sendMail(contactMessage.text);
-                             HapticFeedback.mediumImpact();
-                                  
-                          }
-                            
+                            if (contactMessage.text == "") {
+                            } else {
+                              sendMail(contactMessage.text);
+                              HapticFeedback.mediumImpact();
+                            }
                           },
                     child: Text("send")),
               ],

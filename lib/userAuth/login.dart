@@ -66,6 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: defaultColor,
           title: Text("Einloggen".tr()),
         ),
         body: isLoading
@@ -102,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           decoration: inputDec("Dein Passwort".tr())),
                     ),
                     ElevatedButton(
+                        style: elev(),
                         onPressed: () {
                           setState(() {
                             _email = _emailController.text;
@@ -109,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             isLoading = true;
                           });
                           signInUser();
-                           HapticFeedback.lightImpact();
+                          HapticFeedback.lightImpact();
                         },
                         child: Text("Einloggen").tr()),
                     SizedBox(

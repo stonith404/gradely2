@@ -36,6 +36,7 @@ class _ResetPWState extends State<ResetPW> {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: defaultColor,
           title: Text("Passwort vergessen?".tr()),
         ),
         body: isLoading
@@ -64,6 +65,7 @@ class _ResetPWState extends State<ResetPW> {
                           decoration: inputDec("Deine Email".tr())),
                     ),
                     ElevatedButton(
+                        style: elev(),
                         onPressed: () {
                           _email = _emailController.text;
 
@@ -89,6 +91,7 @@ class _ResetPWState extends State<ResetPW> {
                                   content: Text("pwResetSuccess1".tr()),
                                   actions: <Widget>[
                                     FlatButton(
+                                      color: defaultColor,
                                       child: Text("ok"),
                                       onPressed: () {
                                         Navigator.of(context).pop();

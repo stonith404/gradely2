@@ -33,8 +33,10 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: defaultColor,
           title: Text("Einstellungen".tr()),
           leading: IconButton(
+             
               icon: Icon(
                 Icons.arrow_back,
               ),
@@ -80,7 +82,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       SizedBox(
                         width: 10,
                       ),
-                      Text("plus".tr()),
+                      Text("custom".tr()),
                     ],
                   ),
                   onTap: () {
