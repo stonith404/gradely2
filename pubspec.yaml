@@ -49,6 +49,7 @@ dependencies:
   shared_preferences:
   stacked_themes:
   flutter_colorpicker:
+  flutter_icons:
 
 dev_dependencies:
   flutter_test:
@@ -95,7 +96,11 @@ flutter:
     - family: Nunito
       fonts:
         - asset: assets/fonts/Nunito-SemiBold.ttf
-          style: normal
+        - asset: assets/fonts/Nunito-ExtraBold.ttf
+          weight: 700
+        
+
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

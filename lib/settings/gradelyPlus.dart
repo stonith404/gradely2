@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:gradely/main.dart';
@@ -8,6 +9,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gradely/userAuth/login.dart';
 import 'package:gradely/data.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:gradely/shared/defaultWidgets.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gradely/main.dart';
+
+class GradelyPlusWrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    if (Platform.isAndroid || Platform.isIOS) {
+      return GradelyPlus();
+    } else {
+      return GradelyPlusUnsupportet();
+    }
+  }
+}
 
 const bool _kAutoConsume = true;
 
@@ -70,20 +88,6 @@ class GradelyPlusState extends State<GradelyPlus> {
     if (productDetailResponse.error != null) {
       setState(() {
         _queryProductError = productDetailResponse.error.message;
-        _isAvailable = isAvailable;
-        _products = productDetailResponse.productDetails;
-        _purchases = [];
-        _notFoundIds = productDetailResponse.notFoundIDs;
-        _consumables = [];
-        _purchasePending = false;
-        _loading = false;
-      });
-      return;
-    }
-
-    if (productDetailResponse.productDetails.isEmpty) {
-      setState(() {
-        _queryProductError = null;
         _isAvailable = isAvailable;
         _products = productDetailResponse.productDetails;
         _purchases = [];
@@ -159,7 +163,7 @@ class GradelyPlusState extends State<GradelyPlus> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: defaultColor,
-        title: const Text('IAP Example'),
+        title: const Text('gradely plus'),
       ),
       body: Stack(
         children: stack,
@@ -168,15 +172,7 @@ class GradelyPlusState extends State<GradelyPlus> {
   }
 
   Widget _buildProductList() {
-    final ListTile productHeader = ListTile(title: Text('Products for Sale'));
-    List<ListTile> productList = <ListTile>[];
-    if (_notFoundIds.isNotEmpty) {
-      productList.add(ListTile(
-          title: Text('[${_notFoundIds.join(", ")}] not found',
-              style: TextStyle(color: ThemeData.light().errorColor)),
-          subtitle: Text(
-              'This app needs special configuration to run. Please see example/README.md for instructions.')));
-    }
+    List<Widget> productList = <Widget>[];
 
     // This loading previous purchases code is just a demo. Please do not use this as it is.
     // In your app you should always verify the purchase data using the `verificationData` inside the [PurchaseDetails] object before trusting it.
@@ -190,61 +186,32 @@ class GradelyPlusState extends State<GradelyPlus> {
     }));
     productList.addAll(_products.map(
       (ProductDetails productDetails) {
-        return ListTile(
-            title: Text(
-              productDetails.title,
-            ),
-            subtitle: Text(
-              productDetails.description,
-            ),
-            trailing: TextButton(
-              child: Text(productDetails.price),
-              onPressed: () {
-                // NOTE: If you are making a subscription purchase/upgrade/downgrade, we recommend you to
-                // verify the latest status of you your subscription by using server side receipt validation
-                // and update the UI accordingly. The subscription purchase status shown
-                // inside the app may not be accurate.
+        return ElevatedButton(
+          style: elev(),
+          child: Text(productDetails.price),
+          onPressed: () {
+            // NOTE: If you are making a subscription purchase/upgrade/downgrade, we recommend you to
+            // verify the latest status of you your subscription by using server side receipt validation
+            // and update the UI accordingly. The subscription purchase status shown
+            // inside the app may not be accurate.
 
-                PurchaseParam purchaseParam = PurchaseParam(
-                  productDetails: productDetails,
-                  applicationUserName: null,
-                );
-                if (productDetails.id == _kConsumableId) {
-                  _connection.buyConsumable(
-                      purchaseParam: purchaseParam,
-                      autoConsume: _kAutoConsume || Platform.isIOS);
-                } else {
-                  _connection.buyNonConsumable(purchaseParam: purchaseParam);
-                }
-              },
-            ));
+            PurchaseParam purchaseParam = PurchaseParam(
+              productDetails: productDetails,
+              applicationUserName: null,
+            );
+            if (productDetails.id == _kConsumableId) {
+              _connection.buyConsumable(
+                  purchaseParam: purchaseParam,
+                  autoConsume: _kAutoConsume || Platform.isIOS);
+            } else {
+              _connection.buyNonConsumable(purchaseParam: purchaseParam);
+            }
+          },
+        );
       },
     ));
 
-    return gradelyPlus
-        ? Text("premium")
-        : Column(children: [
-            SizedBox(height: 40),
-            Image.asset("assets/images/gradelyplus.png", height: 200),
-            SizedBox(height: 40),
-            Text("gradelyp1"),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(Icons.support),
-                  SizedBox(width: 20),
-                  Text("gradelyp2")
-                ],
-              ),
-            ),
-            productList[0]
-          ]);
-  }
-
-  void showPendingUI() {
-    setState(() {
-      _purchasePending = true;
-    });
+    return gradelyPlus ? Text("premium") : gpUI(productList: productList);
   }
 
   void deliverProduct(PurchaseDetails purchaseDetails) async {
@@ -262,6 +229,28 @@ class GradelyPlusState extends State<GradelyPlus> {
       _purchases.add(purchaseDetails);
       _purchasePending = false;
     });
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomeWrapper()),
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("🎉 " + "gradelyPS1".tr()),
+            content: Text("gradelyPS2".tr()),
+            actions: <Widget>[
+              FlatButton(
+                color: defaultColor,
+                child: Text("ok"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  HapticFeedback.lightImpact();
+                },
+              ),
+            ],
+          );
+        });
   }
 
   void handleError(IAPError error) {
@@ -283,7 +272,6 @@ class GradelyPlusState extends State<GradelyPlus> {
   void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
     purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
       if (purchaseDetails.status == PurchaseStatus.pending) {
-        showPendingUI();
       } else {
         if (purchaseDetails.status == PurchaseStatus.error) {
           handleError(purchaseDetails.error);
@@ -308,5 +296,164 @@ class GradelyPlusState extends State<GradelyPlus> {
         }
       }
     });
+  }
+}
+
+class gpUI extends StatelessWidget {
+  const gpUI({
+    Key key,
+    @required this.productList,
+  }) : super(key: key);
+
+  final List<Widget> productList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        SizedBox(height: 50),
+        Image.asset("assets/images/gradelyplus.png", height: 200),
+        SizedBox(height: 40),
+        Text("gradelyP1".tr()),
+        SizedBox(
+          height: 30,
+        ),
+        Container(
+          decoration: boxDec(),
+          child: ListTile(
+            title: Row(
+              children: [
+                Icon(
+                  FontAwesome5Solid.heart,
+                  color: Colors.red[600],
+                ),
+                SizedBox(width: 20),
+                Text("gradelyP2".tr())
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Container(
+          decoration: boxDec(),
+          child: ListTile(
+            title: Row(
+              children: [
+                Icon(
+                  FontAwesome5Solid.palette,
+                  color: Colors.amber[700],
+                ),
+                SizedBox(width: 20),
+                Text("gradelyP3".tr())
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Container(
+          decoration: boxDec(),
+          child: ListTile(
+            title: Row(
+              children: [
+                Icon(
+                  FontAwesome5Solid.star,
+                  color: defaultColor,
+                ),
+                SizedBox(width: 20),
+                Text("gradelyP4".tr())
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [kIsWeb ? Text("gradelyP5".tr()) : productList[0]],
+        )
+      ]),
+    );
+  }
+}
+
+class GradelyPlusUnsupportet extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        SizedBox(height: 50),
+        Image.asset("assets/images/gradelyplus.png", height: 200),
+        SizedBox(height: 40),
+        Text("gradelyP1".tr()),
+        SizedBox(
+          height: 30,
+        ),
+        Container(
+          decoration: boxDec(),
+          child: ListTile(
+            title: Row(
+              children: [
+                Icon(
+                  FontAwesome5Solid.heart,
+                  color: Colors.red[600],
+                ),
+                SizedBox(width: 20),
+                Text("gradelyP2".tr())
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Container(
+          decoration: boxDec(),
+          child: ListTile(
+            title: Row(
+              children: [
+                Icon(
+                  FontAwesome5Solid.palette,
+                  color: Colors.amber[700],
+                ),
+                SizedBox(width: 20),
+                Text("gradelyP3".tr())
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Container(
+          decoration: boxDec(),
+          child: ListTile(
+            title: Row(
+              children: [
+                Icon(
+                  FontAwesome5Solid.star,
+                  color: defaultColor,
+                ),
+                SizedBox(width: 20),
+                Text("gradelyP4".tr())
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+         
+        )
+      ]),
+    ));
   }
 }

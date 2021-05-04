@@ -13,6 +13,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 
 List semesterAveragePP = [];
 

@@ -16,6 +16,8 @@ import 'platformList.dart';
 import 'contact.dart';
 import 'gradelyPlus.dart';
 import 'customize.dart';
+import 'plusTest.dart';
+import 'package:gradely/data.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -72,43 +74,21 @@ class _SettingsPageState extends State<SettingsPage> {
                     );
                   },
                 ),
+            
                 ListTile(
                   title: Row(
                     children: [
-                      FaIcon(
-                        FontAwesomeIcons.laptop,
-                        size: 15,
-                      ),
+                     Icon(gradelyPlus? FontAwesomeIcons.palette: FontAwesomeIcons.star, size: 17,),
                       SizedBox(
                         width: 10,
                       ),
-                      Text("custom".tr()),
+                      Text(gradelyPlus? "customize".tr() : "Gradely Plus"),
                     ],
                   ),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Customize()),
-                    );
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.laptop,
-                        size: 15,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text("plus".tr()),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => GradelyPlus()),
+                      MaterialPageRoute(builder: (context) => gradelyPlus ? Customize(): GradelyPlusUnsupportet()),
                     );
                   },
                 ),

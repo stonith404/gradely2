@@ -9,10 +9,29 @@ import 'settings.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gradely/userAuth/login.dart';
+import 'package:easy_localization/easy_localization.dart';
 
- // create some values
-                  Color pickerColor = Color(0xff443a49);
-                  Color currentColor = Color(0xff443a49);
+// create some values
+Color pickerColor = Color(0xff443a49);
+Color currentColor = Color(0xff443a49);
+List colors = [
+  Color(0xFF6C63FF),
+  Color(0xFF4a47a3),
+  Color(0xFF709fb0),
+  Color(0xFFa7c5eb),
+  Color(0xFF440a67),
+  Color(0xFF93329e),
+  Color(0xFFFF69B4),
+  Color(0xFFb4aee8),
+  Color(0xFF693c72),
+  Color(0xFFc15050),
+  Color(0xFFd97642),
+  Color(0xFFd49d42),
+  Color(0xFF00af91),
+  Color(0xFF007965),
+  Color(0xFFd00587a),
+  Color(0xFF000000)
+];
 
 class Customize extends StatefulWidget {
   @override
@@ -27,7 +46,7 @@ class _CustomizeState extends State<Customize> {
         appBar: AppBar(
           backgroundColor: defaultColor,
           title: Text(
-            "custom",
+            "customize".tr(),
           ),
           leading: IconButton(
               icon: Icon(
@@ -41,56 +60,52 @@ class _CustomizeState extends State<Customize> {
                 );
               }),
         ),
-        body: Column(
-          children: [
-            SizedBox(height: 60),
-            ElevatedButton(
-                style: elev(),
-                onPressed: () {
-                 
-
-// ValueChanged<Color> callback
-                  void changeColor(Color color) {
-                    setState(() => defaultColor = color);
-                  }
-
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Pick a color!'),
-                          content: SingleChildScrollView(
-                            child: BlockPicker(
-                              availableColors: [Color(0xFF6C63FF), Color(0xFFFF69B4)],
-                              pickerColor: pickerColor,
-                              onColorChanged: changeColor,
+        body: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            children: [
+              Text("custom1".tr(),
+                  style: TextStyle(fontWeight: FontWeight.w700)),
+              SizedBox(height: 20),
+              Container(
+                height: 100,
+                child: Expanded(
+                  child: ListView.builder(
+                    itemCount: colors.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            defaultColor = colors[index];
+                          });
+                          FirebaseFirestore.instance
+                              .collection('userData')
+                              .doc(auth.currentUser.uid)
+                              .update({
+                            'defaultColor':
+                                "#${(defaultColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: colors[index],
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(55.0)),
                             ),
+                            width: 50,
+                            height: 50,
                           ),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: const Text('Got it'),
-                              onPressed: () {
-                              
-                               
-                                setState(() => currentColor = pickerColor);
-                                  FirebaseFirestore.instance
-                                    .collection('userData')
-                                    .doc(auth.currentUser.uid)
-                                    .update({
-                                  'defaultColor':
-                                      "#${(defaultColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
-                                });
-                                 print(
-                                  "eeeee" + currentColor.toString());
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      });
-                },
-                child: Text("change"))
-          ],
+                        ),
+                      );
+                    },
+                    scrollDirection: Axis.horizontal,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

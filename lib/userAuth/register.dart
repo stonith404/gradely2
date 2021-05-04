@@ -38,12 +38,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         'choosenSemester': 'noSemesterChoosed',
         'gradesResult': 'Durchschnitt'
       });
+       
       setState(() {
         isLoading = false;
       });
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeWrapper()),
+        MaterialPageRoute(builder: (context) => IntroScreen()),
       );
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -136,11 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             isLoading = true;
                           });
                           createUser();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => IntroScreen()),
-                          );
+                        
                           HapticFeedback.lightImpact();
                         },
                         child: Text("Registrieren".tr())),

@@ -66,7 +66,7 @@ class MaterialWrapper extends StatelessWidget {
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.white),
         ),
-        fontFamily: 'Nunito',
+       
         brightness: Brightness.light,
         primaryColor: defaultColor,
         scaffoldBackgroundColor: Colors.grey[300],

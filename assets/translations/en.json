@@ -63,5 +63,15 @@
    "dream grade calculator" : "dream grade calculator",
    "dreamGrade1" : "Your grade for the next exam should be:     ",
    "dream grade weight" : "dream grade weight",
-   "date" : "Date"
+   "date" : "Date",
+   "gradelyP2": "support developer",
+   "gradelyP1" :"I invested a lot of time and money in this app. Of course I want, that this app is free. With gradely plus you can help me, so I can make this app better.",
+   "gradelyP3": "customize theme color",
+   "gradelyP4": "more benefits coming soon",
+   "gradelyP5": "Gradely Plus can only be bought on a mobile device. After the purchase, you have gradely on any of your devices.",
+   "gradelyPS1": "Wohoo",
+   "gradelyPS2": "Thank you so much for being a gradely plus user. Have fun!",
+   "customize" : "Customize",
+   "custom1" : "Change app colors",
+   "custom2" : "looks empty here? more gradely plus features coming soon."
 }
