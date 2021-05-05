@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gradely/main.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/LessonsDetail.dart';
@@ -239,6 +240,15 @@ class LoadingBlock extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class LoadingInApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SpinKitDoubleBounce(color: defaultColor,),
     );
   }
 }

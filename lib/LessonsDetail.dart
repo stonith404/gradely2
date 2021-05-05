@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gradely/shared/loading.dart';
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'data.dart';
@@ -119,7 +120,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   void initState() {
     super.initState();
-
+ ErrorWidget.builder = (FlutterErrorDetails details) => LoadingInApp();
     getChoosenSemester();
     _getTests();
     getTestAvarage();

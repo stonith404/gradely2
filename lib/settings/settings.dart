@@ -28,6 +28,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
+    ErrorWidget.builder = (FlutterErrorDetails details) => Container();
     getgradesResult();
   }
 
@@ -88,7 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => gradelyPlus ? Customize(): GradelyPlusUnsupportet()),
+                      MaterialPageRoute(builder: (context) => gradelyPlus ? CustomizeT(): GradelyPlusWrapper()),
                     );
                   },
                 ),

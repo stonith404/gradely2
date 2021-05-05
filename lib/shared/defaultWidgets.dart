@@ -33,7 +33,8 @@ InputDecoration inputDec(String _label) {
 }
 
 ButtonStyle elev() {
-  ElevatedButton.styleFrom(
+  return ElevatedButton.styleFrom(
+  
     primary: defaultColor, // background
   
   );

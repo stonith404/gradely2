@@ -19,7 +19,10 @@ import 'package:gradely/main.dart';
 class GradelyPlusWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    if (Platform.isAndroid || Platform.isIOS) {
+    if (kIsWeb) {
+      return GradelyPlusUnsupportet();
+    } else if (Platform.isAndroid || Platform.isIOS) {
+
       return GradelyPlus();
     } else {
       return GradelyPlusUnsupportet();
@@ -29,7 +32,7 @@ class GradelyPlusWrapper extends StatelessWidget {
 
 const bool _kAutoConsume = true;
 
-const String _kConsumableId = 'com.eliasschneider.gradely.gradelyplus';
+const String _kConsumableId = 'com.eliasschneider.gradely.iap.gradelyplus';
 
 const List<String> _kProductIds = <String>[
   _kConsumableId,
@@ -54,6 +57,7 @@ class GradelyPlusState extends State<GradelyPlus> {
 
   @override
   void initState() {
+     ErrorWidget.builder = (FlutterErrorDetails details) => gpUI(productList: [ElevatedButton(onPressed: null, child: Text("Loading".tr(),), style: elev())]);
     getPlusStatus();
     final Stream<List<PurchaseDetails>> purchaseUpdated =
         InAppPurchaseConnection.instance.purchaseUpdatedStream;
@@ -140,25 +144,14 @@ class GradelyPlusState extends State<GradelyPlus> {
         ),
       );
     } else {
-      stack.add(Center(
-        child: Text(_queryProductError),
-      ));
+      stack.add(      gpUI(productList: []));
     }
     if (_purchasePending) {
       stack.add(
-        Stack(
-          children: [
-            Opacity(
-              opacity: 0.3,
-              child: const ModalBarrier(dismissible: false, color: Colors.grey),
-            ),
-            Center(
-              child: CircularProgressIndicator(),
-            ),
-          ],
-        ),
-      );
+      gpUI(productList: [ElevatedButton(onPressed: null, child: Text("Loading".tr(),), style: elev())]));
+      
     }
+
 
     return Scaffold(
       appBar: AppBar(
@@ -375,7 +368,7 @@ class gpUI extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [kIsWeb ? Text("gradelyP5".tr()) : productList[0]],
+          children: [kIsWeb ? Text("gradelyP5".tr(), style: TextStyle(fontStyle: FontStyle.italic, fontSize: 10),) : productList[0]],
         )
       ]),
     );
@@ -385,75 +378,8 @@ class gpUI extends StatelessWidget {
 class GradelyPlusUnsupportet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        SizedBox(height: 50),
-        Image.asset("assets/images/gradelyplus.png", height: 200),
-        SizedBox(height: 40),
-        Text("gradelyP1".tr()),
-        SizedBox(
-          height: 30,
-        ),
-        Container(
-          decoration: boxDec(),
-          child: ListTile(
-            title: Row(
-              children: [
-                Icon(
-                  FontAwesome5Solid.heart,
-                  color: Colors.red[600],
-                ),
-                SizedBox(width: 20),
-                Text("gradelyP2".tr())
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Container(
-          decoration: boxDec(),
-          child: ListTile(
-            title: Row(
-              children: [
-                Icon(
-                  FontAwesome5Solid.palette,
-                  color: Colors.amber[700],
-                ),
-                SizedBox(width: 20),
-                Text("gradelyP3".tr())
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Container(
-          decoration: boxDec(),
-          child: ListTile(
-            title: Row(
-              children: [
-                Icon(
-                  FontAwesome5Solid.star,
-                  color: defaultColor,
-                ),
-                SizedBox(width: 20),
-                Text("gradelyP4".tr())
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-         
-        )
-      ]),
-    ));
+    return Scaffold(
+      appBar: AppBar(title: Text("gradely plus"),),
+        body: gpUI(productList: [],));
   }
 }
