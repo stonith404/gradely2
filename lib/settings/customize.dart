@@ -50,45 +50,59 @@ class _CustomizeTState extends State<CustomizeT> {
               );
             }),
       ),
-      body: Column(
-        children: [
-     
-            
-      Expanded(
-              child: ListView.builder(
-                
-                  scrollDirection: Axis.horizontal,
-                itemCount: _colorList.length,
-                itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            defaultColor = _colorList[index];
-                          });
-                          FirebaseFirestore.instance
-                              .collection('userData')
-                              .doc(auth.currentUser.uid)
-                              .update({
-                            'defaultColor':
-                                "#${(defaultColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
-                          });
-                        },
-                    child: Container(
-                      width: 50,
-                        decoration: BoxDecoration(
-                      color: _colorList[index],
-                      borderRadius: BorderRadius.vertical(
-                        bottom: Radius.circular(25),
-                      ),
-                    )),
-                  );
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          children: [
+            SizedBox(height: 30),
+
+            Text("custom1".tr(), style: TextStyle(fontWeight: FontWeight.w700)),
+                      SizedBox(height: 30),
+
+              
+ Container(
+   height: 100,
+              
+                child: ListView.builder(
                   
-                },
-              ),
+                    scrollDirection: Axis.horizontal,
+                  itemCount: _colorList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    
+                          onTap: () {
+                            setState(() {
+                              defaultColor = _colorList[index];
+                            });
+                            FirebaseFirestore.instance
+                                .collection('userData')
+                                .doc(auth.currentUser.uid)
+                                .update({
+                              'defaultColor':
+                                  "#${(defaultColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
+                            });
+                          },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Container(
+                          height: 1,
+                          width: 50,
+                            decoration: BoxDecoration(
+                          color: _colorList[index],
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(65),
+                          ),
+                        )),
+                      ),
+                    );
+                    
+                  },
+                ),
+              
             ),
-          
-          Text(_colorList.length.toString() ?? "zroo")
-        ],
+            
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gradely/semesterDetail.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
@@ -9,6 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:gradely/main.dart';
 import 'package:gradely/userAuth/login.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class ContactScreen extends StatefulWidget {
   @override
@@ -51,7 +51,7 @@ class _ContactScreenState extends State<ContactScreen> {
             return AlertDialog(
               title: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.checkCircle),
+                        Icon(FontAwesome5Solid.check_circle),
                   Spacer(flex: 1),
                   Text("contactSuccess1".tr()),
                   Spacer(flex: 10)
@@ -85,7 +85,7 @@ class _ContactScreenState extends State<ContactScreen> {
             return AlertDialog(
               title: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.exclamationCircle),
+                  Icon(FontAwesome5Solid.exclamation_circle),
                   Spacer(flex: 1),
                   Text("fehler".tr()),
                   Spacer(flex: 10)

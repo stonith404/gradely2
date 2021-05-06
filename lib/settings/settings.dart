@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely/introScreen.dart';
 import 'package:gradely/main.dart';
 import 'package:gradely/semesterDetail.dart';
@@ -58,10 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(
                   title: Row(
                     children: [
-                      FaIcon(
-                        FontAwesomeIcons.laptop,
-                        size: 15,
-                      ),
+                      Icon(FontAwesome5Solid.laptop, size: 15),
                       SizedBox(
                         width: 10,
                       ),
@@ -79,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(
                   title: Row(
                     children: [
-                     Icon(gradelyPlus? FontAwesomeIcons.palette: FontAwesomeIcons.star, size: 17,),
+                     Icon(gradelyPlus?    FontAwesome5Solid.palette:   FontAwesome5Solid.star, size: 17),
                       SizedBox(
                         width: 10,
                       ),
@@ -96,10 +93,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(
                   title: Row(
                     children: [
-                      FaIcon(
-                        FontAwesomeIcons.userGraduate,
-                        size: 15,
-                      ),
+                             Icon(FontAwesome5Solid.user_graduate, size: 15),
                       SizedBox(
                         width: 10,
                       ),
@@ -134,10 +128,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(
                   title: Row(
                     children: [
-                      FaIcon(
-                        FontAwesomeIcons.signOutAlt,
-                        size: 15,
-                      ),
+                              Icon(FontAwesome5Solid.sign_out_alt, size: 15),
                       SizedBox(
                         width: 10,
                       ),
@@ -158,10 +149,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(
                   title: Row(
                     children: [
-                      FaIcon(
-                        FontAwesomeIcons.envelope,
-                        size: 15,
-                      ),
+                              Icon(FontAwesome5Solid.envelope, size: 15),
                       SizedBox(
                         width: 10,
                       ),
@@ -180,10 +168,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(
                   title: Row(
                     children: [
-                      FaIcon(
-                        FontAwesomeIcons.redo,
-                        size: 15,
-                      ),
+                              Icon(FontAwesome5Solid.redo, size: 15),
                       SizedBox(
                         width: 10,
                       ),
@@ -200,10 +185,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(
                   title: Row(
                     children: [
-                      FaIcon(
-                        FontAwesomeIcons.infoCircle,
-                        size: 15,
-                      ),
+                             Icon(FontAwesome5Solid.info_circle, size: 15),
                       SizedBox(
                         width: 10,
                       ),

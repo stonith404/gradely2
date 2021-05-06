@@ -7,7 +7,7 @@ import '../shared/defaultWidgets.dart';
 import 'login.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class ResetPW extends StatefulWidget {
   @override
@@ -82,7 +82,8 @@ class _ResetPWState extends State<ResetPW> {
                                 return AlertDialog(
                                   title: Row(
                                     children: [
-                                      FaIcon(FontAwesomeIcons.checkCircle),
+                                      Icon(FontAwesome5Solid.check_circle
+                                      ),
                                       Spacer(flex: 1),
                                       Text("contactSuccess1".tr()),
                                       Spacer(flex: 10)

@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/loading.dart';
 import 'main.dart';
@@ -14,7 +13,6 @@ import 'shared/defaultWidgets.dart';
 import 'dart:async';
 import 'package:gradely/semesterDetail.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 String selectedTest = "selectedTest";
@@ -297,7 +295,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                           }),
                       IconButton(
                         
-                          icon: FaIcon(FontAwesomeIcons.calculator, size: 17),
+                          icon: Icon(FontAwesome5Solid.calculator, size: 17),
                           onPressed: () {
                             Navigator.push(
                               context,

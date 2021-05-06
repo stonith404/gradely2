@@ -13,8 +13,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gradely/main.dart';
+
 
 class GradelyPlusWrapper extends StatelessWidget {
   @override
@@ -25,7 +25,8 @@ class GradelyPlusWrapper extends StatelessWidget {
 
       return GradelyPlus();
     } else {
-      return GradelyPlusUnsupportet();
+   return GradelyPlusUnsupportet();
+
     }
   }
 }
@@ -305,7 +306,7 @@ class gpUI extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        SizedBox(height: 50),
+        SizedBox(height: 20),
         Image.asset("assets/images/gradelyplus.png", height: 200),
         SizedBox(height: 40),
         Text("gradelyP1".tr()),
@@ -368,7 +369,7 @@ class gpUI extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [kIsWeb ? Text("gradelyP5".tr(), style: TextStyle(fontStyle: FontStyle.italic, fontSize: 10),) : productList[0]],
+          children: [kIsWeb || Platform.isMacOS ? Text("gradelyP5".tr(), style: TextStyle(fontStyle: FontStyle.italic, fontSize: 10),) : productList[0]],
         )
       ]),
     );

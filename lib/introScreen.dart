@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:gradely/main.dart';
 import 'package:gradely/chooseSemester.dart';
@@ -63,7 +63,7 @@ class _IntroScreenState extends State<IntroScreen> {
               children: [
                 IconButton(
                   color: defaultColor,
-                  icon: FaIcon(FontAwesomeIcons.signOutAlt),
+                  icon: Icon(FontAwesome5Solid.sign_out_alt),
                   onPressed: () async {
                     Navigator.pushAndRemoveUntil(
                       context,
