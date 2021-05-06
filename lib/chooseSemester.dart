@@ -23,7 +23,7 @@ class chooseSemester extends StatefulWidget {
 class _chooseSemesterState extends State<chooseSemester> {
   _getSemesters() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
-        .collection('userData/${auth.currentUser.uid}/semester')
+        .collection('testServer/${auth.currentUser.uid}/semester')
         .get();
     List<DocumentSnapshot> documents = result.docs;
 
@@ -41,7 +41,7 @@ class _chooseSemesterState extends State<chooseSemester> {
 
   saveChoosenSemester(String _choosenSemester, _choosenSemesterName) {
     FirebaseFirestore.instance
-        .collection('userData')
+        .collection('testServer')
         .doc(auth.currentUser.uid)
         .update({
       "choosenSemester": _choosenSemester,
@@ -144,12 +144,12 @@ class _chooseSemesterState extends State<chooseSemester> {
                                         onPressed: () {
                                           FirebaseFirestore.instance
                                               .collection(
-                                                  'userData/${auth.currentUser.uid}/semester/')
+                                                  'testServer/${auth.currentUser.uid}/semester/')
                                               .doc(semesterListID[index])
                                               .set({});
                                           FirebaseFirestore.instance
                                               .collection(
-                                                  'userData/${auth.currentUser.uid}/semester/')
+                                                  'testServer/${auth.currentUser.uid}/semester/')
                                               .doc(semesterListID[index])
                                               .delete();
                                           HapticFeedback.heavyImpact();
@@ -260,7 +260,7 @@ class _updateSemesterState extends State<updateSemester> {
 
 updateSemesterF(String lessonUpdate) {
   FirebaseFirestore.instance
-      .collection('userData')
+      .collection('testServer')
       .doc(auth.currentUser.uid)
       .collection('semester')
       .doc(selectedSemester)
@@ -320,7 +320,7 @@ class _addSemesterState extends State<addSemester> {
 
 createSemester(String semesterName) {
   CollectionReference gradesCollection = FirebaseFirestore.instance
-      .collection('userData/${auth.currentUser.uid}/semester/');
+      .collection('testServer/${auth.currentUser.uid}/semester/');
   gradesCollection.doc().set(
     {"name": semesterName},
   );

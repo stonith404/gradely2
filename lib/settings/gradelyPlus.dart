@@ -15,18 +15,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely/main.dart';
 
-
 class GradelyPlusWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (kIsWeb) {
       return GradelyPlusUnsupportet();
     } else if (Platform.isAndroid || Platform.isIOS) {
-
       return GradelyPlus();
     } else {
-   return GradelyPlusUnsupportet();
-
+      return GradelyPlusUnsupportet();
     }
   }
 }
@@ -58,7 +55,14 @@ class GradelyPlusState extends State<GradelyPlus> {
 
   @override
   void initState() {
-     ErrorWidget.builder = (FlutterErrorDetails details) => gpUI(productList: [ElevatedButton(onPressed: null, child: Text("Loading".tr(),), style: elev())]);
+    ErrorWidget.builder = (FlutterErrorDetails details) => gpUI(productList: [
+          ElevatedButton(
+              onPressed: null,
+              child: Text(
+                "Loading".tr(),
+              ),
+              style: elev())
+        ]);
     getPlusStatus();
     final Stream<List<PurchaseDetails>> purchaseUpdated =
         InAppPurchaseConnection.instance.purchaseUpdatedStream;
@@ -145,14 +149,18 @@ class GradelyPlusState extends State<GradelyPlus> {
         ),
       );
     } else {
-      stack.add(      gpUI(productList: []));
+      stack.add(gpUI(productList: []));
     }
     if (_purchasePending) {
-      stack.add(
-      gpUI(productList: [ElevatedButton(onPressed: null, child: Text("Loading".tr(),), style: elev())]));
-      
+      stack.add(gpUI(productList: [
+        ElevatedButton(
+            onPressed: null,
+            child: Text(
+              "Loading".tr(),
+            ),
+            style: elev())
+      ]));
     }
-
 
     return Scaffold(
       appBar: AppBar(
@@ -210,12 +218,12 @@ class GradelyPlusState extends State<GradelyPlus> {
 
   void deliverProduct(PurchaseDetails purchaseDetails) async {
     DocumentSnapshot _db = await FirebaseFirestore.instance
-        .collection('userData')
+        .collection('testServer')
         .doc(auth.currentUser.uid)
         .get();
 
     FirebaseFirestore.instance
-        .collection('userData')
+        .collection('testServer')
         .doc(auth.currentUser.uid)
         .update({'gradelyPlus': true});
 
@@ -369,7 +377,14 @@ class gpUI extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [kIsWeb || Platform.isMacOS ? Text("gradelyP5".tr(), style: TextStyle(fontStyle: FontStyle.italic, fontSize: 10),) : productList[0]],
+          children: [
+            kIsWeb || Platform.isMacOS
+                ? Text(
+                    "gradelyP5".tr(),
+                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 10),
+                  )
+                : productList[0]
+          ],
         )
       ]),
     );
@@ -380,7 +395,11 @@ class GradelyPlusUnsupportet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("gradely plus"),),
-        body: gpUI(productList: [],));
+        appBar: AppBar(
+          title: Text("gradely plus"),
+        ),
+        body: gpUI(
+          productList: [],
+        ));
   }
 }

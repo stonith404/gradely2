@@ -18,6 +18,7 @@ import 'gradelyPlus.dart';
 import 'customize.dart';
 import 'plusTest.dart';
 import 'package:gradely/data.dart';
+import 'userInfo.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -39,7 +40,6 @@ class _SettingsPageState extends State<SettingsPage> {
           backgroundColor: defaultColor,
           title: Text("Einstellungen".tr()),
           leading: IconButton(
-             
               icon: Icon(
                 Icons.arrow_back,
               ),
@@ -72,28 +72,34 @@ class _SettingsPageState extends State<SettingsPage> {
                     );
                   },
                 ),
-            
                 ListTile(
                   title: Row(
                     children: [
-                     Icon(gradelyPlus?    FontAwesome5Solid.palette:   FontAwesome5Solid.star, size: 17),
+                      Icon(
+                          gradelyPlus
+                              ? FontAwesome5Solid.palette
+                              : FontAwesome5Solid.star,
+                          size: 17),
                       SizedBox(
                         width: 10,
                       ),
-                      Text(gradelyPlus? "customize".tr() : "Gradely Plus"),
+                      Text(gradelyPlus ? "customize".tr() : "Gradely Plus"),
                     ],
                   ),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => gradelyPlus ? CustomizeT(): GradelyPlusWrapper()),
+                      MaterialPageRoute(
+                          builder: (context) => gradelyPlus
+                              ? CustomizeT()
+                              : GradelyPlusWrapper()),
                     );
                   },
                 ),
                 ListTile(
                   title: Row(
                     children: [
-                             Icon(FontAwesome5Solid.user_graduate, size: 15),
+                      Icon(FontAwesome5Solid.user_graduate, size: 15),
                       SizedBox(
                         width: 10,
                       ),
@@ -112,7 +118,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         }).toList(),
                         onChanged: (_) {
                           FirebaseFirestore.instance
-                              .collection('userData')
+                              .collection('testServer')
                               .doc(auth.currentUser.uid)
                               .update({'gradesResult': _});
                           setState(() {
@@ -128,28 +134,25 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(
                   title: Row(
                     children: [
-                              Icon(FontAwesome5Solid.sign_out_alt, size: 15),
+                      Icon(FontAwesome5Solid.user, size: 15),
                       SizedBox(
                         width: 10,
                       ),
-                      Text("Logout"),
+                      Text("Account"),
                     ],
                   ),
-                  onTap: () async {
-                    Navigator.pushAndRemoveUntil(
+                  onTap: () {
+                    Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                      (Route<dynamic> route) => false,
+                      MaterialPageRoute(builder: (context) => UserInfoScreen()),
                     );
-
-                    await FirebaseAuth.instance.signOut();
                   },
                 ),
                 Divider(),
                 ListTile(
                   title: Row(
                     children: [
-                              Icon(FontAwesome5Solid.envelope, size: 15),
+                      Icon(FontAwesome5Solid.envelope, size: 15),
                       SizedBox(
                         width: 10,
                       ),
@@ -168,7 +171,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(
                   title: Row(
                     children: [
-                              Icon(FontAwesome5Solid.redo, size: 15),
+                      Icon(FontAwesome5Solid.redo, size: 15),
                       SizedBox(
                         width: 10,
                       ),
@@ -185,7 +188,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(
                   title: Row(
                     children: [
-                             Icon(FontAwesome5Solid.info_circle, size: 15),
+                      Icon(FontAwesome5Solid.info_circle, size: 15),
                       SizedBox(
                         width: 10,
                       ),

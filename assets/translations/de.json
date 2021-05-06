@@ -73,5 +73,15 @@
     "customize" : "App anpassen",
     "custom1" : "App Farben anpassen",
     "custom2" : "Sieht es leer aus? Mehr gradely plus features kommen bald.",
-    "Loading..." : "Lädt..."
+    "Loading..." : "Lädt...",
+    "userinfo1" : "Email",
+    "userinfoP1": "Passwort",
+    "userinfoP2": "Bitte gib dein Passwort ein, um deine Änderungen zu speichern.",
+    "userinfoP3": "Account löschen",
+    "save": "speichern",
+    "change password" : "Passwort ändern",
+    "userInfoRP1" : "Um dein Passwort zu ändern, drücke den Knopf unten. Du bekommst eine Email, dort kannst du dein Passwort ändern.",
+    "userinfoD1" : "Account löschen",
+    "userinfoD2" : "Achtung! Willst du wirklich all deine Noten und dein Account löschen? Dies kann nicht Rückgängig gemacht werden.",
+    "delete" : "löschen"
    }

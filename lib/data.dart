@@ -74,6 +74,7 @@ getPluspointsallAverageList(num value) {
 }
 
 TextEditingController addLessonController = new TextEditingController();
+TextEditingController changeEmailController = new TextEditingController();
 TextEditingController addSemesterController = new TextEditingController();
 TextEditingController renameTestWeightController = new TextEditingController();
 TextEditingController renameSemesterController = new TextEditingController();
@@ -87,6 +88,8 @@ TextEditingController editTestDateController = new TextEditingController();
 TextEditingController contactMessage = new TextEditingController();
 TextEditingController dreamGradeGrade = new TextEditingController();
 TextEditingController dreamGradeWeight = new TextEditingController();
+TextEditingController passwordController = new TextEditingController();
+TextEditingController passwordPlaceholder = new TextEditingController();
 
 var testDetails;
 
@@ -102,14 +105,14 @@ getTestDetails() async {
 
 getChoosenSemester() async {
   DocumentSnapshot _db = await FirebaseFirestore.instance
-      .collection('userData')
+      .collection('testServer')
       .doc(auth.currentUser.uid)
       .get();
 
   if (_db.data()['choosenSemester'] == null) {
     print("made");
     FirebaseFirestore.instance
-        .collection('userData')
+        .collection('testServer')
         .doc(auth.currentUser.uid)
         .update({'choosenSemester': 'noSemesterChoosed'});
   } else {
@@ -121,7 +124,7 @@ getChoosenSemester() async {
 
 getChoosenSemesterName() async {
   DocumentSnapshot _db = await FirebaseFirestore.instance
-      .collection('userData')
+      .collection('testServer')
       .doc(auth.currentUser.uid)
       .get();
 
@@ -130,7 +133,7 @@ getChoosenSemesterName() async {
 
 getgradesResult() async {
   DocumentSnapshot _db = await FirebaseFirestore.instance
-      .collection('userData')
+      .collection('testServer')
       .doc(auth.currentUser.uid)
       .get();
 
@@ -141,7 +144,7 @@ getDefaultColor() async {
   print("done");
   try {
     DocumentSnapshot _db = await FirebaseFirestore.instance
-        .collection('userData')
+        .collection('testServer')
         .doc(auth.currentUser.uid)
         .get();
 
@@ -160,7 +163,7 @@ void launchURL(_url) async =>
 getPlusStatus() async {
   try {
     DocumentSnapshot _db = await FirebaseFirestore.instance
-        .collection('userData')
+        .collection('testServer')
         .doc(auth.currentUser.uid)
         .get();
 

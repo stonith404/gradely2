@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gradely/main.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gradely/LessonsDetail.dart';
-import 'package:gradely/shared/loading.dart';
-import 'package:gradely/main.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gradely/introScreen.dart';
-import 'dart:async';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely/semesterDetail.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:gradely/settings/settings.dart';
+import 'package:flutter/services.dart';
 import 'defaultWidgets.dart';
 import 'dart:math' as math;
 
@@ -152,11 +142,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                           icon: Icon(Icons.add),
                           color: Colors.white,
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => addLesson()),
-                            );
+                            
                           }),
                     ),
                   ],
@@ -166,7 +152,14 @@ class _LoadingScreenState extends State<LoadingScreen>
               alignment: Alignment.center,
               transform: Matrix4.rotationY(math.pi),
               child:
-                  IconButton(icon: Icon(Icons.segment), onPressed: () async {}),
+                  IconButton(icon: Icon(Icons.segment), onPressed: () async {
+                     HapticFeedback.lightImpact();
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => SettingsPage()),
+                      );
+                  }),
             ),
             floating: true,
             actions: [

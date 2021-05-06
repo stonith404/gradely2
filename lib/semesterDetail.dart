@@ -42,7 +42,7 @@ class _HomeSiteState extends State<HomeSite> {
   getLessons() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
-            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+            'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
         .get();
     List<DocumentSnapshot> documents = result.docs;
 
@@ -118,7 +118,6 @@ class _HomeSiteState extends State<HomeSite> {
     getgradesResult();
     pushNotification();
   }
-
 
   void setState(fn) {
     if (mounted) {
@@ -211,7 +210,6 @@ class _HomeSiteState extends State<HomeSite> {
                 alignment: Alignment.center,
                 transform: Matrix4.rotationY(math.pi),
                 child: IconButton(
-                    
                     icon: Icon(Icons.segment),
                     onPressed: () async {
                       HapticFeedback.lightImpact();
@@ -225,7 +223,6 @@ class _HomeSiteState extends State<HomeSite> {
               floating: true,
               actions: [
                 IconButton(
-      
                     icon: Icon(Icons.switch_left),
                     onPressed: () async {
                       HapticFeedback.lightImpact();
@@ -292,12 +289,12 @@ class _HomeSiteState extends State<HomeSite> {
                                       onPressed: () {
                                         FirebaseFirestore.instance
                                             .collection(
-                                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+                                                'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
                                             .doc(courseListID[index])
                                             .set({});
                                         FirebaseFirestore.instance
                                             .collection(
-                                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+                                                'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
                                             .doc(courseListID[index])
                                             .delete();
                                         HapticFeedback.heavyImpact();
@@ -426,7 +423,7 @@ class _addLessonState extends State<addLesson> {
 
 createLesson(String lessonName) {
   CollectionReference gradesCollection = FirebaseFirestore.instance.collection(
-      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/');
+      'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/');
   gradesCollection.doc().set(
     {"name": lessonName, "average": 0 / -0}, //generate NaN
   );
@@ -483,7 +480,7 @@ class _updateLessonState extends State<updateLesson> {
 
 updateLessonF(String lessonUpdate) {
   FirebaseFirestore.instance
-      .collection('userData')
+      .collection('testServer')
       .doc(auth.currentUser.uid)
       .collection('semester')
       .doc(choosenSemester)

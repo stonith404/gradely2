@@ -32,13 +32,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: _email, password: _password);
       FirebaseFirestore.instance
-          .collection('userData')
+          .collection('testServer')
           .doc(auth.currentUser.uid)
           .set({
         'choosenSemester': 'noSemesterChoosed',
         'gradesResult': 'Durchschnitt'
       });
-       
+
       setState(() {
         isLoading = false;
       });
@@ -137,7 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             isLoading = true;
                           });
                           createUser();
-                        
+
                           HapticFeedback.lightImpact();
                         },
                         child: Text("Registrieren".tr())),

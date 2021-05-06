@@ -63,7 +63,10 @@ class MaterialWrapper extends StatelessWidget {
       locale: context.locale,
       home: HomeWrapper(),
       theme: ThemeData(
+        textButtonTheme: TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStateProperty.all<Color>(
+                          defaultColor),)),
         fontFamily: "Nunito",
+        dialogBackgroundColor:  Colors.grey[300],
         appBarTheme: AppBarTheme(
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.white),
@@ -80,6 +83,9 @@ class MaterialWrapper extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.white),
         ),
         backgroundColor: Colors.grey[900],
+        textButtonTheme: TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStateProperty.all<Color>(
+                          defaultColor),)),
+         dialogBackgroundColor:  Colors.grey[900],
         scaffoldBackgroundColor: Colors.grey[900],
         brightness: Brightness.dark,
         primaryColor: defaultColor,

@@ -74,5 +74,15 @@
    "customize" : "Customize",
    "custom1" : "Change app colors",
    "custom2" : "looks empty here? more gradely plus features coming soon.",
-   "Loading..." : "Loading..."
+   "Loading..." : "Loading...",
+   "userinfo1" : "email",
+   "userinfoP1": "Action required",
+   "userinfoP2": "Please re enter your password to save your changes",
+   "userinfoP3": "Delete Account",
+   "save": "save",
+   "change password" : "change password",
+   "userInfoRP1" : "To change your password, click the button below. You get an email, there you can change your password.",
+   "userinfoD1" : "Delete Account",
+   "userinfoD2" : "Caution! Do you really want to delete your account and your grades? This can't be undone.",
+   "delete" : "delete"
 }

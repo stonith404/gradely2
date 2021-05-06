@@ -38,7 +38,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
   _getTests() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
-            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+            'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
         .get();
     List<DocumentSnapshot> documents = result.docs;
     setState(() {
@@ -78,7 +78,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
   getTestAvarage() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
-            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+            'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
         .get();
 
     List<DocumentSnapshot> documents = result.docs;
@@ -107,7 +107,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
     });
 
     FirebaseFirestore.instance
-        .collection('userData')
+        .collection('testServer')
         .doc(auth.currentUser.uid)
         .collection('semester')
         .doc(choosenSemester)
@@ -118,7 +118,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   void initState() {
     super.initState();
- ErrorWidget.builder = (FlutterErrorDetails details) => LoadingInApp();
+    ErrorWidget.builder = (FlutterErrorDetails details) => LoadingInApp();
     getChoosenSemester();
     _getTests();
     getTestAvarage();
@@ -138,7 +138,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
         appBar: AppBar(
           backgroundColor: defaultColor,
           leading: IconButton(
-             
               icon: Icon(
                 Icons.arrow_back,
               ),
@@ -176,12 +175,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
                               selectedTest = testListID[index];
                               FirebaseFirestore.instance
                                   .collection(
-                                      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                                      'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                                   .doc(selectedTest)
                                   .set({});
                               FirebaseFirestore.instance
                                   .collection(
-                                      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                                      'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                                   .doc(selectedTest)
                                   .delete();
                               HapticFeedback.mediumImpact();
@@ -230,7 +229,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
                               testDetails = (await FirebaseFirestore.instance
                                       .collection(
-                                          "userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
+                                          "testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
                                       .doc(selectedTest)
                                       .get())
                                   .data();
@@ -287,14 +286,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
                               }
                             })(), style: TextStyle(fontSize: 17)),
                       IconButton(
-                         
                           icon: Icon(Icons.add),
                           onPressed: () {
                             addTest(context);
                             HapticFeedback.lightImpact();
                           }),
                       IconButton(
-                        
                           icon: Icon(FontAwesome5Solid.calculator, size: 17),
                           onPressed: () {
                             Navigator.push(
@@ -349,7 +346,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             onPressed: () {
                               FirebaseFirestore.instance
                                   .collection(
-                                      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                                      'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                                   .doc(selectedTest)
                                   .set({
                                 "name": editTestInfoName.text,
@@ -597,7 +594,7 @@ Future addTest(BuildContext context) {
 
 createTest(String testName, double grade, double weight, String date) {
   FirebaseFirestore.instance
-      .collection('userData')
+      .collection('testServer')
       .doc(auth.currentUser.uid)
       .collection('semester')
       .doc(choosenSemester)
