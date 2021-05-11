@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradely/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import '../shared/defaultWidgets.dart';
 
 class DevInfo extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _DevInfoState extends State<DevInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          shape: defaultRoundedCorners(),
           backgroundColor: defaultColor,
           title: Text(
             "developer infos",

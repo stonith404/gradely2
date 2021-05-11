@@ -68,6 +68,7 @@ class MaterialWrapper extends StatelessWidget {
         fontFamily: "Nunito",
         dialogBackgroundColor:  Colors.grey[300],
         appBarTheme: AppBarTheme(
+    
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.white),
         ),
@@ -128,14 +129,15 @@ class _State extends State<HomeWrapper> {
   @override
   Widget build(BuildContext context) {
     getChoosenSemester();
-    if (!isLoggedIn) {
-      return LoginScreen();
-    } else {
-      if (choosenSemester == "noSemesterChoosed") {
+    if (isLoggedIn) {
+           if (choosenSemester == "noSemesterChoosed" ) {
         return chooseSemester();
       } else {
         return HomeSite();
       }
+    } else {
+       return LoginScreen();
+
     }
   }
 }

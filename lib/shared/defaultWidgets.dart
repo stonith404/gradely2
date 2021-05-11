@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gradely/main.dart';
+import 'package:gradely/data.dart';
+
 
 RoundedRectangleBorder defaultRoundedCorners() {
   return RoundedRectangleBorder(
@@ -18,6 +21,9 @@ BoxDecoration boxDec() {
 
 InputDecoration inputDec(String _label) {
   return InputDecoration(
+    disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderSide: BorderSide.none),
     filled: true,
     labelText: _label,
     fillColor: bwColor,
@@ -32,6 +38,17 @@ InputDecoration inputDec(String _label) {
   );
 }
 
+  FilteringTextInputFormatter EmojiRegex() {
+    return FilteringTextInputFormatter.deny(
+                 gradelyPlus ? RegExp(
+  r''
+)
+: RegExp(
+  r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'
+)
+);
+  }
+
 ButtonStyle elev() {
   return ElevatedButton.styleFrom(
   
@@ -39,3 +56,4 @@ ButtonStyle elev() {
   
   );
 }
+

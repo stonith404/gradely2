@@ -3,22 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely/introScreen.dart';
 import 'package:gradely/main.dart';
-import 'package:gradely/semesterDetail.dart';
-import 'aboutDev.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../userAuth/login.dart';
 import 'package:gradely/data.dart';
-import 'aboutApp.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'platformList.dart';
 import 'contact.dart';
 import 'gradelyPlus.dart';
 import 'customize.dart';
-import 'plusTest.dart';
 import 'package:gradely/data.dart';
 import 'userInfo.dart';
+import '../shared/defaultWidgets.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -37,6 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          shape: defaultRoundedCorners(),
           backgroundColor: defaultColor,
           title: Text("Einstellungen".tr()),
           leading: IconButton(
@@ -118,7 +114,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         }).toList(),
                         onChanged: (_) {
                           FirebaseFirestore.instance
-                              .collection('testServer')
+                              .collection('userData')
                               .doc(auth.currentUser.uid)
                               .update({'gradesResult': _});
                           setState(() {
@@ -160,12 +156,15 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   onTap: () {
-                    Navigator.push(
+                    if (kIsWeb) {
+                      launchURL("https://gradelyapp.com");
+                    } else {
+                                          Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              kIsWeb ? AppInfo() : ContactScreen()),
+                      MaterialPageRoute(builder: (context) => ContactScreen()),
                     );
+                    }
+
                   },
                 ),
                 ListTile(
@@ -182,23 +181,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => IntroScreen()),
-                    );
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Icon(FontAwesome5Solid.info_circle, size: 15),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text("App Info"),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AppInfo()),
                     );
                   },
                 ),

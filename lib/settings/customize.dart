@@ -4,6 +4,7 @@ import 'settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gradely/userAuth/login.dart';
 import 'package:easy_localization/easy_localization.dart';
+import '../shared/defaultWidgets.dart';
 
 List _colorList = [
   Color(0xFF6C63FF),
@@ -69,7 +70,7 @@ class _CustomizeTState extends State<CustomizeT> {
                         defaultColor = _colorList[index];
                       });
                       FirebaseFirestore.instance
-                          .collection('testServer')
+                          .collection('userData')
                           .doc(auth.currentUser.uid)
                           .update({
                         'defaultColor':
@@ -112,6 +113,7 @@ class _CustomizeState extends State<Customize> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        shape: defaultRoundedCorners(),
         backgroundColor: defaultColor,
         title: Text(
           "customize".tr(),
@@ -146,7 +148,7 @@ class _CustomizeState extends State<Customize> {
                             defaultColor = _colorList[index];
                           });
                           FirebaseFirestore.instance
-                              .collection('testServer')
+                              .collection('userData')
                               .doc(auth.currentUser.uid)
                               .update({
                             'defaultColor':

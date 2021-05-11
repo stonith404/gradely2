@@ -42,7 +42,7 @@ class _HomeSiteState extends State<HomeSite> {
   getLessons() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
-            'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
         .get();
     List<DocumentSnapshot> documents = result.docs;
 
@@ -289,12 +289,12 @@ class _HomeSiteState extends State<HomeSite> {
                                       onPressed: () {
                                         FirebaseFirestore.instance
                                             .collection(
-                                                'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+                                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
                                             .doc(courseListID[index])
                                             .set({});
                                         FirebaseFirestore.instance
                                             .collection(
-                                                'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+                                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
                                             .doc(courseListID[index])
                                             .delete();
                                         HapticFeedback.heavyImpact();
@@ -384,46 +384,52 @@ class _addLessonState extends State<addLesson> {
         title: Text("Fach hinzufügen".tr()),
         shape: defaultRoundedCorners(),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-                controller: addLessonController,
-                textAlign: TextAlign.left,
-                decoration: inputDec("Fach Name".tr())),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: defaultColor,
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                   inputFormatters:  [ EmojiRegex() ], 
+                  controller: addLessonController,
+                  textAlign: TextAlign.left,
+                  decoration: inputDec("Fach Name".tr())),
             ),
-            child: Text("hinzufügen".tr()),
-            onPressed: () {
-              createLesson(addLessonController.text);
-              HapticFeedback.mediumImpact();
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => HomeWrapper()),
-                (Route<dynamic> route) => false,
-              );
+            SizedBox(
+              height: 40,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: defaultColor,
+              ),
+              child: Text("hinzufügen".tr()),
+              onPressed: () {
+                createLesson(addLessonController.text);
+                HapticFeedback.mediumImpact();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeWrapper()),
+                  (Route<dynamic> route) => false,
+                );
 
-              addLessonController.text = "";
-              courseList = [];
-            },
-          ),
-        ],
+                addLessonController.text = "";
+                courseList = [];
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
+
+
 }
 
 createLesson(String lessonName) {
   CollectionReference gradesCollection = FirebaseFirestore.instance.collection(
-      'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/');
+      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/');
   gradesCollection.doc().set(
     {"name": lessonName, "average": 0 / -0}, //generate NaN
   );
@@ -451,6 +457,7 @@ class _updateLessonState extends State<updateLesson> {
           children: [
             TextField(
                 controller: renameTestWeightController,
+                         inputFormatters:  [ EmojiRegex() ], 
                 textAlign: TextAlign.left,
                 decoration: inputDec("Fach Name".tr())),
             ElevatedButton(
@@ -480,7 +487,7 @@ class _updateLessonState extends State<updateLesson> {
 
 updateLessonF(String lessonUpdate) {
   FirebaseFirestore.instance
-      .collection('testServer')
+      .collection('userData')
       .doc(auth.currentUser.uid)
       .collection('semester')
       .doc(choosenSemester)

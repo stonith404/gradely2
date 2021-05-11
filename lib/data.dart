@@ -105,14 +105,14 @@ getTestDetails() async {
 
 getChoosenSemester() async {
   DocumentSnapshot _db = await FirebaseFirestore.instance
-      .collection('testServer')
+      .collection('userData')
       .doc(auth.currentUser.uid)
       .get();
 
   if (_db.data()['choosenSemester'] == null) {
     print("made");
     FirebaseFirestore.instance
-        .collection('testServer')
+        .collection('userData')
         .doc(auth.currentUser.uid)
         .update({'choosenSemester': 'noSemesterChoosed'});
   } else {
@@ -124,7 +124,7 @@ getChoosenSemester() async {
 
 getChoosenSemesterName() async {
   DocumentSnapshot _db = await FirebaseFirestore.instance
-      .collection('testServer')
+      .collection('userData')
       .doc(auth.currentUser.uid)
       .get();
 
@@ -133,7 +133,7 @@ getChoosenSemesterName() async {
 
 getgradesResult() async {
   DocumentSnapshot _db = await FirebaseFirestore.instance
-      .collection('testServer')
+      .collection('userData')
       .doc(auth.currentUser.uid)
       .get();
 
@@ -144,7 +144,7 @@ getDefaultColor() async {
   print("done");
   try {
     DocumentSnapshot _db = await FirebaseFirestore.instance
-        .collection('testServer')
+        .collection('userData')
         .doc(auth.currentUser.uid)
         .get();
 
@@ -163,7 +163,7 @@ void launchURL(_url) async =>
 getPlusStatus() async {
   try {
     DocumentSnapshot _db = await FirebaseFirestore.instance
-        .collection('testServer')
+        .collection('userData')
         .doc(auth.currentUser.uid)
         .get();
 

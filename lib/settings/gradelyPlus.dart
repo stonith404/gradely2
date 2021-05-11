@@ -164,6 +164,7 @@ class GradelyPlusState extends State<GradelyPlus> {
 
     return Scaffold(
       appBar: AppBar(
+        shape: defaultRoundedCorners(),
         backgroundColor: defaultColor,
         title: const Text('gradely plus'),
       ),
@@ -218,12 +219,12 @@ class GradelyPlusState extends State<GradelyPlus> {
 
   void deliverProduct(PurchaseDetails purchaseDetails) async {
     DocumentSnapshot _db = await FirebaseFirestore.instance
-        .collection('testServer')
+        .collection('userData')
         .doc(auth.currentUser.uid)
         .get();
 
     FirebaseFirestore.instance
-        .collection('testServer')
+        .collection('userData')
         .doc(auth.currentUser.uid)
         .update({'gradelyPlus': true});
 
@@ -346,10 +347,28 @@ class gpUI extends StatelessWidget {
               children: [
                 Icon(
                   FontAwesome5Solid.palette,
-                  color: Colors.amber[700],
+                  color: Colors.cyanAccent,
                 ),
                 SizedBox(width: 20),
                 Text("gradelyP3".tr())
+              ],
+            ),
+          ),
+        ),
+         SizedBox(
+          height: 5,
+        ),
+        Container(
+          decoration: boxDec(),
+          child: ListTile(
+            title: Row(
+              children: [
+                Icon(
+                  FontAwesome5.laugh,
+                  color: Colors.amber[700],
+                ),
+                SizedBox(width: 20),
+                Text("gradelyP6".tr())
               ],
             ),
           ),

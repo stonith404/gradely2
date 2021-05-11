@@ -29,6 +29,7 @@
     "Einloggen": "Einloggen",
     "Deine Email": "Deine Email",
     "Dein Passwort": "Dein Passwort",
+    "password": "Passwort",
     "Passwort vergessen?": "Passwort vergessen?",
     "Link anfordern":     "Link anfordern",
     "Registrieren" :    "Registrieren" ,
@@ -66,6 +67,7 @@
     "gradelyP2": "Entwickler unterstützen",
     "gradelyP1" :"Ich habe viele Stunden und Geld in diese App investiert. Ich möchte das diese App gratis ist. Mit Gradely Plus kann du mithelfen, dass ich die App immer weiterentwickeln kann.",
     "gradelyP3": "App Farben ändern",
+    "gradelyP6": "Emojis in Namen",
     "gradelyP4": "Mehr Vorteile kommen bald",
     "gradelyP5": "Gradely Plus kann leider nur auf einem Handy gekauft werden. Nach dem Kauf hast auf all deinen Geräten Gradely Plus.",
     "gradelyPS1": "Wohoo",
@@ -83,5 +85,11 @@
     "userInfoRP1" : "Um dein Passwort zu ändern, drücke den Knopf unten. Du bekommst eine Email, dort kannst du dein Passwort ändern.",
     "userinfoD1" : "Account löschen",
     "userinfoD2" : "Achtung! Willst du wirklich all deine Noten und dein Account löschen? Dies kann nicht Rückgängig gemacht werden.",
-    "delete" : "löschen"
+    "Reset" : "Zurücksetzen",
+    "Password" : "Passwort",
+    "delete" : "löschen",
+    "Create" : "Account",
+    "Account": "Erstellen",
+    "Welcome" : "Willkommen",
+    "Back" : "Zurück"
    }

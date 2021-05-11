@@ -38,7 +38,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
   _getTests() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
-            'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
         .get();
     List<DocumentSnapshot> documents = result.docs;
     setState(() {
@@ -78,7 +78,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
   getTestAvarage() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
-            'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
         .get();
 
     List<DocumentSnapshot> documents = result.docs;
@@ -107,7 +107,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
     });
 
     FirebaseFirestore.instance
-        .collection('testServer')
+        .collection('userData')
         .doc(auth.currentUser.uid)
         .collection('semester')
         .doc(choosenSemester)
@@ -175,12 +175,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
                               selectedTest = testListID[index];
                               FirebaseFirestore.instance
                                   .collection(
-                                      'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                                      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                                   .doc(selectedTest)
                                   .set({});
                               FirebaseFirestore.instance
                                   .collection(
-                                      'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                                      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                                   .doc(selectedTest)
                                   .delete();
                               HapticFeedback.mediumImpact();
@@ -229,7 +229,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
                               testDetails = (await FirebaseFirestore.instance
                                       .collection(
-                                          "testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
+                                          "userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
                                       .doc(selectedTest)
                                       .get())
                                   .data();
@@ -346,7 +346,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             onPressed: () {
                               FirebaseFirestore.instance
                                   .collection(
-                                      'testServer/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                                      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                                   .doc(selectedTest)
                                   .set({
                                 "name": editTestInfoName.text,
@@ -389,6 +389,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       controller: editTestInfoName,
                       textAlign: TextAlign.left,
                       decoration: inputDec("Test Name".tr()),
+                        inputFormatters:  [ EmojiRegex() ], 
                     ),
                   ),
                   Padding(
@@ -537,7 +538,9 @@ Future addTest(BuildContext context) {
                       child: TextField(
                           controller: addTestNameController,
                           textAlign: TextAlign.left,
-                          decoration: inputDec("Test Name".tr())),
+                          decoration: inputDec("Test Name".tr()),
+                            inputFormatters:  [ EmojiRegex() ], ),
+                          
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -594,7 +597,7 @@ Future addTest(BuildContext context) {
 
 createTest(String testName, double grade, double weight, String date) {
   FirebaseFirestore.instance
-      .collection('testServer')
+      .collection('userData')
       .doc(auth.currentUser.uid)
       .collection('semester')
       .doc(choosenSemester)
@@ -637,7 +640,7 @@ class _DreamGradeCState extends State<DreamGradeC> {
         title: Text("dream grade calculator".tr()),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
             SizedBox(

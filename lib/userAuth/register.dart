@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gradely/introScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
+import 'login.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -32,7 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: _email, password: _password);
       FirebaseFirestore.instance
-          .collection('testServer')
+          .collection('userData')
           .doc(auth.currentUser.uid)
           .set({
         'choosenSemester': 'noSemesterChoosed',
@@ -91,9 +92,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
       child: Scaffold(
+         backgroundColor: defaultColor,
         appBar: AppBar(
-          backgroundColor: defaultColor,
-          title: Text("Registrieren".tr()),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Image.asset(
+            'assets/images/iconT.png',
+            height: 60,
+          ),
         ),
         body: isLoading
             ? LoadingScreen()
@@ -102,15 +108,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Spacer(
+                  Spacer(
                       flex: 2,
                     ),
-                    Image.asset(
-                      'assets/images/iconT.png',
-                      height: 170,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Create".tr(),
+                              style:
+                                  TextStyle(fontSize: 40, color: Colors.white),
+                            ),
+                            Text(
+                              "Account".tr(),
+                              style: TextStyle(
+                                fontSize: 40,
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
                     Spacer(
-                      flex: 1,
+                      flex: 4,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -118,7 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           keyboardType: TextInputType.emailAddress,
                           controller: _emailController,
                           textAlign: TextAlign.left,
-                          decoration: inputDec("Deine Email".tr())),
+                          decoration: InputDecAuth("Deine Email".tr())),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -126,10 +150,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: _passwordController,
                           textAlign: TextAlign.left,
                           obscureText: true,
-                          decoration: inputDec("Dein Passwort".tr())),
+                          decoration: InputDecAuth("Dein Passwort".tr())),
                     ),
                     ElevatedButton(
-                        style: elev(),
+                        style: ElevatedButton.styleFrom(
+  
+    primary: Color(0xFF554dd1), // background
+  
+  ),
                         onPressed: () {
                           setState(() {
                             _email = _emailController.text;
@@ -140,7 +168,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                           HapticFeedback.lightImpact();
                         },
-                        child: Text("Registrieren".tr())),
+                        child: Text("Registrieren".tr(),  style: TextStyle(color: Colors.white))),
                     SizedBox(
                       height: 10,
                     ),
@@ -157,7 +185,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 builder: (context) => LoginScreen()),
                           );
                         },
-                        child: Text("Hast du schon ein Account?".tr())),
+                        child: Text("Hast du schon ein Account?".tr(),   style: TextStyle(color: Colors.white))),
                     Spacer(
                       flex: 3,
                     ),

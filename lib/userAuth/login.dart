@@ -65,9 +65,14 @@ class _LoginScreenState extends State<LoginScreen> {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
       child: Scaffold(
+        backgroundColor: defaultColor,
         appBar: AppBar(
-          backgroundColor: defaultColor,
-          title: Text("Einloggen".tr()),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Image.asset(
+            'assets/images/iconT.png',
+            height: 60,
+          ),
         ),
         body: isLoading
             ? LoadingScreen()
@@ -79,12 +84,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     Spacer(
                       flex: 2,
                     ),
-                    Image.asset(
-                      'assets/images/iconT.png',
-                      height: 170,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Welcome".tr(),
+                              style:
+                                  TextStyle(fontSize: 40, color: Colors.white),
+                            ),
+                            Text(
+                              "Back".tr(),
+                              style: TextStyle(
+                                fontSize: 40,
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
                     Spacer(
-                      flex: 1,
+                      flex: 4,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -92,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           controller: _emailController,
                           textAlign: TextAlign.left,
-                          decoration: inputDec("Deine Email".tr())),
+                          decoration: InputDecAuth("Deine Email".tr())),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -100,10 +123,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passwordController,
                           textAlign: TextAlign.left,
                           obscureText: true,
-                          decoration: inputDec("Dein Passwort".tr())),
+                          decoration: InputDecAuth("Dein Passwort".tr())),
                     ),
                     ElevatedButton(
-                        style: elev(),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xFF554dd1), // background
+                        ),
                         onPressed: () {
                           setState(() {
                             _email = _emailController.text;
@@ -130,7 +155,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 builder: (context) => RegisterScreen()),
                           );
                         },
-                        child: Text("Hast du noch kein Account?".tr())),
+                        child: Text("Hast du noch kein Account?".tr(),
+                            style: TextStyle(color: Colors.white))),
                     TextButton(
                         onPressed: () {
                           Navigator.pushReplacement(
@@ -138,7 +164,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             MaterialPageRoute(builder: (context) => ResetPW()),
                           );
                         },
-                        child: Text("Passwort vergessen?".tr())),
+                        child: Text(
+                          "Passwort vergessen?".tr(),
+                          style: TextStyle(color: Colors.white),
+                        )),
                     Spacer(
                       flex: 3,
                     ),
@@ -148,4 +177,25 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+
 }
+  InputDecoration InputDecAuth(_label) {
+    return InputDecoration(
+      disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderSide: BorderSide.none),
+      filled: true,
+    
+      labelText: _label,
+      fillColor: Color(0xFF554dd1),
+      labelStyle: TextStyle(fontSize: 17.0, height: 0.8, color: Colors.white),
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderSide: BorderSide.none),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderSide: BorderSide.none,
+      ),
+    );
+  }

@@ -116,6 +116,7 @@ class _ContactScreenState extends State<ContactScreen> {
         },
         child: Scaffold(
           appBar: AppBar(
+            shape: defaultRoundedCorners(),
               backgroundColor: defaultColor, title: Text("contactDev".tr())),
           body: Padding(
             padding: const EdgeInsets.all(24.0),

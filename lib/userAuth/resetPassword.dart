@@ -35,9 +35,14 @@ class _ResetPWState extends State<ResetPW> {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
       child: Scaffold(
+        backgroundColor: defaultColor,
         appBar: AppBar(
-          backgroundColor: defaultColor,
-          title: Text("Passwort vergessen?".tr()),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Image.asset(
+            'assets/images/iconT.png',
+            height: 60,
+          ),
         ),
         body: isLoading
             ? LoadingScreen()
@@ -46,26 +51,50 @@ class _ResetPWState extends State<ResetPW> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Spacer(
+ Spacer(
                       flex: 2,
                     ),
-                    Image.asset(
-                      'assets/images/iconT.png',
-                      height: 170,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Reset".tr(),
+                              style:
+                                  TextStyle(fontSize: 40, color: Colors.white),
+                            ),
+                            Text(
+                              "Password".tr(),
+                              style: TextStyle(
+                                fontSize: 40,
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
                     Spacer(
-                      flex: 1,
+                      flex: 3,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
+                        decoration: InputDecAuth("Deine Email".tr()),
                           keyboardType: TextInputType.emailAddress,
                           controller: _emailController,
                           textAlign: TextAlign.left,
-                          decoration: inputDec("Deine Email".tr())),
+                    ),
+                    ),
+                        Spacer(
+                      flex: 1,
                     ),
                     ElevatedButton(
-                        style: elev(),
+                     style: ElevatedButton.styleFrom(
+                          primary: Color(0xFF554dd1), // background
+                        ),
                         onPressed: () {
                           _email = _emailController.text;
 
@@ -90,6 +119,7 @@ class _ResetPWState extends State<ResetPW> {
                                     ],
                                   ),
                                   content: Text("pwResetSuccess1".tr()),
+                                  
                                   actions: <Widget>[
                                     FlatButton(
                                       color: defaultColor,
@@ -114,7 +144,7 @@ class _ResetPWState extends State<ResetPW> {
                                 builder: (context) => LoginScreen()),
                           );
                         },
-                        child: Text("zurück".tr())),
+                        child: Text("zurück".tr(),  style: TextStyle(color: Colors.white))),
                     Spacer(
                       flex: 3,
                     ),

@@ -30,6 +30,7 @@
     "Einloggen": "Sign in",
     "Deine Email": "Your email",
     "Dein Passwort": "Your password",
+    "password": "password",
     "Passwort vergessen?": "Forgot password?",
     "Link anfordern" :     "Request Link",
     "Registrieren" :     "Sign Up",
@@ -68,6 +69,7 @@
    "gradelyP1" :"I invested a lot of time and money in this app. Of course I want, that this app is free. With gradely plus you can help me, so I can make this app better.",
    "gradelyP3": "customize theme color",
    "gradelyP4": "more benefits coming soon",
+   "gradelyP6": "emojis in names",
    "gradelyP5": "Gradely Plus can only be bought on a mobile device. After the purchase, you have gradely on any of your devices.",
    "gradelyPS1": "Wohoo",
    "gradelyPS2": "Thank you so much for being a gradely plus user. Have fun!",
@@ -84,5 +86,11 @@
    "userInfoRP1" : "To change your password, click the button below. You get an email, there you can change your password.",
    "userinfoD1" : "Delete Account",
    "userinfoD2" : "Caution! Do you really want to delete your account and your grades? This can't be undone.",
-   "delete" : "delete"
+   "Reset" : "Reset",
+   "Password" : "Password",
+   "delete" : "delete",
+   "Create" : "Create",
+   "Account": "Account",
+   "Welcome" : "Welcome",
+   "Back" : "Back"
 }

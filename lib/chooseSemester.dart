@@ -23,7 +23,7 @@ class chooseSemester extends StatefulWidget {
 class _chooseSemesterState extends State<chooseSemester> {
   _getSemesters() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
-        .collection('testServer/${auth.currentUser.uid}/semester')
+        .collection('userData/${auth.currentUser.uid}/semester')
         .get();
     List<DocumentSnapshot> documents = result.docs;
 
@@ -41,7 +41,7 @@ class _chooseSemesterState extends State<chooseSemester> {
 
   saveChoosenSemester(String _choosenSemester, _choosenSemesterName) {
     FirebaseFirestore.instance
-        .collection('testServer')
+        .collection('userData')
         .doc(auth.currentUser.uid)
         .update({
       "choosenSemester": _choosenSemester,
@@ -96,9 +96,8 @@ class _chooseSemesterState extends State<chooseSemester> {
               itemCount: semesterListID.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
-                  padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
+                  padding:  EdgeInsets.fromLTRB(8, 8, 8, 0),
+                  
                     child: Slidable(
                       actionPane: SlidableDrawerActionPane(),
                       actionExtentRatio: 0.25,
@@ -144,12 +143,12 @@ class _chooseSemesterState extends State<chooseSemester> {
                                         onPressed: () {
                                           FirebaseFirestore.instance
                                               .collection(
-                                                  'testServer/${auth.currentUser.uid}/semester/')
+                                                  'userData/${auth.currentUser.uid}/semester/')
                                               .doc(semesterListID[index])
                                               .set({});
                                           FirebaseFirestore.instance
                                               .collection(
-                                                  'testServer/${auth.currentUser.uid}/semester/')
+                                                  'userData/${auth.currentUser.uid}/semester/')
                                               .doc(semesterListID[index])
                                               .delete();
                                           HapticFeedback.heavyImpact();
@@ -196,7 +195,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                         ),
                       ),
                     ),
-                  ),
+                  
                 );
               },
             ),
@@ -214,6 +213,12 @@ class updateSemester extends StatefulWidget {
 
 class _updateSemesterState extends State<updateSemester> {
   @override
+  void initState() {
+    super.initState();
+    renameSemesterController.text = choosenSemesterName;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -222,13 +227,14 @@ class _updateSemesterState extends State<updateSemester> {
         shape: defaultRoundedCorners(),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
                 controller: renameSemesterController,
                 textAlign: TextAlign.left,
+                 inputFormatters:  [ EmojiRegex() ], 
                 decoration: inputDec("Semester Name")),
             SizedBox(
               height: 15,
@@ -260,7 +266,7 @@ class _updateSemesterState extends State<updateSemester> {
 
 updateSemesterF(String lessonUpdate) {
   FirebaseFirestore.instance
-      .collection('testServer')
+      .collection('userData')
       .doc(auth.currentUser.uid)
       .collection('semester')
       .doc(selectedSemester)
@@ -282,11 +288,12 @@ class _addSemesterState extends State<addSemester> {
         shape: defaultRoundedCorners(),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(21.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+                 inputFormatters:  [ EmojiRegex() ], 
                 controller: addSemesterController,
                 textAlign: TextAlign.left,
                 decoration: inputDec("Semester Name")),
@@ -320,7 +327,7 @@ class _addSemesterState extends State<addSemester> {
 
 createSemester(String semesterName) {
   CollectionReference gradesCollection = FirebaseFirestore.instance
-      .collection('testServer/${auth.currentUser.uid}/semester/');
+      .collection('userData/${auth.currentUser.uid}/semester/');
   gradesCollection.doc().set(
     {"name": semesterName},
   );

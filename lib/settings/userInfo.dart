@@ -80,6 +80,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:defaultColor,
+        shape: defaultRoundedCorners(),
         actions: [
           IconButton(
               icon: Icon(
@@ -88,130 +90,138 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               ),
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
+                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HomeWrapper()),
+                                    );
               })
         ],
         title: Text("Account"),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 70),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-                keyboardType: TextInputType.emailAddress,
-                controller: changeEmailController,
-                textAlign: TextAlign.left,
-                decoration: inputDec("userinfo1".tr())),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                          title: Text("change password".tr()),
-                          content: Container(
-                            height: 140,
-                            child: Column(
-                              children: [
-                                Text("userInfoRP1".tr()),
-                                SizedBox(height: 20),
-                                ElevatedButton(
-                                    style: elev(),
-                                    onPressed: () {
-                                      FirebaseAuth.instance
-                                          .sendPasswordResetEmail(
-                                              email: user.email);
-
-                                                 Navigator.of(context).pop();
-                                    },
-                                    child: Text("send".tr()))
-                              ],
-                            ),
-                          ));
-                    });
-              },
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          children: [
+            SizedBox(height: 70),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: TextField(
-                  enabled: false,
                   keyboardType: TextInputType.emailAddress,
-                  obscureText: true,
-                  controller: passwordPlaceholder,
+                  controller: changeEmailController,
                   textAlign: TextAlign.left,
                   decoration: inputDec("userinfo1".tr())),
             ),
-          ),
-          ElevatedButton(
-              style: elev(),
-              onPressed: () {
-                changeEmail(changeEmailController.text);
-              },
-              child: Text("save").tr()),
-              Spacer(flex: 3),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: TextButton(
-                onPressed: () {
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GestureDetector(
+                onTap: () {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text("userinfoD1".tr()),
-                          content: Container(
-                            height: 150,
-                            child: Column(
-                              children: [
-                                Text("userinfoD2".tr()),
-                                SizedBox(height: 10),
-                                TextField(
-                                    controller: passwordController,
-                                    textAlign: TextAlign.left,
-                                    obscureText: true,
-                                    decoration: inputDec("Dein Passwort".tr())),
-                              ],
-                            ),
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                          
-                              child: Text("delete".tr()),
-                              onPressed: () async {
-                                _password = passwordController.text;
-                                var authResult =
-                                    await user.reauthenticateWithCredential(
-                                  EmailAuthProvider.credential(
-                                    email: user.email,
-                                    password: _password,
-                                  ),
-                                );
-                                Navigator.of(context).pop();
-                                try {
-                                  FirebaseFirestore.instance
-                                      .collection('testServer')
-                                      .doc(auth.currentUser.uid)
-                                      .delete();
-                                  authResult.user.delete();
+                            title: Text("change password".tr()),
+                            content: Container(
+                              height: 140,
+                              child: Column(
+                                children: [
+                                  Text("userInfoRP1".tr()),
+                                  SizedBox(height: 20),
+                                  ElevatedButton(
+                                      style: elev(),
+                                      onPressed: () {
+                                        FirebaseAuth.instance
+                                            .sendPasswordResetEmail(
+                                                email: user.email);
 
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginScreen()),
-                                  );
-                                } on FirebaseAuthException catch (e) {}
-
-                                HapticFeedback.lightImpact();
-                              },
-                            ),
-                          ],
-                        );
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("send".tr()))
+                                ],
+                              ),
+                            ));
                       });
                 },
+                child: TextField(
+          enabled: false,
+                    obscureText: true,
+                    controller: passwordPlaceholder,
+                    textAlign: TextAlign.left,
+                    decoration: inputDec("password".tr())),
+              ),
+            ),
+            ElevatedButton(
+                style: elev(),
+                onPressed: () {
+                  changeEmail(changeEmailController.text);
+                },
+                child: Text("save").tr()),
+            Spacer(flex: 3),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: TextButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("userinfoD1".tr()),
+                            content: Container(
+                              height: 150,
+                              child: Column(
+                                children: [
+                                  Text("userinfoD2".tr()),
+                                  SizedBox(height: 10),
+                                  TextField(
+                                      controller: passwordController,
+                                      textAlign: TextAlign.left,
+                                      obscureText: true,
+                                      decoration:
+                                          inputDec("Dein Passwort".tr())),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text("delete".tr()),
+                                onPressed: () async {
+                                  _password = passwordController.text;
+                                  var authResult =
+                                      await user.reauthenticateWithCredential(
+                                    EmailAuthProvider.credential(
+                                      email: user.email,
+                                      password: _password,
+                                    ),
+                                  );
+                                  Navigator.of(context).pop();
+                                  try {
+                                    FirebaseFirestore.instance
+                                        .collection('userData')
+                                        .doc(auth.currentUser.uid)
+                                        .delete();
+                                    authResult.user.delete();
 
-              
-                child: Text("userinfoP3".tr(), style: TextStyle(color: Colors.red),)),
-          )
-        ],
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginScreen()),
+                                    );
+                                  } on FirebaseAuthException catch (e) {}
+
+                                  HapticFeedback.lightImpact();
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  child: Text(
+                    "userinfoP3".tr(),
+                    style: TextStyle(color: Colors.red),
+                  )),
+            )
+          ],
+        ),
       ),
     );
   }

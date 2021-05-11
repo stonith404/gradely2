@@ -202,13 +202,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_colorpicker:
-    dependency: "direct main"
-    description:
-      name: flutter_colorpicker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.0"
   flutter_icons:
     dependency: "direct main"
     description:
@@ -242,13 +235,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
-  flutter_statusbarcolor_ns:
-    dependency: transitive
-    description:
-      name: flutter_statusbarcolor_ns
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.0-nullsafety"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -259,13 +245,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  get_it:
-    dependency: transitive
-    description:
-      name: get_it
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "6.1.1"
   http_parser:
     dependency: transitive
     description:
@@ -357,13 +336,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  nested:
-    dependency: transitive
-    description:
-      name: nested
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   package_info:
     dependency: "direct main"
     description:
@@ -434,20 +406,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.1"
-  provider:
-    dependency: transitive
-    description:
-      name: provider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.0.0"
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.26.0"
   shared_preferences:
     dependency: transitive
     description:
@@ -509,13 +467,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
-  stacked_themes:
-    dependency: "direct main"
-    description:
-      name: stacked_themes
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.2"
   stream_channel:
     dependency: transitive
     description:
