@@ -50,6 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
         isLoading = false;
       });
     }
+    _passwordController.text = "";
   }
 
   void setState(fn) {
@@ -67,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         backgroundColor: defaultColor,
         appBar: AppBar(
+          leading: Container(),
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Image.asset(
@@ -177,25 +179,23 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-
 }
-  InputDecoration InputDecAuth(_label) {
-    return InputDecoration(
-      disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          borderSide: BorderSide.none),
-      filled: true,
-    
-      labelText: _label,
-      fillColor: Color(0xFF554dd1),
-      labelStyle: TextStyle(fontSize: 17.0, height: 0.8, color: Colors.white),
-      focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          borderSide: BorderSide.none),
-      enabledBorder: OutlineInputBorder(
+
+InputDecoration InputDecAuth(_label) {
+  return InputDecoration(
+    disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
-        borderSide: BorderSide.none,
-      ),
-    );
-  }
+        borderSide: BorderSide.none),
+    filled: true,
+    labelText: _label,
+    fillColor: Color(0xFF554dd1),
+    labelStyle: TextStyle(fontSize: 17.0, height: 0.8, color: Colors.white),
+    focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderSide: BorderSide.none),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      borderSide: BorderSide.none,
+    ),
+  );
+}

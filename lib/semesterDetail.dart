@@ -15,6 +15,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
+import 'package:page_transition/page_transition.dart';
 
 List semesterAveragePP = [];
 
@@ -40,6 +41,21 @@ class _HomeSiteState extends State<HomeSite> {
   }
 
   getLessons() async {
+    DocumentSnapshot _db = await FirebaseFirestore.instance
+        .collection('userData')
+        .doc(auth.currentUser.uid)
+        .get();
+
+    if (_db.data()['choosenSemester'] == null) {
+      FirebaseFirestore.instance
+          .collection('userData')
+          .doc(auth.currentUser.uid)
+          .update({'choosenSemester': 'noSemesterChoosed'});
+    } else {
+      choosenSemester = _db.data()['choosenSemester'];
+      getChoosenSemesterName();
+    }
+
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
             'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
@@ -69,7 +85,6 @@ class _HomeSiteState extends State<HomeSite> {
         }
       });
     });
-
     //getSemesteraverage
     num _pp = 0;
 
@@ -113,10 +128,10 @@ class _HomeSiteState extends State<HomeSite> {
   void initState() {
     super.initState();
     getPlusStatus();
-    getLessons();
     getChoosenSemester();
     getgradesResult();
     pushNotification();
+    getLessons();
   }
 
   void setState(fn) {
@@ -127,9 +142,7 @@ class _HomeSiteState extends State<HomeSite> {
 
   @override
   Widget build(BuildContext context) {
-    getLessons();
     darkModeColorChanger();
-
     if (choosenSemesterName == "noSemesterChoosed") {
       return LoadingScreen();
     } else {
@@ -214,10 +227,15 @@ class _HomeSiteState extends State<HomeSite> {
                     onPressed: () async {
                       HapticFeedback.lightImpact();
 
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SettingsPage()),
+                              PageTransition(
+                          type: PageTransitionType.leftToRight,
+                          child: SettingsPage()),
+                         
+           
                       );
+               
                     }),
               ),
               floating: true,
@@ -392,7 +410,7 @@ class _addLessonState extends State<addLesson> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                   inputFormatters:  [ EmojiRegex() ], 
+                  inputFormatters: [EmojiRegex()],
                   controller: addLessonController,
                   textAlign: TextAlign.left,
                   decoration: inputDec("Fach Name".tr())),
@@ -423,8 +441,6 @@ class _addLessonState extends State<addLesson> {
       ),
     );
   }
-
-
 }
 
 createLesson(String lessonName) {
@@ -457,7 +473,7 @@ class _updateLessonState extends State<updateLesson> {
           children: [
             TextField(
                 controller: renameTestWeightController,
-                         inputFormatters:  [ EmojiRegex() ], 
+                inputFormatters: [EmojiRegex()],
                 textAlign: TextAlign.left,
                 decoration: inputDec("Fach Name".tr())),
             ElevatedButton(

@@ -294,11 +294,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       IconButton(
                           icon: Icon(FontAwesome5Solid.calculator, size: 17),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DreamGradeC()),
-                            );
+                            DreamGradeC(context);
                             HapticFeedback.lightImpact();
                           }),
                     ],
@@ -389,7 +385,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       controller: editTestInfoName,
                       textAlign: TextAlign.left,
                       decoration: inputDec("Test Name".tr()),
-                        inputFormatters:  [ EmojiRegex() ], 
+                      inputFormatters: [EmojiRegex()],
                     ),
                   ),
                   Padding(
@@ -536,11 +532,11 @@ Future addTest(BuildContext context) {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
-                          controller: addTestNameController,
-                          textAlign: TextAlign.left,
-                          decoration: inputDec("Test Name".tr()),
-                            inputFormatters:  [ EmojiRegex() ], ),
-                          
+                        controller: addTestNameController,
+                        textAlign: TextAlign.left,
+                        decoration: inputDec("Test Name".tr()),
+                        inputFormatters: [EmojiRegex()],
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -608,90 +604,112 @@ createTest(String testName, double grade, double weight, String date) {
       .set({"name": testName, "grade": grade, "weight": weight, "date": date});
 }
 
-class DreamGradeC extends StatefulWidget {
-  @override
-  _DreamGradeCState createState() => _DreamGradeCState();
-}
-
-class _DreamGradeCState extends State<DreamGradeC> {
+Future DreamGradeC(BuildContext context) {
+  dreamGradeGrade.text = "";
+  dreamGradeWeight.text = "1";
   num dreamgradeResult = 0;
   double dreamgrade = 0;
   double dreamgradeWeight = 1;
 
-  getDreamGrade() {
-    setState(() {
-      dreamgradeResult =
-          ((dreamgrade * (_sumW + dreamgradeWeight) - _sum) / dreamgradeWeight);
-    });
-  }
+  return showCupertinoModalBottomSheet(
+    expand: true,
+    context: context,
+    builder: (context) => StatefulBuilder(builder:
+        (BuildContext context, StateSetter setState /*You can rename this!*/) {
+      getDreamGrade() {
+        try {
+          setState(() {
+            dreamgradeResult =
+                ((dreamgrade * (_sumW + dreamgradeWeight) - _sum) /
+                    dreamgradeWeight);
+          });
+          print(dreamgradeResult);
+        } catch (e) {
+          setState(() {
+            dreamgradeResult = 0;
+          });
+        }
+      }
 
-  @override
-  @override
-  void initState() {
-    super.initState();
-    dreamGradeGrade.text = "";
-    dreamGradeWeight.text = "1";
-  }
-
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: defaultColor,
-        title: Text("dream grade calculator".tr()),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 50,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: dreamGradeGrade,
-                onChanged: (String value) async {
-                  dreamgrade = double.tryParse(
-                      dreamGradeGrade.text.replaceAll(",", "."));
-                  getDreamGrade();
-                },
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                textAlign: TextAlign.left,
-                decoration: inputDec("dream grade".tr()),
+      return SingleChildScrollView(
+          controller: ModalScrollController.of(context),
+          child: Material(
+            color: defaultBGColor,
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                children: [
+                                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("dream grade calculator".tr(), style: TextStyle(fontSize: 25)),
+                        CircleAvatar(
+                          radius: 22,
+                          backgroundColor: defaultColor,
+                          child: IconButton(
+                              color: Colors.white,
+                              onPressed: () {
+                                   Navigator.of(context).pop();
+                              },
+                              icon: Icon(Icons.close)),
+                        ),
+                      ],
+                    ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: dreamGradeGrade,
+                      onChanged: (String value) async {
+                        dreamgrade = double.tryParse(
+                            dreamGradeGrade.text.replaceAll(",", "."));
+                        getDreamGrade();
+                      },
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
+                      textAlign: TextAlign.left,
+                      decoration: inputDec("dream grade".tr()),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: dreamGradeWeight,
+                      onChanged: (String value) async {
+                        dreamgradeWeight = double.tryParse(
+                            dreamGradeWeight.text.replaceAll(",", "."));
+                        getDreamGrade();
+                      },
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
+                      textAlign: TextAlign.left,
+                      decoration: inputDec("dream grade weight".tr()),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Row(
+                    children: [
+                      Text("dreamGrade1".tr()),
+                      Text((() {
+                        if (dreamgradeResult.isInfinite) {
+                          return "-";
+                        } else {
+                          return dreamgradeResult.toStringAsFixed(2);
+                        }
+                      })(), style: TextStyle(fontSize: 20)),
+                    ],
+                  )
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: dreamGradeWeight,
-                onChanged: (String value) async {
-                  dreamgradeWeight = double.tryParse(
-                      dreamGradeWeight.text.replaceAll(",", "."));
-                  getDreamGrade();
-                },
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                textAlign: TextAlign.left,
-                decoration: inputDec("dream grade weight".tr()),
-              ),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Row(
-              children: [
-                Text("dreamGrade1".tr()),
-                Text((() {
-                  if (dreamgradeResult.isInfinite) {
-                    return "-";
-                  } else {
-                    return dreamgradeResult.toStringAsFixed(2);
-                  }
-                })(), style: TextStyle(fontSize: 20)),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
+          ));
+    }),
+  );
 }

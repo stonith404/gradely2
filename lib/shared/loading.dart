@@ -53,11 +53,9 @@ class _LoadingScreenState extends State<LoadingScreen>
 
   @override
   void dispose() {
-    super.dispose();
     controllerOne.dispose();
-
+    super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -141,9 +139,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                       child: IconButton(
                           icon: Icon(Icons.add),
                           color: Colors.white,
-                          onPressed: () {
-                            
-                          }),
+                          onPressed: () {}),
                     ),
                   ],
                 ),
@@ -151,14 +147,15 @@ class _LoadingScreenState extends State<LoadingScreen>
             leading: Transform(
               alignment: Alignment.center,
               transform: Matrix4.rotationY(math.pi),
-              child:
-                  IconButton(icon: Icon(Icons.segment), onPressed: () async {
-                     HapticFeedback.lightImpact();
+              child: IconButton(
+                  icon: Icon(Icons.segment),
+                  onPressed: () async {
+                    HapticFeedback.lightImpact();
 
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => SettingsPage()),
-                      );
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => SettingsPage()),
+                    );
                   }),
             ),
             floating: true,
@@ -241,7 +238,9 @@ class LoadingInApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SpinKitDoubleBounce(color: defaultColor,),
+      body: SpinKitDoubleBounce(
+        color: defaultColor,
+      ),
     );
   }
 }

@@ -46,6 +46,7 @@ dependencies:
   mailer:
   in_app_purchase: 
   flutter_icons:
+  page_transition:
 
 dev_dependencies:
   flutter_test:

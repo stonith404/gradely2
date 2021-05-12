@@ -77,6 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isLoading = false;
       });
     }
+       _passwordController.text = "";
   }
 
   void setState(fn) {

@@ -103,21 +103,7 @@ class HomeWrapper extends StatefulWidget {
 }
 
 class _State extends State<HomeWrapper> {
-  void initState() {
-    super.initState();
 
-    FirebaseAuth.instance.authStateChanges().listen((User user) {
-      if (user == null) {
-        setState(() {
-          isLoggedIn = false;
-        });
-      } else {
-        setState(() {
-          isLoggedIn = true;
-        });
-      }
-    });
-  }
 
 
   void setState(fn) {
@@ -129,15 +115,19 @@ class _State extends State<HomeWrapper> {
   @override
   Widget build(BuildContext context) {
     getChoosenSemester();
-    if (isLoggedIn) {
-           if (choosenSemester == "noSemesterChoosed" ) {
-        return chooseSemester();
-      } else {
-        return HomeSite();
-      }
-    } else {
-       return LoginScreen();
-
-    }
+    return StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (_, snapshot) {
+          // Added this line
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingScreen();
+          }
+          if (snapshot.data  == null) {
+            return LoginScreen();
+          }
+          return HomeSite();
+        });
   }
-}
+
+  }
+
