@@ -97,7 +97,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                     );
               })
         ],
-        title: Text("Account"),
+        title: Text("account".tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),

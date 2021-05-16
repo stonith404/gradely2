@@ -236,8 +236,8 @@ class _updateSemesterState extends State<updateSemester> {
                 textAlign: TextAlign.left,
                  inputFormatters:  [ EmojiRegex() ], 
                 decoration: inputDec("Semester Name")),
-            SizedBox(
-              height: 15,
+             SizedBox(
+              height: 40,
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(

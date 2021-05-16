@@ -24,6 +24,7 @@ num _sumW = 0;
 num _sum = 0;
 var defaultBGColor;
 
+
 var selectedDate = DateTime.now();
 TextEditingController editTestInfoName = new TextEditingController();
 TextEditingController editTestInfoGrade = new TextEditingController();
@@ -639,25 +640,26 @@ Future DreamGradeC(BuildContext context) {
               padding: const EdgeInsets.all(24.0),
               child: Column(
                 children: [
-                                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("dream grade calculator".tr(), style: TextStyle(fontSize: 25)),
-                        CircleAvatar(
-                          radius: 22,
-                          backgroundColor: defaultColor,
-                          child: IconButton(
-                              color: Colors.white,
-                              onPressed: () {
-                                   Navigator.of(context).pop();
-                              },
-                              icon: Icon(Icons.close)),
-                        ),
-                      ],
-                    ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("dream grade calculator".tr(),
+                          style: TextStyle(fontSize: 25)),
+                      CircleAvatar(
+                        radius: 22,
+                        backgroundColor: defaultColor,
+                        child: IconButton(
+                            color: Colors.white,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            icon: Icon(Icons.close)),
+                      ),
+                    ],
+                  ),
                   SizedBox(
                     height: 50,
                   ),

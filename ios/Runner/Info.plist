@@ -31,7 +31,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.eliasschneider.gradely</string>
+			<string>gradelyapp.com</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>gradely</string>
@@ -40,6 +40,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>FlutterDeepLinkingEnabled</key>
+	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>

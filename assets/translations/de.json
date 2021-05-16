@@ -91,5 +91,7 @@
     "Create" : "Account",
     "Account": "Erstellen",
     "Welcome" : "Willkommen",
-    "Back" : "Zurück"
+    "Back" : "Zurück",
+    "account" : "Benutzerkonto",
+    "Durchschnitt" : "Durchschnitt"
    }

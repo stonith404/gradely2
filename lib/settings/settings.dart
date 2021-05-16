@@ -14,6 +14,7 @@ import 'customize.dart';
 import 'package:gradely/data.dart';
 import 'userInfo.dart';
 import '../shared/defaultWidgets.dart';
+import '../data.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -24,8 +25,10 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
+   getUserAuthStatus();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
     getgradesResult();
+     
   }
 
   @override
@@ -102,23 +105,31 @@ class _SettingsPageState extends State<SettingsPage> {
                       Text("Noten Resultate".tr()),
                       Spacer(flex: 1),
                       DropdownButton<String>(
-                        hint: Text(gradesResult),
+                        hint: Text(gradesResult.tr()),
                         items: <String>[
-                          'Durchschnitt',
-                          'Pluspunkte',
+                          'Durchschnitt'.tr(),
+                          'Pluspunkte'.tr(),
                         ].map((String value) {
                           return new DropdownMenuItem<String>(
                             value: value,
                             child: new Text(value),
                           );
                         }).toList(),
-                        onChanged: (_) {
+                        onChanged: (value) {
+                          var newValue = "Pluspunkte";
+                          if (value == "Pluspunkte") {
+                            newValue = "Pluspunkte";
+                          } else if (value == "pluspoints") {
+                            newValue = "Pluspunkte";
+                          } else {
+                            newValue = "Durchschnitt";
+                          }
                           FirebaseFirestore.instance
                               .collection('userData')
                               .doc(auth.currentUser.uid)
-                              .update({'gradesResult': _});
+                              .update({'gradesResult': newValue});
                           setState(() {
-                            gradesResult = _;
+                            gradesResult = newValue;
                           });
 
                           print(gradesResult);
@@ -134,7 +145,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       SizedBox(
                         width: 10,
                       ),
-                      Text("Account"),
+                      Text("account".tr()),
                     ],
                   ),
                   onTap: () {
@@ -159,12 +170,12 @@ class _SettingsPageState extends State<SettingsPage> {
                     if (kIsWeb) {
                       launchURL("https://gradelyapp.com");
                     } else {
-                                          Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ContactScreen()),
-                    );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ContactScreen()),
+                      );
                     }
-
                   },
                 ),
                 ListTile(

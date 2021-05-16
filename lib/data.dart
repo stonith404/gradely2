@@ -1,7 +1,6 @@
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'LessonsDetail.dart';
-import 'main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'userAuth/login.dart';
@@ -9,7 +8,8 @@ import 'LessonsDetail.dart';
 import 'chooseSemester.dart';
 import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'userAuth/login.dart';
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 num plusPoints = 0;
 bool gradelyPlus = false;
 bool isMaintanceEnabled = false;
@@ -174,5 +174,11 @@ getPlusStatus() async {
     }
   } catch (e) {
     gradelyPlus = false;
+  }
+}
+
+getUserAuthStatus() {
+  if (FirebaseAuth.instance.currentUser == null) {
+    navigatorKey.currentState.pushNamed('/settings');
   }
 }

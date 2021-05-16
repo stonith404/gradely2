@@ -16,8 +16,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:emoji_chooser/emoji_chooser.dart';
+import 'settings/gradelyPlus.dart';
 
 List semesterAveragePP = [];
+List emojiList = [];
+var emoji = "";
+String selectedEmoji = "";
 
 class HomeSite extends StatefulWidget {
   const HomeSite({
@@ -68,11 +73,19 @@ class _HomeSiteState extends State<HomeSite> {
     allAverageList = [];
     allAverageListPP = [];
     semesterAveragePP = [];
+    emojiList = [];
 
     setState(() {
-      documents.forEach((data) => courseList.add(data["name"]));
-      documents.forEach((data) => courseListID.add(data.id));
-      documents.forEach((data) => allAverageList.add(data["average"]));
+      documents.forEach((data) {
+        courseList.add(data["name"]);
+        courseListID.add(data.id);
+        allAverageList.add(data["average"]);
+        try {
+          emojiList.add(data["emoji"]);
+        } catch (e) {
+          emojiList.add("");
+        }
+      });
 
       documents.forEach((data) {
         getPluspointsallAverageList(data["average"]);
@@ -170,7 +183,7 @@ class _HomeSiteState extends State<HomeSite> {
                             Text(
                               choosenSemesterName,
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w900,
                                   fontSize: 25,
                                   color: Colors.white),
                             ),
@@ -229,13 +242,11 @@ class _HomeSiteState extends State<HomeSite> {
 
                       Navigator.push(
                         context,
-                              PageTransition(
-                          type: PageTransitionType.leftToRight,
-                          child: SettingsPage()),
-                         
-           
+                        PageTransition(
+                            type: PageTransitionType.leftToRight,
+                            duration: Duration(milliseconds: 150),
+                            child: SettingsPage()),
                       );
-               
                     }),
               ),
               floating: true,
@@ -277,6 +288,7 @@ class _HomeSiteState extends State<HomeSite> {
                                 builder: (context) => updateLesson()),
                           );
                           selectedLessonName = courseList[index];
+                          selectedEmoji = emojiList[index];
                           selectedLesson = courseListID[index];
                         },
                       ),
@@ -338,26 +350,32 @@ class _HomeSiteState extends State<HomeSite> {
                       child: ListTile(
                         title: Row(
                           children: [
+                            Text(emojiList[index] + "  ",
+                                style: TextStyle(
+                                  shadows: [
+                                    Shadow(
+                                      blurRadius: 5.0,
+                                      color: Colors.grey[350],
+                                      offset: Offset(2.0, 2.0),
+                                    ),
+                                  ],
+                                )),
                             Text(
                               courseList[index],
                             ),
                           ],
                         ),
-                        trailing: ((() {
-                          if (allAverageList[index].isNaN) {
-                            return Text(
-                              "-",
-                            );
-                          } else if (gradesResult == "Pluspunkte") {
-                            return Text(
-                              allAverageListPP[index],
-                            );
-                          } else {
-                            return Text(
-                              allAverageList[index].toStringAsFixed(2),
-                            );
-                          }
-                        })()),
+                        trailing: Text(
+                          (() {
+                            if (allAverageList[index].isNaN) {
+                              return "-";
+                            } else if (gradesResult == "Pluspunkte") {
+                              return allAverageListPP[index];
+                            } else {
+                              return allAverageList[index].toStringAsFixed(2);
+                            }
+                          })(),
+                        ),
                         onTap: () {
                           HapticFeedback.lightImpact();
                           Navigator.push(
@@ -407,14 +425,64 @@ class _addLessonState extends State<addLesson> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                  inputFormatters: [EmojiRegex()],
-                  controller: addLessonController,
-                  textAlign: TextAlign.left,
-                  decoration: inputDec("Fach Name".tr())),
+            Spacer(flex: 2),
+            TextButton(
+              onPressed: () {
+                if (gradelyPlus) {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext subcontext) {
+                      return Container(
+                        height: 400,
+                        child: Column(
+                          children: [
+                            Spacer(flex: 2),
+                            EmojiChooser(
+                              onSelected: (_emoji) {
+                                setState(() {
+                                  selectedEmoji = _emoji.char;
+                                });
+
+                                Navigator.of(subcontext).pop(_emoji);
+                              },
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    selectedEmoji = "";
+                                    Navigator.of(subcontext).pop();
+                                  });
+                                },
+                                child: Text("No Emoji"))
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GradelyPlus()),
+                  );
+                }
+              },
+              child: (() {
+                if (selectedEmoji == "") {
+                  return Text("no emoji");
+                } else {
+                  return Text(
+                    selectedEmoji.toString(),
+                    style: TextStyle(fontSize: 70),
+                  );
+                }
+              })(),
             ),
+            Spacer(flex: 2),
+            TextField(
+                inputFormatters: [EmojiRegex()],
+                controller: addLessonController,
+                textAlign: TextAlign.left,
+                decoration: inputDec("Fach Name".tr())),
             SizedBox(
               height: 40,
             ),
@@ -436,6 +504,7 @@ class _addLessonState extends State<addLesson> {
                 courseList = [];
               },
             ),
+            Spacer(flex: 5),
           ],
         ),
       ),
@@ -447,7 +516,11 @@ createLesson(String lessonName) {
   CollectionReference gradesCollection = FirebaseFirestore.instance.collection(
       'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/');
   gradesCollection.doc().set(
-    {"name": lessonName, "average": 0 / -0}, //generate NaN
+    {
+      "name": lessonName,
+      "average": 0 / -0,
+      "emoji": selectedEmoji
+    }, //generate NaN
   );
 }
 
@@ -467,15 +540,71 @@ class _updateLessonState extends State<updateLesson> {
         shape: defaultRoundedCorners(),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Spacer(flex: 2),
+            TextButton(
+              onPressed: () {
+                if (gradelyPlus) {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext subcontext) {
+                      return Container(
+                        height: 400,
+                        child: Column(
+                          children: [
+                            Spacer(flex: 2),
+                            EmojiChooser(
+                              onSelected: (_emoji) {
+                                setState(() {
+                                  selectedEmoji = _emoji.char;
+                                });
+
+                                Navigator.of(subcontext).pop(_emoji);
+                              },
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    selectedEmoji = "";
+                                    Navigator.of(subcontext).pop();
+                                  });
+                                },
+                                child: Text("No Emoji"))
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GradelyPlus()),
+                  );
+                }
+              },
+              child: (() {
+                if (selectedEmoji == "") {
+                  return Text("no emoji");
+                } else {
+                  return Text(
+                    selectedEmoji.toString(),
+                    style: TextStyle(fontSize: 70),
+                  );
+                }
+              })(),
+            ),
+            Spacer(flex: 2),
             TextField(
                 controller: renameTestWeightController,
                 inputFormatters: [EmojiRegex()],
                 textAlign: TextAlign.left,
                 decoration: inputDec("Fach Name".tr())),
+            SizedBox(
+              height: 40,
+            ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: defaultColor,
@@ -494,6 +623,7 @@ class _updateLessonState extends State<updateLesson> {
                 courseList = [];
               },
             ),
+            Spacer(flex: 5),
           ],
         ),
       ),
@@ -509,5 +639,5 @@ updateLessonF(String lessonUpdate) {
       .doc(choosenSemester)
       .collection('lessons')
       .doc(selectedLesson)
-      .update({"name": lessonUpdate});
+      .update({"name": lessonUpdate, "emoji": selectedEmoji});
 }

@@ -39,6 +39,7 @@ void main() async {
   getDefaultColor();
 
   runApp(EasyLocalization(
+    
     supportedLocales: [Locale('de'), Locale('en')],
     useOnlyLangCode: true,
     path: 'assets/translations',
@@ -56,12 +57,20 @@ class MaterialWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-    
+
+      initialRoute: '/',
+  routes: {
+    // When navigating to the "/" route, build the FirstScreen widget.
+    '/': (context) => HomeWrapper(),
+    // When navigating to the "/second" route, build the SecondScreen widget.
+    '/settings': (context) => SettingsPage(),
+  },
+
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: HomeWrapper(),
+      
       theme: ThemeData(
         textButtonTheme: TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStateProperty.all<Color>(
                           defaultColor),)),
