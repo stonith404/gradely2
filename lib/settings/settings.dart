@@ -38,17 +38,18 @@ class _SettingsPageState extends State<SettingsPage> {
           shape: defaultRoundedCorners(),
           backgroundColor: defaultColor,
           title: Text("Einstellungen".tr()),
-          leading: IconButton(
+          leading: Container(),
+           actions: [  IconButton(
               icon: Icon(
-                Icons.arrow_back,
+                Icons.arrow_forward_ios_outlined,
               ),
               onPressed: () {
-                Navigator.pushAndRemoveUntil(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HomeWrapper()),
-                  (Route<dynamic> route) => false,
+                 
                 );
-              })),
+              }),],),
       body: Column(
         children: [
           Expanded(

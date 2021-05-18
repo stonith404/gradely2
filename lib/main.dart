@@ -39,7 +39,6 @@ void main() async {
   getDefaultColor();
 
   runApp(EasyLocalization(
-    
     supportedLocales: [Locale('de'), Locale('en')],
     useOnlyLangCode: true,
     path: 'assets/translations',
@@ -57,31 +56,28 @@ class MaterialWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
       initialRoute: '/',
-  routes: {
-    // When navigating to the "/" route, build the FirstScreen widget.
-    '/': (context) => HomeWrapper(),
-    // When navigating to the "/second" route, build the SecondScreen widget.
-    '/settings': (context) => SettingsPage(),
-  },
-
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        '/': (context) => HomeWrapper(),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        '/settings': (context) => SettingsPage(),
+      },
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      
       theme: ThemeData(
-        textButtonTheme: TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStateProperty.all<Color>(
-                          defaultColor),)),
+        textButtonTheme: TextButtonThemeData(
+            style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all<Color>(defaultColor),
+        )),
         fontFamily: "Nunito",
-        dialogBackgroundColor:  Colors.grey[300],
+        dialogBackgroundColor: Colors.grey[300],
         appBarTheme: AppBarTheme(
-    
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.white),
         ),
-       
         brightness: Brightness.light,
         primaryColor: defaultColor,
         scaffoldBackgroundColor: Colors.grey[300],
@@ -93,9 +89,11 @@ class MaterialWrapper extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.white),
         ),
         backgroundColor: Colors.grey[900],
-        textButtonTheme: TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStateProperty.all<Color>(
-                          defaultColor),)),
-         dialogBackgroundColor:  Colors.grey[900],
+        textButtonTheme: TextButtonThemeData(
+            style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all<Color>(defaultColor),
+        )),
+        dialogBackgroundColor: Colors.grey[900],
         scaffoldBackgroundColor: Colors.grey[900],
         brightness: Brightness.dark,
         primaryColor: defaultColor,
@@ -112,8 +110,11 @@ class HomeWrapper extends StatefulWidget {
 }
 
 class _State extends State<HomeWrapper> {
-
-
+  @override
+  void initState() {
+    super.initState();
+    ErrorWidget.builder = (FlutterErrorDetails details) => Container();
+  }
 
   void setState(fn) {
     if (mounted) {
@@ -131,12 +132,10 @@ class _State extends State<HomeWrapper> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return LoadingScreen();
           }
-          if (snapshot.data  == null) {
+          if (snapshot.data == null) {
             return LoginScreen();
           }
           return HomeSite();
         });
   }
-
-  }
-
+}

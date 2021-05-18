@@ -41,16 +41,16 @@ class _CustomizeTState extends State<CustomizeT> {
         ),
         leading: IconButton(
             icon: Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios_outlined,
             ),
             onPressed: () {
               FirebaseFirestore.instance
-                              .collection('userData')
-                              .doc(auth.currentUser.uid)
-                              .update({
-                            'defaultColor':
-                                "#${(defaultColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
-                          });
+                  .collection('userData')
+                  .doc(auth.currentUser.uid)
+                  .update({
+                'defaultColor':
+                    "#${(defaultColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
+              });
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => SettingsPage()),
@@ -76,7 +76,6 @@ class _CustomizeTState extends State<CustomizeT> {
                       setState(() {
                         defaultColor = _colorList[index];
                       });
-                     
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 8.0),
@@ -121,7 +120,7 @@ class _CustomizeState extends State<Customize> {
         ),
         leading: IconButton(
             icon: Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios_outlined,
             ),
             onPressed: () {
               Navigator.pushAndRemoveUntil(
@@ -148,7 +147,6 @@ class _CustomizeState extends State<Customize> {
                           setState(() {
                             defaultColor = _colorList[index];
                           });
-                          
                         },
                         child: Container(
                           decoration: BoxDecoration(

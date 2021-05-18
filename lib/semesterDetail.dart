@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/loading.dart';
@@ -20,6 +22,7 @@ import 'package:emoji_chooser/emoji_chooser.dart';
 import 'settings/gradelyPlus.dart';
 
 double screenwidth = 0;
+bool darkmode = false;
 List semesterAveragePP = [];
 List emojiList = [];
 var emoji = "";
@@ -131,10 +134,12 @@ class _HomeSiteState extends State<HomeSite> {
       setState(() {
         bwColor = Colors.grey[850];
         wbColor = Colors.white;
+        darkmode = true;
       });
     } else {
       bwColor = Colors.white;
       wbColor = Colors.grey[850];
+      darkmode = false;
     }
   }
 
@@ -359,7 +364,9 @@ class _HomeSiteState extends State<HomeSite> {
                                   shadows: [
                                     Shadow(
                                       blurRadius: 5.0,
-                                      color: Colors.grey[350],
+                                      color: darkmode
+                                          ? Colors.grey[900]
+                                          : Colors.grey[350],
                                       offset: Offset(2.0, 2.0),
                                     ),
                                   ],
@@ -420,6 +427,16 @@ class _addLessonState extends State<addLesson> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_outlined,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeWrapper()),
+              );
+            }),
         backgroundColor: defaultColor,
         title: Text("Fach hinzufügen".tr()),
         shape: defaultRoundedCorners(),
@@ -430,8 +447,13 @@ class _addLessonState extends State<addLesson> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Spacer(flex: 2),
-            TextButton(
-              onPressed: () {
+            GestureDetector(
+              onDoubleTap: () {
+                setState(() {
+                  selectedEmoji = "";
+                });
+              },
+              onTap: () {
                 if (gradelyPlus) {
                   showModalBottomSheet(
                     context: context,
@@ -443,18 +465,21 @@ class _addLessonState extends State<addLesson> {
                             SizedBox(height: 20),
                             EmojiChooser(
                               columns: ((() {
-          
-                                 if (screenwidth > 1700) {
+                                if (screenwidth > 1700) {
                                   return 35;
                                 } else if (screenwidth > 1100) {
                                   return 45;
-                                }else if (screenwidth > 800) {
+                                } else if (screenwidth > 900) {
+                                  return 38;
+                                } else if (screenwidth > 800) {
                                   return 30;
-                                }else if (screenwidth > 600) {
-                                  return 20;
+                                } else if (screenwidth > 700) {
+                                  return 28;
+                                } else if (screenwidth > 600) {
+                                  return 25;
                                 } else if (screenwidth > 500) {
                                   return 15;
-                                }else if (screenwidth > 400) {
+                                } else if (screenwidth > 400) {
                                   return 15;
                                 } else if (screenwidth < 400) {
                                   return 10;
@@ -480,16 +505,19 @@ class _addLessonState extends State<addLesson> {
                   );
                 }
               },
-              child: (() {
+              child: ((() {
                 if (selectedEmoji == "") {
-                  return Text("no emoji");
+                  return Text(
+                    "no emoji".tr(),
+                    style: TextStyle(color: defaultColor),
+                  );
                 } else {
                   return Text(
                     selectedEmoji.toString(),
                     style: TextStyle(fontSize: 70),
                   );
                 }
-              })(),
+              })()),
             ),
             Spacer(flex: 2),
             TextField(
@@ -549,6 +577,16 @@ class _updateLessonState extends State<updateLesson> {
     renameTestWeightController.text = selectedLessonName;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_outlined,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeWrapper()),
+              );
+            }),
         backgroundColor: defaultColor,
         title: Text("Fach unbenennen".tr()),
         shape: defaultRoundedCorners(),
@@ -559,22 +597,53 @@ class _updateLessonState extends State<updateLesson> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Spacer(flex: 2),
-            TextButton(
-              onPressed: () {
+            GestureDetector(
+              onDoubleTap: () {
+                setState(() {
+                  selectedEmoji = "";
+                });
+              },
+              onTap: () {
                 if (gradelyPlus) {
                   showModalBottomSheet(
                     context: context,
                     builder: (BuildContext subcontext) {
                       return Container(
-                        height: 266,
-                        child: EmojiChooser(
-                          onSelected: (_emoji) {
-                            setState(() {
-                              selectedEmoji = _emoji.char;
-                            });
+                        height: 290,
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20),
+                            EmojiChooser(
+                              columns: ((() {
+                                if (screenwidth > 1700) {
+                                  return 35;
+                                } else if (screenwidth > 1100) {
+                                  return 45;
+                                } else if (screenwidth > 900) {
+                                  return 38;
+                                } else if (screenwidth > 800) {
+                                  return 30;
+                                } else if (screenwidth > 700) {
+                                  return 28;
+                                } else if (screenwidth > 600) {
+                                  return 25;
+                                } else if (screenwidth > 500) {
+                                  return 15;
+                                } else if (screenwidth > 400) {
+                                  return 15;
+                                } else if (screenwidth < 400) {
+                                  return 10;
+                                }
+                              })()),
+                              onSelected: (_emoji) {
+                                setState(() {
+                                  selectedEmoji = _emoji.char;
+                                });
 
-                            Navigator.of(subcontext).pop(_emoji);
-                          },
+                                Navigator.of(subcontext).pop(_emoji);
+                              },
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -586,16 +655,19 @@ class _updateLessonState extends State<updateLesson> {
                   );
                 }
               },
-              child: (() {
+              child: ((() {
                 if (selectedEmoji == "") {
-                  return Text("no emoji");
+                  return Text(
+                    "no emoji".tr(),
+                    style: TextStyle(color: defaultColor),
+                  );
                 } else {
                   return Text(
                     selectedEmoji.toString(),
                     style: TextStyle(fontSize: 70),
                   );
                 }
-              })(),
+              })()),
             ),
             Spacer(flex: 2),
             TextField(

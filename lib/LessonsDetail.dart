@@ -24,7 +24,6 @@ num _sumW = 0;
 num _sum = 0;
 var defaultBGColor;
 
-
 var selectedDate = DateTime.now();
 TextEditingController editTestInfoName = new TextEditingController();
 TextEditingController editTestInfoGrade = new TextEditingController();
@@ -119,7 +118,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   void initState() {
     super.initState();
-    ErrorWidget.builder = (FlutterErrorDetails details) => LoadingInApp();
+    ErrorWidget.builder = (FlutterErrorDetails details) => Container();
     getChoosenSemester();
     _getTests();
     getTestAvarage();
@@ -140,7 +139,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
           backgroundColor: defaultColor,
           leading: IconButton(
               icon: Icon(
-                Icons.arrow_back,
+                Icons.arrow_back_ios_outlined,
               ),
               onPressed: () {
                 Navigator.pushAndRemoveUntil(

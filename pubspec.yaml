@@ -55,6 +55,7 @@ dev_dependencies:
 
 flutter_icons:
   image_path: "assets/icon/logo.jpg"
+  macos: true
   ios: true
   android: true
   

@@ -70,7 +70,7 @@ class _chooseSemesterState extends State<chooseSemester> {
         title: Text("Semester"),
         leading: IconButton(
           icon: Icon(
-            Icons.arrow_back,
+            Icons.arrow_back_ios_outlined,
           ),
           onPressed: () {
             Navigator.pushReplacement(
@@ -96,106 +96,104 @@ class _chooseSemesterState extends State<chooseSemester> {
               itemCount: semesterListID.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
-                  padding:  EdgeInsets.fromLTRB(8, 8, 8, 0),
-                  
-                    child: Slidable(
-                      actionPane: SlidableDrawerActionPane(),
-                      actionExtentRatio: 0.25,
-                      secondaryActions: <Widget>[
-                        IconSlideAction(
-                          caption: 'unbenennen'.tr(),
-                          color: defaultColor,
-                          icon: Icons.edit,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => updateSemester()),
-                            );
+                  padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                  child: Slidable(
+                    actionPane: SlidableDrawerActionPane(),
+                    actionExtentRatio: 0.25,
+                    secondaryActions: <Widget>[
+                      IconSlideAction(
+                        caption: 'unbenennen'.tr(),
+                        color: defaultColor,
+                        icon: Icons.edit,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => updateSemester()),
+                          );
 
-                            selectedSemester = semesterListID[index];
-                          },
-                        ),
-                        IconSlideAction(
-                          caption: 'löschen'.tr(),
-                          color: defaultColor,
-                          icon: Icons.delete,
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text("Achtung".tr()),
-                                    content: Text(
-                                        "${'Bist du sicher, dass du'.tr()} ${semesterList[index]} ${'löschen willst?'.tr()}"),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        color: defaultColor,
-                                        child: Text("Nein".tr()),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                          HapticFeedback.lightImpact();
-                                        },
-                                      ),
-                                      FlatButton(
-                                        color: defaultColor,
-                                        child: Text("Löschen".tr()),
-                                        onPressed: () {
-                                          FirebaseFirestore.instance
-                                              .collection(
-                                                  'userData/${auth.currentUser.uid}/semester/')
-                                              .doc(semesterListID[index])
-                                              .set({});
-                                          FirebaseFirestore.instance
-                                              .collection(
-                                                  'userData/${auth.currentUser.uid}/semester/')
-                                              .doc(semesterListID[index])
-                                              .delete();
-                                          HapticFeedback.heavyImpact();
-                                          Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    chooseSemester()),
-                                            (Route<dynamic> route) => false,
-                                          );
+                          selectedSemester = semesterListID[index];
+                        },
+                      ),
+                      IconSlideAction(
+                        caption: 'löschen'.tr(),
+                        color: defaultColor,
+                        icon: Icons.delete,
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Achtung".tr()),
+                                  content: Text(
+                                      "${'Bist du sicher, dass du'.tr()} ${semesterList[index]} ${'löschen willst?'.tr()}"),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      color: defaultColor,
+                                      child: Text("Nein".tr()),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        HapticFeedback.lightImpact();
+                                      },
+                                    ),
+                                    FlatButton(
+                                      color: defaultColor,
+                                      child: Text("Löschen".tr()),
+                                      onPressed: () {
+                                        FirebaseFirestore.instance
+                                            .collection(
+                                                'userData/${auth.currentUser.uid}/semester/')
+                                            .doc(semesterListID[index])
+                                            .set({});
+                                        FirebaseFirestore.instance
+                                            .collection(
+                                                'userData/${auth.currentUser.uid}/semester/')
+                                            .doc(semesterListID[index])
+                                            .delete();
+                                        HapticFeedback.heavyImpact();
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  chooseSemester()),
+                                          (Route<dynamic> route) => false,
+                                        );
 
-                                          selectedSemester =
-                                              semesterListID[index];
-                                        },
-                                      )
-                                    ],
-                                  );
-                                });
-                          },
-                        ),
-                      ],
-                      child: Container(
-                        decoration: boxDec(),
-                        child: ListTile(
-                          title: Text(
-                            semesterList[index],
-                          ),
-                          trailing: IconButton(
-                              color: defaultColor,
-                              icon: Icon(Icons.arrow_forward),
-                              onPressed: () {
-                                choosenSemester = semesterListID[index];
-                                choosenSemesterName = semesterList[index];
-                                saveChoosenSemester(
-                                    choosenSemester, choosenSemesterName);
-                                HapticFeedback.mediumImpact();
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeWrapper()),
-                                  (Route<dynamic> route) => false,
+                                        selectedSemester =
+                                            semesterListID[index];
+                                      },
+                                    )
+                                  ],
                                 );
-                              }),
+                              });
+                        },
+                      ),
+                    ],
+                    child: Container(
+                      decoration: boxDec(),
+                      child: ListTile(
+                        title: Text(
+                          semesterList[index],
                         ),
+                        trailing: IconButton(
+                            color: defaultColor,
+                            icon: Icon(Icons.arrow_forward),
+                            onPressed: () {
+                              choosenSemester = semesterListID[index];
+                              choosenSemesterName = semesterList[index];
+                              saveChoosenSemester(
+                                  choosenSemester, choosenSemesterName);
+                              HapticFeedback.mediumImpact();
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeWrapper()),
+                                (Route<dynamic> route) => false,
+                              );
+                            }),
                       ),
                     ),
-                  
+                  ),
                 );
               },
             ),
@@ -234,9 +232,9 @@ class _updateSemesterState extends State<updateSemester> {
             TextField(
                 controller: renameSemesterController,
                 textAlign: TextAlign.left,
-                 inputFormatters:  [ EmojiRegex() ], 
+                inputFormatters: [EmojiRegex()],
                 decoration: inputDec("Semester Name")),
-             SizedBox(
+            SizedBox(
               height: 40,
             ),
             ElevatedButton(
@@ -293,7 +291,7 @@ class _addSemesterState extends State<addSemester> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-                 inputFormatters:  [ EmojiRegex() ], 
+                inputFormatters: [EmojiRegex()],
                 controller: addSemesterController,
                 textAlign: TextAlign.left,
                 decoration: inputDec("Semester Name")),
