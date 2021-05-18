@@ -19,6 +19,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:emoji_chooser/emoji_chooser.dart';
 import 'settings/gradelyPlus.dart';
 
+double screenwidth = 0;
 List semesterAveragePP = [];
 List emojiList = [];
 var emoji = "";
@@ -140,6 +141,7 @@ class _HomeSiteState extends State<HomeSite> {
   @override
   void initState() {
     super.initState();
+
     getPlusStatus();
     getChoosenSemester();
     getgradesResult();
@@ -155,6 +157,8 @@ class _HomeSiteState extends State<HomeSite> {
 
   @override
   Widget build(BuildContext context) {
+    screenwidth = MediaQuery.of(context).size.width;
+    print(screenwidth);
     darkModeColorChanger();
     if (choosenSemesterName == "noSemesterChoosed") {
       return LoadingScreen();
@@ -433,11 +437,29 @@ class _addLessonState extends State<addLesson> {
                     context: context,
                     builder: (BuildContext subcontext) {
                       return Container(
-                        height: 400,
+                        height: 290,
                         child: Column(
                           children: [
-                            Spacer(flex: 2),
+                            SizedBox(height: 20),
                             EmojiChooser(
+                              columns: ((() {
+          
+                                 if (screenwidth > 1700) {
+                                  return 35;
+                                } else if (screenwidth > 1100) {
+                                  return 45;
+                                }else if (screenwidth > 800) {
+                                  return 30;
+                                }else if (screenwidth > 600) {
+                                  return 20;
+                                } else if (screenwidth > 500) {
+                                  return 15;
+                                }else if (screenwidth > 400) {
+                                  return 15;
+                                } else if (screenwidth < 400) {
+                                  return 10;
+                                }
+                              })()),
                               onSelected: (_emoji) {
                                 setState(() {
                                   selectedEmoji = _emoji.char;
@@ -446,14 +468,6 @@ class _addLessonState extends State<addLesson> {
                                 Navigator.of(subcontext).pop(_emoji);
                               },
                             ),
-                            TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    selectedEmoji = "";
-                                    Navigator.of(subcontext).pop();
-                                  });
-                                },
-                                child: Text("No Emoji"))
                           ],
                         ),
                       );
@@ -552,28 +566,15 @@ class _updateLessonState extends State<updateLesson> {
                     context: context,
                     builder: (BuildContext subcontext) {
                       return Container(
-                        height: 400,
-                        child: Column(
-                          children: [
-                            Spacer(flex: 2),
-                            EmojiChooser(
-                              onSelected: (_emoji) {
-                                setState(() {
-                                  selectedEmoji = _emoji.char;
-                                });
+                        height: 266,
+                        child: EmojiChooser(
+                          onSelected: (_emoji) {
+                            setState(() {
+                              selectedEmoji = _emoji.char;
+                            });
 
-                                Navigator.of(subcontext).pop(_emoji);
-                              },
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    selectedEmoji = "";
-                                    Navigator.of(subcontext).pop();
-                                  });
-                                },
-                                child: Text("No Emoji"))
-                          ],
+                            Navigator.of(subcontext).pop(_emoji);
+                          },
                         ),
                       );
                     },
