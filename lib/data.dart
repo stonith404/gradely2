@@ -9,6 +9,7 @@ import 'chooseSemester.dart';
 import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
 import 'userAuth/login.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 num plusPoints = 0;
 bool gradelyPlus = false;
@@ -90,7 +91,9 @@ TextEditingController dreamGradeGrade = new TextEditingController();
 TextEditingController dreamGradeWeight = new TextEditingController();
 TextEditingController passwordController = new TextEditingController();
 TextEditingController passwordPlaceholder = new TextEditingController();
-
+TextEditingController editTestInfoName = new TextEditingController();
+TextEditingController editTestInfoGrade = new TextEditingController();
+TextEditingController editTestInfoWeight = new TextEditingController();
 var testDetails;
 
 getTestDetails() async {

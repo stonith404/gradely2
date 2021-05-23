@@ -39,6 +39,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
             'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+        .orderBy("date",descending: true)
         .get();
     List<DocumentSnapshot> documents = result.docs;
     setState(() {
@@ -79,6 +80,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
             'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+        .orderBy("date",descending: true)
         .get();
 
     List<DocumentSnapshot> documents = result.docs;

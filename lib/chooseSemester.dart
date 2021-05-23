@@ -23,7 +23,7 @@ class chooseSemester extends StatefulWidget {
 class _chooseSemesterState extends State<chooseSemester> {
   _getSemesters() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
-        .collection('userData/${auth.currentUser.uid}/semester')
+        .collection('userData/${auth.currentUser.uid}/semester').orderBy("name")
         .get();
     List<DocumentSnapshot> documents = result.docs;
 
