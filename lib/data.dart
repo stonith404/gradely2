@@ -96,6 +96,13 @@ TextEditingController editTestInfoGrade = new TextEditingController();
 TextEditingController editTestInfoWeight = new TextEditingController();
 var testDetails;
 
+formatDate(picked){
+      var _formatted = DateTime.parse(picked.toString());
+                            return
+                                "${_formatted.day}.${_formatted.month}.${_formatted.year}";
+                          
+}
+
 getTestDetails() async {
   print(selectedTest);
   testDetails = (await FirebaseFirestore.instance

@@ -36,10 +36,37 @@ class LessonsDetail extends StatefulWidget {
 
 class _LessonsDetailState extends State<LessonsDetail> {
   _getTests() async {
+    final QuerySnapshot result1 = await FirebaseFirestore.instance
+        .collection(
+            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+        .get();
+    List<DocumentSnapshot> documents1 = result1.docs;
+    setState(() {
+      documents1.forEach((data) {
+        try {
+          if (data["date"] == "") {
+            FirebaseFirestore.instance
+                .collection(
+                    'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                .doc(data.id)
+                .update({"date": "-"});
+          } else {
+            dateList.add(data["date"]);
+          }
+        } catch (e) {
+          FirebaseFirestore.instance
+              .collection(
+                  'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+              .doc(data.id)
+              .update({"date": "-"});
+        }
+      });
+    });
+
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
             'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-        .orderBy("date",descending: true)
+        .orderBy("date", descending: false)
         .get();
     List<DocumentSnapshot> documents = result.docs;
     setState(() {
@@ -50,9 +77,21 @@ class _LessonsDetailState extends State<LessonsDetail> {
       documents.forEach((data) => testList.add(data["name"]));
       documents.forEach((data) {
         try {
-          dateList.add(data["date"]);
+          if (data["date"] == "") {
+            FirebaseFirestore.instance
+                .collection(
+                    'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                .doc(data.id)
+                .update({"date": "-"});
+          } else {
+            dateList.add(data["date"]);
+          }
         } catch (e) {
-          dateList.add("-");
+          FirebaseFirestore.instance
+              .collection(
+                  'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+              .doc(data.id)
+              .update({"date": "-"});
         }
         print(dateList);
       });
@@ -80,7 +119,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
             'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-        .orderBy("date",descending: true)
+        .orderBy("name", descending: false)
         .get();
 
     List<DocumentSnapshot> documents = result.docs;
@@ -313,7 +352,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
     editTestInfoName.text = testDetails["name"];
     editTestInfoWeight.text = testDetails["weight"].toString();
     if (testDetails["date"].toString() == "null") {
-      editTestDateController.text = "";
+      editTestDateController.text = formatDate(DateTime.now());
     } else {
       editTestDateController.text = testDetails["date"].toString();
     }
@@ -450,6 +489,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
 Future addTest(BuildContext context) {
   addTestNameController.text = "";
   addTestGradeController.text = "";
+  addTestDateController.text = "";
   addTestWeightController.text = "1";
 
   return showCupertinoModalBottomSheet(

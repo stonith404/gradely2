@@ -67,7 +67,8 @@ class _HomeSiteState extends State<HomeSite> {
 
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
-            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/').orderBy("average", descending: true)
+            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+        .orderBy("average", descending: true)
         .get();
     List<DocumentSnapshot> documents = result.docs;
 
