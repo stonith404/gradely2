@@ -93,7 +93,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
               .doc(data.id)
               .update({"date": "-"});
         }
-        print(dateList);
+   
       });
     });
   }
@@ -434,11 +434,23 @@ class _LessonsDetailState extends State<LessonsDetail> {
                     child: GestureDetector(
                       onTap: () async {
                         final DateTime picked = await showDatePicker(
-                          context: context,
-                          initialDate: selectedDate,
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2025),
-                        );
+                            context: context,
+                            initialDate: selectedDate,
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2025),
+                            builder: (BuildContext context, Widget child) {
+                              return Theme(
+                                data: Theme.of(context).copyWith(
+        
+                                  colorScheme: ColorScheme.light(
+                                      onSurface: wbColor,
+                                    surface: defaultColor,
+                                  ),
+                                 
+                                ),
+                                child: child,
+                              );
+                            });
 
                         if (picked != null && picked != selectedDate)
                           setState(() {
@@ -665,7 +677,7 @@ Future DreamGradeC(BuildContext context) {
                 ((dreamgrade * (_sumW + dreamgradeWeight) - _sum) /
                     dreamgradeWeight);
           });
-          print(dreamgradeResult);
+       
         } catch (e) {
           setState(() {
             dreamgradeResult = 0;
