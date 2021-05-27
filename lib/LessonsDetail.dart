@@ -50,10 +50,8 @@ class _LessonsDetailState extends State<LessonsDetail> {
                     'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                 .doc(data.id)
                 .update({"date": "-"});
-          } else {
-            dateList.add(data["date"]);
           }
-        } catch (e) {
+        } catch (e) { //if null
           FirebaseFirestore.instance
               .collection(
                   'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
@@ -93,7 +91,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
               .doc(data.id)
               .update({"date": "-"});
         }
-   
       });
     });
   }
@@ -119,7 +116,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
             'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-        .orderBy("name", descending: false)
+        .orderBy("date", descending: false)
         .get();
 
     List<DocumentSnapshot> documents = result.docs;
@@ -441,12 +438,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             builder: (BuildContext context, Widget child) {
                               return Theme(
                                 data: Theme.of(context).copyWith(
-        
                                   colorScheme: ColorScheme.light(
-                                      onSurface: wbColor,
+                                    onSurface: wbColor,
                                     surface: defaultColor,
                                   ),
-                                 
                                 ),
                                 child: child,
                               );
@@ -597,11 +592,21 @@ Future addTest(BuildContext context) {
                       child: GestureDetector(
                         onTap: () async {
                           final DateTime picked = await showDatePicker(
-                            context: context,
-                            initialDate: selectedDate,
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2025),
-                          );
+                              context: context,
+                              initialDate: selectedDate,
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2025),
+                              builder: (BuildContext context, Widget child) {
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                    colorScheme: ColorScheme.light(
+                                      onSurface: wbColor,
+                                      surface: defaultColor,
+                                    ),
+                                  ),
+                                  child: child,
+                                );
+                              });
 
                           if (picked != null && picked != selectedDate)
                             setState(() {
@@ -677,7 +682,6 @@ Future DreamGradeC(BuildContext context) {
                 ((dreamgrade * (_sumW + dreamgradeWeight) - _sum) /
                     dreamgradeWeight);
           });
-       
         } catch (e) {
           setState(() {
             dreamgradeResult = 0;
