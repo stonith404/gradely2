@@ -87,7 +87,7 @@ class _ContactScreenState extends State<ContactScreen> {
                 children: [
                   Icon(FontAwesome5Solid.exclamation_circle),
                   Spacer(flex: 1),
-                  Text("fehler".tr()),
+                  Text("error".tr()),
                   Spacer(flex: 10)
                 ],
               ),

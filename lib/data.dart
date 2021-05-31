@@ -17,6 +17,7 @@ bool isMaintanceEnabled = false;
 String gradesResult = "Pluspunkte";
 num plusPointsallAverageList = 0;
 Timer timer;
+DocumentSnapshot uidDB;
 
 getPluspoints(num value) {
   if (value >= 5.75) {
@@ -96,96 +97,47 @@ TextEditingController editTestInfoGrade = new TextEditingController();
 TextEditingController editTestInfoWeight = new TextEditingController();
 var testDetails;
 
-formatDate(picked){
-      var _formatted = DateTime.parse(picked.toString());
-                            return
-                                "${_formatted.day}.${_formatted.month}.${_formatted.year}";
-                          
+formatDate(picked) {
+  var _formatted = DateTime.parse(picked.toString());
+  return "${_formatted.day}.${_formatted.month}.${_formatted.year}";
 }
 
-getTestDetails() async {
-  print(selectedTest);
-  testDetails = (await FirebaseFirestore.instance
-          .collection(
-              "grades/${auth.currentUser.uid}/grades/$selectedLesson/grades/")
-          .doc(selectedTest)
-          .get())
-      .data();
-}
-
-getChoosenSemester() async {
-  DocumentSnapshot _db = await FirebaseFirestore.instance
+getUIDDocuments() async {
+  uidDB = await FirebaseFirestore.instance
       .collection('userData')
       .doc(auth.currentUser.uid)
       .get();
 
-  if (_db.data()['choosenSemester'] == null) {
+  gradesResult = uidDB.data()['gradesResult'];
+  choosenSemesterName = uidDB.data()['choosenSemesterName'];
+
+  if (uidDB.data()['gradelyPlus'] == true) {
+    gradelyPlus = true;
+  } else {
+    gradelyPlus = false;
+  }
+
+  if (uidDB.data()['choosenSemester'] == null) {
     print("made");
     FirebaseFirestore.instance
         .collection('userData')
         .doc(auth.currentUser.uid)
         .update({'choosenSemester': 'noSemesterChoosed'});
   } else {
-    choosenSemester = _db.data()['choosenSemester'];
-
-    getChoosenSemesterName();
+    choosenSemester = uidDB.data()['choosenSemester'];
   }
-}
 
-getChoosenSemesterName() async {
-  DocumentSnapshot _db = await FirebaseFirestore.instance
-      .collection('userData')
-      .doc(auth.currentUser.uid)
-      .get();
-
-  choosenSemesterName = _db.data()['choosenSemesterName'];
-}
-
-getgradesResult() async {
-  DocumentSnapshot _db = await FirebaseFirestore.instance
-      .collection('userData')
-      .doc(auth.currentUser.uid)
-      .get();
-
-  gradesResult = _db.data()['gradesResult'];
-}
-
-getDefaultColor() async {
-  print("done");
-  try {
-    DocumentSnapshot _db = await FirebaseFirestore.instance
-        .collection('userData')
-        .doc(auth.currentUser.uid)
-        .get();
-
+  if (uidDB.data()['defaultColor'] != null) {
     defaultColor = Color(
-        int.parse(_db.data()['defaultColor'].substring(1, 7), radix: 16) +
+        int.parse(uidDB.data()['defaultColor'].substring(1, 7), radix: 16) +
             0xFF000000);
-  } catch (e) {
-    print(e);
+  } else {
     defaultColor = Color(0xFF6C63FF);
   }
 }
 
 void launchURL(_url) async =>
     await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
-
-getPlusStatus() async {
-  try {
-    DocumentSnapshot _db = await FirebaseFirestore.instance
-        .collection('userData')
-        .doc(auth.currentUser.uid)
-        .get();
-
-    if (_db.data()['gradelyPlus'] == true) {
-      gradelyPlus = true;
-    } else {
-      gradelyPlus = false;
-    }
-  } catch (e) {
-    gradelyPlus = false;
-  }
-}
 
 getUserAuthStatus() {
   if (FirebaseAuth.instance.currentUser == null) {

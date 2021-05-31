@@ -50,19 +50,16 @@ class _HomeSiteState extends State<HomeSite> {
   }
 
   getLessons() async {
-    DocumentSnapshot _db = await FirebaseFirestore.instance
-        .collection('userData')
-        .doc(auth.currentUser.uid)
-        .get();
+    await getUIDDocuments();
 
-    if (_db.data()['choosenSemester'] == null) {
+    if (uidDB.data()['choosenSemester'] == null) {
       FirebaseFirestore.instance
           .collection('userData')
           .doc(auth.currentUser.uid)
           .update({'choosenSemester': 'noSemesterChoosed'});
     } else {
-      choosenSemester = _db.data()['choosenSemester'];
-      getChoosenSemesterName();
+      choosenSemester = uidDB.data()['choosenSemester'];
+      getUIDDocuments();
     }
 
     final QuerySnapshot result = await FirebaseFirestore.instance
@@ -147,12 +144,8 @@ class _HomeSiteState extends State<HomeSite> {
   @override
   void initState() {
     super.initState();
-
-    getPlusStatus();
-    getChoosenSemester();
-    getgradesResult();
-    pushNotification();
     getLessons();
+    pushNotification();
   }
 
   void setState(fn) {
@@ -164,16 +157,17 @@ class _HomeSiteState extends State<HomeSite> {
   @override
   Widget build(BuildContext context) {
     screenwidth = MediaQuery.of(context).size.width;
-    print(screenwidth);
     darkModeColorChanger();
     if (choosenSemesterName == "noSemesterChoosed") {
       return LoadingScreen();
     } else {
       return Scaffold(
+        drawer: Drawer(),
           body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
+              
               backgroundColor: defaultColor,
               forceElevated: true,
               title: Image.asset(
@@ -307,51 +301,51 @@ class _HomeSiteState extends State<HomeSite> {
                         color: defaultColor,
                         icon: Icons.delete,
                         onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Achtung".tr()),
-                                  content: Text(
-                                      "${'Bist du sicher, dass du'.tr()} ${courseList[index]} ${'löschen willst?'.tr()}"),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      color: defaultColor,
-                                      child: Text("Nein".tr()),
-                                      onPressed: () {
-                                        HapticFeedback.lightImpact();
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    FlatButton(
-                                      color: defaultColor,
-                                      child: Text("Löschen".tr()),
-                                      onPressed: () {
-                                        FirebaseFirestore.instance
-                                            .collection(
-                                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
-                                            .doc(courseListID[index])
-                                            .set({});
-                                        FirebaseFirestore.instance
-                                            .collection(
-                                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
-                                            .doc(courseListID[index])
-                                            .delete();
-                                        HapticFeedback.heavyImpact();
-                                        Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomeWrapper()),
-                                          (Route<dynamic> route) => false,
-                                        );
+                          gradelyDialog(
+                            context: context,
+                            title: "Achtung".tr(),
+                            text:
+                                "${'Bist du sicher, dass du'.tr()} ${courseList[index]} ${'löschen willst?'.tr()}",
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text(
+                                  "Nein".tr(),
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                onPressed: () {
+                                  HapticFeedback.lightImpact();
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: Text(
+                                  "Löschen".tr(),
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                onPressed: () {
+                                  FirebaseFirestore.instance
+                                      .collection(
+                                          'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+                                      .doc(courseListID[index])
+                                      .set({});
+                                  FirebaseFirestore.instance
+                                      .collection(
+                                          'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+                                      .doc(courseListID[index])
+                                      .delete();
+                                  HapticFeedback.heavyImpact();
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeWrapper()),
+                                    (Route<dynamic> route) => false,
+                                  );
 
-                                        selectedLesson = courseListID[index];
-                                      },
-                                    )
-                                  ],
-                                );
-                              });
+                                  selectedLesson = courseListID[index];
+                                },
+                              )
+                            ],
+                          );
                         },
                       ),
                     ],
@@ -400,8 +394,6 @@ class _HomeSiteState extends State<HomeSite> {
                             selectedLesson = courseListID[index];
                             selectedLessonName = courseList[index];
                           });
-
-                          getTestDetails();
                         },
                       ),
                     ),

@@ -1,8 +1,15 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gradely/chooseSemester.dart';
 import 'package:gradely/main.dart';
 import 'package:gradely/data.dart';
-
+import 'package:gradely/semesterDetail.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:gradely/userAuth/login.dart';
 
 RoundedRectangleBorder defaultRoundedCorners() {
   return RoundedRectangleBorder(
@@ -38,19 +45,45 @@ InputDecoration inputDec(String _label) {
   );
 }
 
-  FilteringTextInputFormatter EmojiRegex() {
-    return FilteringTextInputFormatter.deny(
- RegExp(
-  r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'
-)
-);
-  }
+FilteringTextInputFormatter EmojiRegex() {
+  return FilteringTextInputFormatter.deny(RegExp(
+      r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'));
+}
 
 ButtonStyle elev() {
   return ElevatedButton.styleFrom(
-  
     primary: defaultColor, // background
-  
   );
 }
 
+//dialog
+
+Widget gradelyDialog({context, title, text, actions}) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        if (Platform.isIOS || Platform.isMacOS) {
+          return CupertinoAlertDialog(
+              title: Text(title),
+              content: Text(text),
+              actions: actions ?? [
+                  CupertinoButton(
+                      child: Text(
+                        "Ok",
+                        style: TextStyle(color: defaultColor),
+                      ),
+                      onPressed: () => Navigator.of(context).pop())]);
+        } else {
+          return AlertDialog(
+              title: Text(title),
+              content: Text(text),
+              actions: actions ??
+                  [TextButton(
+                      child: Text(
+                        "Ok",
+                        style: TextStyle(color: defaultColor),
+                      ),
+                      onPressed: () => Navigator.of(context).pop())]);
+        }
+      });
+}

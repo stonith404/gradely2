@@ -63,7 +63,7 @@ class GradelyPlusState extends State<GradelyPlus> {
               ),
               style: elev())
         ]);
-    getPlusStatus();
+    getUIDDocuments();
     final Stream<List<PurchaseDetails>> purchaseUpdated =
         InAppPurchaseConnection.instance.purchaseUpdatedStream;
     _subscription = purchaseUpdated.listen((purchaseDetailsList) {
@@ -218,10 +218,7 @@ class GradelyPlusState extends State<GradelyPlus> {
   }
 
   void deliverProduct(PurchaseDetails purchaseDetails) async {
-    DocumentSnapshot _db = await FirebaseFirestore.instance
-        .collection('userData')
-        .doc(auth.currentUser.uid)
-        .get();
+    getUIDDocuments();
 
     FirebaseFirestore.instance
         .collection('userData')
@@ -355,7 +352,7 @@ class gpUI extends StatelessWidget {
             ),
           ),
         ),
-         SizedBox(
+        SizedBox(
           height: 5,
         ),
         Container(

@@ -36,13 +36,19 @@ class LessonsDetail extends StatefulWidget {
 
 class _LessonsDetailState extends State<LessonsDetail> {
   _getTests() async {
-    final QuerySnapshot result1 = await FirebaseFirestore.instance
+    final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
             'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+        .orderBy("date", descending: false)
         .get();
-    List<DocumentSnapshot> documents1 = result1.docs;
+
+    List<DocumentSnapshot> documents = result.docs;
     setState(() {
-      documents1.forEach((data) {
+      testList = [];
+      testListID = [];
+      dateList = [];
+      averageList = [];
+      documents.forEach((data) {
         try {
           if (data["date"] == "") {
             FirebaseFirestore.instance
@@ -51,7 +57,8 @@ class _LessonsDetailState extends State<LessonsDetail> {
                 .doc(data.id)
                 .update({"date": "-"});
           }
-        } catch (e) { //if null
+        } catch (e) {
+          //if null
           FirebaseFirestore.instance
               .collection(
                   'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
@@ -59,18 +66,13 @@ class _LessonsDetailState extends State<LessonsDetail> {
               .update({"date": "-"});
         }
       });
-    });
+      documents.forEach((data) {
+        double _averageSum;
 
-    final QuerySnapshot result = await FirebaseFirestore.instance
-        .collection(
-            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-        .orderBy("date", descending: false)
-        .get();
-    List<DocumentSnapshot> documents = result.docs;
-    setState(() {
-      testList = [];
-      testListID = [];
-      dateList = [];
+        _averageSum = data["grade"] * data["weight"];
+        averageList.add(_averageSum);
+        averageListWeight.add(data["weight"]);
+      });
       documents.forEach((data) => testListID.add(data.id));
       documents.forEach((data) => testList.add(data["name"]));
       documents.forEach((data) {
@@ -92,6 +94,30 @@ class _LessonsDetailState extends State<LessonsDetail> {
               .update({"date": "-"});
         }
       });
+
+//this calculates the average of the tests
+      _sumW = 0;
+      _sum = 0;
+
+      for (num e in averageListWeight) {
+        _sumW += e;
+      }
+
+      for (num e in averageList) {
+        _sum += e;
+      }
+      setState(() {
+        averageOfTests = _sum / _sumW;
+      });
+
+      FirebaseFirestore.instance
+          .collection('userData')
+          .doc(auth.currentUser.uid)
+          .collection('semester')
+          .doc(choosenSemester)
+          .collection('lessons')
+          .doc(selectedLesson)
+          .update({"average": averageOfTests});
     });
   }
 
@@ -112,54 +138,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   List averageList = [];
   List averageListWeight = [];
-  getTestAvarage() async {
-    final QuerySnapshot result = await FirebaseFirestore.instance
-        .collection(
-            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-        .orderBy("date", descending: false)
-        .get();
-
-    List<DocumentSnapshot> documents = result.docs;
-    setState(() {
-      averageList = [];
-      documents.forEach((data) {
-        double _averageSum;
-
-        _averageSum = data["grade"] * data["weight"];
-        averageList.add(_averageSum);
-        averageListWeight.add(data["weight"]);
-      });
-    });
-    _sumW = 0;
-    _sum = 0;
-
-    for (num e in averageListWeight) {
-      _sumW += e;
-    }
-
-    for (num e in averageList) {
-      _sum += e;
-    }
-    setState(() {
-      averageOfTests = _sum / _sumW;
-    });
-
-    FirebaseFirestore.instance
-        .collection('userData')
-        .doc(auth.currentUser.uid)
-        .collection('semester')
-        .doc(choosenSemester)
-        .collection('lessons')
-        .doc(selectedLesson)
-        .update({"average": averageOfTests});
-  }
 
   void initState() {
     super.initState();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
-    getChoosenSemester();
+    getUIDDocuments();
     _getTests();
-    getTestAvarage();
   }
 
   void setState(fn) {
@@ -256,10 +240,16 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                       Text(" " + dateList[index].toString()),
                                     ],
                                   ),
-                            trailing: Text(
-                              (averageList[index] / averageListWeight[index])
-                                  .toStringAsFixed(2),
-                            ),
+                            trailing: Text(() {
+                              if ((averageList[index] /
+                                      averageListWeight[index]).isNaN) {
+                                return "-";
+                              } else {
+                                return (averageList[index] /
+                                        averageListWeight[index])
+                                    .toStringAsFixed(2);
+                              }
+                            }()),
                             onTap: () async {
                               _getTests();
 

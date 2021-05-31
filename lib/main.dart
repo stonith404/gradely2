@@ -36,8 +36,6 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   InAppPurchaseConnection.enablePendingPurchases();
   await Firebase.initializeApp();
-  getDefaultColor();
-
   runApp(EasyLocalization(
     supportedLocales: [Locale('de'), Locale('en')],
     useOnlyLangCode: true,
@@ -124,7 +122,6 @@ class _State extends State<HomeWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    getChoosenSemester();
     return StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (_, snapshot) {

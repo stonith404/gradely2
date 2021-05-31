@@ -66,6 +66,7 @@ class _chooseSemesterState extends State<chooseSemester> {
     _getSemesters();
     return Scaffold(
       appBar: AppBar(
+                shape: defaultRoundedCorners(),
         backgroundColor: defaultColor,
         title: Text("Semester"),
         leading: IconButton(
@@ -120,25 +121,24 @@ class _chooseSemesterState extends State<chooseSemester> {
                         color: defaultColor,
                         icon: Icons.delete,
                         onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Achtung".tr()),
-                                  content: Text(
-                                      "${'Bist du sicher, dass du'.tr()} ${semesterList[index]} ${'löschen willst?'.tr()}"),
+
+                                return gradelyDialog(
+                                    context: context,
+                                  title: "Achtung".tr(),
+                                  text: 
+                                      "${'Bist du sicher, dass du'.tr()} ${semesterList[index]} ${'löschen willst?'.tr()}",
                                   actions: <Widget>[
-                                    FlatButton(
-                                      color: defaultColor,
-                                      child: Text("Nein".tr()),
+                                    TextButton(
+                                    
+                                      child: Text("Nein".tr(), style: TextStyle(color: Colors.black),),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                         HapticFeedback.lightImpact();
                                       },
                                     ),
-                                    FlatButton(
-                                      color: defaultColor,
-                                      child: Text("Löschen".tr()),
+                                    TextButton(
+                                   
+                                      child: Text("Löschen".tr(),  style: TextStyle(color: Colors.red),),
                                       onPressed: () {
                                         FirebaseFirestore.instance
                                             .collection(
@@ -165,7 +165,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                                     )
                                   ],
                                 );
-                              });
+                         
                         },
                       ),
                     ],
@@ -220,8 +220,9 @@ class _updateSemesterState extends State<updateSemester> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+   
         backgroundColor: defaultColor,
-        title: Text("Semester ${'unbenennen'.tr()}"),
+        title: Text("renameSemester".tr()),
         shape: defaultRoundedCorners(),
       ),
       body: Padding(

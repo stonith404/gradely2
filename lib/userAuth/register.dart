@@ -52,18 +52,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isLoading = false;
       });
       if (e.code == 'weak-password') {
+        gradelyDialog(
+            context: context,
+            title: "error".tr(),
+            text: "weakPassword".tr());
         setState(() {
-          _errorMessage = "To weak password.";
           isLoading = false;
         });
       } else if (e.code == 'email-already-in-use') {
+        gradelyDialog(
+            context: context,
+            title: "error".tr(),
+            text: "emailInUse".tr());
         setState(() {
-          _errorMessage = "This email is already in use.";
           isLoading = false;
         });
       } else if (e.code == 'invalid-email') {
+         gradelyDialog(
+            context: context,
+            title: "error".tr(),
+            text: "invalidEmail".tr());
         setState(() {
-          _errorMessage = "Invalid Email.";
           isLoading = false;
         });
       }
@@ -77,7 +86,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isLoading = false;
       });
     }
-       _passwordController.text = "";
+    _passwordController.text = "";
   }
 
   void setState(fn) {
@@ -93,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
       child: Scaffold(
-         backgroundColor: defaultColor,
+        backgroundColor: defaultColor,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -102,14 +111,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             height: 60,
           ),
         ),
-        body: isLoading
-            ? LoadingScreen()
-            : Padding(
+        body: Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                  Spacer(
+                    Spacer(
                       flex: 2,
                     ),
                     Row(
@@ -155,10 +162,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-  
-    primary: Color(0xFF554dd1), // background
-  
-  ),
+                          primary: Color(0xFF554dd1), // background
+                        ),
                         onPressed: () {
                           setState(() {
                             _email = _emailController.text;
@@ -169,7 +174,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                           HapticFeedback.lightImpact();
                         },
-                        child: Text("Registrieren".tr(),  style: TextStyle(color: Colors.white))),
+                        child: Text("Registrieren".tr(),
+                            style: TextStyle(color: Colors.white))),
                     SizedBox(
                       height: 10,
                     ),
@@ -186,7 +192,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 builder: (context) => LoginScreen()),
                           );
                         },
-                        child: Text("Hast du schon ein Account?".tr(),   style: TextStyle(color: Colors.white))),
+                        child: Text("Hast du schon ein Account?".tr(),
+                            style: TextStyle(color: Colors.white))),
                     Spacer(
                       flex: 3,
                     ),

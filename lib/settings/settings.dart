@@ -25,21 +25,21 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-   getUserAuthStatus();
+    getUserAuthStatus();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
-    getgradesResult();
-     
+    getUIDDocuments();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          shape: defaultRoundedCorners(),
-          backgroundColor: defaultColor,
-          title: Text("Einstellungen".tr()),
-          leading: Container(),
-           actions: [  IconButton(
+        shape: defaultRoundedCorners(),
+        backgroundColor: defaultColor,
+        title: Text("Einstellungen".tr()),
+        leading: Container(),
+        actions: [
+          IconButton(
               icon: Icon(
                 Icons.arrow_forward_ios_outlined,
               ),
@@ -47,9 +47,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HomeWrapper()),
-                 
                 );
-              }),],),
+              }),
+        ],
+      ),
       body: Column(
         children: [
           Expanded(

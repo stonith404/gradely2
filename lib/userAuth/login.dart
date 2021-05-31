@@ -38,13 +38,17 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        setState(() {
-          _errorMessage = "This account doesn't exist.";
-        });
+         gradelyDialog(
+            context: context,
+            title: "error".tr(),
+            text: "userNotFound".tr());
+        
       } else if (e.code == 'wrong-password') {
-        setState(() {
-          _errorMessage = "Wrong password.";
-        });
+         gradelyDialog(
+            context: context,
+            title: "error".tr(),
+            text: "wrongPassword".tr());
+    
       }
       setState(() {
         isLoading = false;
