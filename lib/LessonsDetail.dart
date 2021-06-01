@@ -35,7 +35,8 @@ class LessonsDetail extends StatefulWidget {
 }
 
 class _LessonsDetailState extends State<LessonsDetail> {
-  _getTests() async {
+  getTests() async {
+
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
             'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
@@ -43,11 +44,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
         .get();
 
     List<DocumentSnapshot> documents = result.docs;
+    testList = [];
+    testListID = [];
+    dateList = [];
+    averageList = [];
+
     setState(() {
-      testList = [];
-      testListID = [];
-      dateList = [];
-      averageList = [];
       documents.forEach((data) {
         try {
           if (data["date"] == "") {
@@ -72,10 +74,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
         _averageSum = data["grade"] * data["weight"];
         averageList.add(_averageSum);
         averageListWeight.add(data["weight"]);
-      });
-      documents.forEach((data) => testListID.add(data.id));
-      documents.forEach((data) => testList.add(data["name"]));
-      documents.forEach((data) {
+        setState(() {
+          testListID.add(data.id);
+        });
+
+        testList.add(data["name"]);
+
         try {
           if (data["date"] == "") {
             FirebaseFirestore.instance
@@ -141,9 +145,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   void initState() {
     super.initState();
+    getTests();
+    print(testList.length);
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
     getUIDDocuments();
-    _getTests();
   }
 
   void setState(fn) {
@@ -154,8 +159,13 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      testListID = testListID;
+      print(testListID.length);
+    });
     getPluspoints(averageOfTests);
     darkModeColorChanger();
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: defaultColor,
@@ -177,7 +187,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: testList.length,
+                itemCount: testListID.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
                     padding: EdgeInsets.fromLTRB(8, 6, 8, 0),
@@ -187,35 +197,37 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         actionPane: SlidableDrawerActionPane(),
                         actionExtentRatio: 0.25,
                         secondaryActions: <Widget>[
-                          IconSlideAction(
-                            caption: 'löschen'.tr(),
-                            color: defaultColor,
-                            icon: Icons.delete,
-                            onTap: () {
-                              _getTests();
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: IconSlideAction(
+                              color: defaultColor,
+                              iconWidget: Icon(FontAwesome5.trash_alt),
+                              onTap: () {
+                                getTests();
 
-                              selectedTest = testListID[index];
-                              FirebaseFirestore.instance
-                                  .collection(
-                                      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                                  .doc(selectedTest)
-                                  .set({});
-                              FirebaseFirestore.instance
-                                  .collection(
-                                      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                                  .doc(selectedTest)
-                                  .delete();
-                              HapticFeedback.mediumImpact();
-                              Navigator.pushReplacement(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder:
-                                      (context, animation1, animation2) =>
-                                          LessonsDetail(),
-                                  transitionDuration: Duration(seconds: 0),
-                                ),
-                              );
-                            },
+                                selectedTest = testListID[index];
+                                FirebaseFirestore.instance
+                                    .collection(
+                                        'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                                    .doc(selectedTest)
+                                    .set({});
+                                FirebaseFirestore.instance
+                                    .collection(
+                                        'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                                    .doc(selectedTest)
+                                    .delete();
+                                HapticFeedback.mediumImpact();
+                                Navigator.pushReplacement(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation1, animation2) =>
+                                            LessonsDetail(),
+                                    transitionDuration: Duration(seconds: 0),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ],
                         child: ListTile(
@@ -242,7 +254,8 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                   ),
                             trailing: Text(() {
                               if ((averageList[index] /
-                                      averageListWeight[index]).isNaN) {
+                                      averageListWeight[index])
+                                  .isNaN) {
                                 return "-";
                               } else {
                                 return (averageList[index] /
@@ -251,7 +264,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                               }
                             }()),
                             onTap: () async {
-                              _getTests();
+                              getTests();
 
                               selectedTest = testListID[index];
 
@@ -436,7 +449,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                 child: child,
                               );
                             });
-
                         if (picked != null && picked != selectedDate)
                           setState(() {
                             var _formatted = DateTime.parse(picked.toString());
@@ -481,176 +493,181 @@ class _LessonsDetailState extends State<LessonsDetail> {
           )),
     );
   }
-}
 
-Future addTest(BuildContext context) {
-  addTestNameController.text = "";
-  addTestGradeController.text = "";
-  addTestDateController.text = "";
-  addTestWeightController.text = "1";
+  Future addTest(BuildContext context) {
+    addTestNameController.text = "";
+    addTestGradeController.text = "";
+    addTestDateController.text = "";
+    addTestWeightController.text = "1";
 
-  return showCupertinoModalBottomSheet(
-    expand: true,
-    context: context,
-    builder: (context) => StatefulBuilder(builder:
-        (BuildContext context, StateSetter setState /*You can rename this!*/) {
-      return SingleChildScrollView(
-          controller: ModalScrollController.of(context),
-          child: Material(
-            color: defaultBGColor,
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        CircleAvatar(
-                          radius: 22,
-                          backgroundColor: defaultColor,
-                          child: IconButton(
-                              color: Colors.white,
-                              onPressed: () {
-                                bool isNumeric() {
-                                  if (addTestGradeController.text == null) {
-                                    return false;
+    return showCupertinoModalBottomSheet(
+      expand: true,
+      context: context,
+      builder: (context) => StatefulBuilder(builder: (BuildContext context,
+          StateSetter setState /*You can rename this!*/) {
+        return SingleChildScrollView(
+            controller: ModalScrollController.of(context),
+            child: Material(
+              color: defaultBGColor,
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CircleAvatar(
+                            radius: 22,
+                            backgroundColor: defaultColor,
+                            child: IconButton(
+                                color: Colors.white,
+                                onPressed: () async {
+                                  getTests();
+
+                                  bool isNumeric() {
+                                    if (addTestGradeController.text == null) {
+                                      return false;
+                                    }
+                                    return double.tryParse(
+                                            addTestGradeController.text) !=
+                                        null;
                                   }
-                                  return double.tryParse(
-                                          addTestGradeController.text) !=
-                                      null;
-                                }
 
-                                if (isNumeric() == false) {
-                                  errorMessage =
-                                      "Bitte eine gültige Note eingeben.";
+                                  if (isNumeric() == false) {
+                                    setState(() {
+                                      errorMessage =
+                                          "Bitte eine gültige Note eingeben.";
+                                    });
 
-                                  Future.delayed(Duration(seconds: 4))
-                                      .then((value) => {errorMessage = ""});
-                                }
-
-                                createTest(
-                                    addTestNameController.text,
-                                    double.parse(addTestGradeController.text
+                                    Future.delayed(Duration(seconds: 4))
+                                        .then((value) => {errorMessage = ""});
+                                  }
+                                  await FirebaseFirestore.instance
+                                      .collection('userData')
+                                      .doc(auth.currentUser.uid)
+                                      .collection('semester')
+                                      .doc(choosenSemester)
+                                      .collection('lessons')
+                                      .doc(selectedLesson)
+                                      .collection('grades')
+                                      .doc()
+                                      .set({
+                                    "name": addTestNameController.text,
+                                    "grade": double.parse(addTestGradeController
+                                        .text
                                         .replaceAll(",", ".")),
-                                    double.parse(addTestWeightController.text
-                                        .replaceAll(",", ".")),
-                                    addTestDateController.text);
+                                    "weight": double.parse(
+                                        addTestWeightController.text
+                                            .replaceAll(",", ".")),
+                                    "date": addTestDateController.text
+                                  });
 
-                                addLessonController.text = "";
-                                courseList = [];
-                                HapticFeedback.lightImpact();
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LessonsDetail()),
-                                  (Route<dynamic> route) => false,
-                                );
-                              },
-                              icon: Icon(Icons.add)),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: Text(
-                        "addexam".tr(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 30),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Divider(
-                        thickness: 2,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: addTestNameController,
-                        textAlign: TextAlign.left,
-                        decoration: inputDec("Test Name".tr()),
-                        inputFormatters: [EmojiRegex()],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GestureDetector(
-                        onTap: () async {
-                          final DateTime picked = await showDatePicker(
-                              context: context,
-                              initialDate: selectedDate,
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2025),
-                              builder: (BuildContext context, Widget child) {
-                                return Theme(
-                                  data: Theme.of(context).copyWith(
-                                    colorScheme: ColorScheme.light(
-                                      onSurface: wbColor,
-                                      surface: defaultColor,
+                                  addLessonController.text = "";
+
+                                  HapticFeedback.lightImpact();
+                                  Navigator.pushReplacement(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder:
+                                          (context, animation1, animation2) =>
+                                              LessonsDetail(),
+                                      transitionDuration: Duration(seconds: 0),
                                     ),
-                                  ),
-                                  child: child,
-                                );
-                              });
-
-                          if (picked != null && picked != selectedDate)
-                            setState(() {
-                              var _formatted =
-                                  DateTime.parse(picked.toString());
-                              addTestDateController.text =
-                                  "${_formatted.day}.${_formatted.month}.${_formatted.year}";
-                            });
-                        },
-                        child: AbsorbPointer(
-                          child: TextField(
-                              controller: addTestDateController,
-                              textAlign: TextAlign.left,
-                              decoration: inputDec("date".tr())),
+                                  );
+                                },
+                                icon: Icon(Icons.add)),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                        child: Text(
+                          "addexam".tr(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 30),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                          controller: addTestGradeController,
-                          keyboardType:
-                              TextInputType.numberWithOptions(decimal: true),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Divider(
+                          thickness: 2,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: addTestNameController,
                           textAlign: TextAlign.left,
-                          decoration: inputDec("Note".tr())),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                          controller: addTestWeightController,
-                          keyboardType:
-                              TextInputType.numberWithOptions(decimal: true),
-                          textAlign: TextAlign.left,
-                          decoration: inputDec("Gewichtung".tr())),
-                    ),
-                    Text(errorMessage)
-                  ],
-                )),
-          ));
-    }),
-  );
-}
+                          decoration: inputDec("Test Name".tr()),
+                          inputFormatters: [EmojiRegex()],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: () async {
+                            final DateTime picked = await showDatePicker(
+                                context: context,
+                                initialDate: selectedDate,
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2025),
+                                builder: (BuildContext context, Widget child) {
+                                  return Theme(
+                                    data: Theme.of(context).copyWith(
+                                      colorScheme: ColorScheme.light(
+                                        onSurface: wbColor,
+                                        surface: defaultColor,
+                                      ),
+                                    ),
+                                    child: child,
+                                  );
+                                });
 
-createTest(String testName, double grade, double weight, String date) {
-  FirebaseFirestore.instance
-      .collection('userData')
-      .doc(auth.currentUser.uid)
-      .collection('semester')
-      .doc(choosenSemester)
-      .collection('lessons')
-      .doc(selectedLesson)
-      .collection('grades')
-      .doc()
-      .set({"name": testName, "grade": grade, "weight": weight, "date": date});
+                            if (picked != null && picked != selectedDate)
+                              setState(() {
+                                var _formatted =
+                                    DateTime.parse(picked.toString());
+                                addTestDateController.text =
+                                    "${_formatted.day}.${_formatted.month}.${_formatted.year}";
+                              });
+                          },
+                          child: AbsorbPointer(
+                            child: TextField(
+                                controller: addTestDateController,
+                                textAlign: TextAlign.left,
+                                decoration: inputDec("date".tr())),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                            controller: addTestGradeController,
+                            keyboardType:
+                                TextInputType.numberWithOptions(decimal: true),
+                            textAlign: TextAlign.left,
+                            decoration: inputDec("Note".tr())),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                            controller: addTestWeightController,
+                            keyboardType:
+                                TextInputType.numberWithOptions(decimal: true),
+                            textAlign: TextAlign.left,
+                            decoration: inputDec("Gewichtung".tr())),
+                      ),
+                      Text(errorMessage)
+                    ],
+                  )),
+            ));
+      }),
+    );
+  }
 }
 
 Future DreamGradeC(BuildContext context) {

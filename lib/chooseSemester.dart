@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
@@ -23,7 +24,8 @@ class chooseSemester extends StatefulWidget {
 class _chooseSemesterState extends State<chooseSemester> {
   _getSemesters() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
-        .collection('userData/${auth.currentUser.uid}/semester').orderBy("name")
+        .collection('userData/${auth.currentUser.uid}/semester')
+        .orderBy("name")
         .get();
     List<DocumentSnapshot> documents = result.docs;
 
@@ -66,7 +68,7 @@ class _chooseSemesterState extends State<chooseSemester> {
     _getSemesters();
     return Scaffold(
       appBar: AppBar(
-                shape: defaultRoundedCorners(),
+        shape: defaultRoundedCorners(),
         backgroundColor: defaultColor,
         title: Text("Semester"),
         leading: IconButton(
@@ -103,9 +105,8 @@ class _chooseSemesterState extends State<chooseSemester> {
                     actionExtentRatio: 0.25,
                     secondaryActions: <Widget>[
                       IconSlideAction(
-                        caption: 'unbenennen'.tr(),
                         color: defaultColor,
-                        icon: Icons.edit,
+                        iconWidget: Icon(FontAwesome5Solid.pencil_alt),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -117,55 +118,54 @@ class _chooseSemesterState extends State<chooseSemester> {
                         },
                       ),
                       IconSlideAction(
-                        caption: 'löschen'.tr(),
                         color: defaultColor,
-                        icon: Icons.delete,
+                        iconWidget: Icon(FontAwesome5.trash_alt),
                         onTap: () {
+                          return gradelyDialog(
+                            context: context,
+                            title: "Achtung".tr(),
+                            text:
+                                "${'Bist du sicher, dass du'.tr()} ${semesterList[index]} ${'löschen willst?'.tr()}",
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text(
+                                  "Nein".tr(),
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  HapticFeedback.lightImpact();
+                                },
+                              ),
+                              TextButton(
+                                child: Text(
+                                  "Löschen".tr(),
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                onPressed: () {
+                                  FirebaseFirestore.instance
+                                      .collection(
+                                          'userData/${auth.currentUser.uid}/semester/')
+                                      .doc(semesterListID[index])
+                                      .set({});
+                                  FirebaseFirestore.instance
+                                      .collection(
+                                          'userData/${auth.currentUser.uid}/semester/')
+                                      .doc(semesterListID[index])
+                                      .delete();
+                                  HapticFeedback.heavyImpact();
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => chooseSemester()),
+                                    (Route<dynamic> route) => false,
+                                  );
 
-                                return gradelyDialog(
-                                    context: context,
-                                  title: "Achtung".tr(),
-                                  text: 
-                                      "${'Bist du sicher, dass du'.tr()} ${semesterList[index]} ${'löschen willst?'.tr()}",
-                                  actions: <Widget>[
-                                    TextButton(
-                                    
-                                      child: Text("Nein".tr(), style: TextStyle(color: Colors.black),),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                        HapticFeedback.lightImpact();
-                                      },
-                                    ),
-                                    TextButton(
-                                   
-                                      child: Text("Löschen".tr(),  style: TextStyle(color: Colors.red),),
-                                      onPressed: () {
-                                        FirebaseFirestore.instance
-                                            .collection(
-                                                'userData/${auth.currentUser.uid}/semester/')
-                                            .doc(semesterListID[index])
-                                            .set({});
-                                        FirebaseFirestore.instance
-                                            .collection(
-                                                'userData/${auth.currentUser.uid}/semester/')
-                                            .doc(semesterListID[index])
-                                            .delete();
-                                        HapticFeedback.heavyImpact();
-                                        Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  chooseSemester()),
-                                          (Route<dynamic> route) => false,
-                                        );
-
-                                        selectedSemester =
-                                            semesterListID[index];
-                                      },
-                                    )
-                                  ],
-                                );
-                         
+                                  selectedSemester = semesterListID[index];
+                                },
+                              )
+                            ],
+                          );
                         },
                       ),
                     ],
@@ -220,7 +220,6 @@ class _updateSemesterState extends State<updateSemester> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-   
         backgroundColor: defaultColor,
         title: Text("renameSemester".tr()),
         shape: defaultRoundedCorners(),

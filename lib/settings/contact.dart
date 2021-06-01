@@ -90,7 +90,7 @@ class _ContactScreenState extends State<ContactScreen> {
                   Text("error".tr()),
                   Spacer(flex: 10)
                 ],
-              ),
+              ), 
               content: Text("contactError1".tr()),
               actions: <Widget>[
                 FlatButton(
