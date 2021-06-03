@@ -10,6 +10,8 @@ import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
 import 'userAuth/login.dart';
 
+final String cacheField = 'updatedAt';
+
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 num plusPoints = 0;
 bool gradelyPlus = false;
@@ -108,31 +110,33 @@ getUIDDocuments() async {
       .doc(auth.currentUser.uid)
       .get();
 
-  gradesResult = uidDB.data()['gradesResult'];
-  choosenSemesterName = uidDB.data()['choosenSemesterName'];
+  gradesResult = uidDB.get('gradesResult');
+  choosenSemesterName = uidDB.get('choosenSemesterName');
 
-  if (uidDB.data()['gradelyPlus'] == true) {
+  if (uidDB.get('gradelyPlus') == true) {
     gradelyPlus = true;
   } else {
     gradelyPlus = false;
   }
 
-  if (uidDB.data()['choosenSemester'] == null) {
+  if (uidDB.get('choosenSemester') == null) {
     print("made");
     FirebaseFirestore.instance
         .collection('userData')
         .doc(auth.currentUser.uid)
         .update({'choosenSemester': 'noSemesterChoosed'});
   } else {
-    choosenSemester = uidDB.data()['choosenSemester'];
+    choosenSemester = uidDB.get('choosenSemester');
   }
-
-  if (uidDB.data()['defaultColor'] != null) {
+try{
+  if (uidDB.get('defaultColor') != null) {
     defaultColor = Color(
-        int.parse(uidDB.data()['defaultColor'].substring(1, 7), radix: 16) +
+        int.parse(uidDB.get('defaultColor').substring(1, 7), radix: 16) +
             0xFF000000);
   } else {
     defaultColor = Color(0xFF6C63FF);
+  }}catch(e){
+     defaultColor = Color(0xFF6C63FF);
   }
 }
 

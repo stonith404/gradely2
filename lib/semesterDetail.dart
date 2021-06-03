@@ -52,13 +52,13 @@ class _HomeSiteState extends State<HomeSite> {
   getLessons() async {
     await getUIDDocuments();
 
-    if (uidDB.data()['choosenSemester'] == null) {
+    if (uidDB.get('choosenSemester') == null) {
       FirebaseFirestore.instance
           .collection('userData')
           .doc(auth.currentUser.uid)
           .update({'choosenSemester': 'noSemesterChoosed'});
     } else {
-      choosenSemester = uidDB.data()['choosenSemester'];
+      choosenSemester = uidDB.get('choosenSemester');
       getUIDDocuments();
     }
 
@@ -162,7 +162,7 @@ class _HomeSiteState extends State<HomeSite> {
       return LoadingScreen();
     } else {
       return Scaffold(
-          drawer: Drawer(),
+         
           body: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
@@ -291,7 +291,7 @@ class _HomeSiteState extends State<HomeSite> {
                             ),
                             child: IconSlideAction(
                               color: defaultColor,
-                              iconWidget: Icon(FontAwesome5Solid.pencil_alt),
+                              iconWidget: Icon(FontAwesome5Solid.pencil_alt, color: Colors.white,),
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -311,7 +311,7 @@ class _HomeSiteState extends State<HomeSite> {
                             ),
                             child: IconSlideAction(
                               color: defaultColor,
-                              iconWidget: Icon(FontAwesome5.trash_alt),
+                              iconWidget: Icon(FontAwesome5.trash_alt, color: Colors.white,),
                               onTap: () {
                                 gradelyDialog(
                                   context: context,

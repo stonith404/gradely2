@@ -19,7 +19,7 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 
 bool isLoggedIn = false;
 var defaultColor = Color(0xFF6C63FF);
-var testList = [];
+   List<String>  testList = [];
 var courseListID = [];
 var allAverageList = [];
 var allAverageListPP = [];

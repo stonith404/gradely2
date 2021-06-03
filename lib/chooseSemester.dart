@@ -104,69 +104,81 @@ class _chooseSemesterState extends State<chooseSemester> {
                     actionPane: SlidableDrawerActionPane(),
                     actionExtentRatio: 0.25,
                     secondaryActions: <Widget>[
-                      IconSlideAction(
-                        color: defaultColor,
-                        iconWidget: Icon(FontAwesome5Solid.pencil_alt),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => updateSemester()),
-                          );
-
-                          selectedSemester = semesterListID[index];
-                        },
+                     ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                            ),
+                        child: IconSlideAction(
+                          color: defaultColor,
+                          iconWidget: Icon(FontAwesome5Solid.pencil_alt, color: Colors.white,),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => updateSemester()),
+                            );
+                      
+                            selectedSemester = semesterListID[index];
+                          },
+                        ),
                       ),
-                      IconSlideAction(
-                        color: defaultColor,
-                        iconWidget: Icon(FontAwesome5.trash_alt),
-                        onTap: () {
-                          return gradelyDialog(
-                            context: context,
-                            title: "Achtung".tr(),
-                            text:
-                                "${'Bist du sicher, dass du'.tr()} ${semesterList[index]} ${'löschen willst?'.tr()}",
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text(
-                                  "Nein".tr(),
-                                  style: TextStyle(color: Colors.black),
+                       ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            ),
+                        child: IconSlideAction(
+                          color: defaultColor,
+                          iconWidget: Icon(FontAwesome5.trash_alt, color: Colors.white,),
+                          onTap: () {
+                            return gradelyDialog(
+                              context: context,
+                              title: "Achtung".tr(),
+                              text:
+                                  "${'Bist du sicher, dass du'.tr()} ${semesterList[index]} ${'löschen willst?'.tr()}",
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text(
+                                    "Nein".tr(),
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    HapticFeedback.lightImpact();
+                                  },
                                 ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  HapticFeedback.lightImpact();
-                                },
-                              ),
-                              TextButton(
-                                child: Text(
-                                  "Löschen".tr(),
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                                onPressed: () {
-                                  FirebaseFirestore.instance
-                                      .collection(
-                                          'userData/${auth.currentUser.uid}/semester/')
-                                      .doc(semesterListID[index])
-                                      .set({});
-                                  FirebaseFirestore.instance
-                                      .collection(
-                                          'userData/${auth.currentUser.uid}/semester/')
-                                      .doc(semesterListID[index])
-                                      .delete();
-                                  HapticFeedback.heavyImpact();
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => chooseSemester()),
-                                    (Route<dynamic> route) => false,
-                                  );
-
-                                  selectedSemester = semesterListID[index];
-                                },
-                              )
-                            ],
-                          );
-                        },
+                                TextButton(
+                                  child: Text(
+                                    "Löschen".tr(),
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                  onPressed: () {
+                                    FirebaseFirestore.instance
+                                        .collection(
+                                            'userData/${auth.currentUser.uid}/semester/')
+                                        .doc(semesterListID[index])
+                                        .set({});
+                                    FirebaseFirestore.instance
+                                        .collection(
+                                            'userData/${auth.currentUser.uid}/semester/')
+                                        .doc(semesterListID[index])
+                                        .delete();
+                                    HapticFeedback.heavyImpact();
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => chooseSemester()),
+                                      (Route<dynamic> route) => false,
+                                    );
+                      
+                                    selectedSemester = semesterListID[index];
+                                  },
+                                )
+                              ],
+                            );
+                          },
+                        ),
                       ),
                     ],
                     child: Container(

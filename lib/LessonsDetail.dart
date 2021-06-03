@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:math' as math;
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/loading.dart';
@@ -14,15 +16,19 @@ import 'dart:async';
 import 'package:gradely/semesterDetail.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+bool buttonDisabled = false;
 String selectedTest = "selectedTest";
 String errorMessage = "";
 double averageOfTests = 0;
-List testListID = [];
-List dateList = [];
+List<String> testListID = [];
+List<String> dateList = [];
 num _sumW = 0;
 num _sum = 0;
 var defaultBGColor;
+double _buttonRotation = 360;
+Timer timer;
 
 var selectedDate = DateTime.now();
 TextEditingController editTestInfoName = new TextEditingController();
@@ -35,19 +41,32 @@ class LessonsDetail extends StatefulWidget {
 }
 
 class _LessonsDetailState extends State<LessonsDetail> {
-  getTests() async {
-
-    final QuerySnapshot result = await FirebaseFirestore.instance
-        .collection(
-            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-        .orderBy("date", descending: false)
-        .get();
-
+  getTests([bool cache]) async {
+    if (cache == null) {
+      cache = false;
+    }
+     QuerySnapshot result;
+    try {
+       result = await FirebaseFirestore.instance
+          .collection(
+              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+          .orderBy("date", descending: false)
+          .get(cache
+              ? GetOptions(source: Source.cache)
+              : GetOptions(source: Source.serverAndCache));
+    } catch (e) {
+   result = await FirebaseFirestore.instance
+          .collection(
+              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+          .orderBy("date", descending: false)
+          .get();
+    }
     List<DocumentSnapshot> documents = result.docs;
     testList = [];
     testListID = [];
     dateList = [];
     averageList = [];
+    averageListWeight = [];
 
     setState(() {
       documents.forEach((data) {
@@ -69,7 +88,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
         }
       });
       documents.forEach((data) {
-        double _averageSum;
+        var _averageSum;
 
         _averageSum = data["grade"] * data["weight"];
         averageList.add(_averageSum);
@@ -145,7 +164,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   void initState() {
     super.initState();
-    getTests();
+    getTests(true);
     print(testList.length);
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
     getUIDDocuments();
@@ -168,6 +187,24 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
     return Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: buttonDisabled
+                    ? null
+                    : () {
+                        setState(() {
+                          _buttonRotation = 180;
+                          buttonDisabled = true;
+                          Timer(Duration(seconds: 20), () {
+                            print("mq");
+                            setState(() => buttonDisabled = false);
+                          });
+                        });
+
+                        getTests();
+                      },
+                icon: Icon(Icons.refresh))
+          ],
           backgroundColor: defaultColor,
           leading: IconButton(
               icon: Icon(
@@ -201,7 +238,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             borderRadius: BorderRadius.circular(10),
                             child: IconSlideAction(
                               color: defaultColor,
-                              iconWidget: Icon(FontAwesome5.trash_alt),
+                              iconWidget: Icon(
+                                FontAwesome5.trash_alt,
+                                color: Colors.white,
+                              ),
                               onTap: () {
                                 getTests();
 
@@ -264,7 +304,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                               }
                             }()),
                             onTap: () async {
-                              getTests();
+                              getTests(true);
 
                               selectedTest = testListID[index];
 
