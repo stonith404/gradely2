@@ -45,9 +45,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
     if (cache == null) {
       cache = false;
     }
-     QuerySnapshot result;
+    QuerySnapshot result;
     try {
-       result = await FirebaseFirestore.instance
+      result = await FirebaseFirestore.instance
           .collection(
               'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
           .orderBy("date", descending: false)
@@ -55,7 +55,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
               ? GetOptions(source: Source.cache)
               : GetOptions(source: Source.serverAndCache));
     } catch (e) {
-   result = await FirebaseFirestore.instance
+      result = await FirebaseFirestore.instance
           .collection(
               'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
           .orderBy("date", descending: false)
@@ -211,11 +211,14 @@ class _LessonsDetailState extends State<LessonsDetail> {
                 Icons.arrow_back_ios_outlined,
               ),
               onPressed: () {
+             
+                buttonDisabled = false;
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => HomeWrapper()),
                   (Route<dynamic> route) => false,
                 );
+                   timer.cancel();
               }),
           title: Text(selectedLessonName),
           shape: defaultRoundedCorners(),
