@@ -100,5 +100,10 @@
     "emailInUse" : "Mit dieser Emailadresse gibt es schon einen Account. Versuche es erneut.",
     "wrongPassword" : "Falsches Passwort. Versuche es erneut.",
     "userNotFound" : "Ein Account mit dieser Email existiert nicht. Versuche es erneut.",
-    "renameSemester" : "Semester unbennen"
+    "renameSemester" : "Semester unbennen",
+    "empty1" : "Hier ist es sehr leer. 🔎",
+    "empty2" : "Klicke auf das  ",
+    "empty3" : "  um deinen Noten vom Server zu holen.",
+    "empty4" : "Oder klicke ",
+   "empty5" : " um eine neue Note zu hinzufügen"
    }

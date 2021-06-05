@@ -100,5 +100,10 @@
    "emailInUse" : "an account with this email already exists. Try again.",
    "wrongPassword" : "this password is wrong. Try again.",
    "userNotFound" : "an account whith this email doesn't exist. Try again.",
-   "renameSemester" : "rename semester"
+   "renameSemester" : "rename semester",
+   "empty1" : "it's really empty here. 🔎",
+   "empty2" : "click the  ",
+   "empty3" : "  above, to get your grades from the server.",
+   "empty4" : "or click the ",
+  "empty5" : " to add a new grade."
 }

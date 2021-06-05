@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/loading.dart';
@@ -59,7 +58,9 @@ class _HomeSiteState extends State<HomeSite> {
           .update({'choosenSemester': 'noSemesterChoosed'});
     } else {
       choosenSemester = uidDB.get('choosenSemester');
-      getUIDDocuments();
+      setState(() {
+        getUIDDocuments();
+      });
     }
 
     final QuerySnapshot result = await FirebaseFirestore.instance
@@ -158,267 +159,267 @@ class _HomeSiteState extends State<HomeSite> {
   Widget build(BuildContext context) {
     screenwidth = MediaQuery.of(context).size.width;
     darkModeColorChanger();
+    buttonDisabled = false;
     if (choosenSemesterName == "noSemesterChoosed") {
       return LoadingScreen();
     } else {
       return Scaffold(
-         
           body: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  backgroundColor: defaultColor,
-                  forceElevated: true,
-                  title: Image.asset(
-                    'assets/images/iconT.png',
-                    height: 60,
-                  ),
-                  bottom: PreferredSize(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  choosenSemesterName,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 25,
-                                      color: Colors.white),
-                                ),
-                                Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15.0),
-                                    child: (() {
-                                      if (gradesResult == "Durchschnitt") {
-                                        if (averageOfSemester.isNaN) {
-                                          return Text(
-                                              "${'Notendurchschnitt'.tr()}: -",
-                                              style: TextStyle(
-                                                  color: Colors.white));
-                                        }
-                                        return Text(
-                                            "${'Notendurchschnitt'.tr()}: ${averageOfSemester.toStringAsFixed(2)}",
-                                            style:
-                                                TextStyle(color: Colors.white));
-                                      } else if (averageOfSemester.isNaN) {
-                                        return Text(
-                                            "${'Pluspunkte'.tr()}: ${averageOfSemesterPP.toStringAsFixed(2)} / ${'Notendurchschnitt'.tr()}: -",
-                                            style:
-                                                TextStyle(color: Colors.white));
-                                      } else {
-                                        return Text(
-                                            "${'Pluspunkte'.tr()}: ${averageOfSemesterPP.toStringAsFixed(2)} / ${'Notendurchschnitt'.tr()}: ${averageOfSemester.toStringAsFixed(2)}",
-                                            style:
-                                                TextStyle(color: Colors.white));
-                                      }
-                                    }())),
-                              ],
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              backgroundColor: defaultColor,
+              forceElevated: true,
+              title: Image.asset(
+                'assets/images/iconT.png',
+                height: 60,
+              ),
+              bottom: PreferredSize(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              choosenSemesterName,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 25,
+                                  color: Colors.white),
                             ),
-                          ),
-                          Spacer(flex: 1),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 15, 10),
-                            child: IconButton(
-                                icon: Icon(Icons.add),
-                                color: Colors.white,
-                                onPressed: () {
-                                  HapticFeedback.lightImpact();
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => addLesson()),
-                                  );
-                                }),
-                          ),
-                        ],
+                            Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15.0),
+                                child: (() {
+                                  if (gradesResult == "Durchschnitt") {
+                                    if (averageOfSemester.isNaN) {
+                                      return Text(
+                                          "${'Notendurchschnitt'.tr()}: -",
+                                          style:
+                                              TextStyle(color: Colors.white));
+                                    }
+                                    return Text(
+                                        "${'Notendurchschnitt'.tr()}: ${averageOfSemester.toStringAsFixed(2)}",
+                                        style: TextStyle(color: Colors.white));
+                                  } else if (averageOfSemester.isNaN) {
+                                    return Text(
+                                        "${'Pluspunkte'.tr()}: ${averageOfSemesterPP.toStringAsFixed(2)} / ${'Notendurchschnitt'.tr()}: -",
+                                        style: TextStyle(color: Colors.white));
+                                  } else {
+                                    return Text(
+                                        "${'Pluspunkte'.tr()}: ${averageOfSemesterPP.toStringAsFixed(2)} / ${'Notendurchschnitt'.tr()}: ${averageOfSemester.toStringAsFixed(2)}",
+                                        style: TextStyle(color: Colors.white));
+                                  }
+                                }())),
+                          ],
+                        ),
                       ),
-                      preferredSize: Size(0, 130)),
-                  leading: Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.rotationY(math.pi),
-                    child: IconButton(
-                        icon: Icon(Icons.segment),
-                        onPressed: () async {
-                          HapticFeedback.lightImpact();
-
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                                type: PageTransitionType.leftToRight,
-                                duration: Duration(milliseconds: 150),
-                                child: SettingsPage()),
-                          );
-                        }),
-                  ),
-                  floating: true,
-                  actions: [
-                    IconButton(
-                        icon: Icon(Icons.switch_left),
-                        onPressed: () async {
-                          HapticFeedback.lightImpact();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => chooseSemester()),
-                          );
-                        }),
-                  ],
-                  shape: defaultRoundedCorners(),
-                ),
-              ];
-            },
-            body: ListView.builder(
-              itemCount: courseListID.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
-                      child: Slidable(
-                        actionPane: SlidableDrawerActionPane(),
-                        actionExtentRatio: 0.25,
-                        secondaryActions: <Widget>[
-                          ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              bottomLeft: Radius.circular(10),
-                            ),
-                            child: IconSlideAction(
-                              color: defaultColor,
-                              iconWidget: Icon(FontAwesome5Solid.pencil_alt, color: Colors.white,),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => updateLesson()),
-                                );
-                                selectedLessonName = courseList[index];
-                                selectedEmoji = emojiList[index];
-                                selectedLesson = courseListID[index];
-                              },
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                            ),
-                            child: IconSlideAction(
-                              color: defaultColor,
-                              iconWidget: Icon(FontAwesome5.trash_alt, color: Colors.white,),
-                              onTap: () {
-                                gradelyDialog(
-                                  context: context,
-                                  title: "Achtung".tr(),
-                                  text:
-                                      "${'Bist du sicher, dass du'.tr()} ${courseList[index]} ${'löschen willst?'.tr()}",
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: Text(
-                                        "Nein".tr(),
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                      onPressed: () {
-                                        HapticFeedback.lightImpact();
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    TextButton(
-                                      child: Text(
-                                        "Löschen".tr(),
-                                        style: TextStyle(color: Colors.red),
-                                      ),
-                                      onPressed: () {
-                                        FirebaseFirestore.instance
-                                            .collection(
-                                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
-                                            .doc(courseListID[index])
-                                            .set({});
-                                        FirebaseFirestore.instance
-                                            .collection(
-                                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
-                                            .doc(courseListID[index])
-                                            .delete();
-                                        HapticFeedback.heavyImpact();
-                                        Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomeWrapper()),
-                                          (Route<dynamic> route) => false,
-                                        );
-
-                                        selectedLesson = courseListID[index];
-                                      },
-                                    )
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                        child: Container(
-                          decoration: boxDec(),
-                          child: ListTile(
-                            title: Row(
-                              children: [
-                                Text(emojiList[index] + "  ",
-                                    style: TextStyle(
-                                      shadows: [
-                                        Shadow(
-                                          blurRadius: 5.0,
-                                          color: darkmode
-                                              ? Colors.grey[900]
-                                              : Colors.grey[350],
-                                          offset: Offset(2.0, 2.0),
-                                        ),
-                                      ],
-                                    )),
-                                Text(
-                                  courseList[index],
-                                ),
-                              ],
-                            ),
-                            trailing: Text(
-                              (() {
-                                if (allAverageList[index].isNaN) {
-                                  return "-";
-                                } else if (gradesResult == "Pluspunkte") {
-                                  return allAverageListPP[index];
-                                } else {
-                                  return allAverageList[index]
-                                      .toStringAsFixed(2);
-                                }
-                              })(),
-                            ),
-                            onTap: () {
+                      Spacer(flex: 1),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 15, 10),
+                        child: IconButton(
+                            icon: Icon(Icons.add),
+                            color: Colors.white,
+                            onPressed: () {
                               HapticFeedback.lightImpact();
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LessonsDetail()),
+                                    builder: (context) => addLesson()),
                               );
+                            }),
+                      ),
+                    ],
+                  ),
+                  preferredSize: Size(0, 130)),
+              leading: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationY(math.pi),
+                child: IconButton(
+                    icon: Icon(Icons.segment),
+                    onPressed: () async {
+                      HapticFeedback.lightImpact();
 
-                              setState(() {
-                                selectedLesson = courseListID[index];
-                                selectedLessonName = courseList[index];
-                              });
-                            },
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.leftToRight,
+                            duration: Duration(milliseconds: 150),
+                            child: SettingsPage()),
+                      );
+                    }),
+              ),
+              floating: true,
+              actions: [
+                IconButton(
+                    icon: Icon(Icons.switch_left),
+                    onPressed: () async {
+                      HapticFeedback.lightImpact();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => chooseSemester()),
+                      );
+                    }),
+              ],
+              shape: defaultRoundedCorners(),
+            ),
+          ];
+        },
+        body: ListView.builder(
+          itemCount: courseListID.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
+                  child: Slidable(
+                    actionPane: SlidableDrawerActionPane(),
+                    actionExtentRatio: 0.25,
+                    secondaryActions: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                        ),
+                        child: IconSlideAction(
+                          color: defaultColor,
+                          iconWidget: Icon(
+                            FontAwesome5Solid.pencil_alt,
+                            color: Colors.white,
                           ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => updateLesson()),
+                            );
+                            selectedLessonName = courseList[index];
+                            selectedEmoji = emojiList[index];
+                            selectedLesson = courseListID[index];
+                          },
                         ),
                       ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                        ),
+                        child: IconSlideAction(
+                          color: defaultColor,
+                          iconWidget: Icon(
+                            FontAwesome5.trash_alt,
+                            color: Colors.white,
+                          ),
+                          onTap: () {
+                            gradelyDialog(
+                              context: context,
+                              title: "Achtung".tr(),
+                              text:
+                                  "${'Bist du sicher, dass du'.tr()} ${courseList[index]} ${'löschen willst?'.tr()}",
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text(
+                                    "Nein".tr(),
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  onPressed: () {
+                                    HapticFeedback.lightImpact();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text(
+                                    "Löschen".tr(),
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                  onPressed: () {
+                                    FirebaseFirestore.instance
+                                        .collection(
+                                            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+                                        .doc(courseListID[index])
+                                        .set({});
+                                    FirebaseFirestore.instance
+                                        .collection(
+                                            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+                                        .doc(courseListID[index])
+                                        .delete();
+                                    HapticFeedback.heavyImpact();
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HomeWrapper()),
+                                      (Route<dynamic> route) => false,
+                                    );
+
+                                    selectedLesson = courseListID[index];
+                                  },
+                                )
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                    child: Container(
+                      decoration: boxDec(),
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Text(emojiList[index] + "  ",
+                                style: TextStyle(
+                                  shadows: [
+                                    Shadow(
+                                      blurRadius: 5.0,
+                                      color: darkmode
+                                          ? Colors.grey[900]
+                                          : Colors.grey[350],
+                                      offset: Offset(2.0, 2.0),
+                                    ),
+                                  ],
+                                )),
+                            Text(
+                              courseList[index],
+                            ),
+                          ],
+                        ),
+                        trailing: Text(
+                          (() {
+                            if (allAverageList[index].isNaN) {
+                              return "-";
+                            } else if (gradesResult == "Pluspunkte") {
+                              return allAverageListPP[index];
+                            } else {
+                              return allAverageList[index].toStringAsFixed(2);
+                            }
+                          })(),
+                        ),
+                        onTap: () {
+                          HapticFeedback.lightImpact();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LessonsDetail()),
+                          );
+
+                          setState(() {
+                            selectedLesson = courseListID[index];
+                            selectedLessonName = courseList[index];
+                          });
+                        },
+                      ),
                     ),
-                  ],
-                );
-              },
-            ),
-          ));
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ));
     }
   }
 }

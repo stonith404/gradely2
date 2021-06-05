@@ -48,6 +48,8 @@ dependencies:
   flutter_icons:
   page_transition:
   emoji_chooser:
+  syncfusion_flutter_charts: ^19.1.66+1
+  quiver: ^3.0.1
 
 dev_dependencies:
   flutter_test:

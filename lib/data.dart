@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'LessonsDetail.dart';
@@ -20,6 +22,7 @@ String gradesResult = "Pluspunkte";
 num plusPointsallAverageList = 0;
 Timer timer;
 DocumentSnapshot uidDB;
+String releaseNotes = "";
 
 getPluspoints(num value) {
   if (value >= 5.75) {
@@ -101,7 +104,7 @@ var testDetails;
 
 formatDate(picked) {
   var _formatted = DateTime.parse(picked.toString());
-  return "${_formatted.day}.${_formatted.month}.${_formatted.year}";
+  return "${_formatted.year}.${_formatted.month}.${_formatted.day}";
 }
 
 getUIDDocuments() async {
@@ -128,15 +131,16 @@ getUIDDocuments() async {
   } else {
     choosenSemester = uidDB.get('choosenSemester');
   }
-try{
-  if (uidDB.get('defaultColor') != null) {
-    defaultColor = Color(
-        int.parse(uidDB.get('defaultColor').substring(1, 7), radix: 16) +
-            0xFF000000);
-  } else {
+  try {
+    if (uidDB.get('defaultColor') != null) {
+      defaultColor = Color(
+          int.parse(uidDB.get('defaultColor').substring(1, 7), radix: 16) +
+              0xFF000000);
+    } else {
+      defaultColor = Color(0xFF6C63FF);
+    }
+  } catch (e) {
     defaultColor = Color(0xFF6C63FF);
-  }}catch(e){
-     defaultColor = Color(0xFF6C63FF);
   }
 }
 
@@ -147,4 +151,18 @@ getUserAuthStatus() {
   if (FirebaseAuth.instance.currentUser == null) {
     navigatorKey.currentState.pushNamed('/settings');
   }
+}
+
+getReleaseNotes() async {
+  uidDB = await FirebaseFirestore.instance
+      .collection('shared/releaseNotes/releaseNotes/')
+      .doc("1.0.3")
+      .get();
+if(Platform.localeName == "de"){
+  releaseNotes = uidDB.get('de');
+}else{
+  releaseNotes = uidDB.get('en');
+}
+
+  print(releaseNotes);
 }

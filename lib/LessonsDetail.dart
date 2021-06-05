@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/loading.dart';
+import 'package:gradely/statistics.dart';
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'data.dart';
@@ -24,6 +25,8 @@ String errorMessage = "";
 double averageOfTests = 0;
 List<String> testListID = [];
 List<String> dateList = [];
+List<num> averageList = [];
+List<num> averageListWeight = [];
 num _sumW = 0;
 num _sum = 0;
 var defaultBGColor;
@@ -46,21 +49,15 @@ class _LessonsDetailState extends State<LessonsDetail> {
       cache = false;
     }
     QuerySnapshot result;
-    try {
-      result = await FirebaseFirestore.instance
-          .collection(
-              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-          .orderBy("date", descending: false)
-          .get(cache
-              ? GetOptions(source: Source.cache)
-              : GetOptions(source: Source.serverAndCache));
-    } catch (e) {
-      result = await FirebaseFirestore.instance
-          .collection(
-              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-          .orderBy("date", descending: false)
-          .get();
-    }
+
+    result = await FirebaseFirestore.instance
+        .collection(
+            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+        .orderBy("date", descending: false)
+        .get(cache
+            ? GetOptions(source: Source.cache)
+            : GetOptions(source: Source.serverAndCache));
+
     List<DocumentSnapshot> documents = result.docs;
     testList = [];
     testListID = [];
@@ -88,15 +85,16 @@ class _LessonsDetailState extends State<LessonsDetail> {
         }
       });
       documents.forEach((data) {
-        var _averageSum;
+        num _averageSum;
 
         _averageSum = data["grade"] * data["weight"];
+
         averageList.add(_averageSum);
         averageListWeight.add(data["weight"]);
         setState(() {
           testListID.add(data.id);
         });
-
+        print(averageList.runtimeType);
         testList.add(data["name"]);
 
         try {
@@ -159,9 +157,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
     }
   }
 
-  List averageList = [];
-  List averageListWeight = [];
-
   void initState() {
     super.initState();
     getTests(true);
@@ -192,6 +187,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                 onPressed: buttonDisabled
                     ? null
                     : () {
+                        HapticFeedback.lightImpact();
                         setState(() {
                           _buttonRotation = 180;
                           buttonDisabled = true;
@@ -203,7 +199,13 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
                         getTests();
                       },
-                icon: Icon(Icons.refresh))
+                icon: Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: Icon(
+                    FontAwesome5Solid.sync,
+                    size: 17,
+                  ),
+                ))
           ],
           backgroundColor: defaultColor,
           leading: IconButton(
@@ -211,14 +213,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
                 Icons.arrow_back_ios_outlined,
               ),
               onPressed: () {
-             
-                buttonDisabled = false;
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => HomeWrapper()),
                   (Route<dynamic> route) => false,
                 );
-                   timer.cancel();
+                timer.cancel();
               }),
           title: Text(selectedLessonName),
           shape: defaultRoundedCorners(),
@@ -226,105 +226,141 @@ class _LessonsDetailState extends State<LessonsDetail> {
         body: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                itemCount: testListID.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: EdgeInsets.fromLTRB(8, 6, 8, 0),
-                    child: Container(
-                      decoration: boxDec(),
-                      child: Slidable(
-                        actionPane: SlidableDrawerActionPane(),
-                        actionExtentRatio: 0.25,
-                        secondaryActions: <Widget>[
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: IconSlideAction(
-                              color: defaultColor,
-                              iconWidget: Icon(
-                                FontAwesome5.trash_alt,
-                                color: Colors.white,
+              child: testListID.length == 0
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "empty1".tr(),
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w900),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("empty2".tr()),
+                              Icon(
+                                FontAwesome5Solid.sync,
+                                size: 15,
                               ),
-                              onTap: () {
-                                getTests();
+                              Text("empty3".tr())
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("empty4".tr()),
+                              Icon(Icons.add),
+                              Text("empty5".tr())
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: testListID.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: EdgeInsets.fromLTRB(8, 6, 8, 0),
+                          child: Container(
+                            decoration: boxDec(),
+                            child: Slidable(
+                              actionPane: SlidableDrawerActionPane(),
+                              actionExtentRatio: 0.25,
+                              secondaryActions: <Widget>[
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: IconSlideAction(
+                                    color: defaultColor,
+                                    iconWidget: Icon(
+                                      FontAwesome5.trash_alt,
+                                      color: Colors.white,
+                                    ),
+                                    onTap: () {
+                                      getTests();
 
-                                selectedTest = testListID[index];
-                                FirebaseFirestore.instance
-                                    .collection(
-                                        'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                                    .doc(selectedTest)
-                                    .set({});
-                                FirebaseFirestore.instance
-                                    .collection(
-                                        'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                                    .doc(selectedTest)
-                                    .delete();
-                                HapticFeedback.mediumImpact();
-                                Navigator.pushReplacement(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder:
-                                        (context, animation1, animation2) =>
-                                            LessonsDetail(),
-                                    transitionDuration: Duration(seconds: 0),
+                                      selectedTest = testListID[index];
+                                      FirebaseFirestore.instance
+                                          .collection(
+                                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                                          .doc(selectedTest)
+                                          .set({});
+                                      FirebaseFirestore.instance
+                                          .collection(
+                                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                                          .doc(selectedTest)
+                                          .delete();
+                                      HapticFeedback.mediumImpact();
+                                      Navigator.pushReplacement(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation1,
+                                                  animation2) =>
+                                              LessonsDetail(),
+                                          transitionDuration:
+                                              Duration(seconds: 0),
+                                        ),
+                                      );
+                                    },
                                   ),
-                                );
-                              },
+                                ),
+                              ],
+                              child: ListTile(
+                                  title: Text(
+                                    testList[index],
+                                  ),
+                                  subtitle: averageList.isEmpty
+                                      ? Text("")
+                                      : Row(
+                                          children: [
+                                            Icon(
+                                              Icons.calculate_outlined,
+                                              size: 20,
+                                            ),
+                                            Text(" " +
+                                                averageListWeight[index]
+                                                    .toString() +
+                                                "   "),
+                                            Icon(
+                                              Icons.date_range,
+                                              size: 20,
+                                            ),
+                                            Text(" " +
+                                                dateList[index].toString()),
+                                          ],
+                                        ),
+                                  trailing: Text(() {
+                                    if ((averageList[index] /
+                                            averageListWeight[index])
+                                        .isNaN) {
+                                      return "-";
+                                    } else {
+                                      return (averageList[index] /
+                                              averageListWeight[index])
+                                          .toStringAsFixed(2);
+                                    }
+                                  }()),
+                                  onTap: () async {
+                                    getTests(true);
+
+                                    selectedTest = testListID[index];
+
+                                    testDetails = (await FirebaseFirestore
+                                            .instance
+                                            .collection(
+                                                "userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
+                                            .doc(selectedTest)
+                                            .get())
+                                        .data();
+
+                                    testDetail(context);
+                                  }),
                             ),
                           ),
-                        ],
-                        child: ListTile(
-                            title: Text(
-                              testList[index],
-                            ),
-                            subtitle: averageList.isEmpty
-                                ? Text("")
-                                : Row(
-                                    children: [
-                                      Icon(
-                                        Icons.calculate_outlined,
-                                        size: 20,
-                                      ),
-                                      Text(" " +
-                                          averageListWeight[index].toString() +
-                                          "   "),
-                                      Icon(
-                                        Icons.date_range,
-                                        size: 20,
-                                      ),
-                                      Text(" " + dateList[index].toString()),
-                                    ],
-                                  ),
-                            trailing: Text(() {
-                              if ((averageList[index] /
-                                      averageListWeight[index])
-                                  .isNaN) {
-                                return "-";
-                              } else {
-                                return (averageList[index] /
-                                        averageListWeight[index])
-                                    .toStringAsFixed(2);
-                              }
-                            }()),
-                            onTap: () async {
-                              getTests(true);
-
-                              selectedTest = testListID[index];
-
-                              testDetails = (await FirebaseFirestore.instance
-                                      .collection(
-                                          "userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
-                                      .doc(selectedTest)
-                                      .get())
-                                  .data();
-
-                              testDetail(context);
-                            }),
-                      ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
             Container(
               decoration: BoxDecoration(
@@ -378,7 +414,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       IconButton(
                           icon: Icon(FontAwesome5Solid.calculator, size: 17),
                           onPressed: () {
-                            DreamGradeC(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Charts()),
+                            );
                             HapticFeedback.lightImpact();
                           }),
                     ],
@@ -496,7 +535,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
                           setState(() {
                             var _formatted = DateTime.parse(picked.toString());
                             editTestDateController.text =
-                                "${_formatted.day}.${_formatted.month}.${_formatted.year}";
+                                "${_formatted.year}.${_formatted.month}." +
+                                    (_formatted.day.toString().length > 1
+                                        ? _formatted.day.toString()
+                                        : "0${_formatted.day}");
                           });
                       },
                       child: AbsorbPointer(
@@ -675,7 +717,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                 var _formatted =
                                     DateTime.parse(picked.toString());
                                 addTestDateController.text =
-                                    "${_formatted.day}.${_formatted.month}.${_formatted.year}";
+                                    "${_formatted.year}.${_formatted.month}.${_formatted.day}";
                               });
                           },
                           child: AbsorbPointer(
