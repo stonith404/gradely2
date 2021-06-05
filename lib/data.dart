@@ -123,7 +123,6 @@ getUIDDocuments() async {
   }
 
   if (uidDB.get('choosenSemester') == null) {
-    print("made");
     FirebaseFirestore.instance
         .collection('userData')
         .doc(auth.currentUser.uid)
@@ -163,6 +162,4 @@ if(Platform.localeName == "de"){
 }else{
   releaseNotes = uidDB.get('en');
 }
-
-  print(releaseNotes);
 }

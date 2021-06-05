@@ -17,7 +17,6 @@ import 'dart:async';
 import 'package:gradely/semesterDetail.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 bool buttonDisabled = false;
 String selectedTest = "selectedTest";
@@ -94,7 +93,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
         setState(() {
           testListID.add(data.id);
         });
-        print(averageList.runtimeType);
         testList.add(data["name"]);
 
         try {
@@ -160,7 +158,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
   void initState() {
     super.initState();
     getTests(true);
-    print(testList.length);
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
     getUIDDocuments();
   }
@@ -175,7 +172,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
   Widget build(BuildContext context) {
     setState(() {
       testListID = testListID;
-      print(testListID.length);
     });
     getPluspoints(averageOfTests);
     darkModeColorChanger();
@@ -192,7 +188,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                           _buttonRotation = 180;
                           buttonDisabled = true;
                           Timer(Duration(seconds: 20), () {
-                            print("mq");
                             setState(() => buttonDisabled = false);
                           });
                         });
@@ -218,7 +213,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   MaterialPageRoute(builder: (context) => HomeWrapper()),
                   (Route<dynamic> route) => false,
                 );
-                timer.cancel();
+                try {
+                  timer.cancel();
+                } catch (e) {}
               }),
           title: Text(selectedLessonName),
           shape: defaultRoundedCorners(),
@@ -278,30 +275,14 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                       color: Colors.white,
                                     ),
                                     onTap: () {
-                                      getTests();
-
                                       selectedTest = testListID[index];
-                                      FirebaseFirestore.instance
-                                          .collection(
-                                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                                          .doc(selectedTest)
-                                          .set({});
                                       FirebaseFirestore.instance
                                           .collection(
                                               'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                                           .doc(selectedTest)
                                           .delete();
                                       HapticFeedback.mediumImpact();
-                                      Navigator.pushReplacement(
-                                        context,
-                                        PageRouteBuilder(
-                                          pageBuilder: (context, animation1,
-                                                  animation2) =>
-                                              LessonsDetail(),
-                                          transitionDuration:
-                                              Duration(seconds: 0),
-                                        ),
-                                      );
+                                      getTests(true);
                                     },
                                   ),
                                 ),
@@ -414,10 +395,104 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       IconButton(
                           icon: Icon(FontAwesome5Solid.calculator, size: 17),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Charts()),
-                            );
+                            showModalBottomSheet(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                context: context,
+                                builder: (context) => Container(
+                                      height: 150,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Spacer(flex: 10),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              CircleAvatar(
+                                                  radius: 22,
+                                                  backgroundColor: defaultColor,
+                                                  child: IconButton(
+                                                      icon: Icon(
+                                                        FontAwesome5Solid
+                                                            .calculator,
+                                                        color: Colors.white,
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.of(context);
+                                                        DreamGradeC(context);
+                                                      })),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text("dream grade".tr())
+                                            ],
+                                          ),
+                                          Spacer(flex: 2),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              CircleAvatar(
+                                                  radius: 22,
+                                                  backgroundColor: defaultColor,
+                                                  child: IconButton(
+                                                      icon: Icon(
+                                                        FontAwesome5.chart_bar,
+                                                        color: Colors.white,
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        bool formatError =
+                                                            false;
+                                                        for (String e
+                                                            in dateList) {
+                                                          try {
+                                                            if (e[2].contains(
+                                                                ".")) {
+                                                              formatError =
+                                                                  true;
+                                                            }
+                                                          } catch (e) {
+                                                            formatError = true;
+                                                          }
+                                                        }
+                                                        if (dateList
+                                                            .contains("-")) {
+                                                          gradelyDialog(
+                                                              context: context,
+                                                              title:
+                                                                  "error".tr(),
+                                                              text:
+                                                                  "statsContainsNoDate"
+                                                                      .tr());
+                                                        } else if (formatError) {
+                                                          gradelyDialog(
+                                                              context: context,
+                                                              title:
+                                                                  "error".tr(),
+                                                              text:
+                                                                  "statsDateBadlyFormatted"
+                                                                      .tr());
+                                                        } else {
+                                                          StatisticsScreen(
+                                                              context);
+                                                        }
+                                                      })),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text("statistics".tr())
+                                            ],
+                                          ),
+                                          Spacer(flex: 10),
+                                        ],
+                                      ),
+                                    ));
+
                             HapticFeedback.lightImpact();
                           }),
                     ],

@@ -21,7 +21,7 @@ class _DevInfoState extends State<DevInfo> {
       setState(() {
         _homeScreenText = "$token";
       });
-      print(_homeScreenText);
+
     });
   }
 

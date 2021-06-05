@@ -51,7 +51,7 @@ class _HomeSiteState extends State<HomeSite> {
   getLessons() async {
     await getUIDDocuments();
 
-    if (uidDB.get('choosenSemester') == null) {
+     if (uidDB.get('choosenSemester') == null) {
       FirebaseFirestore.instance
           .collection('userData')
           .doc(auth.currentUser.uid)
@@ -70,15 +70,16 @@ class _HomeSiteState extends State<HomeSite> {
         .get();
     List<DocumentSnapshot> documents = result.docs;
 
-    courseList = [];
+
+
+    setState(() {
+          courseList = [];
     courseListID = [];
 
     allAverageList = [];
     allAverageListPP = [];
     semesterAveragePP = [];
     emojiList = [];
-
-    setState(() {
       documents.forEach((data) {
         courseList.add(data["name"]);
         courseListID.add(data.id);

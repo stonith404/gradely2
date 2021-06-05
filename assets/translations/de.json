@@ -105,5 +105,9 @@
     "empty2" : "Klicke auf das  ",
     "empty3" : "  um deinen Noten vom Server zu holen.",
     "empty4" : "Oder klicke ",
-   "empty5" : " um eine neue Note zu hinzufügen"
+   "empty5" : " um eine neue Note zu hinzufügen",
+   "statsDateBadlyFormatted" : "Deine Daten zu den Noten sind falsch formatiert. Nur dieses Format ist akzeptiert: yyyy.MM.dd. Bitte wähle das Datum für jede Note erneut, dann kannst du deine Statistiken sehen.",
+   "statsContainsNoDate" : "Einpaar Noten haben kein Datum. Bitte füge ein Datum hinzu um deine Statistiken zu sehen.",
+   "statistics" : "Statistiken",
+   "stats1" : "Diese Statistik zeigt dir deine Noten während der Datum Zeitperiode."
    }

@@ -133,8 +133,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           setState(() {
                             gradesResult = newValue;
                           });
-
-                          print(gradesResult);
                         },
                       ),
                     ],
