@@ -106,8 +106,9 @@
    "empty3" : "  above, to get your grades from the server.",
    "empty4" : "or click the ",
   "empty5" : " to add a new grade.",
-  "statsDateBadlyFormatted" : "your grade dates are badly formatted. only this format is accepted: yyyy.MM.dd. please rechoose the date in your grades, then you can see your statistics.",
+  "statsDateBadlyFormatted" : "your grade dates are badly formatted. only this format is accepted: yyyy.MM.dd. please rechoose the dates in your grades, then you can see your statistics.",
   "statsContainsNoDate" : "some of your grades don't have dates. please add a date to every of your grade to see your statistics.",
   "statistics" : "statistics",
-  "stats1" : "This shows your grades along the date time period."
+  "stats1" : "This shows your grades along the date time period.",
+  "notConnectedToInternet" : "You're not connected to the internet. Please enable the internet to continue."
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math' as math;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/loading.dart';
@@ -29,7 +30,6 @@ List<num> averageListWeight = [];
 num _sumW = 0;
 num _sum = 0;
 var defaultBGColor;
-double _buttonRotation = 360;
 Timer timer;
 
 var selectedDate = DateTime.now();
@@ -44,6 +44,9 @@ class LessonsDetail extends StatefulWidget {
 
 class _LessonsDetailState extends State<LessonsDetail> {
   getTests([bool cache]) async {
+    if (kIsWeb) {
+      cache = false;
+    }
     if (cache == null) {
       cache = false;
     }
@@ -157,7 +160,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   void initState() {
     super.initState();
-    getTests(true);
+    getTests();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
     getUIDDocuments();
   }
@@ -177,15 +180,33 @@ class _LessonsDetailState extends State<LessonsDetail> {
     darkModeColorChanger();
 
     return Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-                onPressed: buttonDisabled
-                    ? null
-                    : () {
-                        HapticFeedback.lightImpact();
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: buttonDisabled
+                  ? null
+                  : () async {
+                      if (!kIsWeb) {
+                        await checkForNetwork();
+
+                        if (internetConnected) {
+                          HapticFeedback.lightImpact();
+                          setState(() {
+                            buttonDisabled = true;
+                            Timer(Duration(seconds: 20), () {
+                              setState(() => buttonDisabled = false);
+                            });
+                          });
+
+                          getTests();
+                        } else {
+                          gradelyDialog(
+                              context: context,
+                              title: "error".tr(),
+                              text: "notConnectedToInternet".tr());
+                        }
+                      } else {
                         setState(() {
-                          _buttonRotation = 180;
                           buttonDisabled = true;
                           Timer(Duration(seconds: 20), () {
                             setState(() => buttonDisabled = false);
@@ -193,38 +214,41 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         });
 
                         getTests();
-                      },
-                icon: Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: Icon(
-                    FontAwesome5Solid.sync,
-                    size: 17,
-                  ),
-                ))
-          ],
-          backgroundColor: defaultColor,
-          leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios_outlined,
-              ),
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeWrapper()),
-                  (Route<dynamic> route) => false,
-                );
-                try {
-                  timer.cancel();
-                } catch (e) {}
-              }),
-          title: Text(selectedLessonName),
-          shape: defaultRoundedCorners(),
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              child: testListID.length == 0
-                  ? Center(
+                      }
+                    },
+              icon: Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: Icon(
+                  FontAwesome5Solid.sync,
+                  size: 17,
+                ),
+              ))
+        ],
+        backgroundColor: defaultColor,
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_outlined,
+            ),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => HomeWrapper()),
+                (Route<dynamic> route) => false,
+              );
+              try {
+                timer.cancel();
+              } catch (e) {}
+            }),
+        title: Text(selectedLessonName),
+        shape: defaultRoundedCorners(),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: testListID.length == 0
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -254,254 +278,253 @@ class _LessonsDetailState extends State<LessonsDetail> {
                           )
                         ],
                       ),
-                    )
-                  : ListView.builder(
-                      itemCount: testListID.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: EdgeInsets.fromLTRB(8, 6, 8, 0),
-                          child: Container(
-                            decoration: boxDec(),
-                            child: Slidable(
-                              actionPane: SlidableDrawerActionPane(),
-                              actionExtentRatio: 0.25,
-                              secondaryActions: <Widget>[
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: IconSlideAction(
-                                    color: defaultColor,
-                                    iconWidget: Icon(
-                                      FontAwesome5.trash_alt,
-                                      color: Colors.white,
-                                    ),
-                                    onTap: () {
-                                      selectedTest = testListID[index];
-                                      FirebaseFirestore.instance
-                                          .collection(
-                                              'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                                          .doc(selectedTest)
-                                          .delete();
-                                      HapticFeedback.mediumImpact();
-                                      getTests(true);
-                                    },
-                                  ),
-                                ),
-                              ],
-                              child: ListTile(
-                                  title: Text(
-                                    testList[index],
-                                  ),
-                                  subtitle: averageList.isEmpty
-                                      ? Text("")
-                                      : Row(
-                                          children: [
-                                            Icon(
-                                              Icons.calculate_outlined,
-                                              size: 20,
-                                            ),
-                                            Text(" " +
-                                                averageListWeight[index]
-                                                    .toString() +
-                                                "   "),
-                                            Icon(
-                                              Icons.date_range,
-                                              size: 20,
-                                            ),
-                                            Text(" " +
-                                                dateList[index].toString()),
-                                          ],
-                                        ),
-                                  trailing: Text(() {
-                                    if ((averageList[index] /
-                                            averageListWeight[index])
-                                        .isNaN) {
-                                      return "-";
-                                    } else {
-                                      return (averageList[index] /
-                                              averageListWeight[index])
-                                          .toStringAsFixed(2);
-                                    }
-                                  }()),
-                                  onTap: () async {
-                                    getTests(true);
-
-                                    selectedTest = testListID[index];
-
-                                    testDetails = (await FirebaseFirestore
-                                            .instance
-                                            .collection(
-                                                "userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
-                                            .doc(selectedTest)
-                                            .get())
-                                        .data();
-
-                                    testDetail(context);
-                                  }),
-                            ),
-                          ),
-                        );
-                      },
                     ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: bwColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
-                ),
-                boxShadow: [],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
-                child: Align(
-                  alignment: FractionalOffset.bottomCenter,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      gradesResult == "Pluspunkte"
-                          ? Column(
-                              children: [
-                                Text(
-                                  plusPoints.toString(),
-                                  style: TextStyle(fontSize: 17),
+                  )
+                : ListView.builder(
+                    itemCount: testListID.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: EdgeInsets.fromLTRB(8, 6, 8, 0),
+                        child: Container(
+                          decoration: boxDec(),
+                          child: Slidable(
+                            actionPane: SlidableDrawerActionPane(),
+                            actionExtentRatio: 0.25,
+                            secondaryActions: <Widget>[
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: IconSlideAction(
+                                  color: defaultColor,
+                                  iconWidget: Icon(
+                                    FontAwesome5.trash_alt,
+                                    color: Colors.white,
+                                  ),
+                                  onTap: () {
+                                    selectedTest = testListID[index];
+                                    FirebaseFirestore.instance
+                                        .collection(
+                                            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                                        .doc(selectedTest)
+                                        .delete();
+                                    HapticFeedback.mediumImpact();
+                                    getTests(true);
+                                  },
                                 ),
-                                Text(
-                                  (() {
-                                    if (averageOfTests.isNaN) {
-                                      return "-";
-                                    } else {
-                                      return averageOfTests.toStringAsFixed(2);
-                                    }
-                                  })(),
-                                  style: TextStyle(
-                                      color: Colors.grey[600], fontSize: 10),
+                              ),
+                            ],
+                            child: ListTile(
+                                title: Text(
+                                  testList[index],
                                 ),
-                              ],
-                            )
-                          : Text((() {
-                              if (averageOfTests.isNaN) {
-                                return "-";
-                              } else {
-                                return averageOfTests.toStringAsFixed(2);
-                              }
-                            })(), style: TextStyle(fontSize: 17)),
-                      IconButton(
-                          icon: Icon(Icons.add),
-                          onPressed: () {
-                            addTest(context);
-                            HapticFeedback.lightImpact();
-                          }),
-                      IconButton(
-                          icon: Icon(FontAwesome5Solid.calculator, size: 17),
-                          onPressed: () {
-                            showModalBottomSheet(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                context: context,
-                                builder: (context) => Container(
-                                      height: 150,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                subtitle: averageList.isEmpty
+                                    ? Text("")
+                                    : Row(
                                         children: [
-                                          Spacer(flex: 10),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CircleAvatar(
-                                                  radius: 22,
-                                                  backgroundColor: defaultColor,
-                                                  child: IconButton(
-                                                      icon: Icon(
-                                                        FontAwesome5Solid
-                                                            .calculator,
-                                                        color: Colors.white,
-                                                      ),
-                                                      onPressed: () {
-                                                        Navigator.of(context);
-                                                        DreamGradeC(context);
-                                                      })),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text("dream grade".tr())
-                                            ],
+                                          Icon(
+                                            Icons.calculate_outlined,
+                                            size: 20,
                                           ),
-                                          Spacer(flex: 2),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CircleAvatar(
-                                                  radius: 22,
-                                                  backgroundColor: defaultColor,
-                                                  child: IconButton(
-                                                      icon: Icon(
-                                                        FontAwesome5.chart_bar,
-                                                        color: Colors.white,
-                                                      ),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                        bool formatError =
-                                                            false;
-                                                        for (String e
-                                                            in dateList) {
-                                                          try {
-                                                            if (e[2].contains(
-                                                                ".")) {
-                                                              formatError =
-                                                                  true;
-                                                            }
-                                                          } catch (e) {
-                                                            formatError = true;
-                                                          }
-                                                        }
-                                                        if (dateList
-                                                            .contains("-")) {
-                                                          gradelyDialog(
-                                                              context: context,
-                                                              title:
-                                                                  "error".tr(),
-                                                              text:
-                                                                  "statsContainsNoDate"
-                                                                      .tr());
-                                                        } else if (formatError) {
-                                                          gradelyDialog(
-                                                              context: context,
-                                                              title:
-                                                                  "error".tr(),
-                                                              text:
-                                                                  "statsDateBadlyFormatted"
-                                                                      .tr());
-                                                        } else {
-                                                          StatisticsScreen(
-                                                              context);
-                                                        }
-                                                      })),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text("statistics".tr())
-                                            ],
+                                          Text(" " +
+                                              averageListWeight[index]
+                                                  .toString() +
+                                              "   "),
+                                          Icon(
+                                            Icons.date_range,
+                                            size: 20,
                                           ),
-                                          Spacer(flex: 10),
+                                          Text(
+                                              " " + dateList[index].toString()),
                                         ],
                                       ),
-                                    ));
+                                trailing: Text(() {
+                                  if ((averageList[index] /
+                                          averageListWeight[index])
+                                      .isNaN) {
+                                    return "-";
+                                  } else {
+                                    return (averageList[index] /
+                                            averageListWeight[index])
+                                        .toStringAsFixed(2);
+                                  }
+                                }()),
+                                onTap: () async {
+                                  getTests(true);
 
-                            HapticFeedback.lightImpact();
-                          }),
-                    ],
+                                  selectedTest = testListID[index];
+
+                                  testDetails = (await FirebaseFirestore
+                                          .instance
+                                          .collection(
+                                              "userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
+                                          .doc(selectedTest)
+                                          .get())
+                                      .data();
+
+                                  testDetail(context);
+                                }),
+                          ),
+                        ),
+                      );
+                    },
                   ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: bwColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25),
+                topRight: Radius.circular(25),
+              ),
+              boxShadow: [],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
+              child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    gradesResult == "Pluspunkte"
+                        ? Column(
+                            children: [
+                              Text(
+                                plusPoints.toString(),
+                                style: TextStyle(fontSize: 17),
+                              ),
+                              Text(
+                                (() {
+                                  if (averageOfTests.isNaN) {
+                                    return "-";
+                                  } else {
+                                    return averageOfTests.toStringAsFixed(2);
+                                  }
+                                })(),
+                                style: TextStyle(
+                                    color: Colors.grey[600], fontSize: 10),
+                              ),
+                            ],
+                          )
+                        : Text((() {
+                            if (averageOfTests.isNaN) {
+                              return "-";
+                            } else {
+                              return averageOfTests.toStringAsFixed(2);
+                            }
+                          })(), style: TextStyle(fontSize: 17)),
+                    IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          addTest(context);
+                          HapticFeedback.lightImpact();
+                        }),
+                    IconButton(
+                        icon: Icon(FontAwesome5Solid.calculator, size: 17),
+                        onPressed: () {
+                          showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              context: context,
+                              builder: (context) => Container(
+                                    height: 150,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Spacer(flex: 10),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            CircleAvatar(
+                                                radius: 22,
+                                                backgroundColor: defaultColor,
+                                                child: IconButton(
+                                                    icon: Icon(
+                                                      FontAwesome5Solid
+                                                          .calculator,
+                                                      color: Colors.white,
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      DreamGradeC(context);
+                                                    })),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text("dream grade".tr())
+                                          ],
+                                        ),
+                                        Spacer(flex: 5),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            CircleAvatar(
+                                                radius: 22,
+                                                backgroundColor: defaultColor,
+                                                child: IconButton(
+                                                    icon: Icon(
+                                                      FontAwesome5.chart_bar,
+                                                      color: Colors.white,
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      bool formatError = false;
+                                                      for (String e
+                                                          in dateList) {
+                                                        try {
+                                                          if (e[2]
+                                                              .contains(".")) {
+                                                            formatError = true;
+                                                          }
+                                                        } catch (e) {
+                                                          formatError = true;
+                                                        }
+                                                      }
+                                                      if (dateList
+                                                          .contains("-")) {
+                                                        gradelyDialog(
+                                                            context: context,
+                                                            title: "error".tr(),
+                                                            text:
+                                                                "statsContainsNoDate"
+                                                                    .tr());
+                                                      } else if (formatError) {
+                                                        gradelyDialog(
+                                                            context: context,
+                                                            title: "error".tr(),
+                                                            text:
+                                                                "statsDateBadlyFormatted"
+                                                                    .tr());
+                                                      } else {
+                                                        StatisticsScreen(
+                                                            context);
+                                                      }
+                                                    })),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text("statistics".tr())
+                                          ],
+                                        ),
+                                        Spacer(flex: 10),
+                                      ],
+                                    ),
+                                  ));
+
+                          HapticFeedback.lightImpact();
+                        }),
+                  ],
                 ),
               ),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 
   Future testDetail(BuildContext context) {
@@ -792,7 +815,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                 var _formatted =
                                     DateTime.parse(picked.toString());
                                 addTestDateController.text =
-                                    "${_formatted.year}.${_formatted.month}.${_formatted.day}";
+                                    "${_formatted.year}.${_formatted.month}." +
+                                        (_formatted.day.toString().length > 1
+                                            ? _formatted.day.toString()
+                                            : "0${_formatted.day}");
                               });
                           },
                           child: AbsorbPointer(

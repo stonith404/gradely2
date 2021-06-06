@@ -136,12 +136,12 @@ class _chooseSemesterState extends State<chooseSemester> {
                               context: context,
                               title: "Achtung".tr(),
                               text:
-                                  "${'Bist du sicher, dass du'.tr()} ${semesterList[index]} ${'löschen willst?'.tr()}",
+                                  '${'Bist du sicher, dass du'.tr()} "${semesterList[index]}" ${'löschen willst?'.tr()}',
                               actions: <Widget>[
                                 TextButton(
                                   child: Text(
                                     "Nein".tr(),
-                                    style: TextStyle(color: Colors.black),
+                                       style: TextStyle(color: wbColor),
                                   ),
                                   onPressed: () {
                                     Navigator.of(context).pop();

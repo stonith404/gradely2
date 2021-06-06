@@ -321,12 +321,12 @@ class _HomeSiteState extends State<HomeSite> {
                               context: context,
                               title: "Achtung".tr(),
                               text:
-                                  "${'Bist du sicher, dass du'.tr()} ${courseList[index]} ${'löschen willst?'.tr()}",
+                                  '${'Bist du sicher, dass du'.tr()} "${courseList[index]}" ${'löschen willst?'.tr()}',
                               actions: <Widget>[
                                 TextButton(
                                   child: Text(
                                     "Nein".tr(),
-                                    style: TextStyle(color: Colors.black),
+                                    style: TextStyle(color: wbColor),
                                   ),
                                   onPressed: () {
                                     HapticFeedback.lightImpact();

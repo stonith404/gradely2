@@ -10,19 +10,19 @@ import 'main.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:quiver/iterables.dart';
 
-List<SalesData> list;
+List<_StatsData> list;
 
-class SalesData {
-  SalesData(this.year, this.sales);
-  final String year;
-  final double sales;
+class _StatsData {
+  _StatsData(this.date, this.grades);
+  final String date;
+  final double grades;
 }
 
 getData() {
   list = [];
   for (var e in zip([averageList, dateList])) {
     list.add(
-      SalesData(e[1], e[0]),
+      _StatsData(e[1], e[0]),
     );
   }
 }
@@ -66,15 +66,16 @@ Future StatisticsScreen(BuildContext context) {
                         child: SfCartesianChart(
                             primaryXAxis: CategoryAxis(),
                             series: <ChartSeries>[
-                          LineSeries<SalesData, String>(
+                          LineSeries<_StatsData, String>(
                               dataSource: list,
-                              xValueMapper: (SalesData sales, _) => sales.year
+                              xValueMapper: (_StatsData stats, _) => stats.date
                                   .substring(
-                                      0, sales.year.toString().length - 3),
+                                      0, stats.date.toString().length - 3),
                               color: defaultColor,
-                              yValueMapper: (SalesData sales, _) => sales.sales)
+                              yValueMapper: (_StatsData stats, _) =>
+                                  stats.grades)
                         ])),
-                        Text("stats1".tr())
+                    Text("stats1".tr())
                   ],
                 )),
           ));

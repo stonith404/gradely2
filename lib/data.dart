@@ -23,6 +23,7 @@ num plusPointsallAverageList = 0;
 Timer timer;
 DocumentSnapshot uidDB;
 String releaseNotes = "";
+bool internetConnected = true;
 
 getPluspoints(num value) {
   if (value >= 5.75) {
@@ -157,9 +158,20 @@ getReleaseNotes() async {
       .collection('shared/releaseNotes/releaseNotes/')
       .doc("1.0.3")
       .get();
-if(Platform.localeName == "de"){
-  releaseNotes = uidDB.get('de');
-}else{
-  releaseNotes = uidDB.get('en');
+  if (Platform.localeName == "de") {
+    releaseNotes = uidDB.get('de');
+  } else {
+    releaseNotes = uidDB.get('en');
+  }
 }
+
+checkForNetwork() async {
+  try {
+    final result = await InternetAddress.lookup('google.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      internetConnected = true;
+    }
+  } on SocketException catch (_) {
+      internetConnected = false;
+  }
 }
