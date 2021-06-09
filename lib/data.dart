@@ -83,6 +83,7 @@ getPluspointsallAverageList(num value) {
 
 TextEditingController addLessonController = new TextEditingController();
 TextEditingController changeEmailController = new TextEditingController();
+TextEditingController changeDisplayName = new TextEditingController();
 TextEditingController addSemesterController = new TextEditingController();
 TextEditingController renameTestWeightController = new TextEditingController();
 TextEditingController renameSemesterController = new TextEditingController();

@@ -19,7 +19,8 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 
 bool isLoggedIn = false;
 var defaultColor = Color(0xFF6C63FF);
-   List<String>  testList = [];
+Color backgroundColor = Color(0xFFE5E8F2);
+List<String> testList = [];
 var courseListID = [];
 var allAverageList = [];
 var allAverageListPP = [];
@@ -59,7 +60,7 @@ class MaterialWrapper extends StatelessWidget {
         // When navigating to the "/" route, build the FirstScreen widget.
         '/': (context) => HomeWrapper(),
         // When navigating to the "/second" route, build the SecondScreen widget.
-        '/settings': (context) => SettingsPage(),
+
       },
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
@@ -78,7 +79,7 @@ class MaterialWrapper extends StatelessWidget {
         ),
         brightness: Brightness.light,
         primaryColor: defaultColor,
-        scaffoldBackgroundColor: Colors.grey[300],
+        scaffoldBackgroundColor: backgroundColor,
         backgroundColor: Colors.grey[300],
       ),
       darkTheme: ThemeData(
@@ -92,7 +93,7 @@ class MaterialWrapper extends StatelessWidget {
           foregroundColor: MaterialStateProperty.all<Color>(defaultColor),
         )),
         dialogBackgroundColor: Colors.grey[900],
-        scaffoldBackgroundColor: Colors.grey[900],
+        scaffoldBackgroundColor:backgroundColor,
         brightness: Brightness.dark,
         primaryColor: defaultColor,
         floatingActionButtonTheme:

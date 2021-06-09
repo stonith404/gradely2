@@ -26,6 +26,18 @@ BoxDecoration boxDec() {
   );
 }
 
+
+BoxDecoration whiteBoxDec() {
+  return BoxDecoration(
+                            color: Colors.white,
+                            border:
+                                Border.all(color: backgroundColor, width: 1),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(15),
+                            ));
+}
+
+
 InputDecoration inputDec(String _label) {
   return InputDecoration(
     disabledBorder: OutlineInputBorder(

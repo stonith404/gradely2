@@ -24,6 +24,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
     changeEmailController.text = user.email;
+    changeDisplayName.text = auth.currentUser.displayName ?? "";
     passwordPlaceholder.text = "1234567891011";
   }
 
@@ -80,7 +81,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:defaultColor,
+        backgroundColor: defaultColor,
         shape: defaultRoundedCorners(),
         actions: [
           IconButton(
@@ -90,11 +91,10 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               ),
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
-                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomeWrapper()),
-                                    );
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeWrapper()),
+                );
               })
         ],
         title: Text("account".tr()),
@@ -104,6 +104,14 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         child: Column(
           children: [
             SizedBox(height: 70),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  controller: changeDisplayName,
+                  textAlign: TextAlign.left,
+                  decoration: inputDec("userinfo1".tr())),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
@@ -143,7 +151,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       });
                 },
                 child: TextField(
-          enabled: false,
+                    enabled: false,
                     obscureText: true,
                     controller: passwordPlaceholder,
                     textAlign: TextAlign.left,
@@ -153,7 +161,10 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             ElevatedButton(
                 style: elev(),
                 onPressed: () {
-                  changeEmail(changeEmailController.text);
+                  if (changeEmailController.text != auth.currentUser.email) {
+                      changeEmail(changeEmailController.text);
+                  }
+                    auth.currentUser.updateDisplayName(changeDisplayName.text);
                 },
                 child: Text("save").tr()),
             Spacer(flex: 3),

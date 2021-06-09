@@ -1,6 +1,12 @@
 import 'dart:ui';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gradely/introScreen.dart';
+import 'package:gradely/settings/contact.dart';
+import 'package:gradely/settings/customize.dart';
+import 'package:gradely/settings/platformList.dart';
+import 'package:gradely/settings/userInfo.dart';
 import 'package:gradely/shared/loading.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
@@ -51,7 +57,7 @@ class _HomeSiteState extends State<HomeSite> {
   getLessons() async {
     await getUIDDocuments();
 
-     if (uidDB.get('choosenSemester') == null) {
+    if (uidDB.get('choosenSemester') == null) {
       FirebaseFirestore.instance
           .collection('userData')
           .doc(auth.currentUser.uid)
@@ -70,16 +76,14 @@ class _HomeSiteState extends State<HomeSite> {
         .get();
     List<DocumentSnapshot> documents = result.docs;
 
-
-
     setState(() {
-          courseList = [];
-    courseListID = [];
+      courseList = [];
+      courseListID = [];
 
-    allAverageList = [];
-    allAverageListPP = [];
-    semesterAveragePP = [];
-    emojiList = [];
+      allAverageList = [];
+      allAverageListPP = [];
+      semesterAveragePP = [];
+      emojiList = [];
       documents.forEach((data) {
         courseList.add(data["name"]);
         courseListID.add(data.id);
@@ -245,13 +249,7 @@ class _HomeSiteState extends State<HomeSite> {
                     onPressed: () async {
                       HapticFeedback.lightImpact();
 
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.leftToRight,
-                            duration: Duration(milliseconds: 150),
-                            child: SettingsPage()),
-                      );
+                      settingsScreen(context);
                     }),
               ),
               floating: true,

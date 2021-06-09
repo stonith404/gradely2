@@ -51,11 +51,7 @@ class _CustomizeTState extends State<CustomizeT> {
                 'defaultColor':
                     "#${(defaultColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
               });
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
-                (Route<dynamic> route) => false,
-              );
+                settingsScreen(context);
             }),
       ),
       body: Padding(
@@ -123,11 +119,7 @@ class _CustomizeState extends State<Customize> {
               Icons.arrow_back_ios_outlined,
             ),
             onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
-                (Route<dynamic> route) => false,
-              );
+                 settingsScreen(context);
             }),
       ),
       body: Padding(

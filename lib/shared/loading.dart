@@ -152,10 +152,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                   onPressed: () async {
                     HapticFeedback.lightImpact();
 
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => SettingsPage()),
-                    );
+                      settingsScreen(context);
                   }),
             ),
             floating: true,
