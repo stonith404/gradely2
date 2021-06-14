@@ -19,10 +19,9 @@ class PlatformList extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 50),
             Image.asset(
               "assets/images/sync.png",
-              height: 200,
+              height: 250,
             ),
             SizedBox(height: 50),
             Text(

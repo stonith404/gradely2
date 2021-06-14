@@ -286,7 +286,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       return Padding(
                         padding: EdgeInsets.fromLTRB(8, 6, 8, 0),
                         child: Container(
-                          decoration: boxDec(),
+                          decoration: whiteBoxDec(),
                           child: Slidable(
                             actionPane: SlidableDrawerActionPane(),
                             actionExtentRatio: 0.25,

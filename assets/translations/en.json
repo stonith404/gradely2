@@ -110,5 +110,6 @@
   "statsContainsNoDate" : "some of your grades don't have dates. please add a date to every of your grade to see your statistics.",
   "statistics" : "statistics",
   "stats1" : "This shows your grades along the date time period.",
-  "notConnectedToInternet" : "You're not connected to the internet. Please enable the internet to continue."
+  "notConnectedToInternet" : "You're not connected to the internet. Please enable the internet to continue.",
+  "yourName" : "your name"
 }

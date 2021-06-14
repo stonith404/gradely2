@@ -45,7 +45,7 @@ dependencies:
   url_launcher:
   firebase_messaging:  10.0.1
   mailer:
-  in_app_purchase: 
+  flutter_inapp_purchase: ^5.0.1 
   flutter_icons:
   page_transition:
   emoji_chooser:

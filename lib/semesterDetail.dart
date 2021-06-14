@@ -507,10 +507,7 @@ class _addLessonState extends State<addLesson> {
                     },
                   );
                 } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => GradelyPlus()),
-                  );
+                 
                 }
               },
               child: ((() {
@@ -657,10 +654,7 @@ class _updateLessonState extends State<updateLesson> {
                     },
                   );
                 } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => GradelyPlus()),
-                  );
+
                 }
               },
               child: ((() {

@@ -107,10 +107,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                  keyboardType: TextInputType.emailAddress,
                   controller: changeDisplayName,
                   textAlign: TextAlign.left,
-                  decoration: inputDec("userinfo1".tr())),
+                  decoration: inputDec("yourName".tr())),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -162,9 +161,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 style: elev(),
                 onPressed: () {
                   if (changeEmailController.text != auth.currentUser.email) {
-                      changeEmail(changeEmailController.text);
+                    changeEmail(changeEmailController.text);
                   }
-                    auth.currentUser.updateDisplayName(changeDisplayName.text);
+                  auth.currentUser.updateDisplayName(changeDisplayName.text);
                 },
                 child: Text("save").tr()),
             Spacer(flex: 3),

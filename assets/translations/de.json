@@ -110,5 +110,6 @@
    "statsContainsNoDate" : "Einpaar Noten haben kein Datum. Bitte füge ein Datum hinzu um deine Statistiken zu sehen.",
    "statistics" : "Statistiken",
    "stats1" : "Diese Statistik zeigt dir deine Noten während der Datum Zeitperiode.",
-   "notConnectedToInternet" : "Du bist nicht mit dem internet verbunden. Bitte verbinde dich, um fortzufahren."
+   "notConnectedToInternet" : "Du bist nicht mit dem internet verbunden. Bitte verbinde dich, um fortzufahren.",
+   "yourName" : "Dein Name."
    }

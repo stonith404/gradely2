@@ -70,6 +70,7 @@ Future settingsScreen(BuildContext context) {
                             iconSize: 15,
                             color: Colors.black,
                             onPressed: () {
+                              Navigator.of(context).pop();
                               Navigator.pushReplacement(
                                 context,
                                 PageRouteBuilder(
@@ -79,7 +80,6 @@ Future settingsScreen(BuildContext context) {
                                   transitionDuration: Duration(seconds: 0),
                                 ),
                               );
-                              Navigator.of(context).pop();
                             },
                             icon: Icon(Icons.arrow_forward_ios_outlined)),
                       ),
@@ -161,9 +161,8 @@ Future settingsScreen(BuildContext context) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => gradelyPlus
-                                                ? CustomizeT()
-                                                : GradelyPlusWrapper()),
+                                            builder: (context) =>
+                                                GradelyPlus()),
                                       );
                                     }),
                               ),
