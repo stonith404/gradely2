@@ -1,15 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gradely/chooseSemester.dart';
+import 'package:gradely/data.dart';
 import 'package:gradely/shared/loading.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'userAuth/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/semesterDetail.dart';
 
-
 bool isLoggedIn = false;
 var defaultColor = Color(0xFF6C63FF);
-Color backgroundColor = Color(0xFFE5E8F2);
+
 List<String> testList = [];
 var courseListID = [];
 var allAverageList = [];
@@ -25,7 +28,7 @@ var bwColor;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
+ InAppPurchaseConnection.enablePendingPurchases();
   await Firebase.initializeApp();
   runApp(EasyLocalization(
     supportedLocales: [Locale('de'), Locale('en')],
@@ -50,7 +53,6 @@ class MaterialWrapper extends StatelessWidget {
         // When navigating to the "/" route, build the FirstScreen widget.
         '/': (context) => HomeWrapper(),
         // When navigating to the "/second" route, build the SecondScreen widget.
-
       },
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
@@ -69,7 +71,7 @@ class MaterialWrapper extends StatelessWidget {
         ),
         brightness: Brightness.light,
         primaryColor: defaultColor,
-        scaffoldBackgroundColor: backgroundColor,
+        scaffoldBackgroundColor: Color(0xFFE5E8F2),
         backgroundColor: Colors.grey[300],
       ),
       darkTheme: ThemeData(
@@ -83,7 +85,7 @@ class MaterialWrapper extends StatelessWidget {
           foregroundColor: MaterialStateProperty.all<Color>(defaultColor),
         )),
         dialogBackgroundColor: Colors.grey[900],
-        scaffoldBackgroundColor:backgroundColor,
+        scaffoldBackgroundColor: Colors.grey[900],
         brightness: Brightness.dark,
         primaryColor: defaultColor,
         floatingActionButtonTheme:
@@ -99,9 +101,88 @@ class HomeWrapper extends StatefulWidget {
 }
 
 class _State extends State<HomeWrapper> {
+
+  getLessons() async {
+    await getUIDDocuments();
+
+    if (uidDB.get('choosenSemester') == null) {
+      FirebaseFirestore.instance
+          .collection('userData')
+          .doc(auth.currentUser.uid)
+          .update({'choosenSemester': 'noSemesterChoosed'});
+    } else {
+      choosenSemester = uidDB.get('choosenSemester');
+      setState(() {
+        getUIDDocuments();
+      });
+    }
+
+    final QuerySnapshot result = await FirebaseFirestore.instance
+        .collection(
+            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
+        .orderBy("average", descending: true)
+        .get();
+    List<DocumentSnapshot> documents = result.docs;
+
+    setState(() {
+      courseList = [];
+      courseListID = [];
+
+      allAverageList = [];
+      allAverageListPP = [];
+      semesterAveragePP = [];
+      emojiList = [];
+      documents.forEach((data) {
+        courseList.add(data["name"]);
+        courseListID.add(data.id);
+        allAverageList.add(data["average"]);
+        try {
+          emojiList.add(data["emoji"]);
+        } catch (e) {
+          emojiList.add("");
+        }
+      });
+
+      documents.forEach((data) {
+        getPluspointsallAverageList(data["average"]);
+        if (data["average"].isNaN) {
+          allAverageListPP.add(0.toString());
+          semesterAveragePP.add(0);
+        } else {
+          allAverageListPP.add(plusPointsallAverageList.toString());
+          semesterAveragePP.add(plusPointsallAverageList);
+        }
+      });
+    });
+    //getSemesteraverage
+    num _pp = 0;
+
+    for (num e in semesterAveragePP) {
+      _pp += e;
+    }
+    setState(() {
+      averageOfSemesterPP = _pp;
+    });
+
+    //get average of all
+
+    double _sum = 0;
+    double _anzahl = 0;
+    for (num e in allAverageList) {
+      if (e.isNaN) {
+      } else {
+        _sum += e;
+        _anzahl = _anzahl + 1;
+        setState(() {
+          averageOfSemester = _sum / _anzahl;
+        });
+      }
+    }
+  }
   @override
   void initState() {
     super.initState();
+       getLessons();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   }
 

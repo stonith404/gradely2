@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gradely/data.dart';
 import 'package:gradely/main.dart';
 import 'package:gradely/settings/settings.dart';
 import 'package:flutter/services.dart';
@@ -17,18 +18,7 @@ class _LoadingScreenState extends State<LoadingScreen>
   Animation<Color> animationOne;
   Animation<Color> animationTwo;
 
-  darkModeColorChanger() {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    if (brightness == Brightness.dark) {
-      setState(() {
-        bwColor = Colors.grey[850];
-        wbColor = Colors.white;
-      });
-    } else {
-      bwColor = Colors.white;
-      wbColor = Colors.grey[850];
-    }
-  }
+
 
   @override
   void initState() {
@@ -59,7 +49,7 @@ class _LoadingScreenState extends State<LoadingScreen>
 
   @override
   Widget build(BuildContext context) {
-    darkModeColorChanger();
+    darkModeColorChanger(context);
     return Scaffold(
         body: NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {

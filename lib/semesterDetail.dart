@@ -132,20 +132,7 @@ class _HomeSiteState extends State<HomeSite> {
     }
   }
 
-  darkModeColorChanger() {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    if (brightness == Brightness.dark) {
-      setState(() {
-        bwColor = Colors.grey[850];
-        wbColor = Colors.white;
-        darkmode = true;
-      });
-    } else {
-      bwColor = Colors.white;
-      wbColor = Colors.grey[850];
-      darkmode = false;
-    }
-  }
+
 
   @override
   void initState() {
@@ -163,7 +150,7 @@ class _HomeSiteState extends State<HomeSite> {
   @override
   Widget build(BuildContext context) {
     screenwidth = MediaQuery.of(context).size.width;
-    darkModeColorChanger();
+    darkModeColorChanger(context);
     buttonDisabled = false;
     if (choosenSemesterName == "noSemesterChoosed") {
       return LoadingScreen();
@@ -365,7 +352,7 @@ class _HomeSiteState extends State<HomeSite> {
                       ),
                     ],
                     child: Container(
-                      decoration: boxDec(),
+                      decoration: whiteBoxDec(),
                       child: ListTile(
                         title: Row(
                           children: [
@@ -506,9 +493,7 @@ class _addLessonState extends State<addLesson> {
                       );
                     },
                   );
-                } else {
-                 
-                }
+                } else {}
               },
               child: ((() {
                 if (selectedEmoji == "") {
@@ -653,9 +638,7 @@ class _updateLessonState extends State<updateLesson> {
                       );
                     },
                   );
-                } else {
-
-                }
+                } else {}
               },
               child: ((() {
                 if (selectedEmoji == "") {

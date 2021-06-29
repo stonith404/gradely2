@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:gradely/semesterDetail.dart';
+
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'LessonsDetail.dart';
@@ -176,3 +178,18 @@ checkForNetwork() async {
       internetConnected = false;
   }
 }
+
+  darkModeColorChanger(context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    if (brightness == Brightness.dark) {
+      darkmode = true;
+      bwColor = Colors.grey[850];
+      wbColor = Colors.white;
+      defaultBGColor = Colors.grey[900];
+    } else {
+      darkmode = false;
+      bwColor = Colors.white;
+      wbColor = Colors.grey[850];
+      defaultBGColor = Color(0xFFE5E8F2);
+    }
+  }

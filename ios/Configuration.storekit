@@ -1,6 +1,24 @@
 {
-  "products" : [
+  "identifier" : "CA66B35B",
+  "nonRenewingSubscriptions" : [
 
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "F59BC637",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.temporary.id",
+      "referenceName" : "test",
+      "type" : "Consumable"
+    }
   ],
   "settings" : {
 
@@ -10,6 +28,6 @@
   ],
   "version" : {
     "major" : 1,
-    "minor" : 0
+    "minor" : 1
   }
 }

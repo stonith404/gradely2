@@ -26,17 +26,13 @@ BoxDecoration boxDec() {
   );
 }
 
-
 BoxDecoration whiteBoxDec() {
   return BoxDecoration(
-                            color: Colors.white,
-                            border:
-                                Border.all(color: backgroundColor, width: 1),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
-                            ));
+      color: bwColor,
+      borderRadius: BorderRadius.all(
+        Radius.circular(15),
+      ));
 }
-
 
 InputDecoration inputDec(String _label) {
   return InputDecoration(
@@ -78,24 +74,28 @@ Widget gradelyDialog({context, title, text, actions}) {
           return CupertinoAlertDialog(
               title: Text(title),
               content: Text(text),
-              actions: actions ?? [
-                  CupertinoButton(
-                      child: Text(
-                        "Ok",
-                        style: TextStyle(color: defaultColor),
-                      ),
-                      onPressed: () => Navigator.of(context).pop())]);
+              actions: actions ??
+                  [
+                    CupertinoButton(
+                        child: Text(
+                          "Ok",
+                          style: TextStyle(color: defaultColor),
+                        ),
+                        onPressed: () => Navigator.of(context).pop())
+                  ]);
         } else {
           return AlertDialog(
               title: Text(title),
               content: Text(text),
               actions: actions ??
-                  [TextButton(
-                      child: Text(
-                        "Ok",
-                        style: TextStyle(color: defaultColor),
-                      ),
-                      onPressed: () => Navigator.of(context).pop())]);
+                  [
+                    TextButton(
+                        child: Text(
+                          "Ok",
+                          style: TextStyle(color: defaultColor),
+                        ),
+                        onPressed: () => Navigator.of(context).pop())
+                  ]);
         }
       });
 }

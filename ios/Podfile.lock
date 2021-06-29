@@ -329,7 +329,7 @@ PODS:
     - gRPC-Core/Interface (= 1.28.2)
   - gRPC-Core/Interface (1.28.2)
   - GTMSessionFetcher/Core (1.5.0)
-  - in_app_purchase_ios (0.0.1):
+  - in_app_purchase (0.0.1):
     - Flutter
   - leveldb-library (1.22.1)
   - nanopb (2.30908.0):
@@ -351,7 +351,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
-  - in_app_purchase_ios (from `.symlinks/plugins/in_app_purchase_ios/ios`)
+  - in_app_purchase (from `.symlinks/plugins/in_app_purchase/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
@@ -387,8 +387,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
     :path: Flutter
-  in_app_purchase_ios:
-    :path: ".symlinks/plugins/in_app_purchase_ios/ios"
+  in_app_purchase:
+    :path: ".symlinks/plugins/in_app_purchase/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
   shared_preferences:
@@ -416,7 +416,7 @@ SPEC CHECKSUMS:
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  in_app_purchase_ios: 1fd2beee2a16ec0c1b52c0e8720036612dd9f86f
+  in_app_purchase: 3e2155afa9d03d4fa32d9e62d567885080ce97d6
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:gradely/LessonsDetail.dart';
 import 'package:gradely/introScreen.dart';
 import 'package:gradely/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -33,7 +34,7 @@ Future settingsScreen(BuildContext context) {
       return SingleChildScrollView(
         controller: ModalScrollController.of(context),
         child: Material(
-          color: Color(0xFFF5F8FA),
+          color: defaultBGColor,
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 1,
             child: Padding(
@@ -61,8 +62,7 @@ Future settingsScreen(BuildContext context) {
                               ),
                             ],
                             color: Colors.white,
-                            border:
-                                Border.all(color: backgroundColor, width: 1),
+                
                             borderRadius: BorderRadius.all(
                               Radius.circular(25),
                             )),
@@ -161,8 +161,9 @@ Future settingsScreen(BuildContext context) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                GradelyPlus()),
+                                            builder: (context) => gradelyPlus
+                                                ? CustomizeT()
+                                                : GradelyPlus()),
                                       );
                                     }),
                               ),

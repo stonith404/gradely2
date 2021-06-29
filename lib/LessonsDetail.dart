@@ -60,6 +60,8 @@ class _LessonsDetailState extends State<LessonsDetail> {
             ? GetOptions(source: Source.cache)
             : GetOptions(source: Source.serverAndCache));
 
+    print(cache);
+
     List<DocumentSnapshot> documents = result.docs;
     testList = [];
     testListID = [];
@@ -143,24 +145,11 @@ class _LessonsDetailState extends State<LessonsDetail> {
     });
   }
 
-  darkModeColorChanger() {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    if (brightness == Brightness.dark) {
-      setState(() {
-        bwColor = Colors.grey[850];
-        wbColor = Colors.white;
-        defaultBGColor = Colors.grey[900];
-      });
-    } else {
-      bwColor = Colors.white;
-      wbColor = Colors.grey[850];
-      defaultBGColor = Colors.grey[300];
-    }
-  }
+
 
   void initState() {
     super.initState();
-    getTests();
+    getTests(true);
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
     getUIDDocuments();
   }
@@ -177,7 +166,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
       testListID = testListID;
     });
     getPluspoints(averageOfTests);
-    darkModeColorChanger();
+    darkModeColorChanger(context);
 
     return Scaffold(
       appBar: AppBar(
