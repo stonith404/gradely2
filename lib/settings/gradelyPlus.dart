@@ -12,332 +12,242 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:flutter/services.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:in_app_purchase_android/billing_client_wrappers.dart';
-import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:gradely/main.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
 class GradelyPlusWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _MyApp();
+    return GradelyPlus();
   }
 }
 
-const bool _kAutoConsume = true;
-
-const String _kConsumableId = 'com.eliasschneider.gradely.iap.gradelyplus2';
-
-const List<String> _kProductIds = <String>[
-  _kConsumableId,
-];
-
-class _MyApp extends StatefulWidget {
+class InApp extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _InAppState createState() => new _InAppState();
 }
 
-class _MyAppState extends State<_MyApp> {
-  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
-  StreamSubscription<List<PurchaseDetails>> _subscription;
-  List<String> _notFoundIds = [];
-  List<ProductDetails> _products = [];
-  List<PurchaseDetails> _purchases = [];
-  bool _purchasePending = false;
-  bool _loading = true;
-  String _queryProductError;
+class _InAppState extends State<InApp> {
+  StreamSubscription _purchaseUpdatedSubscription;
+  StreamSubscription _purchaseErrorSubscription;
+  StreamSubscription _conectionSubscription;
+  final List<String> _productLists = [
+    'com.eliasschneider.gradely.iap.gradelyplus',
+    'com.eliasschneider.gradely.iap.gradelyplus2',
+    'com.eliasschneider.gradely.iap.gradelyplus5'
+  ];
 
-  @override
-  void initState() {
-    final Stream<List<PurchaseDetails>> purchaseUpdated =
-        _inAppPurchase.purchaseStream;
-    _subscription = purchaseUpdated.listen((purchaseDetailsList) {
-      _listenToPurchaseUpdated(purchaseDetailsList);
-    }, onDone: () {
-      _subscription.cancel();
-    }, onError: (error) {
-      // handle error here.
-    });
-    initStoreInfo();
-    super.initState();
+  String _platformVersion = 'Unknown';
+  List<IAPItem> _items = [];
+  List<PurchasedItem> _purchases = [];
+
+  void _requestPurchase(IAPItem item) {
+    FlutterInappPurchase.instance.requestPurchase(item.productId);
   }
 
-  Future<void> initStoreInfo() async {
-    final bool isAvailable = await _inAppPurchase.isAvailable();
-    if (!isAvailable) {
-      setState(() {
-        _isAvailable = isAvailable;
-        _products = [];
-        _purchases = [];
-        _notFoundIds = [];
-
-        _purchasePending = false;
-        _loading = false;
-      });
-      return;
+  Future _getProduct() async {
+    List<IAPItem> items =
+        await FlutterInappPurchase.instance.getProducts(_productLists);
+    for (var item in items) {
+      print('${item.toString()}');
+      this._items.add(item);
     }
-
-    ProductDetailsResponse productDetailResponse =
-        await _inAppPurchase.queryProductDetails(_kProductIds.toSet());
-    if (productDetailResponse.error != null) {
-      setState(() {
-        _queryProductError = productDetailResponse.error.message;
-        _isAvailable = isAvailable;
-        _products = productDetailResponse.productDetails;
-        _purchases = [];
-        _notFoundIds = productDetailResponse.notFoundIDs;
-
-        _purchasePending = false;
-        _loading = false;
-      });
-      return;
-    }
-
-    if (productDetailResponse.productDetails.isEmpty) {
-      setState(() {
-        _queryProductError = null;
-        _isAvailable = isAvailable;
-        _products = productDetailResponse.productDetails;
-        _purchases = [];
-        _notFoundIds = productDetailResponse.notFoundIDs;
-
-        _purchasePending = false;
-        _loading = false;
-      });
-      return;
-    }
-
 
     setState(() {
-      _isAvailable = isAvailable;
-      _products = productDetailResponse.productDetails;
-
-      _purchasePending = false;
-      _loading = false;
+      this._items = items;
+      this._purchases = [];
     });
   }
 
-  @override
-  void dispose() {
-    _subscription.cancel();
-    super.dispose();
+  List<Widget> _renderInApps() {
+    List<Widget> widgets = this
+        ._items
+        .map((item) => Container(
+              margin: EdgeInsets.symmetric(vertical: 10.0),
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(bottom: 5.0),
+                      child: Text(
+                        item.toString(),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    FlatButton(
+                      color: Colors.orange,
+                      onPressed: () {
+                        print("---------- Buy Item Button Pressed");
+                        this._requestPurchase(item);
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              height: 48.0,
+                              alignment: Alignment(-1.0, 0.0),
+                              child: Text('Buy Item'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ))
+        .toList();
+    return widgets;
+  }
+
+  List<Widget> _renderPurchases() {
+    List<Widget> widgets = this
+        ._purchases
+        .map((item) => Container(
+              margin: EdgeInsets.symmetric(vertical: 10.0),
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(bottom: 5.0),
+                      child: Text(
+                        item.toString(),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ))
+        .toList();
+    return widgets;
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> stack = [];
-    if (_queryProductError == null) {
-      stack.add(
-        ListView(
-          children: [
-            _buildConnectionCheckTile(),
-            _buildProductList(),
-          ],
-        ),
-      );
-    } else {
-      stack.add(Center(
-        child: Text(_queryProductError),
-      ));
-    }
-    if (_purchasePending) {
-      stack.add(
-        Stack(
-          children: [
-            Opacity(
-              opacity: 0.3,
-              child: const ModalBarrier(dismissible: false, color: Colors.grey),
-            ),
-            Center(
-              child: CircularProgressIndicator(),
-            ),
-          ],
-        ),
-      );
-    }
+    double screenWidth = MediaQuery.of(context).size.width - 20;
+    double buttonWidth = (screenWidth / 3) - 20;
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('IAP Example'),
-        ),
-        body: Stack(
-          children: stack,
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.all(10.0),
+        child: ListView(
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  child: Text(
+                    'Running on: $_platformVersion\n',
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                ),
+                Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          width: buttonWidth,
+                          height: 60.0,
+                          margin: EdgeInsets.all(7.0),
+                          child: FlatButton(
+                            color: Colors.amber,
+                            padding: EdgeInsets.all(0.0),
+                            onPressed: () async {
+                              print(
+                                  "---------- Connect Billing Button Pressed");
+                              await FlutterInappPurchase
+                                  .instance.initConnection;
+                              await FlutterInappPurchase
+                                  .instance.consumeAllItems;
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20.0),
+                              alignment: Alignment(0.0, 0.0),
+                              child: Text(
+                                'Connect Billing',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: buttonWidth,
+                          height: 60.0,
+                          margin: EdgeInsets.all(7.0),
+                          child: FlatButton(
+                            color: Colors.amber,
+                            padding: EdgeInsets.all(0.0),
+                            onPressed: () async {},
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20.0),
+                              alignment: Alignment(0.0, 0.0),
+                              child: Text(
+                                'End ee',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                              width: buttonWidth,
+                              height: 60.0,
+                              margin: EdgeInsets.all(7.0),
+                              child: FlatButton(
+                                color: Colors.green,
+                                padding: EdgeInsets.all(0.0),
+                                onPressed: () {
+                                  print("---------- Get Items Button Pressed");
+                                  this._getProduct();
+                                },
+                                child: Container(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  alignment: Alignment(0.0, 0.0),
+                                  child: Text(
+                                    'Get Items',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                ),
+                              )),
+                        ]),
+                  ],
+                ),
+                Column(
+                  children: this._renderInApps(),
+                ),
+                Column(
+                  children: this._renderPurchases(),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
-
-  Card _buildConnectionCheckTile() {
-    if (_loading) {
-      return Card(child: ListTile(title: const Text('Trying to connect...')));
-    }
-    final Widget storeHeader = ListTile(
-      leading: Icon(_isAvailable ? Icons.check : Icons.block,
-          color: _isAvailable ? Colors.green : ThemeData.light().errorColor),
-      title: Text(
-          'The store is ' + (_isAvailable ? 'available' : 'unavailable') + '.'),
-    );
-    final List<Widget> children = <Widget>[storeHeader];
-
-    if (!_isAvailable) {
-      children.addAll([
-        Divider(),
-        ListTile(
-          title: Text('Not connected',
-              style: TextStyle(color: ThemeData.light().errorColor)),
-          subtitle: const Text(
-              'Unable to connect to the payments processor. Has this app been configured correctly? See the example README for instructions.'),
-        ),
-      ]);
-    }
-    return Card(child: Column(children: children));
-  }
-
-  Card _buildProductList() {
-    if (_loading) {
-      return Card(
-          child: (ListTile(
-              leading: CircularProgressIndicator(),
-              title: Text('Fetching products...'))));
-    }
-    if (!_isAvailable) {
-      return Card();
-    }
-    final ListTile productHeader = ListTile(title: Text('Products for Sale'));
-    List<ListTile> productList = <ListTile>[];
-    if (_notFoundIds.isNotEmpty) {
-      productList.add(ListTile(
-          title: Text('[${_notFoundIds.join(", ")}] not found',
-              style: TextStyle(color: ThemeData.light().errorColor)),
-          subtitle: Text(
-              'This app needs special configuration to run. Please see example/README.md for instructions.')));
-    }
-
-    // This loading previous purchases code is just a demo. Please do not use this as it is.
-    // In your app you should always verify the purchase data using the `verificationData` inside the [PurchaseDetails] object before trusting it.
-    // We recommend that you use your own server to verify the purchase data.
-    Map<String, PurchaseDetails> purchases =
-        Map.fromEntries(_purchases.map((PurchaseDetails purchase) {
-      if (purchase.pendingCompletePurchase) {
-        _inAppPurchase.completePurchase(purchase);
-      }
-      return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
-    }));
-    productList.addAll(_products.map(
-      (ProductDetails productDetails) {
-        PurchaseDetails previousPurchase = purchases[productDetails.id];
-        return ListTile(
-            title: Text(
-              productDetails.title,
-            ),
-            subtitle: Text(
-              productDetails.description,
-            ),
-            trailing: previousPurchase != null
-                ? Icon(Icons.check)
-                : TextButton(
-                    child: Text(productDetails.price),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.green[800],
-                      primary: Colors.white,
-                    ),
-                    onPressed: () {
-                      PurchaseParam purchaseParam;
-
-                      purchaseParam = PurchaseParam(
-                        productDetails: productDetails,
-                        applicationUserName: null,
-                      );
-
-                      if (productDetails.id == _kConsumableId) {
-                        _inAppPurchase.buyConsumable(
-                            purchaseParam: purchaseParam,
-                            autoConsume: _kAutoConsume || Platform.isIOS);
-                      } else {
-                        _inAppPurchase.buyNonConsumable(
-                            purchaseParam: purchaseParam);
-                      }
-                    },
-                  ));
-      },
-    ));
-
-    return Card(
-        child:
-            Column(children: <Widget>[productHeader, Divider()] + productList));
-  }
-
-
-
-  void showPendingUI() {
-    setState(() {
-      _purchasePending = true;
-    });
-  }
-
-  void deliverProduct(PurchaseDetails purchaseDetails) async {
-    // IMPORTANT!! Always verify purchase details before delivering the product.
-    if (purchaseDetails.productID == _kConsumableId) {
-      
-      setState(() {
-        _purchasePending = false;
-      });
-    } else {
-      setState(() {
-        _purchases.add(purchaseDetails);
-        _purchasePending = false;
-      });
-    }
-  }
-
-  void handleError(IAPError error) {
-    setState(() {
-      _purchasePending = false;
-    });
-  }
-
-  Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) {
-    // IMPORTANT!! Always verify a purchase before delivering the product.
-    // For the purpose of an example, we directly return true.
-    return Future<bool>.value(true);
-  }
-
-  void _handleInvalidPurchase(PurchaseDetails purchaseDetails) {
-    // handle invalid purchase here if  _verifyPurchase` failed.
-  }
-
-  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
-    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
-      if (purchaseDetails.status == PurchaseStatus.pending) {
-        showPendingUI();
-      } else {
-        if (purchaseDetails.status == PurchaseStatus.error) {
-          handleError(purchaseDetails.error);
-        } else if (purchaseDetails.status == PurchaseStatus.purchased) {
-          bool valid = await _verifyPurchase(purchaseDetails);
-          if (valid) {
-            deliverProduct(purchaseDetails);
-          } else {
-            _handleInvalidPurchase(purchaseDetails);
-            return;
-          }
-        }
-        if (Platform.isAndroid) {
-          if (!_kAutoConsume && purchaseDetails.productID == _kConsumableId) {
-            final InAppPurchaseAndroidPlatformAddition androidAddition =
-                _inAppPurchase.getPlatformAddition<
-                    InAppPurchaseAndroidPlatformAddition>();
-            await androidAddition.consumePurchase(purchaseDetails);
-          }
-        }
-        if (purchaseDetails.pendingCompletePurchase) {
-          await _inAppPurchase.completePurchase(purchaseDetails);
-        }
-      }
-    });
-  }
 }
-
 //______________-
 
 class GradelyPlus extends StatefulWidget {
@@ -346,6 +256,17 @@ class GradelyPlus extends StatefulWidget {
 }
 
 class _GradelyPlusState extends State<GradelyPlus> {
+  StreamSubscription _purchaseUpdatedSubscription;
+  StreamSubscription _purchaseErrorSubscription;
+  StreamSubscription _conectionSubscription;
+
+  buyProduct(String id) async {
+    await FlutterInappPurchase.instance.clearTransactionIOS();
+    await FlutterInappPurchase.instance.consumeAllItems;
+    await FlutterInappPurchase.instance.getProducts([id]);
+    await FlutterInappPurchase.instance.requestPurchase(id);
+  }
+
   finishPurchase() async {
     await getUIDDocuments();
 
@@ -378,8 +299,52 @@ class _GradelyPlusState extends State<GradelyPlus> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  @override
   void dispose() {
     super.dispose();
+    if (_conectionSubscription != null) {
+      _conectionSubscription.cancel();
+      _conectionSubscription = null;
+    }
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+
+
+    // prepare
+    var result = await FlutterInappPurchase.instance.initConnection;
+    print('result: $result');
+
+    if (!mounted) return;
+
+    // refresh items for android
+    try {
+ await FlutterInappPurchase.instance.consumeAllItems;
+  
+    } catch (err) {
+  
+    }
+
+    _conectionSubscription =
+        FlutterInappPurchase.connectionUpdated.listen((connected) {
+      print('connected: $connected');
+    });
+
+    _purchaseUpdatedSubscription =
+        FlutterInappPurchase.purchaseUpdated.listen((productItem) {
+      print('purchase-updated: $productItem');
+    });
+
+    _purchaseErrorSubscription =
+        FlutterInappPurchase.purchaseError.listen((purchaseError) {
+      gradelyDialog(context: context, title: "error", text: "errror");
+    });
   }
 
   @override
@@ -502,9 +467,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                   ),
                   ElevatedButton(
                       style: elev(),
-                      onPressed: () async {
-                        print("done");
-                      },
+                      onPressed: () async {},
                       child: Text("☕️ Espresso 1\$")),
                   ElevatedButton(
                       style: elev(),
@@ -519,5 +482,3 @@ class _GradelyPlusState extends State<GradelyPlus> {
     );
   }
 }
-
-
