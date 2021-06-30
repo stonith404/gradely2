@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:gradely/chooseSemester.dart';
 import 'package:gradely/data.dart';
 import 'package:gradely/shared/loading.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'userAuth/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/semesterDetail.dart';
+import 'package:super_easy_in_app_purchase/super_easy_in_app_purchase.dart';
 
 bool isLoggedIn = false;
 var defaultColor = Color(0xFF6C63FF);
@@ -28,7 +28,7 @@ var bwColor;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
- InAppPurchaseConnection.enablePendingPurchases();
+SuperEasyInAppPurchase.start();
   await Firebase.initializeApp();
   runApp(EasyLocalization(
     supportedLocales: [Locale('de'), Locale('en')],

@@ -111,5 +111,7 @@
   "statistics" : "statistics",
   "stats1" : "This shows your grades along the date time period.",
   "notConnectedToInternet" : "You're not connected to the internet. Please enable the internet to continue.",
-  "yourName" : "your name"
+  "yourName" : "your name",
+  "features" : "features",
+  "description" : "description"
 }

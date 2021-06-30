@@ -119,10 +119,13 @@ getUIDDocuments() async {
 
   gradesResult = uidDB.get('gradesResult');
   choosenSemesterName = uidDB.get('choosenSemesterName');
-
-  if (uidDB.get('gradelyPlus') == true) {
-    gradelyPlus = true;
-  } else {
+  try {
+    if (uidDB.get('gradelyPlus') == true) {
+      gradelyPlus = true;
+    } else {
+      gradelyPlus = false;
+    }
+  } catch (e) {
     gradelyPlus = false;
   }
 
@@ -175,21 +178,21 @@ checkForNetwork() async {
       internetConnected = true;
     }
   } on SocketException catch (_) {
-      internetConnected = false;
+    internetConnected = false;
   }
 }
 
-  darkModeColorChanger(context) {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    if (brightness == Brightness.dark) {
-      darkmode = true;
-      bwColor = Colors.grey[850];
-      wbColor = Colors.white;
-      defaultBGColor = Colors.grey[900];
-    } else {
-      darkmode = false;
-      bwColor = Colors.white;
-      wbColor = Colors.grey[850];
-      defaultBGColor = Color(0xFFE5E8F2);
-    }
+darkModeColorChanger(context) {
+  var brightness = MediaQuery.of(context).platformBrightness;
+  if (brightness == Brightness.dark) {
+    darkmode = true;
+    bwColor = Colors.grey[850];
+    wbColor = Colors.white;
+    defaultBGColor = Colors.grey[900];
+  } else {
+    darkmode = false;
+    bwColor = Colors.white;
+    wbColor = Colors.grey[850];
+    defaultBGColor = Color(0xFFE5E8F2);
   }
+}

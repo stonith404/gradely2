@@ -342,6 +342,8 @@ PODS:
   - PromisesObjC (1.2.12)
   - shared_preferences (0.0.1):
     - Flutter
+  - super_easy_in_app_purchase (0.0.1):
+    - Flutter
   - url_launcher (0.0.1):
     - Flutter
 
@@ -354,6 +356,7 @@ DEPENDENCIES:
   - in_app_purchase (from `.symlinks/plugins/in_app_purchase/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - super_easy_in_app_purchase (from `.symlinks/plugins/super_easy_in_app_purchase/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
@@ -393,6 +396,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/package_info/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  super_easy_in_app_purchase:
+    :path: ".symlinks/plugins/super_easy_in_app_purchase/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
 
@@ -422,6 +427,7 @@ SPEC CHECKSUMS:
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  super_easy_in_app_purchase: 8ffd4f9806f37653f67fd34845f1eb4b9620c0bf
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
