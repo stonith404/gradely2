@@ -62,7 +62,6 @@ Future settingsScreen(BuildContext context) {
                               ),
                             ],
                             color: Colors.white,
-                
                             borderRadius: BorderRadius.all(
                               Radius.circular(25),
                             )),
@@ -94,6 +93,7 @@ Future settingsScreen(BuildContext context) {
                   ),
                   Expanded(
                     child: ListView(
+                      physics: const NeverScrollableScrollPhysics(),
                       children: [
                         Container(
                           child: settingsListTile(
@@ -264,12 +264,17 @@ Future settingsScreen(BuildContext context) {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 15.0),
-                    child: Text(
-                      "www.gradelyapp.com",
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20.0),
+                        child: Text(
+                          "www.gradelyapp.com",
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ],
                   )
                 ],
               ),

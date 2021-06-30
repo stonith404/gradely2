@@ -111,5 +111,10 @@
    "statistics" : "Statistiken",
    "stats1" : "Diese Statistik zeigt dir deine Noten während der Datum Zeitperiode.",
    "notConnectedToInternet" : "Du bist nicht mit dem internet verbunden. Bitte verbinde dich, um fortzufahren.",
-   "yourName" : "Dein Name."
+   "yourName" : "Dein Name.",
+   "features" : "Vorteile",
+   "description" : "Beschreibung",
+   "gradelyPExpl": "Egal was du kaufst, du bekommst die gleichen Vorteile",
+   "coffee" : "kaffee",
+   "ice coffee" : "eis kaffee"
    }

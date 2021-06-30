@@ -113,5 +113,8 @@
   "notConnectedToInternet" : "You're not connected to the internet. Please enable the internet to continue.",
   "yourName" : "your name",
   "features" : "features",
-  "description" : "description"
+  "description" : "description",
+  "gradelyPExpl": "No matter what you buy, you get the exact same features:",
+  "coffee" : "coffee",
+  "ice coffee" : "ice coffee"
 }

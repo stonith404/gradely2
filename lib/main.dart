@@ -103,19 +103,7 @@ class HomeWrapper extends StatefulWidget {
 class _State extends State<HomeWrapper> {
 
   getLessons() async {
-    await getUIDDocuments();
 
-    if (uidDB.get('choosenSemester') == null) {
-      FirebaseFirestore.instance
-          .collection('userData')
-          .doc(auth.currentUser.uid)
-          .update({'choosenSemester': 'noSemesterChoosed'});
-    } else {
-      choosenSemester = uidDB.get('choosenSemester');
-      setState(() {
-        getUIDDocuments();
-      });
-    }
 
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
@@ -182,6 +170,9 @@ class _State extends State<HomeWrapper> {
   @override
   void initState() {
     super.initState();
+       
+
+
        getLessons();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   }
@@ -204,6 +195,7 @@ class _State extends State<HomeWrapper> {
           if (snapshot.data == null) {
             return LoginScreen();
           }
+
           return HomeSite();
         });
   }

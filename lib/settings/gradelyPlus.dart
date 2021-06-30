@@ -198,7 +198,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                     height: 50,
                   ),
                   Text(
-                    "No matter what you buy, you get the exact same features:",
+                    "gradelyPExpl".tr(),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(
@@ -218,12 +218,12 @@ class _GradelyPlusState extends State<GradelyPlus> {
                       style: elev(),
                       onPressed: () async {
                         await inAppPurchase.startPurchase(
-                            'com.eliasschneider.gradely.iap.gradelyplus3',
+                            'com.eliasschneider.gradely.iap.gradelyplus2',
                             isConsumable: true);
 
                         print("done");
                       },
-                      child: Text("🧋 Coffee 3\$")),
+                      child: Text("🧋 ${'coffee'.tr()} 2\$")),
                   ElevatedButton(
                       style: elev(),
                       onPressed: () async {
@@ -231,7 +231,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                             'com.eliasschneider.gradely.iap.gradelyplus5',
                             isConsumable: true);
                       },
-                      child: Text("🧊 Ice Coffee 5\$")),
+                      child: Text("🧊 ${'ice coffee'.tr()} 5\$")),
                 ])),
       ),
     );
