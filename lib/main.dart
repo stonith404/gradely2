@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely/chooseSemester.dart';
 import 'package:gradely/data.dart';
@@ -8,10 +9,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/semesterDetail.dart';
-import 'package:super_easy_in_app_purchase/super_easy_in_app_purchase.dart';
+import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 
 bool isLoggedIn = false;
-var defaultColor = Color(0xFF6C63FF);
+Color defaultColor = Color(0xFF6C63FF);
 
 List<String> testList = [];
 var courseListID = [];
@@ -28,7 +29,12 @@ var bwColor;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-SuperEasyInAppPurchase.start();
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    // For play billing library 2.0 on Android, it is mandatory to call
+    // [enablePendingPurchases](https://developer.android.com/reference/com/android/billingclient/api/BillingClient.Builder.html#enablependingpurchases)
+    // as part of initializing the app.
+    InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
+  }
   await Firebase.initializeApp();
   runApp(EasyLocalization(
     supportedLocales: [Locale('de'), Locale('en')],

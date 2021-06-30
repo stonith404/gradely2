@@ -163,7 +163,7 @@ Future settingsScreen(BuildContext context) {
                                         MaterialPageRoute(
                                             builder: (context) => gradelyPlus
                                                 ? CustomizeT()
-                                                : GradelyPlus()),
+                                                : GradelyPlusWrapper()),
                                       );
                                     }),
                               ),
