@@ -82,7 +82,8 @@ class _IntroScreenState extends State<IntroScreen> {
 
       pages: [
         PageViewModel(
-          title: "Willkommen!".tr(),
+          titleWidget: Text("Willkommen!".tr(),
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
           body:
               "Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen."
                   .tr(),
@@ -93,7 +94,9 @@ class _IntroScreenState extends State<IntroScreen> {
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Überall verfügbar".tr(),
+          titleWidget: Text("Überall verfügbar".tr(),
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
           body:
               "Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf deinem Laptop, Handy oder iPad Noten hinzufügen und anschauen"
                   .tr(),
@@ -102,7 +105,9 @@ class _IntroScreenState extends State<IntroScreen> {
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Pluspunkte oder Durchschnitt?".tr(),
+          titleWidget: Text("Pluspunkte oder Durchschnitt?".tr(),
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
           body:
               "In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll."
                   .tr(),
@@ -110,7 +115,8 @@ class _IntroScreenState extends State<IntroScreen> {
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Fast Fertig...".tr(),
+          titleWidget: Text("Fast Fertig...".tr(),
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
           bodyWidget: Column(
             children: [
               Text(

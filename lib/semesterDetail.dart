@@ -132,8 +132,6 @@ class _HomeSiteState extends State<HomeSite> {
     }
   }
 
-
-
   @override
   void initState() {
     super.initState();
@@ -227,7 +225,7 @@ class _HomeSiteState extends State<HomeSite> {
                       ),
                     ],
                   ),
-                  preferredSize: Size(0, 130)),
+                  preferredSize: Size(0, 120)),
               leading: Transform(
                 alignment: Alignment.center,
                 transform: Matrix4.rotationY(math.pi),
