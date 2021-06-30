@@ -41,6 +41,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
     setState(() {
       _isLoading = true;
     });
+    initPlatformState();
     await FlutterInappPurchase.instance.clearTransactionIOS();
     await FlutterInappPurchase.instance.consumeAllItems;
     await getProducts();
@@ -48,6 +49,8 @@ class _GradelyPlusState extends State<GradelyPlus> {
   }
 
   getProducts() async {
+    await FlutterInappPurchase.instance.clearTransactionIOS();
+    await FlutterInappPurchase.instance.consumeAllItems;
     iapList = (await FlutterInappPurchase.instance.getProducts([
       "com.eliasschneider.gradely.iap.gradelyplus",
       "com.eliasschneider.gradely.iap.gradelyplus2",
@@ -98,7 +101,6 @@ class _GradelyPlusState extends State<GradelyPlus> {
   void initState() {
     super.initState();
     getProducts();
-    initPlatformState();
   }
 
   @override
@@ -113,8 +115,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     // prepare
-    var result = await FlutterInappPurchase.instance.initConnection;
-    print('result: $result');
+    await FlutterInappPurchase.instance.initConnection;
 
     if (!mounted) return;
 
@@ -140,149 +141,158 @@ class _GradelyPlusState extends State<GradelyPlus> {
           title: Text("Gradely Plus"),
           shape: defaultRoundedCorners(),
         ),
-        body: Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 20),
-                      Text(
-                        "description".tr(),
-                        style: TextStyle(fontWeight: FontWeight.w800),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text("gradelyP1".tr()),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        "features".tr(),
-                        style: TextStyle(fontWeight: FontWeight.w800),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Container(
-                        decoration: whiteBoxDec(),
-                        child: Column(
-                          children: [
-                            Container(
-                              decoration: boxDec(),
-                              child: ListTile(
-                                title: Row(
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.heart,
-                                      color: defaultColor,
-                                    ),
-                                    SizedBox(width: 20),
-                                    Text("gradelyP2".tr())
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              decoration: boxDec(),
-                              child: ListTile(
-                                title: Row(
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.color_filter,
-                                      color: defaultColor,
-                                    ),
-                                    SizedBox(width: 20),
-                                    Text("gradelyP3".tr())
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              decoration: boxDec(),
-                              child: ListTile(
-                                title: Row(
-                                  children: [
-                                    Icon(
-                                      FontAwesome5.laugh,
-                                      color: defaultColor,
-                                    ),
-                                    SizedBox(width: 20),
-                                    Text("gradelyP6".tr())
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              decoration: boxDec(),
-                              child: ListTile(
-                                title: Row(
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.star,
-                                      color: defaultColor,
-                                    ),
-                                    SizedBox(width: 20),
-                                    Text("gradelyP4".tr())
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+        body: iapList.isEmpty
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: defaultColor,
+                ),
+              )
+            : Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Column(children: [
+                        SizedBox(height: 20),
+                        Text(
+                          "description".tr(),
+                          style: TextStyle(fontWeight: FontWeight.w800),
                         ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Text(
-                        "gradelyPExpl".tr(),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      ElevatedButton(
-                          style: elev(),
-                          onPressed: () async {
-                            buyProduct(
-                                "com.eliasschneider.gradely.iap.gradelyplus");
-                          },
-                          child: Text(
-                              "☕️ Espresso ${iapList[0].localizedPrice ?? "-"}")),
-                      ElevatedButton(
-                          style: elev(),
-                          onPressed: () async => buyProduct(
-                              "com.eliasschneider.gradely.iap.gradelyplus2"),
-                          child: Text(
-                              "🧋 ${'coffee'.tr()} ${iapList[1].localizedPrice ?? "-"}")),
-                      ElevatedButton(
-                          style: elev(),
-                          onPressed: () async => buyProduct(
-                              "com.eliasschneider.gradely.iap.gradelyplus5"),
-                          child: Text(
-                              "🧊 ${'ice coffee'.tr()} ${iapList[2].localizedPrice ?? "-"}")),
-                    ]),
-              ),
-            ),
-            _isLoading
-                ? CircularProgressIndicator(
-                    color: defaultColor,
-                  )
-                : Container()
-          ],
-        ));
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text("gradelyP1".tr()),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          "features".tr(),
+                          style: TextStyle(fontWeight: FontWeight.w800),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          decoration: whiteBoxDec(),
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration: boxDec(),
+                                child: ListTile(
+                                  title: Row(
+                                    children: [
+                                      Icon(
+                                        CupertinoIcons.heart,
+                                        color: defaultColor,
+                                      ),
+                                      SizedBox(width: 20),
+                                      Text("gradelyP2".tr())
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                decoration: boxDec(),
+                                child: ListTile(
+                                  title: Row(
+                                    children: [
+                                      Icon(
+                                        CupertinoIcons.color_filter,
+                                        color: defaultColor,
+                                      ),
+                                      SizedBox(width: 20),
+                                      Text("gradelyP3".tr())
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                decoration: boxDec(),
+                                child: ListTile(
+                                  title: Row(
+                                    children: [
+                                      Icon(
+                                        FontAwesome5.laugh,
+                                        color: defaultColor,
+                                      ),
+                                      SizedBox(width: 20),
+                                      Text("gradelyP6".tr())
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                decoration: boxDec(),
+                                child: ListTile(
+                                  title: Row(
+                                    children: [
+                                      Icon(
+                                        CupertinoIcons.star,
+                                        color: defaultColor,
+                                      ),
+                                      SizedBox(width: 20),
+                                      Text("gradelyP4".tr())
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Platform.isIOS || Platform.isAndroid
+                            ? Column(children: [
+                                Text(
+                                  "gradelyPExpl".tr(),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                ElevatedButton(
+                                    style: elev(),
+                                    onPressed: () async {
+                                      buyProduct(
+                                          "com.eliasschneider.gradely.iap.gradelyplus");
+                                    },
+                                    child: Text(
+                                        "☕️ Espresso ${iapList[0].localizedPrice ?? "-"}")),
+                                ElevatedButton(
+                                    style: elev(),
+                                    onPressed: () async => buyProduct(
+                                        "com.eliasschneider.gradely.iap.gradelyplus2"),
+                                    child: Text(
+                                        "🧋 ${'coffee'.tr()} ${iapList[1].localizedPrice ?? "-"}")),
+                                ElevatedButton(
+                                    style: elev(),
+                                    onPressed: () async => buyProduct(
+                                        "com.eliasschneider.gradely.iap.gradelyplus5"),
+                                    child: Text(
+                                        "🧊 ${'ice coffee'.tr()} ${iapList[2].localizedPrice ?? "-"}")),
+                              ])
+                            : Text("gradelyP5".tr(),
+                                style: TextStyle(fontStyle: FontStyle.italic))
+                      ]),
+                    ),
+                  ),
+                  _isLoading
+                      ? CircularProgressIndicator(
+                          color: defaultColor,
+                        )
+                      : Container()
+                ],
+              ));
   }
 }
