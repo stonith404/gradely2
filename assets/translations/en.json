@@ -116,5 +116,7 @@
   "description" : "description",
   "gradelyPExpl": "No matter what you buy, you get the exact same features:",
   "coffee" : "coffee",
-  "ice coffee" : "ice coffee"
+  "ice coffee" : "ice coffee",
+  "success" : "success",
+  "nameUpdated" : "Your name was updated"
 }

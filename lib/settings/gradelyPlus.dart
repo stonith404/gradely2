@@ -22,7 +22,139 @@ bool _isLoading = false;
 class GradelyPlusWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GradelyPlus();
+    if (kIsWeb) {
+      return GradelyPlusUnsupportet();
+    } else if (Platform.isIOS || Platform.isAndroid) {
+      return GradelyPlus();
+    } else {
+      return GradelyPlusUnsupportet();
+    }
+  }
+}
+
+class GradelyPlusUnsupportet extends StatelessWidget {
+  const GradelyPlusUnsupportet({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Gradely Plus",
+        ),
+        shape: defaultRoundedCorners(),
+        backgroundColor: defaultColor,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(children: [
+            SizedBox(height: 20),
+            Text(
+              "description".tr(),
+              style: TextStyle(fontWeight: FontWeight.w800),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text("gradelyP1".tr()),
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              "features".tr(),
+              style: TextStyle(fontWeight: FontWeight.w800),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              decoration: whiteBoxDec(),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: boxDec(),
+                    child: ListTile(
+                      title: Row(
+                        children: [
+                          Icon(
+                            CupertinoIcons.heart,
+                            color: defaultColor,
+                          ),
+                          SizedBox(width: 20),
+                          Text("gradelyP2".tr())
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    decoration: boxDec(),
+                    child: ListTile(
+                      title: Row(
+                        children: [
+                          Icon(
+                            CupertinoIcons.color_filter,
+                            color: defaultColor,
+                          ),
+                          SizedBox(width: 20),
+                          Text("gradelyP3".tr())
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    decoration: boxDec(),
+                    child: ListTile(
+                      title: Row(
+                        children: [
+                          Icon(
+                            FontAwesome5.laugh,
+                            color: defaultColor,
+                          ),
+                          SizedBox(width: 20),
+                          Text("gradelyP6".tr())
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    decoration: boxDec(),
+                    child: ListTile(
+                      title: Row(
+                        children: [
+                          Icon(
+                            CupertinoIcons.star,
+                            color: defaultColor,
+                          ),
+                          SizedBox(width: 20),
+                          Text("gradelyP4".tr())
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Text("gradelyP5".tr(),
+                style: TextStyle(fontStyle: FontStyle.italic))
+          ]),
+        ),
+      ),
+    );
   }
 }
 
@@ -43,14 +175,14 @@ class _GradelyPlusState extends State<GradelyPlus> {
     });
     initPlatformState();
     await FlutterInappPurchase.instance.clearTransactionIOS();
-    await FlutterInappPurchase.instance.consumeAllItems;
+
     await getProducts();
     await FlutterInappPurchase.instance.requestPurchase(id);
   }
 
   getProducts() async {
+    await FlutterInappPurchase.instance.initConnection;
     await FlutterInappPurchase.instance.clearTransactionIOS();
-    await FlutterInappPurchase.instance.consumeAllItems;
     iapList = (await FlutterInappPurchase.instance.getProducts([
       "com.eliasschneider.gradely.iap.gradelyplus",
       "com.eliasschneider.gradely.iap.gradelyplus2",

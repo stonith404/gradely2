@@ -116,5 +116,7 @@
    "description" : "Beschreibung",
    "gradelyPExpl": "Egal was du kaufst, du bekommst die gleichen Vorteile",
    "coffee" : "kaffee",
-   "ice coffee" : "eis kaffee"
+   "ice coffee" : "eis kaffee",
+   "success" : "Super.",
+   "nameUpdated" : "Dein Name wurde aktualisiert"
    }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gradely/chooseSemester.dart';
@@ -67,10 +68,27 @@ ButtonStyle elev() {
 //dialog
 
 Widget gradelyDialog({context, title, text, actions}) {
+  androidDialog() {
+    return AlertDialog(
+        title: Text(title),
+        content: Text(text),
+        actions: actions ??
+            [
+              TextButton(
+                  child: Text(
+                    "Ok",
+                    style: TextStyle(color: defaultColor),
+                  ),
+                  onPressed: () => Navigator.of(context).pop())
+            ]);
+  }
+
   showDialog(
       context: context,
       builder: (BuildContext context) {
-        if (Platform.isIOS || Platform.isMacOS) {
+        if (kIsWeb) {
+          return androidDialog();
+        } else if (Platform.isIOS || Platform.isMacOS) {
           return CupertinoAlertDialog(
               title: Text(title),
               content: Text(text),
@@ -84,18 +102,7 @@ Widget gradelyDialog({context, title, text, actions}) {
                         onPressed: () => Navigator.of(context).pop())
                   ]);
         } else {
-          return AlertDialog(
-              title: Text(title),
-              content: Text(text),
-              actions: actions ??
-                  [
-                    TextButton(
-                        child: Text(
-                          "Ok",
-                          style: TextStyle(color: defaultColor),
-                        ),
-                        onPressed: () => Navigator.of(context).pop())
-                  ]);
+          return androidDialog();
         }
       });
 }

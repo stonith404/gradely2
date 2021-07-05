@@ -160,10 +160,15 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             ElevatedButton(
                 style: elev(),
                 onPressed: () {
+                  auth.currentUser.updateDisplayName(changeDisplayName.text);
                   if (changeEmailController.text != auth.currentUser.email) {
                     changeEmail(changeEmailController.text);
+                  } else {
+                    gradelyDialog(
+                        context: context,
+                        title: "success".tr(),
+                        text: 'nameUpdated'.tr());
                   }
-                  auth.currentUser.updateDisplayName(changeDisplayName.text);
                 },
                 child: Text("save").tr()),
             Spacer(flex: 3),
