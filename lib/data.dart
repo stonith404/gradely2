@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:gradely/semesterDetail.dart';
+import 'package:gradely/shared/VARIABLES..dart';
 
 import 'main.dart';
 import 'package:flutter/material.dart';

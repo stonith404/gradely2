@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gradely/shared/VARIABLES..dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
 import 'userAuth/login.dart';
@@ -16,12 +17,12 @@ String selectedSemester;
 var semesterListID = [];
 var semesterList = [];
 
-class chooseSemester extends StatefulWidget {
+class ChooseSemester extends StatefulWidget {
   @override
-  _chooseSemesterState createState() => _chooseSemesterState();
+  _ChooseSemesterState createState() => _ChooseSemesterState();
 }
 
-class _chooseSemesterState extends State<chooseSemester> {
+class _ChooseSemesterState extends State<ChooseSemester> {
   _getSemesters() async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection('userData/${auth.currentUser.uid}/semester')
@@ -89,7 +90,7 @@ class _chooseSemesterState extends State<chooseSemester> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => addSemester()),
+              MaterialPageRoute(builder: (context) => AddSemester()),
             );
           }),
       body: Column(
@@ -104,33 +105,39 @@ class _chooseSemesterState extends State<chooseSemester> {
                     actionPane: SlidableDrawerActionPane(),
                     actionExtentRatio: 0.25,
                     secondaryActions: <Widget>[
-                     ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              bottomLeft: Radius.circular(10),
-                            ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                        ),
                         child: IconSlideAction(
                           color: defaultColor,
-                          iconWidget: Icon(FontAwesome5Solid.pencil_alt, color: Colors.white,),
+                          iconWidget: Icon(
+                            FontAwesome5Solid.pencil_alt,
+                            color: Colors.white,
+                          ),
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => updateSemester()),
+                                  builder: (context) => UpdateSemester()),
                             );
-                      
+
                             selectedSemester = semesterListID[index];
                           },
                         ),
                       ),
-                       ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                            ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                        ),
                         child: IconSlideAction(
                           color: defaultColor,
-                          iconWidget: Icon(FontAwesome5.trash_alt, color: Colors.white,),
+                          iconWidget: Icon(
+                            FontAwesome5.trash_alt,
+                            color: Colors.white,
+                          ),
                           onTap: () {
                             return gradelyDialog(
                               context: context,
@@ -141,7 +148,7 @@ class _chooseSemesterState extends State<chooseSemester> {
                                 TextButton(
                                   child: Text(
                                     "Nein".tr(),
-                                       style: TextStyle(color: wbColor),
+                                    style: TextStyle(color: wbColor),
                                   ),
                                   onPressed: () {
                                     Navigator.of(context).pop();
@@ -168,10 +175,11 @@ class _chooseSemesterState extends State<chooseSemester> {
                                     Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => chooseSemester()),
+                                          builder: (context) =>
+                                              ChooseSemester()),
                                       (Route<dynamic> route) => false,
                                     );
-                      
+
                                     selectedSemester = semesterListID[index];
                                   },
                                 )
@@ -216,12 +224,12 @@ class _chooseSemesterState extends State<chooseSemester> {
   }
 }
 
-class updateSemester extends StatefulWidget {
+class UpdateSemester extends StatefulWidget {
   @override
-  _updateSemesterState createState() => _updateSemesterState();
+  _UpdateSemesterState createState() => _UpdateSemesterState();
 }
 
-class _updateSemesterState extends State<updateSemester> {
+class _UpdateSemesterState extends State<UpdateSemester> {
   @override
   void initState() {
     super.initState();
@@ -259,7 +267,7 @@ class _updateSemesterState extends State<updateSemester> {
                 HapticFeedback.mediumImpact();
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => chooseSemester()),
+                  MaterialPageRoute(builder: (context) => ChooseSemester()),
                   (Route<dynamic> route) => false,
                 );
 
@@ -283,12 +291,12 @@ updateSemesterF(String lessonUpdate) {
       .update({"name": lessonUpdate});
 }
 
-class addSemester extends StatefulWidget {
+class AddSemester extends StatefulWidget {
   @override
-  _addSemesterState createState() => _addSemesterState();
+  _AddSemesterState createState() => _AddSemesterState();
 }
 
-class _addSemesterState extends State<addSemester> {
+class _AddSemesterState extends State<AddSemester> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -320,7 +328,7 @@ class _addSemesterState extends State<addSemester> {
                 HapticFeedback.mediumImpact();
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => chooseSemester()),
+                  MaterialPageRoute(builder: (context) => ChooseSemester()),
                   (Route<dynamic> route) => false,
                 );
 

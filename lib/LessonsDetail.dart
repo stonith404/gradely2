@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gradely/shared/VARIABLES..dart';
 import 'package:gradely/shared/loading.dart';
 import 'package:gradely/statistics.dart';
 import 'main.dart';
@@ -676,7 +677,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
       expand: true,
       context: context,
       builder: (context) => StatefulBuilder(builder: (BuildContext context,
-          StateSetter setState /*You can rename this!*/) {
+          StateSetter setState ) {
         return SingleChildScrollView(
             controller: ModalScrollController.of(context),
             child: Material(

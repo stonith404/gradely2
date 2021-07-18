@@ -23,16 +23,12 @@ String selectedLessonName;
 double averageOfSemester = 0 / -0;
 num averageOfSemesterPP = 0 / -0;
 String choosenSemesterName = "noSemesterChoosed";
-var wbColor;
-var bwColor;
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   if (defaultTargetPlatform == TargetPlatform.android) {
-    // For play billing library 2.0 on Android, it is mandatory to call
-    // [enablePendingPurchases](https://developer.android.com/reference/com/android/billingclient/api/BillingClient.Builder.html#enablependingpurchases)
-    // as part of initializing the app.
     InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
   }
   await Firebase.initializeApp();

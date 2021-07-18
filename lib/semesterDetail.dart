@@ -2,11 +2,8 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gradely/introScreen.dart';
-import 'package:gradely/settings/contact.dart';
-import 'package:gradely/settings/customize.dart';
-import 'package:gradely/settings/platformList.dart';
-import 'package:gradely/settings/userInfo.dart';
+import 'package:gradely/shared/CLASSES.dart';
+import 'package:gradely/shared/VARIABLES..dart';
 import 'package:gradely/shared/loading.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
@@ -21,10 +18,7 @@ import 'main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:emoji_chooser/emoji_chooser.dart';
-import 'settings/gradelyPlus.dart';
 
 double screenwidth = 0;
 bool darkmode = false;
@@ -77,22 +71,22 @@ class _HomeSiteState extends State<HomeSite> {
     List<DocumentSnapshot> documents = result.docs;
 
     setState(() {
-      courseList = [];
-      courseListID = [];
+      lessonList = [];
 
-      allAverageList = [];
       allAverageListPP = [];
       semesterAveragePP = [];
       emojiList = [];
       documents.forEach((data) {
-        courseList.add(data["name"]);
-        courseListID.add(data.id);
-        allAverageList.add(data["average"]);
+        String emoji = "";
         try {
-          emojiList.add(data["emoji"]);
+          emoji = (data["emoji"]);
         } catch (e) {
-          emojiList.add("");
+          emoji = "";
         }
+
+        lessonList.add(
+          Lesson(data["name"], data.id, data["average"], emoji),
+        );
       });
 
       documents.forEach((data) {
@@ -246,7 +240,7 @@ class _HomeSiteState extends State<HomeSite> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => chooseSemester()),
+                            builder: (context) => ChooseSemester()),
                       );
                     }),
               ],
@@ -255,7 +249,7 @@ class _HomeSiteState extends State<HomeSite> {
           ];
         },
         body: ListView.builder(
-          itemCount: courseListID.length,
+          itemCount: lessonList.length,
           itemBuilder: (BuildContext context, int index) {
             return Column(
               children: [
@@ -282,9 +276,9 @@ class _HomeSiteState extends State<HomeSite> {
                               MaterialPageRoute(
                                   builder: (context) => updateLesson()),
                             );
-                            selectedLessonName = courseList[index];
-                            selectedEmoji = emojiList[index];
-                            selectedLesson = courseListID[index];
+                            selectedLessonName = lessonList[index].name;
+                            selectedEmoji = lessonList[index].emoji;
+                            selectedLesson = lessonList[index].id;
                           },
                         ),
                       ),
@@ -304,7 +298,7 @@ class _HomeSiteState extends State<HomeSite> {
                               context: context,
                               title: "Achtung".tr(),
                               text:
-                                  '${'Bist du sicher, dass du'.tr()} "${courseList[index]}" ${'löschen willst?'.tr()}',
+                                  '${'Bist du sicher, dass du'.tr()} "${lessonList[index].name}" ${'löschen willst?'.tr()}',
                               actions: <Widget>[
                                 TextButton(
                                   child: Text(
@@ -325,12 +319,12 @@ class _HomeSiteState extends State<HomeSite> {
                                     FirebaseFirestore.instance
                                         .collection(
                                             'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
-                                        .doc(courseListID[index])
+                                        .doc(lessonList[index].id)
                                         .set({});
                                     FirebaseFirestore.instance
                                         .collection(
                                             'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
-                                        .doc(courseListID[index])
+                                        .doc(lessonList[index].id)
                                         .delete();
                                     HapticFeedback.heavyImpact();
                                     Navigator.pushAndRemoveUntil(
@@ -340,7 +334,7 @@ class _HomeSiteState extends State<HomeSite> {
                                       (Route<dynamic> route) => false,
                                     );
 
-                                    selectedLesson = courseListID[index];
+                                    selectedLesson = lessonList[index].id;
                                   },
                                 )
                               ],
@@ -354,7 +348,7 @@ class _HomeSiteState extends State<HomeSite> {
                       child: ListTile(
                         title: Row(
                           children: [
-                            Text(emojiList[index] + "  ",
+                            Text(lessonList[index].emoji + "  ",
                                 style: TextStyle(
                                   shadows: [
                                     Shadow(
@@ -367,18 +361,20 @@ class _HomeSiteState extends State<HomeSite> {
                                   ],
                                 )),
                             Text(
-                              courseList[index],
+                              lessonList[index].name,
                             ),
                           ],
                         ),
                         trailing: Text(
                           (() {
-                            if (allAverageList[index].isNaN) {
+                            if (lessonList[index].average.isNaN) {
                               return "-";
                             } else if (gradesResult == "Pluspunkte") {
                               return allAverageListPP[index];
                             } else {
-                              return allAverageList[index].toStringAsFixed(2);
+                              return lessonList[index]
+                                  .average
+                                  .toStringAsFixed(2);
                             }
                           })(),
                         ),
@@ -390,10 +386,8 @@ class _HomeSiteState extends State<HomeSite> {
                                 builder: (context) => LessonsDetail()),
                           );
 
-                          setState(() {
-                            selectedLesson = courseListID[index];
-                            selectedLessonName = courseList[index];
-                          });
+                          selectedLesson = lessonList[index].id;
+                          selectedLessonName = lessonList[index].name;
                         },
                       ),
                     ),
