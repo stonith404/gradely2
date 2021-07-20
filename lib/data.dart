@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 import 'LessonsDetail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'userAuth/login.dart';
+import 'auth/login.dart';
 import 'LessonsDetail.dart';
 import 'chooseSemester.dart';
 import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
-import 'userAuth/login.dart';
+import 'auth/login.dart';
 
 final String cacheField = 'updatedAt';
 
@@ -51,9 +51,10 @@ getPluspoints(num value) {
     plusPoints = -5;
   } else if (value >= 1) {
     plusPoints = -6;
-  } else if (value == "NaN") {
+  } else if (value == -99) {
     plusPoints = 0;
   }
+  return plusPoints;
 }
 
 getPluspointsallAverageList(num value) {
@@ -154,7 +155,7 @@ getUIDDocuments() async {
 void launchURL(_url) async =>
     await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 
-getUserAuthStatus() {
+getauthStatus() {
   if (FirebaseAuth.instance.currentUser == null) {
     navigatorKey.currentState.pushNamed('/settings');
   }

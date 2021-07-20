@@ -8,7 +8,7 @@ import 'package:gradely/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gradely/semesterDetail.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../userAuth/login.dart';
+import '../auth/login.dart';
 import 'package:gradely/data.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'platformList.dart';

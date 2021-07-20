@@ -1,10 +1,13 @@
+import 'package:appwrite/appwrite.dart' hide Locale;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely/chooseSemester.dart';
 import 'package:gradely/data.dart';
+import 'package:gradely/shared/FUNCTIONS.dart';
+import 'package:gradely/shared/VARIABLES..dart';
 import 'package:gradely/shared/loading.dart';
-import 'userAuth/login.dart';
+import 'auth/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -24,7 +27,6 @@ double averageOfSemester = 0 / -0;
 num averageOfSemesterPP = 0 / -0;
 String choosenSemesterName = "noSemesterChoosed";
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -32,6 +34,14 @@ void main() async {
     InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
   }
   await Firebase.initializeApp();
+
+  client = Client();
+  account = Account(client);
+  database = Database(client);
+
+  client
+      .setEndpoint('https://aw.cloud.eliasschneider.com/v1')
+      .setProject('60f40cb212896');
   runApp(EasyLocalization(
     supportedLocales: [Locale('de'), Locale('en')],
     useOnlyLangCode: true,
@@ -103,10 +113,7 @@ class HomeWrapper extends StatefulWidget {
 }
 
 class _State extends State<HomeWrapper> {
-
   getLessons() async {
-
-
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(
             'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
@@ -169,13 +176,12 @@ class _State extends State<HomeWrapper> {
       }
     }
   }
+
   @override
   void initState() {
     super.initState();
-       
 
-
-       getLessons();
+    getLessons();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   }
 
@@ -187,18 +193,21 @@ class _State extends State<HomeWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (_, snapshot) {
-          // Added this line
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingScreen();
-          }
-          if (snapshot.data == null) {
+    return FutureBuilder<bool>(
+      future: getUserInfo(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return LoadingScreen();
+        } else {
+       
+          if (snapshot.data == false)
+          
             return LoginScreen();
-          }
-
-          return HomeSite();
-        });
+            
+          else
+            return HomeSite();
+        }
+      },
+    );
   }
 }

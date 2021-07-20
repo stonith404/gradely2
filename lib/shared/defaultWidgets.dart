@@ -11,7 +11,7 @@ import 'package:gradely/data.dart';
 import 'package:gradely/semesterDetail.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/shared/VARIABLES..dart';
-import 'package:gradely/userAuth/login.dart';
+import 'package:gradely/auth/login.dart';
 
 RoundedRectangleBorder defaultRoundedCorners() {
   return RoundedRectangleBorder(

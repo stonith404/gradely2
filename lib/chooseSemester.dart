@@ -4,7 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/VARIABLES..dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
-import 'userAuth/login.dart';
+import 'auth/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'shared/defaultWidgets.dart';
 import 'main.dart';

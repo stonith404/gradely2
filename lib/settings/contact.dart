@@ -7,7 +7,7 @@ import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:gradely/main.dart';
-import 'package:gradely/userAuth/login.dart';
+import 'package:gradely/auth/login.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class ContactScreen extends StatefulWidget {
@@ -51,7 +51,7 @@ class _ContactScreenState extends State<ContactScreen> {
             return AlertDialog(
               title: Row(
                 children: [
-                        Icon(FontAwesome5Solid.check_circle),
+                  Icon(FontAwesome5Solid.check_circle),
                   Spacer(flex: 1),
                   Text("contactSuccess1".tr()),
                   Spacer(flex: 10)
@@ -90,7 +90,7 @@ class _ContactScreenState extends State<ContactScreen> {
                   Text("error".tr()),
                   Spacer(flex: 10)
                 ],
-              ), 
+              ),
               content: Text("contactError1".tr()),
               actions: <Widget>[
                 FlatButton(
@@ -116,8 +116,9 @@ class _ContactScreenState extends State<ContactScreen> {
         },
         child: Scaffold(
           appBar: AppBar(
-            shape: defaultRoundedCorners(),
-              backgroundColor: defaultColor, title: Text("contactDev".tr())),
+              shape: defaultRoundedCorners(),
+              backgroundColor: defaultColor,
+              title: Text("contactDev".tr())),
           body: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(

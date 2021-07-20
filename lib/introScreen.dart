@@ -8,7 +8,7 @@ import 'package:gradely/chooseSemester.dart';
 import 'data.dart';
 import 'shared/defaultWidgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'userAuth/login.dart';
+import 'auth/login.dart';
 import 'package:gradely/semesterDetail.dart';
 import 'package:easy_localization/easy_localization.dart';
 

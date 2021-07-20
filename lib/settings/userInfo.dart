@@ -6,7 +6,7 @@ import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/main.dart';
 import 'package:flutter/services.dart';
-import 'package:gradely/userAuth/login.dart';
+import 'package:gradely/auth/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 String _password = "";

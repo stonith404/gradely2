@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gradely/LessonsDetail.dart';
+import 'package:gradely/shared/VARIABLES..dart';
 import 'register.dart';
 import '../main.dart';
 import '../shared/loading.dart';
@@ -19,16 +20,21 @@ TextEditingController _passwordController = new TextEditingController();
 FirebaseAuth auth = FirebaseAuth.instance;
 
 bool isLoading = false;
-String _email = "";
-String _password = "";
 String _errorMessage = "";
 
 class _LoginScreenState extends State<LoginScreen> {
   signInUser() async {
     FocusScope.of(context).unfocus();
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: _email, password: _password);
+    Future result = account.createSession(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+
+    setState(() {
+      isLoading = false;
+    });
+
+    result.then((response) {
       setState(() {
         isLoading = false;
       });
@@ -36,25 +42,15 @@ class _LoginScreenState extends State<LoginScreen> {
         context,
         MaterialPageRoute(builder: (context) => HomeWrapper()),
       );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-         gradelyDialog(
-            context: context,
-            title: "error".tr(),
-            text: "userNotFound".tr());
-        
-      } else if (e.code == 'wrong-password') {
-         gradelyDialog(
-            context: context,
-            title: "error".tr(),
-            text: "wrongPassword".tr());
-    
-      }
+
+      _passwordController.text = "";
+      print(response);
+    }).catchError((error) {
       setState(() {
         isLoading = false;
       });
-    }
-    _passwordController.text = "";
+      gradelyDialog(context: context, title: "error".tr(), text: error.message);
+    });
   }
 
   void setState(fn) {
@@ -137,8 +133,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         onPressed: () {
                           setState(() {
-                            _email = _emailController.text;
-                            _password = _passwordController.text;
                             isLoading = true;
                           });
                           signInUser();

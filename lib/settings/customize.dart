@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gradely/main.dart';
 import 'settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gradely/userAuth/login.dart';
+import 'package:gradely/auth/login.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../shared/defaultWidgets.dart';
 
@@ -51,7 +51,7 @@ class _CustomizeTState extends State<CustomizeT> {
                 'defaultColor':
                     "#${(defaultColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
               });
-                settingsScreen(context);
+              settingsScreen(context);
             }),
       ),
       body: Padding(
@@ -119,7 +119,7 @@ class _CustomizeState extends State<Customize> {
               Icons.arrow_back_ios_outlined,
             ),
             onPressed: () {
-                 settingsScreen(context);
+              settingsScreen(context);
             }),
       ),
       body: Padding(

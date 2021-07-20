@@ -1,13 +1,15 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/CLASSES.dart';
+import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES..dart';
 import 'package:gradely/shared/loading.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
-import 'userAuth/login.dart';
+import 'auth/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'shared/defaultWidgets.dart';
 import 'chooseSemester.dart';
@@ -49,78 +51,61 @@ class _HomeSiteState extends State<HomeSite> {
   }
 
   getLessons() async {
-    await getUIDDocuments();
+    lessonList = [];
+    print(user.gradeType);
 
-    if (uidDB.get('choosenSemester') == null) {
-      FirebaseFirestore.instance
-          .collection('userData')
-          .doc(auth.currentUser.uid)
-          .update({'choosenSemester': 'noSemesterChoosed'});
-    } else {
-      choosenSemester = uidDB.get('choosenSemester');
-      setState(() {
-        getUIDDocuments();
-      });
-    }
+    choosenSemester = user.choosenSemester;
 
-    final QuerySnapshot result = await FirebaseFirestore.instance
-        .collection(
-            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
-        .orderBy("average", descending: true)
-        .get();
-    List<DocumentSnapshot> documents = result.docs;
+    Future result = database.listDocuments(
+      filters: ["\$id=${user.choosenSemester}"],
+      collectionId: collectionSemester,
+    );
 
-    setState(() {
-      lessonList = [];
+    await result.then((response) {
+      response = jsonDecode(response.toString())["documents"][0]["lessons"];
 
-      allAverageListPP = [];
-      semesterAveragePP = [];
-      emojiList = [];
-      documents.forEach((data) {
-        String emoji = "";
+      print(response);
+      bool _error = false;
+      int index = -1;
+
+      while (_error == false) {
+        index++;
+        String id;
+
         try {
-          emoji = (data["emoji"]);
+          id = response[index]["\$id"];
         } catch (e) {
-          emoji = "";
+          _error = true;
+          index = -1;
         }
-
-        lessonList.add(
-          Lesson(data["name"], data.id, data["average"], emoji),
-        );
-      });
-
-      documents.forEach((data) {
-        getPluspointsallAverageList(data["average"]);
-        if (data["average"].isNaN) {
-          allAverageListPP.add(0.toString());
-          semesterAveragePP.add(0);
-        } else {
-          allAverageListPP.add(plusPointsallAverageList.toString());
-          semesterAveragePP.add(plusPointsallAverageList);
+        if (id != null) {
+          print(emoji);
+          setState(() {
+            lessonList.add(Lesson(
+                response[index]["\$id"],
+                response[index]["name"],
+                response[index]["emoji"],
+                double.parse(response[index]["average"].toString())));
+          });
         }
-      });
+      }
+    }).catchError((error) {
+      print(error);
     });
+
     //getSemesteraverage
-    num _pp = 0;
-
-    for (num e in semesterAveragePP) {
-      _pp += e;
-    }
-    setState(() {
-      averageOfSemesterPP = _pp;
-    });
-
-    //get average of all
-
     double _sum = 0;
-    double _anzahl = 0;
-    for (num e in allAverageList) {
-      if (e.isNaN) {
-      } else {
-        _sum += e;
-        _anzahl = _anzahl + 1;
+    double _ppSum = 0;
+    double _count = 0;
+    for (var e in lessonList) {
+      if (e.average != -99) {
+        _sum += e.average;
+        _ppSum += getPluspoints(e.average);
+        _count = _count + 1;
         setState(() {
-          averageOfSemester = _sum / _anzahl;
+          averageOfSemesterPP = _ppSum;
+          averageOfSemester = _sum / _count;
+          print(averageOfSemester);
         });
       }
     }
@@ -129,6 +114,7 @@ class _HomeSiteState extends State<HomeSite> {
   @override
   void initState() {
     super.initState();
+
     getLessons();
     pushNotification();
   }
@@ -144,7 +130,7 @@ class _HomeSiteState extends State<HomeSite> {
     screenwidth = MediaQuery.of(context).size.width;
     darkModeColorChanger(context);
     buttonDisabled = false;
-    if (choosenSemesterName == "noSemesterChoosed") {
+    if (choosenSemesterName == "noSemesterChmoosed") {
       return LoadingScreen();
     } else {
       return Scaffold(
@@ -367,10 +353,11 @@ class _HomeSiteState extends State<HomeSite> {
                         ),
                         trailing: Text(
                           (() {
-                            if (lessonList[index].average.isNaN) {
+                            if (lessonList[index].average == -99) {
                               return "-";
                             } else if (gradesResult == "Pluspunkte") {
-                              return allAverageListPP[index];
+                              return getPluspoints(lessonList[index].average)
+                                  .toString();
                             } else {
                               return lessonList[index]
                                   .average
@@ -523,7 +510,6 @@ class _addLessonState extends State<addLesson> {
                   MaterialPageRoute(builder: (context) => HomeWrapper()),
                   (Route<dynamic> route) => false,
                 );
-
                 addLessonController.text = "";
                 courseList = [];
               },
@@ -536,16 +522,20 @@ class _addLessonState extends State<addLesson> {
   }
 }
 
-createLesson(String lessonName) {
-  CollectionReference gradesCollection = FirebaseFirestore.instance.collection(
-      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/');
-  gradesCollection.doc().set(
-    {
-      "name": lessonName,
-      "average": 0 / -0,
-      "emoji": selectedEmoji
-    }, //generate NaN
+createLesson(String lessonName) async {
+  Future result = database.createDocument(
+    collectionId: collectionLessons,
+    parentDocument: user.choosenSemester,
+    parentProperty: "lessons",
+    parentPropertyType: "append",
+    data: {"name": lessonName, "average": -99, "emoji": selectedEmoji},
   );
+
+  result.then((response) {
+    print(response);
+  }).catchError((error) {
+    print(error.response);
+  });
 }
 
 class updateLesson extends StatefulWidget {
