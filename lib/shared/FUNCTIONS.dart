@@ -1,10 +1,26 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:gradely/chooseSemester.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/VARIABLES..dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<bool> getUserInfo() async {
+  user = User(
+    "",
+    "",
+    0,
+    0,
+    0,
+    "",
+    false,
+    false,
+    "",
+    "",
+  );
+
   bool userSignedIn;
   Future accountResult = account.get();
 
@@ -69,18 +85,51 @@ getSemesters() async {
         index = -1;
       }
       if (id != null) {
-  
-  
-          lessonList.add(Lesson(
-              response[index]["\$id"],
-              response[index]["name"],
-              response[index]["emoji"],
-              double.parse(response[index]["average"].toString())));
-          print(lessonList.length);
-    
+        lessonList.add(Lesson(
+            response[index]["\$id"],
+            response[index]["name"],
+            response[index]["emoji"],
+            double.parse(response[index]["average"].toString())));
+        print(lessonList.length);
       }
     }
   }).catchError((error) {
     print(error);
   });
+}
+
+Future internetConnection() async {
+  bool connected;
+  try {
+    final result = await InternetAddress.lookup('aw.cloud.eliasschneider.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      connected = true;
+    }
+  } on SocketException catch (_) {
+    connected = false;
+  }
+
+  return connected;
+}
+
+Future listDocuments(
+    {@required String collection, @required String name, List filters}) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var response;
+  if (await internetConnection()) {
+    Future result = database.listDocuments(
+      filters: filters,
+      collectionId: collectionSemester,
+    );
+
+    await result.then((r) async {
+      response = r.toString();
+
+      await prefs.setString(name, response);
+    }).catchError((error) {});
+  } else {
+    response = prefs.getString(name);
+  }
+
+  return response;
 }

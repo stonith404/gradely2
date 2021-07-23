@@ -1,11 +1,21 @@
 class Lesson {
-    String id;
+  String id;
   String name;
 
   double average;
   String emoji;
 
   Lesson(this.id, this.name, this.emoji, this.average);
+}
+
+class Grade {
+  String id;
+  String name;
+  double grade;
+  double weight;
+  String date;
+
+  Grade(this.id, this.name, this.grade, this.weight, this.date);
 }
 
 class User {

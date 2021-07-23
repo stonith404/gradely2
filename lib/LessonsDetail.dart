@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/VARIABLES..dart';
 import 'package:gradely/shared/loading.dart';
 import 'package:gradely/statistics.dart';
@@ -44,81 +45,67 @@ class LessonsDetail extends StatefulWidget {
 }
 
 class _LessonsDetailState extends State<LessonsDetail> {
-  getTests([bool cache]) async {
-    if (kIsWeb) {
-      cache = false;
-    }
-    if (cache == null) {
-      cache = false;
-    }
-    QuerySnapshot result;
+  getTests() async {
+    gradeList = [];
+    var response;
 
-    result = await FirebaseFirestore.instance
-        .collection(
-            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-        .orderBy("date", descending: false)
-        .get(cache
-            ? GetOptions(source: Source.cache)
-            : GetOptions(source: Source.serverAndCache));
+    choosenSemester = user.choosenSemester;
+    print(selectedLesson);
+    Future result = database.listDocuments(
+      filters: ["\$id=$selectedLesson"],
+      collectionId: collectionLessons,
+    );
 
-    print(cache);
+    await result.then((r) {
+      response = r;
+    }).catchError((error) {});
 
-    List<DocumentSnapshot> documents = result.docs;
-    testList = [];
-    testListID = [];
-    dateList = [];
-    averageList = [];
-    averageListWeight = [];
+    response = jsonDecode(response.toString())["documents"][0]["grades"];
+    print(response);
+    bool _error = false;
+    int index = -1;
 
-    setState(() {
-      documents.forEach((data) {
-        try {
-          if (data["date"] == "") {
-            FirebaseFirestore.instance
-                .collection(
-                    'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                .doc(data.id)
-                .update({"date": "-"});
-          }
-        } catch (e) {
-          //if null
-          FirebaseFirestore.instance
-              .collection(
-                  'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-              .doc(data.id)
-              .update({"date": "-"});
-        }
-      });
-      documents.forEach((data) {
-        num _averageSum;
+    while (_error == false) {
+      index++;
+      String id;
 
-        _averageSum = data["grade"] * data["weight"];
-
-        averageList.add(_averageSum);
-        averageListWeight.add(data["weight"]);
+      try {
+        id = response[index]["\$id"];
+      } catch (e) {
+        _error = true;
+        index = -1;
+      }
+      if (id != null) {
+        print(emoji);
         setState(() {
-          testListID.add(data.id);
+          gradeList.add(
+            Grade(
+              response[index]["\$id"],
+              response[index]["name"],
+              double.parse(response[index]["grade"].toString()),
+              double.parse(response[index]["weight"].toString()),
+              response[index]["date"],
+            ),
+          );
         });
-        testList.add(data["name"]);
+      }
+    }
 
-        try {
-          if (data["date"] == "") {
-            FirebaseFirestore.instance
-                .collection(
-                    'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                .doc(data.id)
-                .update({"date": "-"});
-          } else {
-            dateList.add(data["date"]);
-          }
-        } catch (e) {
-          FirebaseFirestore.instance
-              .collection(
-                  'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-              .doc(data.id)
-              .update({"date": "-"});
-        }
-      });
+    //getSemesteraverage
+    double _sum = 0;
+    double _ppSum = 0;
+    double _count = 0;
+    for (var e in lessonList) {
+      if (e.average != -99) {
+        _sum += e.average;
+        _ppSum += getPluspoints(e.average);
+        _count = _count + 1;
+        setState(() {
+          averageOfSemesterPP = _ppSum;
+          averageOfSemester = _sum / _count;
+          print(averageOfSemester);
+        });
+      }
 
 //this calculates the average of the tests
       _sumW = 0;
@@ -143,12 +130,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
           .collection('lessons')
           .doc(selectedLesson)
           .update({"average": averageOfTests});
-    });
+    }
   }
 
   void initState() {
     super.initState();
-    getTests(true);
+    getTests();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
     getUIDDocuments();
   }
@@ -233,7 +220,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
       body: Column(
         children: [
           Expanded(
-            child: testListID.length == 0
+            child: gradeList.length == 0
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
@@ -269,7 +256,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                     ),
                   )
                 : ListView.builder(
-                    itemCount: testListID.length,
+                    itemCount: gradeList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: EdgeInsets.fromLTRB(8, 6, 8, 0),
@@ -288,23 +275,23 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                     color: Colors.white,
                                   ),
                                   onTap: () {
-                                    selectedTest = testListID[index];
+                                    selectedTest = gradeList[index].id;
                                     FirebaseFirestore.instance
                                         .collection(
                                             'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                                         .doc(selectedTest)
                                         .delete();
                                     HapticFeedback.mediumImpact();
-                                    getTests(true);
+                                    getTests();
                                   },
                                 ),
                               ),
                             ],
                             child: ListTile(
                                 title: Text(
-                                  testList[index],
+                                  gradeList[index].name,
                                 ),
-                                subtitle: averageList.isEmpty
+                                subtitle: gradeList.isEmpty
                                     ? Text("")
                                     : Row(
                                         children: [
@@ -313,30 +300,22 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                             size: 20,
                                           ),
                                           Text(" " +
-                                              averageListWeight[index]
+                                              gradeList[index]
+                                                  .weight
                                                   .toString() +
                                               "   "),
                                           Icon(
                                             Icons.date_range,
                                             size: 20,
                                           ),
-                                          Text(
-                                              " " + dateList[index].toString()),
+                                          Text(" " +
+                                              gradeList[index].date.toString()),
                                         ],
                                       ),
-                                trailing: Text(() {
-                                  if ((averageList[index] /
-                                          averageListWeight[index])
-                                      .isNaN) {
-                                    return "-";
-                                  } else {
-                                    return (averageList[index] /
-                                            averageListWeight[index])
-                                        .toStringAsFixed(2);
-                                  }
-                                }()),
+                                trailing: Text(
+                                    gradeList[index].grade.toStringAsFixed(2)),
                                 onTap: () async {
-                                  getTests(true);
+                                  getTests();
 
                                   selectedTest = testListID[index];
 

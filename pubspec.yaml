@@ -37,18 +37,15 @@ dependencies:
   firebase_auth: ^1.3.0
   firebase_core:
   cloud_firestore: ^2.2.1
-  flutter_spinkit: 
   modal_bottom_sheet: ^2.0.0
   flutter_launcher_icons:
   introduction_screen: ^2.1.0
-  package_info:
   easy_localization: 
   url_launcher:
   firebase_messaging:  10.0.1
   mailer:
-  in_app_purchase: ^1.0.6
   flutter_icons:
-  page_transition:
+  shared_preferences: ^2.0.6
   emoji_chooser:
   syncfusion_flutter_charts: ^19.1.66+1
   quiver: ^3.0.1

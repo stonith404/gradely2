@@ -12,7 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/semesterDetail.dart';
-import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 
 bool isLoggedIn = false;
 Color defaultColor = Color(0xFF6C63FF);
@@ -30,9 +29,7 @@ String choosenSemesterName = "noSemesterChoosed";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  if (defaultTargetPlatform == TargetPlatform.android) {
-    InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
-  }
+
   await Firebase.initializeApp();
 
   client = Client();
@@ -199,11 +196,8 @@ class _State extends State<HomeWrapper> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingScreen();
         } else {
-       
           if (snapshot.data == false)
-          
             return LoginScreen();
-            
           else
             return HomeSite();
         }

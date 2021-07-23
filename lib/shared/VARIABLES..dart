@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gradely/shared/CLASSES.dart';
 
 List<Lesson> lessonList = [];
+List<Grade> gradeList = [];
 
 User user;
 

@@ -22,6 +22,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:emoji_chooser/emoji_chooser.dart';
 
+String test =
+    """{"sum":1,"documents":[{"\$id":"60f7176206ac6","\$collection":"60f40d1b66424","\$permissions":{"read":["*"],"write":["*"]},"name":"test semester","uid":"","lessons":[{"\$id":"60f71ed5b81ce","\$collection":"60f40d0ed5da4","\$permissions":[],"name":"test less","emoji":":*++","average":3},{"\$id":"60f72024f1d23","\$collection":"60f40d0ed5da4","\$permissions":{"read":["user:60f438e64c47b"],"write":["user:60f438e64c47b"]},"name":"1","emoji":"","average":2},{"\$id":"60f72057dae32","\$collection":"60f40d0ed5da4","\$permissions":{"read":["user:60f438e64c47b"],"write":["user:60f438e64c47b"]},"name":"2","emoji":"","average":1},{"\$id":"60f722de54bbd","\$collection":"60f40d0ed5da4","\$permissions":{"read":["user:60f438e64c47b"],"write":["user:60f438e64c47b"]},"name":"fdfd","average":-99,"emoji":""}]}]}""";
 double screenwidth = 0;
 bool darkmode = false;
 List semesterAveragePP = [];
@@ -50,48 +52,44 @@ class _HomeSiteState extends State<HomeSite> {
     _firebaseMessaging.requestPermission(sound: true, badge: true, alert: true);
   }
 
+  appwriteDB(Function function) {}
+
   getLessons() async {
     lessonList = [];
-    print(user.gradeType);
+    var response;
+    
 
-    choosenSemester = user.choosenSemester;
+    response = await listDocuments(
+        collection: collectionSemester,
+        name: "lessonList",
+        filters: ["\$id=${user.choosenSemester}"]);
 
-    Future result = database.listDocuments(
-      filters: ["\$id=${user.choosenSemester}"],
-      collectionId: collectionSemester,
-    );
+    response = jsonDecode(response.toString())["documents"][0]["lessons"];
 
-    await result.then((response) {
-      response = jsonDecode(response.toString())["documents"][0]["lessons"];
+    bool _error = false;
+    int index = -1;
 
-      print(response);
-      bool _error = false;
-      int index = -1;
+    while (_error == false) {
+      index++;
+      String id;
 
-      while (_error == false) {
-        index++;
-        String id;
-
-        try {
-          id = response[index]["\$id"];
-        } catch (e) {
-          _error = true;
-          index = -1;
-        }
-        if (id != null) {
-          print(emoji);
-          setState(() {
-            lessonList.add(Lesson(
-                response[index]["\$id"],
-                response[index]["name"],
-                response[index]["emoji"],
-                double.parse(response[index]["average"].toString())));
-          });
-        }
+      try {
+        id = response[index]["\$id"];
+      } catch (e) {
+        _error = true;
+        index = -1;
       }
-    }).catchError((error) {
-      print(error);
-    });
+      if (id != null) {
+        print(emoji);
+        setState(() {
+          lessonList.add(Lesson(
+              response[index]["\$id"],
+              response[index]["name"],
+              response[index]["emoji"],
+              double.parse(response[index]["average"].toString())));
+        });
+      }
+    }
 
     //getSemesteraverage
     double _sum = 0;
