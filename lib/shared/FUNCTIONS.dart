@@ -4,53 +4,43 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gradely/chooseSemester.dart';
 import 'package:gradely/shared/CLASSES.dart';
-import 'package:gradely/shared/VARIABLES..dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<bool> getUserInfo() async {
-  user = User(
-    "",
-    "",
-    0,
-    0,
-    0,
-    "",
-    false,
-    false,
-    "",
-    "",
-  );
-
   bool userSignedIn;
-  Future accountResult = account.get();
 
-  await accountResult.then((accountResponse) async {
-    accountResponse = jsonDecode(accountResponse.toString());
-    Future dbResult = database.listDocuments(
-        collectionId: collectionUser,
-        filters: ["uid=${accountResponse['\$id']}"]);
+  try {
+    Future accountResult = account.get();
 
-    await dbResult.then((dbResponse) {
-      dbResponse = jsonDecode(dbResponse.toString())["documents"][0];
+    await accountResult.then((accountResponse) async {
+      accountResponse = jsonDecode(accountResponse.toString());
+      Future dbResult = database.listDocuments(
+          collectionId: collectionUser,
+          filters: ["uid=${accountResponse['\$id']}"]);
 
-      user = User(
-          accountResponse['\$id'],
-          accountResponse['name'],
-          accountResponse['registration'],
-          accountResponse['status'],
-          accountResponse['passwordUpdate'],
-          accountResponse['email'],
-          accountResponse['emailVerification'],
-          dbResponse["gradelyPlus"],
-          dbResponse["gradeType"],
-          dbResponse["choosenSemester"]);
+      await dbResult.then((dbResponse) {
+        dbResponse = jsonDecode(dbResponse.toString())["documents"][0];
 
-      userSignedIn = true;
-    }).catchError((error) {
-      userSignedIn = false;
+        user = User(
+            accountResponse['\$id'],
+            accountResponse['name'],
+            accountResponse['registration'],
+            accountResponse['status'],
+            accountResponse['passwordUpdate'],
+            accountResponse['email'],
+            accountResponse['emailVerification'],
+            dbResponse["gradelyPlus"],
+            dbResponse["gradeType"],
+            dbResponse["choosenSemester"],
+            dbResponse["\$id"]);
+
+        userSignedIn = true;
+      }).catchError((error) {});
     });
-  });
-
+  } catch (_) {
+    userSignedIn = false;
+  }
   return userSignedIn;
 }
 
@@ -118,8 +108,8 @@ Future listDocuments(
   var response;
   if (await internetConnection()) {
     Future result = database.listDocuments(
-      filters: filters,
-      collectionId: collectionSemester,
+      filters: filters ?? [],
+      collectionId: collection,
     );
 
     await result.then((r) async {

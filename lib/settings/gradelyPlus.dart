@@ -45,7 +45,7 @@ class GradelyPlusUnsupportet extends StatelessWidget {
           "Gradely Plus",
         ),
         shape: defaultRoundedCorners(),
-        backgroundColor: defaultColor,
+        backgroundColor: primaryColor,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -81,7 +81,7 @@ class GradelyPlusUnsupportet extends StatelessWidget {
                         children: [
                           Icon(
                             CupertinoIcons.heart,
-                            color: defaultColor,
+                            color: primaryColor,
                           ),
                           SizedBox(width: 20),
                           Text("gradelyP2".tr())
@@ -99,7 +99,7 @@ class GradelyPlusUnsupportet extends StatelessWidget {
                         children: [
                           Icon(
                             CupertinoIcons.color_filter,
-                            color: defaultColor,
+                            color: primaryColor,
                           ),
                           SizedBox(width: 20),
                           Text("gradelyP3".tr())
@@ -117,7 +117,7 @@ class GradelyPlusUnsupportet extends StatelessWidget {
                         children: [
                           Icon(
                             FontAwesome5.laugh,
-                            color: defaultColor,
+                            color: primaryColor,
                           ),
                           SizedBox(width: 20),
                           Text("gradelyP6".tr())
@@ -135,7 +135,7 @@ class GradelyPlusUnsupportet extends StatelessWidget {
                         children: [
                           Icon(
                             CupertinoIcons.star,
-                            color: defaultColor,
+                            color: primaryColor,
                           ),
                           SizedBox(width: 20),
                           Text("gradelyP4".tr())
@@ -217,7 +217,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
             content: Text("gradelyPS2".tr()),
             actions: <Widget>[
               FlatButton(
-                color: defaultColor,
+                color: primaryColor,
                 child: Text("ok"),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -276,7 +276,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
         body: iapList.isEmpty
             ? Center(
                 child: CircularProgressIndicator(
-                  color: defaultColor,
+                  color: primaryColor,
                 ),
               )
             : Stack(
@@ -316,7 +316,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                     children: [
                                       Icon(
                                         CupertinoIcons.heart,
-                                        color: defaultColor,
+                                        color: primaryColor,
                                       ),
                                       SizedBox(width: 20),
                                       Text("gradelyP2".tr())
@@ -334,7 +334,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                     children: [
                                       Icon(
                                         CupertinoIcons.color_filter,
-                                        color: defaultColor,
+                                        color: primaryColor,
                                       ),
                                       SizedBox(width: 20),
                                       Text("gradelyP3".tr())
@@ -352,7 +352,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                     children: [
                                       Icon(
                                         FontAwesome5.laugh,
-                                        color: defaultColor,
+                                        color: primaryColor,
                                       ),
                                       SizedBox(width: 20),
                                       Text("gradelyP6".tr())
@@ -370,7 +370,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                     children: [
                                       Icon(
                                         CupertinoIcons.star,
-                                        color: defaultColor,
+                                        color: primaryColor,
                                       ),
                                       SizedBox(width: 20),
                                       Text("gradelyP4".tr())
@@ -421,7 +421,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                   ),
                   _isLoading
                       ? CircularProgressIndicator(
-                          color: defaultColor,
+                          color: primaryColor,
                         )
                       : Container()
                 ],

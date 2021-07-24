@@ -11,7 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 String _password = "";
 
-var user = FirebaseAuth.instance.currentUser;
+var fuser = FirebaseAuth.instance.currentUser;
 
 class UserInfoScreen extends StatefulWidget {
   @override
@@ -22,8 +22,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   @override
   void initState() {
     super.initState();
-    user = FirebaseAuth.instance.currentUser;
-    changeEmailController.text = user.email;
+
+    changeEmailController.text = fuser.email;
     changeDisplayName.text = auth.currentUser.displayName ?? "";
     passwordPlaceholder.text = "1234567891011";
   }
@@ -53,9 +53,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 child: Text("ok"),
                 onPressed: () async {
                   _password = passwordController.text;
-                  var authResult = await user.reauthenticateWithCredential(
+                  var authResult = await fuser.reauthenticateWithCredential(
                     EmailAuthProvider.credential(
-                      email: user.email,
+                      email: fuser.email,
                       password: _password,
                     ),
                   );
@@ -81,7 +81,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: defaultColor,
+        backgroundColor: primaryColor,
         shape: defaultRoundedCorners(),
         actions: [
           IconButton(
@@ -139,7 +139,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       onPressed: () {
                                         FirebaseAuth.instance
                                             .sendPasswordResetEmail(
-                                                email: user.email);
+                                                email: fuser.email);
 
                                         Navigator.of(context).pop();
                                       },
@@ -202,9 +202,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                 onPressed: () async {
                                   _password = passwordController.text;
                                   var authResult =
-                                      await user.reauthenticateWithCredential(
+                                      await fuser.reauthenticateWithCredential(
                                     EmailAuthProvider.credential(
-                                      email: user.email,
+                                      email: fuser.email,
                                       password: _password,
                                     ),
                                   );

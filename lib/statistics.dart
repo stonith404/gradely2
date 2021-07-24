@@ -49,7 +49,7 @@ Future StatisticsScreen(BuildContext context) {
                         Text("statistics".tr(), style: TextStyle(fontSize: 25)),
                         CircleAvatar(
                           radius: 22,
-                          backgroundColor: defaultColor,
+                          backgroundColor: primaryColor,
                           child: IconButton(
                               color: Colors.white,
                               onPressed: () {
@@ -71,7 +71,7 @@ Future StatisticsScreen(BuildContext context) {
                               xValueMapper: (_StatsData stats, _) => stats.date
                                   .substring(
                                       0, stats.date.toString().length - 3),
-                              color: defaultColor,
+                              color: primaryColor,
                               yValueMapper: (_StatsData stats, _) =>
                                   stats.grades)
                         ])),

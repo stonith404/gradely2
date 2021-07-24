@@ -4,7 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/CLASSES.dart';
-import 'package:gradely/shared/VARIABLES..dart';
+import 'package:gradely/shared/FUNCTIONS.dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/loading.dart';
 import 'package:gradely/statistics.dart';
 import 'main.dart';
@@ -24,7 +25,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 bool buttonDisabled = false;
 String selectedTest = "selectedTest";
 String errorMessage = "";
-double averageOfTests = 0;
+double averageOfGrades = 0;
 List<String> testListID = [];
 List<String> dateList = [];
 List<num> averageList = [];
@@ -51,14 +52,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
     choosenSemester = user.choosenSemester;
     print(selectedLesson);
-    Future result = database.listDocuments(
-      filters: ["\$id=$selectedLesson"],
-      collectionId: collectionLessons,
-    );
 
-    await result.then((r) {
-      response = r;
-    }).catchError((error) {});
+    response = await listDocuments(
+      collection: collectionLessons,
+      name: "gradeList_$selectedLesson",
+      filters: ["\$id=$selectedLesson"],
+    );
 
     response = jsonDecode(response.toString())["documents"][0]["grades"];
     print(response);
@@ -89,47 +88,25 @@ class _LessonsDetailState extends State<LessonsDetail> {
           );
         });
       }
-    }
 
-    //getSemesteraverage
-    double _sum = 0;
-    double _ppSum = 0;
-    double _count = 0;
-    for (var e in lessonList) {
-      if (e.average != -99) {
-        _sum += e.average;
-        _ppSum += getPluspoints(e.average);
-        _count = _count + 1;
-        setState(() {
-          averageOfSemesterPP = _ppSum;
-          averageOfSemester = _sum / _count;
-          print(averageOfSemester);
-        });
-      }
-
-//this calculates the average of the tests
       _sumW = 0;
       _sum = 0;
 
-      for (num e in averageListWeight) {
-        _sumW += e;
-      }
-
-      for (num e in averageList) {
-        _sum += e;
-      }
-      setState(() {
-        averageOfTests = _sum / _sumW;
+      await Future.forEach(gradeList, (e) async {
+        _sumW += e.weight;
+        _sum += e.grade * e.weight;
       });
 
-      FirebaseFirestore.instance
-          .collection('userData')
-          .doc(auth.currentUser.uid)
-          .collection('semester')
-          .doc(choosenSemester)
-          .collection('lessons')
-          .doc(selectedLesson)
-          .update({"average": averageOfTests});
+      setState(() {
+        averageOfGrades = _sum / _sumW;
+      });
+
+      database.updateDocument(
+          documentId: selectedLesson,
+          collectionId: collectionLessons,
+          data: {
+            "average": averageOfGrades,
+          });
     }
   }
 
@@ -151,7 +128,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
     setState(() {
       testListID = testListID;
     });
-    getPluspoints(averageOfTests);
+    getPluspoints(averageOfGrades);
     darkModeColorChanger(context);
 
     return Scaffold(
@@ -199,7 +176,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                 ),
               ))
         ],
-        backgroundColor: defaultColor,
+        backgroundColor: primaryColor,
         leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios_outlined,
@@ -269,7 +246,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: IconSlideAction(
-                                  color: defaultColor,
+                                  color: primaryColor,
                                   iconWidget: Icon(
                                     FontAwesome5.trash_alt,
                                     color: Colors.white,
@@ -351,7 +328,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    gradesResult == "Pluspunkte"
+                    user.gradeType == "pp"
                         ? Column(
                             children: [
                               Text(
@@ -360,10 +337,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
                               ),
                               Text(
                                 (() {
-                                  if (averageOfTests.isNaN) {
+                                  if (averageOfGrades.isNaN) {
                                     return "-";
                                   } else {
-                                    return averageOfTests.toStringAsFixed(2);
+                                    return averageOfGrades.toStringAsFixed(2);
                                   }
                                 })(),
                                 style: TextStyle(
@@ -372,10 +349,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             ],
                           )
                         : Text((() {
-                            if (averageOfTests.isNaN) {
+                            if (averageOfGrades.isNaN) {
                               return "-";
                             } else {
-                              return averageOfTests.toStringAsFixed(2);
+                              return averageOfGrades.toStringAsFixed(2);
                             }
                           })(), style: TextStyle(fontSize: 17)),
                     IconButton(
@@ -405,7 +382,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                           children: [
                                             CircleAvatar(
                                                 radius: 22,
-                                                backgroundColor: defaultColor,
+                                                backgroundColor: primaryColor,
                                                 child: IconButton(
                                                     icon: Icon(
                                                       FontAwesome5Solid
@@ -430,7 +407,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                           children: [
                                             CircleAvatar(
                                                 radius: 22,
-                                                backgroundColor: defaultColor,
+                                                backgroundColor: primaryColor,
                                                 child: IconButton(
                                                     icon: Icon(
                                                       FontAwesome5.chart_bar,
@@ -524,7 +501,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                     children: [
                       CircleAvatar(
                         radius: 22,
-                        backgroundColor: defaultColor,
+                        backgroundColor: primaryColor,
                         child: IconButton(
                             color: Colors.white,
                             onPressed: () {
@@ -590,7 +567,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                 data: Theme.of(context).copyWith(
                                   colorScheme: ColorScheme.light(
                                     onSurface: wbColor,
-                                    surface: defaultColor,
+                                    surface: primaryColor,
                                   ),
                                 ),
                                 child: child,
@@ -672,7 +649,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         children: [
                           CircleAvatar(
                             radius: 22,
-                            backgroundColor: defaultColor,
+                            backgroundColor: primaryColor,
                             child: IconButton(
                                 color: Colors.white,
                                 onPressed: () async {
@@ -696,29 +673,27 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                     Future.delayed(Duration(seconds: 4))
                                         .then((value) => {errorMessage = ""});
                                   }
-                                  await FirebaseFirestore.instance
-                                      .collection('userData')
-                                      .doc(auth.currentUser.uid)
-                                      .collection('semester')
-                                      .doc(choosenSemester)
-                                      .collection('lessons')
-                                      .doc(selectedLesson)
-                                      .collection('grades')
-                                      .doc()
-                                      .set({
-                                    "name": addTestNameController.text,
-                                    "grade": double.parse(addTestGradeController
-                                        .text
-                                        .replaceAll(",", ".")),
-                                    "weight": double.parse(
-                                        addTestWeightController.text
-                                            .replaceAll(",", ".")),
-                                    "date": addTestDateController.text
-                                  });
+                                  await database.createDocument(
+                                    collectionId: collectionGrades,
+                                    parentDocument: selectedLesson,
+                                    parentProperty: "grades",
+                                    parentPropertyType: "append",
+                                    data: {
+                                      "name": addTestNameController.text,
+                                      "grade": double.parse(
+                                          addTestGradeController.text
+                                              .replaceAll(",", ".")),
+                                      "weight": double.parse(
+                                          addTestWeightController.text
+                                              .replaceAll(",", ".")),
+                                      "date": addTestDateController.text
+                                    },
+                                  );
 
                                   addLessonController.text = "";
 
                                   HapticFeedback.lightImpact();
+
                                   Navigator.pushReplacement(
                                     context,
                                     PageRouteBuilder(
@@ -770,7 +745,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                     data: Theme.of(context).copyWith(
                                       colorScheme: ColorScheme.light(
                                         onSurface: wbColor,
-                                        surface: defaultColor,
+                                        surface: primaryColor,
                                       ),
                                     ),
                                     child: child,
@@ -867,7 +842,7 @@ Future DreamGradeC(BuildContext context) {
                           style: TextStyle(fontSize: 25)),
                       CircleAvatar(
                         radius: 22,
-                        backgroundColor: defaultColor,
+                        backgroundColor: primaryColor,
                         child: IconButton(
                             color: Colors.white,
                             onPressed: () {

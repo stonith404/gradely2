@@ -8,6 +8,13 @@ class Lesson {
   Lesson(this.id, this.name, this.emoji, this.average);
 }
 
+class Semester {
+  String id;
+  String name;
+
+  Semester(this.id, this.name);
+}
+
 class Grade {
   String id;
   String name;
@@ -29,6 +36,7 @@ class User {
   bool gradelyPlus;
   String gradeType;
   String choosenSemester;
+  String dbID;
 
   User(
       this.id,
@@ -40,5 +48,6 @@ class User {
       this.emailVerification,
       this.gradelyPlus,
       this.gradeType,
-      this.choosenSemester);
+      this.choosenSemester,
+      this.dbID);
 }

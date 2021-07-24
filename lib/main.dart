@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gradely/chooseSemester.dart';
 import 'package:gradely/data.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
-import 'package:gradely/shared/VARIABLES..dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/loading.dart';
 import 'auth/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +14,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/semesterDetail.dart';
 
 bool isLoggedIn = false;
-Color defaultColor = Color(0xFF6C63FF);
+Color primaryColor = Color(0xFF6C63FF);
 
 List<String> testList = [];
 var courseListID = [];
@@ -70,7 +70,7 @@ class MaterialWrapper extends StatelessWidget {
       theme: ThemeData(
         textButtonTheme: TextButtonThemeData(
             style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(defaultColor),
+          foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
         )),
         fontFamily: "Nunito",
         dialogBackgroundColor: Colors.grey[300],
@@ -79,7 +79,7 @@ class MaterialWrapper extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.white),
         ),
         brightness: Brightness.light,
-        primaryColor: defaultColor,
+        primaryColor: primaryColor,
         scaffoldBackgroundColor: Color(0xFFE5E8F2),
         backgroundColor: Colors.grey[300],
       ),
@@ -91,14 +91,14 @@ class MaterialWrapper extends StatelessWidget {
         backgroundColor: Colors.grey[900],
         textButtonTheme: TextButtonThemeData(
             style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(defaultColor),
+          foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
         )),
         dialogBackgroundColor: Colors.grey[900],
         scaffoldBackgroundColor: Colors.grey[900],
         brightness: Brightness.dark,
-        primaryColor: defaultColor,
+        primaryColor: primaryColor,
         floatingActionButtonTheme:
-            FloatingActionButtonThemeData(backgroundColor: defaultColor),
+            FloatingActionButtonThemeData(backgroundColor: primaryColor),
       ),
     );
   }

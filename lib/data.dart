@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:gradely/semesterDetail.dart';
-import 'package:gradely/shared/VARIABLES..dart';
+import 'package:gradely/shared/VARIABLES.dart';
 
 import 'main.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ final String cacheField = 'updatedAt';
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 num plusPoints = 0;
-bool gradelyPlus = false;
+
 bool isMaintanceEnabled = false;
 String gradesResult = "Pluspunkte";
 num plusPointsallAverageList = 0;
@@ -121,15 +121,7 @@ getUIDDocuments() async {
 
   gradesResult = uidDB.get('gradesResult');
   choosenSemesterName = uidDB.get('choosenSemesterName');
-  try {
-    if (uidDB.get('gradelyPlus') == true) {
-      gradelyPlus = true;
-    } else {
-      gradelyPlus = false;
-    }
-  } catch (e) {
-    gradelyPlus = false;
-  }
+
 
   if (uidDB.get('choosenSemester') == null) {
     FirebaseFirestore.instance
@@ -140,15 +132,15 @@ getUIDDocuments() async {
     choosenSemester = uidDB.get('choosenSemester');
   }
   try {
-    if (uidDB.get('defaultColor') != null) {
-      defaultColor = Color(
-          int.parse(uidDB.get('defaultColor').substring(1, 7), radix: 16) +
+    if (uidDB.get('primaryColor') != null) {
+      primaryColor = Color(
+          int.parse(uidDB.get('primaryColor').substring(1, 7), radix: 16) +
               0xFF000000);
     } else {
-      defaultColor = Color(0xFF6C63FF);
+      primaryColor = Color(0xFF6C63FF);
     }
   } catch (e) {
-    defaultColor = Color(0xFF6C63FF);
+    primaryColor = Color(0xFF6C63FF);
   }
 }
 

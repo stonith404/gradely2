@@ -1,6 +1,8 @@
 {
     "Notendurchschnitt":"average",
     "Pluspunkte":"pluspoints",
+    "pp":"Pluspoints",
+    "av":"Average",
     "Einstellungen":"settings",
     "Plattformen":"platforms",
     "Noten Resultate":"grades results",

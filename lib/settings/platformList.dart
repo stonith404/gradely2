@@ -11,7 +11,7 @@ class PlatformList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         shape: defaultRoundedCorners(),
-        backgroundColor: defaultColor,
+        backgroundColor: primaryColor,
         title: Text("Plattformen".tr()),
       ),
       body: Padding(

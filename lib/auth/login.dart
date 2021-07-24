@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gradely/LessonsDetail.dart';
-import 'package:gradely/shared/VARIABLES..dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import 'register.dart';
 import '../main.dart';
 import '../shared/loading.dart';
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
       child: Scaffold(
-        backgroundColor: defaultColor,
+        backgroundColor: primaryColor,
         appBar: AppBar(
           leading: Container(),
           backgroundColor: Colors.transparent,

@@ -35,7 +35,7 @@ class _ResetPWState extends State<ResetPW> {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
       child: Scaffold(
-        backgroundColor: defaultColor,
+        backgroundColor: primaryColor,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -51,7 +51,7 @@ class _ResetPWState extends State<ResetPW> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
- Spacer(
+                    Spacer(
                       flex: 2,
                     ),
                     Row(
@@ -83,16 +83,16 @@ class _ResetPWState extends State<ResetPW> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
                         decoration: InputDecAuth("Deine Email".tr()),
-                          keyboardType: TextInputType.emailAddress,
-                          controller: _emailController,
-                          textAlign: TextAlign.left,
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _emailController,
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                    ),
-                        Spacer(
+                    Spacer(
                       flex: 1,
                     ),
                     ElevatedButton(
-                     style: ElevatedButton.styleFrom(
+                        style: ElevatedButton.styleFrom(
                           primary: Color(0xFF554dd1), // background
                         ),
                         onPressed: () {
@@ -111,18 +111,16 @@ class _ResetPWState extends State<ResetPW> {
                                 return AlertDialog(
                                   title: Row(
                                     children: [
-                                      Icon(FontAwesome5Solid.check_circle
-                                      ),
+                                      Icon(FontAwesome5Solid.check_circle),
                                       Spacer(flex: 1),
                                       Text("contactSuccess1".tr()),
                                       Spacer(flex: 10)
                                     ],
                                   ),
                                   content: Text("pwResetSuccess1".tr()),
-                                  
                                   actions: <Widget>[
                                     FlatButton(
-                                      color: defaultColor,
+                                      color: primaryColor,
                                       child: Text("ok"),
                                       onPressed: () {
                                         Navigator.of(context).pop();
@@ -144,7 +142,8 @@ class _ResetPWState extends State<ResetPW> {
                                 builder: (context) => LoginScreen()),
                           );
                         },
-                        child: Text("zurück".tr(),  style: TextStyle(color: Colors.white))),
+                        child: Text("zurück".tr(),
+                            style: TextStyle(color: Colors.white))),
                     Spacer(
                       flex: 3,
                     ),

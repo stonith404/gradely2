@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:gradely/shared/FUNCTIONS.dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:gradely/main.dart';
 import 'package:gradely/chooseSemester.dart';
@@ -62,7 +66,7 @@ class _IntroScreenState extends State<IntroScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  color: defaultColor,
+                  color: primaryColor,
                   icon: Icon(FontAwesome5Solid.sign_out_alt),
                   onPressed: () async {
                     Navigator.pushAndRemoveUntil(
@@ -135,11 +139,29 @@ class _IntroScreenState extends State<IntroScreen> {
           ),
           footer: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: defaultColor,
+              primary: primaryColor,
             ),
             child: Text("hinzufügen".tr()),
-            onPressed: () {
-              createSemester(addSemesterController.text);
+            onPressed: () async {
+              await getUserInfo();
+              Future result = database.createDocument(
+                  collectionId: collectionSemester,
+                  parentDocument: user.dbID,
+                  parentProperty: "semesters",
+                  parentPropertyType: "append",
+                  data: {"name": addSemesterController.text});
+
+              result.then((response) {
+                response = jsonDecode(response.toString());
+
+                database.updateDocument(
+                    collectionId: collectionUser,
+                    documentId: user.dbID,
+                    data: {"choosenSemester": response["\$id"]});
+              }).catchError((error) {
+                print(error.response);
+              });
+
               HapticFeedback.mediumImpact();
               Navigator.pushAndRemoveUntil(
                 context,

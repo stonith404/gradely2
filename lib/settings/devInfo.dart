@@ -21,7 +21,6 @@ class _DevInfoState extends State<DevInfo> {
       setState(() {
         _homeScreenText = "$token";
       });
-
     });
   }
 
@@ -30,7 +29,7 @@ class _DevInfoState extends State<DevInfo> {
     return Scaffold(
         appBar: AppBar(
           shape: defaultRoundedCorners(),
-          backgroundColor: defaultColor,
+          backgroundColor: primaryColor,
           title: Text(
             "developer infos",
             style: TextStyle(fontWeight: FontWeight.w300),

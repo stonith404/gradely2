@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gradely/shared/VARIABLES..dart';
+import 'package:gradely/shared/CLASSES.dart';
+import 'package:gradely/shared/FUNCTIONS.dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
 import 'auth/login.dart';
@@ -14,8 +18,6 @@ import 'package:flutter/services.dart';
 bool isChecked = false;
 String choosenSemester;
 String selectedSemester;
-var semesterListID = [];
-var semesterList = [];
 
 class ChooseSemester extends StatefulWidget {
   @override
@@ -24,32 +26,45 @@ class ChooseSemester extends StatefulWidget {
 
 class _ChooseSemesterState extends State<ChooseSemester> {
   _getSemesters() async {
-    final QuerySnapshot result = await FirebaseFirestore.instance
-        .collection('userData/${auth.currentUser.uid}/semester')
-        .orderBy("name")
-        .get();
-    List<DocumentSnapshot> documents = result.docs;
-
-    semesterListID = [];
     semesterList = [];
+    var response;
 
-    documents.forEach((data) => semesterList.add(data["name"]));
-    documents.forEach((data) => semesterListID.add(data.id));
+    response = await listDocuments(
+        collection: collectionUser,
+        name: "semesterList",
+        filters: ["uid=${user.id}"]);
+    print(response);
+    response = jsonDecode(response.toString())["documents"][0]["semesters"];
+    print(response);
+    bool _error = false;
+    int index = -1;
 
-    setState(() {
-      semesterListID = semesterListID;
-      semesterList = semesterList;
-    });
+    while (_error == false) {
+      index++;
+      String id;
+
+      try {
+        id = response[index]["\$id"];
+      } catch (e) {
+        _error = true;
+        index = -1;
+      }
+      if (id != null) {
+        setState(() {
+          semesterList.add(Semester(
+            response[index]["\$id"],
+            response[index]["name"],
+          ));
+        });
+      }
+    }
   }
 
-  saveChoosenSemester(String _choosenSemester, _choosenSemesterName) {
-    FirebaseFirestore.instance
-        .collection('userData')
-        .doc(auth.currentUser.uid)
-        .update({
-      "choosenSemester": _choosenSemester,
-      "choosenSemesterName": _choosenSemesterName
-    });
+  saveChoosenSemester(String _choosenSemester) {
+    database.updateDocument(
+        collectionId: collectionUser,
+        documentId: user.dbID,
+        data: {"choosenSemester": _choosenSemester});
   }
 
   @override
@@ -66,11 +81,10 @@ class _ChooseSemesterState extends State<ChooseSemester> {
 
   @override
   Widget build(BuildContext context) {
-    _getSemesters();
     return Scaffold(
       appBar: AppBar(
         shape: defaultRoundedCorners(),
-        backgroundColor: defaultColor,
+        backgroundColor: primaryColor,
         title: Text("Semester"),
         leading: IconButton(
           icon: Icon(
@@ -85,7 +99,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          backgroundColor: defaultColor,
+          backgroundColor: primaryColor,
           child: Icon(Icons.add),
           onPressed: () {
             Navigator.push(
@@ -97,7 +111,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: semesterListID.length,
+              itemCount: semesterList.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
@@ -111,7 +125,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                           bottomLeft: Radius.circular(10),
                         ),
                         child: IconSlideAction(
-                          color: defaultColor,
+                          color: primaryColor,
                           iconWidget: Icon(
                             FontAwesome5Solid.pencil_alt,
                             color: Colors.white,
@@ -123,7 +137,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                   builder: (context) => UpdateSemester()),
                             );
 
-                            selectedSemester = semesterListID[index];
+                            selectedSemester = semesterList[index].id;
                           },
                         ),
                       ),
@@ -133,7 +147,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                           bottomRight: Radius.circular(10),
                         ),
                         child: IconSlideAction(
-                          color: defaultColor,
+                          color: primaryColor,
                           iconWidget: Icon(
                             FontAwesome5.trash_alt,
                             color: Colors.white,
@@ -143,7 +157,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                               context: context,
                               title: "Achtung".tr(),
                               text:
-                                  '${'Bist du sicher, dass du'.tr()} "${semesterList[index]}" ${'löschen willst?'.tr()}',
+                                  '${'Bist du sicher, dass du'.tr()} "${semesterList[index].name}" ${'löschen willst?'.tr()}',
                               actions: <Widget>[
                                 TextButton(
                                   child: Text(
@@ -164,12 +178,12 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                     FirebaseFirestore.instance
                                         .collection(
                                             'userData/${auth.currentUser.uid}/semester/')
-                                        .doc(semesterListID[index])
+                                        .doc(semesterList[index].id)
                                         .set({});
                                     FirebaseFirestore.instance
                                         .collection(
                                             'userData/${auth.currentUser.uid}/semester/')
-                                        .doc(semesterListID[index])
+                                        .doc(semesterList[index].id)
                                         .delete();
                                     HapticFeedback.heavyImpact();
                                     Navigator.pushAndRemoveUntil(
@@ -180,7 +194,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                       (Route<dynamic> route) => false,
                                     );
 
-                                    selectedSemester = semesterListID[index];
+                                    selectedSemester = semesterList[index].id;
                                   },
                                 )
                               ],
@@ -193,16 +207,15 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                       decoration: boxDec(),
                       child: ListTile(
                         title: Text(
-                          semesterList[index],
+                          semesterList[index].name,
                         ),
                         trailing: IconButton(
-                            color: defaultColor,
+                            color: primaryColor,
                             icon: Icon(Icons.arrow_forward),
                             onPressed: () {
-                              choosenSemester = semesterListID[index];
-                              choosenSemesterName = semesterList[index];
-                              saveChoosenSemester(
-                                  choosenSemester, choosenSemesterName);
+                              choosenSemester = semesterList[index].id;
+                              choosenSemesterName = semesterList[index].name;
+                              saveChoosenSemester(choosenSemester);
                               HapticFeedback.mediumImpact();
                               Navigator.pushAndRemoveUntil(
                                 context,
@@ -240,7 +253,7 @@ class _UpdateSemesterState extends State<UpdateSemester> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: defaultColor,
+        backgroundColor: primaryColor,
         title: Text("renameSemester".tr()),
         shape: defaultRoundedCorners(),
       ),
@@ -259,7 +272,7 @@ class _UpdateSemesterState extends State<UpdateSemester> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: defaultColor, // background
+                primary: primaryColor, // background
               ),
               child: Text("unbenennen".tr()),
               onPressed: () {
@@ -301,7 +314,7 @@ class _AddSemesterState extends State<AddSemester> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: defaultColor,
+        backgroundColor: primaryColor,
         title: Text("Semester hinzufügen".tr()),
         shape: defaultRoundedCorners(),
       ),
@@ -320,7 +333,7 @@ class _AddSemesterState extends State<AddSemester> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: defaultColor, // background
+                primary: primaryColor, // background
               ),
               child: Text("hinzufügen".tr()),
               onPressed: () {
@@ -343,10 +356,12 @@ class _AddSemesterState extends State<AddSemester> {
   }
 }
 
-createSemester(String semesterName) {
-  CollectionReference gradesCollection = FirebaseFirestore.instance
-      .collection('userData/${auth.currentUser.uid}/semester/');
-  gradesCollection.doc().set(
-    {"name": semesterName},
-  );
+createSemester(String semesterName) async {
+  await getUserInfo();
+  database.createDocument(
+      collectionId: collectionSemester,
+      parentDocument: user.dbID,
+      parentProperty: "semesters",
+      parentPropertyType: "append",
+      data: {"name": semesterName});
 }

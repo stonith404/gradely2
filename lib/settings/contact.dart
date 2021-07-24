@@ -61,7 +61,7 @@ class _ContactScreenState extends State<ContactScreen> {
                   Text("${"contactSuccess2".tr()} ${auth.currentUser.email}."),
               actions: <Widget>[
                 FlatButton(
-                  color: defaultColor,
+                  color: primaryColor,
                   child: Text("ok"),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -94,7 +94,7 @@ class _ContactScreenState extends State<ContactScreen> {
               content: Text("contactError1".tr()),
               actions: <Widget>[
                 FlatButton(
-                  color: defaultColor,
+                  color: primaryColor,
                   child: Text("Super".tr()),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -117,7 +117,7 @@ class _ContactScreenState extends State<ContactScreen> {
         child: Scaffold(
           appBar: AppBar(
               shape: defaultRoundedCorners(),
-              backgroundColor: defaultColor,
+              backgroundColor: primaryColor,
               title: Text("contactDev".tr())),
           body: Padding(
             padding: const EdgeInsets.all(24.0),

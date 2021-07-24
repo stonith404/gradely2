@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gradely/auth/login.dart';
 import 'package:gradely/introScreen.dart';
-import 'package:gradely/shared/VARIABLES..dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import '../main.dart';
 import '../shared/defaultWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -26,33 +28,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
   createUser() async {
     FocusScope.of(context).unfocus();
 
-    Future result = account.create(
+    Future resultCreateAccount = account.create(
       email: _emailController.text,
       password: _passwordController.text,
     );
 
-    setState(() {
-      isLoading = false;
-    });
+    resultCreateAccount.then((response) async {
+      await account.createSession(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      response = jsonDecode(response.toString());
 
-    result.then((response) {
-      setState(() {
-        isLoading = false;
+      Future resultCreateDB =
+          database.createDocument(collectionId: collectionUser, data: {
+        "uid": response["\$id"],
+        "gradelyPlus": false,
+        "gradeType": "av",
+        "choosenSemester": "noSemesterChoosed"
       });
-          Navigator.pushReplacement(
+
+      resultCreateDB.then((response) {
+        print(response);
+      }).catchError((error) {
+        print(error);
+        print(error.response);
+      });
+
+         Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => IntroScreen()),
     );
-
-      _passwordController.text = "";
-      print(response);
     }).catchError((error) {
-    
-      setState(() {
-        isLoading = false;
-      });
+      print(error);
+      print(error.response);
+
       gradelyDialog(context: context, title: "error".tr(), text: error.message);
     });
+
+    setState(() {
+      isLoading = false;
+    });
+ 
   }
 
   void setState(fn) {
@@ -68,7 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
       child: Scaffold(
-        backgroundColor: defaultColor,
+        backgroundColor: primaryColor,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,

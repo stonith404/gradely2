@@ -35,7 +35,7 @@ class _CustomizeTState extends State<CustomizeT> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: defaultColor,
+        backgroundColor: primaryColor,
         title: Text(
           "customize".tr(),
         ),
@@ -48,8 +48,8 @@ class _CustomizeTState extends State<CustomizeT> {
                   .collection('userData')
                   .doc(auth.currentUser.uid)
                   .update({
-                'defaultColor':
-                    "#${(defaultColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
+                'primaryColor':
+                    "#${(primaryColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
               });
               settingsScreen(context);
             }),
@@ -70,7 +70,7 @@ class _CustomizeTState extends State<CustomizeT> {
                   return GestureDetector(
                     onTap: () {
                       setState(() {
-                        defaultColor = _colorList[index];
+                        primaryColor = _colorList[index];
                       });
                     },
                     child: Padding(
@@ -110,7 +110,7 @@ class _CustomizeState extends State<Customize> {
     return Scaffold(
       appBar: AppBar(
         shape: defaultRoundedCorners(),
-        backgroundColor: defaultColor,
+        backgroundColor: primaryColor,
         title: Text(
           "customize".tr(),
         ),
@@ -137,7 +137,7 @@ class _CustomizeState extends State<Customize> {
                     return GestureDetector(
                         onTap: () {
                           setState(() {
-                            defaultColor = _colorList[index];
+                            primaryColor = _colorList[index];
                           });
                         },
                         child: Container(

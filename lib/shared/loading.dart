@@ -18,8 +18,6 @@ class _LoadingScreenState extends State<LoadingScreen>
   Animation<Color> animationOne;
   Animation<Color> animationTwo;
 
-
-
   @override
   void initState() {
     super.initState();
@@ -55,7 +53,7 @@ class _LoadingScreenState extends State<LoadingScreen>
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
-            backgroundColor: defaultColor,
+            backgroundColor: primaryColor,
             forceElevated: true,
             title: Image.asset(
               'assets/images/iconT.png',
@@ -86,7 +84,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                color: defaultColor,
+                                color: primaryColor,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                               ),
@@ -111,7 +109,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: defaultColor,
+                                  color: primaryColor,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
                                 ),
@@ -142,7 +140,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                   onPressed: () async {
                     HapticFeedback.lightImpact();
 
-                      settingsScreen(context);
+                    settingsScreen(context);
                   }),
             ),
             floating: true,
@@ -220,5 +218,3 @@ class LoadingBlock extends StatelessWidget {
     );
   }
 }
-
-

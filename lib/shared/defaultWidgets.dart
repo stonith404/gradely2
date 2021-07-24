@@ -10,7 +10,7 @@ import 'package:gradely/main.dart';
 import 'package:gradely/data.dart';
 import 'package:gradely/semesterDetail.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely/shared/VARIABLES..dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/auth/login.dart';
 
 RoundedRectangleBorder defaultRoundedCorners() {
@@ -44,7 +44,7 @@ InputDecoration inputDec(String _label) {
     filled: true,
     labelText: _label,
     fillColor: bwColor,
-    labelStyle: TextStyle(fontSize: 17.0, height: 0.8, color: defaultColor),
+    labelStyle: TextStyle(fontSize: 17.0, height: 0.8, color: primaryColor),
     focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         borderSide: BorderSide.none),
@@ -62,7 +62,7 @@ FilteringTextInputFormatter EmojiRegex() {
 
 ButtonStyle elev() {
   return ElevatedButton.styleFrom(
-    primary: defaultColor, // background
+    primary: primaryColor, // background
   );
 }
 
@@ -78,7 +78,7 @@ Widget gradelyDialog({context, title, text, actions}) {
               TextButton(
                   child: Text(
                     "Ok",
-                    style: TextStyle(color: defaultColor),
+                    style: TextStyle(color: primaryColor),
                   ),
                   onPressed: () => Navigator.of(context).pop())
             ]);
@@ -98,7 +98,7 @@ Widget gradelyDialog({context, title, text, actions}) {
                     CupertinoButton(
                         child: Text(
                           "Ok",
-                          style: TextStyle(color: defaultColor),
+                          style: TextStyle(color: primaryColor),
                         ),
                         onPressed: () => Navigator.of(context).pop())
                   ]);

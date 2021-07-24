@@ -4,6 +4,7 @@ import 'package:gradely/shared/CLASSES.dart';
 
 List<Lesson> lessonList = [];
 List<Grade> gradeList = [];
+List<Semester> semesterList = [];
 
 User user;
 

@@ -3,12 +3,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely/LessonsDetail.dart';
+import 'package:gradely/auth/login.dart';
 import 'package:gradely/introScreen.dart';
 import 'package:gradely/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gradely/semesterDetail.dart';
+import 'package:gradely/settings/userInfo.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../auth/login.dart';
+import 'package:gradely/shared/CLASSES.dart';
+import 'package:gradely/shared/FUNCTIONS.dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/data.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'platformList.dart';
@@ -16,11 +20,12 @@ import 'contact.dart';
 import 'gradelyPlus.dart';
 import 'customize.dart';
 import 'package:gradely/data.dart';
-import 'userInfo.dart';
+
 import '../shared/defaultWidgets.dart';
 import '../data.dart';
 
 Future settingsScreen(BuildContext context) {
+  gradesResult = user.gradeType;
   return showCupertinoModalBottomSheet(
     shadow: BoxShadow(
       color: Colors.grey.withOpacity(0.3),
@@ -68,7 +73,8 @@ Future settingsScreen(BuildContext context) {
                         child: IconButton(
                             iconSize: 15,
                             color: Colors.black,
-                            onPressed: () {
+                            onPressed: () async {
+                              await getUserInfo();
                               Navigator.of(context).pop();
                               Navigator.pushReplacement(
                                 context,
@@ -110,9 +116,8 @@ Future settingsScreen(BuildContext context) {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text(auth.currentUser.displayName == null
-                                    ? auth.currentUser.email
-                                    : auth.currentUser.displayName),
+                                Text(
+                                    user.name == null ? user.email : user.name),
                                 Spacer(
                                   flex: 1,
                                 ),
@@ -146,14 +151,14 @@ Future settingsScreen(BuildContext context) {
                                 child: settingsListTile(
                                     items: [
                                       Icon(
-                                          gradelyPlus
+                                          user.gradelyPlus
                                               ? FontAwesome5Solid.palette
                                               : FontAwesome5Solid.star,
                                           size: 17),
                                       SizedBox(
                                         width: 10,
                                       ),
-                                      Text(gradelyPlus
+                                      Text(user.gradelyPlus
                                           ? "customize".tr()
                                           : "Gradely Plus"),
                                     ],
@@ -161,9 +166,10 @@ Future settingsScreen(BuildContext context) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => gradelyPlus
-                                                ? CustomizeT()
-                                                : GradelyPlusWrapper()),
+                                            builder: (context) =>
+                                                user.gradelyPlus
+                                                    ? CustomizeT()
+                                                    : GradelyPlusWrapper()),
                                       );
                                     }),
                               ),
@@ -192,18 +198,20 @@ Future settingsScreen(BuildContext context) {
                                       );
                                     }).toList(),
                                     onChanged: (value) {
-                                      var newValue = "Pluspunkte";
+                                      var newValue = "av";
                                       if (value == "Pluspunkte") {
-                                        newValue = "Pluspunkte";
+                                        newValue = "pp";
                                       } else if (value == "pluspoints") {
-                                        newValue = "Pluspunkte";
+                                        newValue = "pp";
                                       } else {
-                                        newValue = "Durchschnitt";
+                                        newValue = "av";
                                       }
-                                      FirebaseFirestore.instance
-                                          .collection('userData')
-                                          .doc(auth.currentUser.uid)
-                                          .update({'gradesResult': newValue});
+                                      database.updateDocument(
+                                          documentId: user.dbID,
+                                          collectionId: collectionUser,
+                                          data: {
+                                            "gradeType": newValue,
+                                          });
                                       setState(() {
                                         gradesResult = newValue;
                                       });
