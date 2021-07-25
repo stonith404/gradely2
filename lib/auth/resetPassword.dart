@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'register.dart';
+import 'package:gradely/shared/defaultWidgets.dart';
 import '../main.dart';
 import '../shared/loading.dart';
-import '../shared/defaultWidgets.dart';
 import 'login.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
@@ -20,11 +19,11 @@ FirebaseAuth auth = FirebaseAuth.instance;
 
 bool isLoading = false;
 String _email = "";
-String _password = "";
+
 
 class _ResetPWState extends State<ResetPW> {
   sendPasswordResetEmail(String _email) async {
-    var userCredential =
+
         await FirebaseAuth.instance.sendPasswordResetEmail(email: _email);
   }
 
@@ -82,7 +81,7 @@ class _ResetPWState extends State<ResetPW> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
-                        decoration: InputDecAuth("Deine Email".tr()),
+                        decoration: inputDecAuth("Deine Email".tr()),
                         keyboardType: TextInputType.emailAddress,
                         controller: _emailController,
                         textAlign: TextAlign.left,
@@ -119,8 +118,8 @@ class _ResetPWState extends State<ResetPW> {
                                   ),
                                   content: Text("pwResetSuccess1".tr()),
                                   actions: <Widget>[
-                                    FlatButton(
-                                      color: primaryColor,
+                                    ElevatedButton(
+                               style: elev(),
                                       child: Text("ok"),
                                       onPressed: () {
                                         Navigator.of(context).pop();

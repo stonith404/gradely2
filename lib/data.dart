@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:gradely/semesterDetail.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 
 import 'main.dart';
@@ -9,11 +8,9 @@ import 'LessonsDetail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'auth/login.dart';
-import 'LessonsDetail.dart';
 import 'chooseSemester.dart';
 import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
-import 'auth/login.dart';
 
 final String cacheField = 'updatedAt';
 
@@ -80,7 +77,7 @@ getPluspointsallAverageList(num value) {
     plusPointsallAverageList = -5;
   } else if (value >= 1) {
     plusPointsallAverageList = -6;
-  } else if (value == "NaN") {
+  } else if (value.isNaN) {
     plusPoints = 0;
   }
 }
@@ -121,7 +118,6 @@ getUIDDocuments() async {
 
   gradesResult = uidDB.get('gradesResult');
   choosenSemesterName = uidDB.get('choosenSemesterName');
-
 
   if (uidDB.get('choosenSemester') == null) {
     FirebaseFirestore.instance

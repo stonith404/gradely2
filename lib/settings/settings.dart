@@ -3,14 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely/LessonsDetail.dart';
-import 'package:gradely/auth/login.dart';
 import 'package:gradely/introScreen.dart';
-import 'package:gradely/main.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gradely/semesterDetail.dart';
 import 'package:gradely/settings/userInfo.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/data.dart';
@@ -19,7 +15,6 @@ import 'platformList.dart';
 import 'contact.dart';
 import 'gradelyPlus.dart';
 import 'customize.dart';
-import 'package:gradely/data.dart';
 
 import '../shared/defaultWidgets.dart';
 import '../data.dart';
@@ -116,8 +111,7 @@ Future settingsScreen(BuildContext context) {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text(
-                                    user.name == null ? user.email : user.name),
+                                Text(user.name == "" ? user.email : user.name),
                                 Spacer(
                                   flex: 1,
                                 ),

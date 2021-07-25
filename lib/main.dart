@@ -1,14 +1,10 @@
 import 'package:appwrite/appwrite.dart' hide Locale;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gradely/chooseSemester.dart';
-import 'package:gradely/data.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/loading.dart';
 import 'auth/login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/semesterDetail.dart';
@@ -110,75 +106,10 @@ class HomeWrapper extends StatefulWidget {
 }
 
 class _State extends State<HomeWrapper> {
-  getLessons() async {
-    final QuerySnapshot result = await FirebaseFirestore.instance
-        .collection(
-            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
-        .orderBy("average", descending: true)
-        .get();
-    List<DocumentSnapshot> documents = result.docs;
-
-    setState(() {
-      courseList = [];
-      courseListID = [];
-
-      allAverageList = [];
-      allAverageListPP = [];
-      semesterAveragePP = [];
-      emojiList = [];
-      documents.forEach((data) {
-        courseList.add(data["name"]);
-        courseListID.add(data.id);
-        allAverageList.add(data["average"]);
-        try {
-          emojiList.add(data["emoji"]);
-        } catch (e) {
-          emojiList.add("");
-        }
-      });
-
-      documents.forEach((data) {
-        getPluspointsallAverageList(data["average"]);
-        if (data["average"].isNaN) {
-          allAverageListPP.add(0.toString());
-          semesterAveragePP.add(0);
-        } else {
-          allAverageListPP.add(plusPointsallAverageList.toString());
-          semesterAveragePP.add(plusPointsallAverageList);
-        }
-      });
-    });
-    //getSemesteraverage
-    num _pp = 0;
-
-    for (num e in semesterAveragePP) {
-      _pp += e;
-    }
-    setState(() {
-      averageOfSemesterPP = _pp;
-    });
-
-    //get average of all
-
-    double _sum = 0;
-    double _anzahl = 0;
-    for (num e in allAverageList) {
-      if (e.isNaN) {
-      } else {
-        _sum += e;
-        _anzahl = _anzahl + 1;
-        setState(() {
-          averageOfSemester = _sum / _anzahl;
-        });
-      }
-    }
-  }
-
   @override
   void initState() {
     super.initState();
 
-    getLessons();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   }
 
@@ -205,3 +136,5 @@ class _State extends State<HomeWrapper> {
     );
   }
 }
+
+

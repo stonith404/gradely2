@@ -55,10 +55,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         print(error.response);
       });
 
-         Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => IntroScreen()),
-    );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => IntroScreen()),
+      );
     }).catchError((error) {
       print(error);
       print(error.response);
@@ -69,7 +69,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {
       isLoading = false;
     });
- 
   }
 
   void setState(fn) {
@@ -132,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     keyboardType: TextInputType.emailAddress,
                     controller: _emailController,
                     textAlign: TextAlign.left,
-                    decoration: InputDecAuth("Deine Email".tr())),
+                    decoration: inputDecAuth("Deine Email".tr())),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -140,7 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: _passwordController,
                     textAlign: TextAlign.left,
                     obscureText: true,
-                    decoration: InputDecAuth("Dein Passwort".tr())),
+                    decoration: inputDecAuth("Dein Passwort".tr())),
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(

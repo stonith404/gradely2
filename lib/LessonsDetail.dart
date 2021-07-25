@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
-import 'package:gradely/shared/loading.dart';
+import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/statistics.dart';
 import 'main.dart';
 import 'package:flutter/material.dart';
@@ -14,22 +13,16 @@ import 'data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'auth/login.dart';
 import 'chooseSemester.dart';
-import 'data.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'shared/defaultWidgets.dart';
 import 'dart:async';
-import 'package:gradely/semesterDetail.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-bool buttonDisabled = false;
 String selectedTest = "selectedTest";
 String errorMessage = "";
 double averageOfGrades = 0;
-List<String> testListID = [];
-List<String> dateList = [];
-List<num> averageList = [];
-List<num> averageListWeight = [];
+
 num _sumW = 0;
 num _sum = 0;
 var defaultBGColor;
@@ -51,7 +44,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
     var response;
 
     choosenSemester = user.choosenSemester;
-    print(selectedLesson);
 
     response = await listDocuments(
       collection: collectionLessons,
@@ -60,7 +52,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
     );
 
     response = jsonDecode(response.toString())["documents"][0]["grades"];
-    print(response);
+
     bool _error = false;
     int index = -1;
 
@@ -75,7 +67,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
         index = -1;
       }
       if (id != null) {
-        print(emoji);
         setState(() {
           gradeList.add(
             Grade(
@@ -114,7 +105,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
     super.initState();
     getTests();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
-    getUIDDocuments();
   }
 
   void setState(fn) {
@@ -125,75 +115,28 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      testListID = testListID;
-    });
     getPluspoints(averageOfGrades);
     darkModeColorChanger(context);
 
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: buttonDisabled
-                  ? null
-                  : () async {
-                      if (!kIsWeb) {
-                        await checkForNetwork();
-
-                        if (internetConnected) {
-                          HapticFeedback.lightImpact();
-                          setState(() {
-                            buttonDisabled = true;
-                            Timer(Duration(seconds: 20), () {
-                              setState(() => buttonDisabled = false);
-                            });
-                          });
-
-                          getTests();
-                        } else {
-                          gradelyDialog(
-                              context: context,
-                              title: "error".tr(),
-                              text: "notConnectedToInternet".tr());
-                        }
-                      } else {
-                        setState(() {
-                          buttonDisabled = true;
-                          Timer(Duration(seconds: 20), () {
-                            setState(() => buttonDisabled = false);
-                          });
-                        });
-
-                        getTests();
-                      }
-                    },
-              icon: Padding(
-                padding: const EdgeInsets.only(right: 12.0),
-                child: Icon(
-                  FontAwesome5Solid.sync,
-                  size: 17,
-                ),
-              ))
-        ],
-        backgroundColor: primaryColor,
-        leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios_outlined,
-            ),
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => HomeWrapper()),
-                (Route<dynamic> route) => false,
-              );
-              try {
-                timer.cancel();
-              } catch (e) {}
-            }),
-        title: Text(selectedLessonName),
-        shape: defaultRoundedCorners(),
-      ),
+          backgroundColor: defaultBGColor,
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios_outlined, color: primaryColor),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeWrapper()),
+                  (Route<dynamic> route) => false,
+                );
+                try {
+                  timer.cancel();
+                } catch (e) {}
+              }),
+          title: Text(selectedLessonName,
+              style:
+                  TextStyle(color: primaryColor, fontWeight: FontWeight.w800)),
+          elevation: 0),
       body: Column(
         children: [
           Expanded(
@@ -232,84 +175,90 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       ),
                     ),
                   )
-                : ListView.builder(
-                    itemCount: gradeList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: EdgeInsets.fromLTRB(8, 6, 8, 0),
-                        child: Container(
-                          decoration: whiteBoxDec(),
-                          child: Slidable(
-                            actionPane: SlidableDrawerActionPane(),
-                            actionExtentRatio: 0.25,
-                            secondaryActions: <Widget>[
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: IconSlideAction(
-                                  color: primaryColor,
-                                  iconWidget: Icon(
-                                    FontAwesome5.trash_alt,
-                                    color: Colors.white,
+                : Column(
+                    children: [
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: gradeList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(horizontal: 15),
+                              decoration: listContainerDecoration(
+                                  index: index, list: gradeList),
+                              child: Slidable(
+                                actionPane: SlidableDrawerActionPane(),
+                                actionExtentRatio: 0.25,
+                                secondaryActions: <Widget>[
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: IconSlideAction(
+                                      color: primaryColor,
+                                      iconWidget: Icon(
+                                        FontAwesome5.trash_alt,
+                                        color: Colors.white,
+                                      ),
+                                      onTap: () {
+                                        selectedTest = gradeList[index].id;
+                                        FirebaseFirestore.instance
+                                            .collection(
+                                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
+                                            .doc(selectedTest)
+                                            .delete();
+                                        HapticFeedback.mediumImpact();
+                                        getTests();
+                                      },
+                                    ),
                                   ),
-                                  onTap: () {
-                                    selectedTest = gradeList[index].id;
-                                    FirebaseFirestore.instance
-                                        .collection(
-                                            'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                                        .doc(selectedTest)
-                                        .delete();
-                                    HapticFeedback.mediumImpact();
-                                    getTests();
-                                  },
+                                ],
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                        title: Text(
+                                          gradeList[index].name,
+                                        ),
+                                        subtitle: gradeList.isEmpty
+                                            ? Text("")
+                                            : Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.calculate_outlined,
+                                                    size: 20,
+                                                  ),
+                                                  Text(" " +
+                                                      gradeList[index]
+                                                          .weight
+                                                          .toString() +
+                                                      "   "),
+                                                  Icon(
+                                                    Icons.date_range,
+                                                    size: 20,
+                                                  ),
+                                                  Text(" " +
+                                                      gradeList[index]
+                                                          .date
+                                                          .toString()),
+                                                ],
+                                              ),
+                                        trailing: Text(gradeList[index]
+                                            .grade
+                                            .toStringAsFixed(2)),
+                                        onTap: () async {
+                                          getTests();
+
+                                          testDetail(context);
+                                        }),
+                                    listDivider()
+                                  ],
                                 ),
                               ),
-                            ],
-                            child: ListTile(
-                                title: Text(
-                                  gradeList[index].name,
-                                ),
-                                subtitle: gradeList.isEmpty
-                                    ? Text("")
-                                    : Row(
-                                        children: [
-                                          Icon(
-                                            Icons.calculate_outlined,
-                                            size: 20,
-                                          ),
-                                          Text(" " +
-                                              gradeList[index]
-                                                  .weight
-                                                  .toString() +
-                                              "   "),
-                                          Icon(
-                                            Icons.date_range,
-                                            size: 20,
-                                          ),
-                                          Text(" " +
-                                              gradeList[index].date.toString()),
-                                        ],
-                                      ),
-                                trailing: Text(
-                                    gradeList[index].grade.toStringAsFixed(2)),
-                                onTap: () async {
-                                  getTests();
-
-                                  selectedTest = testListID[index];
-
-                                  testDetails = (await FirebaseFirestore
-                                          .instance
-                                          .collection(
-                                              "userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades")
-                                          .doc(selectedTest)
-                                          .get())
-                                      .data();
-
-                                  testDetail(context);
-                                }),
-                          ),
+                            );
+                          },
                         ),
-                      );
-                    },
+                      ),
+                    ],
                   ),
           ),
           Container(
@@ -332,7 +281,13 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         ? Column(
                             children: [
                               Text(
-                                plusPoints.toString(),
+                                (() {
+                                  if (averageOfGrades.isNaN) {
+                                    return "0";
+                                  } else {
+                                    return plusPoints.toString();
+                                  }
+                                }()),
                                 style: TextStyle(fontSize: 17),
                               ),
                               Text(
@@ -392,7 +347,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                     onPressed: () {
                                                       Navigator.of(context)
                                                           .pop();
-                                                      DreamGradeC(context);
+                                                      dreamGradeC(context);
                                                     })),
                                             SizedBox(
                                               height: 10,
@@ -417,10 +372,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                       Navigator.of(context)
                                                           .pop();
                                                       bool formatError = false;
-                                                      for (String e
-                                                          in dateList) {
+                                                      for (var e in gradeList) {
                                                         try {
-                                                          if (e[2]
+                                                          if (e.date[2]
                                                               .contains(".")) {
                                                             formatError = true;
                                                           }
@@ -428,7 +382,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                           formatError = true;
                                                         }
                                                       }
-                                                      if (dateList
+                                                      if (gradeList
                                                           .contains("-")) {
                                                         gradelyDialog(
                                                             context: context,
@@ -444,7 +398,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                                 "statsDateBadlyFormatted"
                                                                     .tr());
                                                       } else {
-                                                        StatisticsScreen(
+                                                        statisticsScreen(
                                                             context);
                                                       }
                                                     })),
@@ -550,7 +504,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       controller: editTestInfoName,
                       textAlign: TextAlign.left,
                       decoration: inputDec("Test Name".tr()),
-                      inputFormatters: [EmojiRegex()],
+                      inputFormatters: [emojiRegex()],
                     ),
                   ),
                   Padding(
@@ -728,7 +682,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                           controller: addTestNameController,
                           textAlign: TextAlign.left,
                           decoration: inputDec("Test Name".tr()),
-                          inputFormatters: [EmojiRegex()],
+                          inputFormatters: [emojiRegex()],
                         ),
                       ),
                       Padding(
@@ -798,7 +752,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
   }
 }
 
-Future DreamGradeC(BuildContext context) {
+Future dreamGradeC(BuildContext context) {
   dreamGradeGrade.text = "";
   dreamGradeWeight.text = "1";
   num dreamgradeResult = 0;

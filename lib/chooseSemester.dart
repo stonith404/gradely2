@@ -6,7 +6,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
-import 'LessonsDetail.dart';
 import 'data.dart';
 import 'auth/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -265,7 +264,7 @@ class _UpdateSemesterState extends State<UpdateSemester> {
             TextField(
                 controller: renameSemesterController,
                 textAlign: TextAlign.left,
-                inputFormatters: [EmojiRegex()],
+                inputFormatters: [emojiRegex()],
                 decoration: inputDec("Semester Name")),
             SizedBox(
               height: 40,
@@ -324,7 +323,7 @@ class _AddSemesterState extends State<AddSemester> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-                inputFormatters: [EmojiRegex()],
+                inputFormatters: [emojiRegex()],
                 controller: addSemesterController,
                 textAlign: TextAlign.left,
                 decoration: inputDec("Semester Name")),

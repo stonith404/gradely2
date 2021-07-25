@@ -1,20 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'dart:async';
 import 'package:gradely/main.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gradely/auth/login.dart';
-import 'package:gradely/data.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely/main.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
 bool _isLoading = false;
@@ -164,8 +162,8 @@ class GradelyPlus extends StatefulWidget {
 }
 
 class _GradelyPlusState extends State<GradelyPlus> {
-  StreamSubscription _purchaseUpdatedSubscription;
-  StreamSubscription _purchaseErrorSubscription;
+  StreamSubscription purchaseUpdatedSubscription;
+  StreamSubscription purchaseErrorSubscription;
   StreamSubscription _conectionSubscription;
   List iapList = [];
 
@@ -198,7 +196,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
     setState(() {
       _isLoading = false;
     });
-    await getUIDDocuments();
+    // await getUIDDocuments();
 
     FirebaseFirestore.instance
         .collection('userData')
@@ -216,8 +214,8 @@ class _GradelyPlusState extends State<GradelyPlus> {
             title: Text("🎉 " + "gradelyPS1".tr()),
             content: Text("gradelyPS2".tr()),
             actions: <Widget>[
-              FlatButton(
-                color: primaryColor,
+                             ElevatedButton(
+         style: elev(),
                 child: Text("ok"),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -242,6 +240,14 @@ class _GradelyPlusState extends State<GradelyPlus> {
       _conectionSubscription.cancel();
       _conectionSubscription = null;
     }
+    if (purchaseErrorSubscription != null) {
+      purchaseErrorSubscription.cancel();
+      purchaseErrorSubscription = null;
+    }
+    if (purchaseUpdatedSubscription != null) {
+      purchaseUpdatedSubscription.cancel();
+      purchaseUpdatedSubscription = null;
+    }
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -251,13 +257,13 @@ class _GradelyPlusState extends State<GradelyPlus> {
 
     if (!mounted) return;
 
-    _purchaseUpdatedSubscription =
+    purchaseUpdatedSubscription =
         FlutterInappPurchase.purchaseUpdated.listen((productItem) {
       print('puelias: $productItem');
       finishPurchase();
     });
 
-    _purchaseErrorSubscription =
+    purchaseErrorSubscription =
         FlutterInappPurchase.purchaseError.listen((purchaseError) {
       setState(() {
         _isLoading = false;

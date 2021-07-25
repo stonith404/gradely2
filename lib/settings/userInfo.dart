@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:gradely/LessonsDetail.dart';
 import 'package:gradely/data.dart';
+import 'package:gradely/shared/FUNCTIONS.dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/main.dart';
@@ -23,8 +26,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   void initState() {
     super.initState();
 
-    changeEmailController.text = fuser.email;
-    changeDisplayName.text = auth.currentUser.displayName ?? "";
+    changeEmailController.text = user.email;
+    changeDisplayName.text = user.name ?? "";
     passwordPlaceholder.text = "1234567891011";
   }
 
@@ -53,21 +56,20 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 child: Text("ok"),
                 onPressed: () async {
                   _password = passwordController.text;
-                  var authResult = await fuser.reauthenticateWithCredential(
-                    EmailAuthProvider.credential(
-                      email: fuser.email,
-                      password: _password,
-                    ),
-                  );
+
                   Navigator.of(context).pop();
                   try {
-                    authResult.user.updateEmail(_email);
+             await account.updateEmail(
+                      email: _email,
+                      password: _password,
+                    );
+                    getUserInfo();
 
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => HomeWrapper()),
                     );
-                  } on FirebaseAuthException catch (e) {}
+                  } on FirebaseAuthException catch (_) {}
 
                   HapticFeedback.lightImpact();
                 },
@@ -81,13 +83,18 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: primaryColor,
+        iconTheme: IconThemeData(
+          color: primaryColor,
+        ),
+        backgroundColor: defaultBGColor,
+        elevation: 0,
         shape: defaultRoundedCorners(),
         actions: [
           IconButton(
               icon: Icon(
                 FontAwesome5Solid.sign_out_alt,
                 size: 20,
+                color: primaryColor,
               ),
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
@@ -97,7 +104,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 );
               })
         ],
-        title: Text("account".tr()),
+        title: Text(
+          "account".tr(),
+          style: TextStyle(
+            color: primaryColor,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -137,9 +149,16 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                   ElevatedButton(
                                       style: elev(),
                                       onPressed: () {
-                                        FirebaseAuth.instance
-                                            .sendPasswordResetEmail(
-                                                email: fuser.email);
+                                        Future result = account.createRecovery(
+                                          email: "login@eliasschneider.com",
+                                          url:
+                                              'https://aw.cloud.eliasschneider.com',
+                                        );
+                                        result.then((response) {
+                                          print(response);
+                                        }).catchError((error) {
+                                          print(error.response);
+                                        });
 
                                         Navigator.of(context).pop();
                                       },
@@ -160,8 +179,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             ElevatedButton(
                 style: elev(),
                 onPressed: () {
-                  auth.currentUser.updateDisplayName(changeDisplayName.text);
-                  if (changeEmailController.text != auth.currentUser.email) {
+                  account.updateName(name: changeDisplayName.text);
+                  if (changeEmailController.text != user.email) {
                     changeEmail(changeEmailController.text);
                   } else {
                     gradelyDialog(
@@ -221,7 +240,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       MaterialPageRoute(
                                           builder: (context) => LoginScreen()),
                                     );
-                                  } on FirebaseAuthException catch (e) {}
+                                  } on FirebaseAuthException catch (_) {}
 
                                   HapticFeedback.lightImpact();
                                 },

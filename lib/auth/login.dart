@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gradely/LessonsDetail.dart';
+
 import 'package:gradely/shared/VARIABLES.dart';
 import 'register.dart';
 import '../main.dart';
@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           controller: _emailController,
                           textAlign: TextAlign.left,
-                          decoration: InputDecAuth("Deine Email".tr())),
+                          decoration: inputDecAuth("Deine Email".tr())),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passwordController,
                           textAlign: TextAlign.left,
                           obscureText: true,
-                          decoration: InputDecAuth("Dein Passwort".tr())),
+                          decoration: inputDecAuth("Dein Passwort".tr())),
                     ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -179,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-InputDecoration InputDecAuth(_label) {
+InputDecoration inputDecAuth(_label) {
   return InputDecoration(
     disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),

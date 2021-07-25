@@ -13,7 +13,7 @@ import 'data.dart';
 import 'shared/defaultWidgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'auth/login.dart';
-import 'package:gradely/semesterDetail.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -23,22 +23,6 @@ class IntroScreen extends StatefulWidget {
 
 class _IntroScreenState extends State<IntroScreen> {
   final introKey = GlobalKey<IntroductionScreenState>();
-
-  void _onIntroEnd(context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => HomeSite()),
-    );
-  }
-
-  Widget _buildFullscrenImage() {
-    return Image.asset(
-      'assets/images/sync.png',
-      fit: BoxFit.cover,
-      height: double.infinity,
-      width: double.infinity,
-      alignment: Alignment.center,
-    );
-  }
 
   Widget _buildImage(String assetName, [double width = 350]) {
     return Image.asset('assets/images/$assetName', width: width);

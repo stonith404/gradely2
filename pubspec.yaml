@@ -99,7 +99,7 @@ flutter:
         - asset: assets/fonts/Nunito-Regular.ttf
         - asset: assets/fonts/Nunito-ExtraBold.ttf
           weight: 700
-        
+
 
   #
   # For details regarding fonts from package dependencies,

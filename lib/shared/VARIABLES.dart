@@ -8,6 +8,14 @@ List<Semester> semesterList = [];
 
 User user;
 
+//bools
+bool isLoading = false;
+bool darkmode = false;
+
+//int's
+double screenwidth = 0;
+
+
 //appwrite var's
 Client client;
 Account account;

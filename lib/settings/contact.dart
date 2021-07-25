@@ -36,7 +36,7 @@ class _ContactScreenState extends State<ContactScreen> {
           '$_message\n ________________\n Email: ${auth.currentUser.email}'; //body of the email
 
     try {
-      final sendReport = await send(message, smtpServer);
+   await send(message, smtpServer);
       setState(() {
         isEmailsent = false;
       });
@@ -60,8 +60,8 @@ class _ContactScreenState extends State<ContactScreen> {
               content:
                   Text("${"contactSuccess2".tr()} ${auth.currentUser.email}."),
               actions: <Widget>[
-                FlatButton(
-                  color: primaryColor,
+                ElevatedButton(
+         style: elev(),
                   child: Text("ok"),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -71,7 +71,7 @@ class _ContactScreenState extends State<ContactScreen> {
               ],
             );
           });
-    } on MailerException catch (e) {
+    } on MailerException catch (_) {
       setState(() {
         isEmailsent = false;
       });
@@ -93,8 +93,8 @@ class _ContactScreenState extends State<ContactScreen> {
               ),
               content: Text("contactError1".tr()),
               actions: <Widget>[
-                FlatButton(
-                  color: primaryColor,
+                            ElevatedButton(
+         style: elev(),
                   child: Text("Super".tr()),
                   onPressed: () {
                     Navigator.of(context).pop();

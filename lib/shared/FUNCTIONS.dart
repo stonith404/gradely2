@@ -33,7 +33,8 @@ Future<bool> getUserInfo() async {
             dbResponse["gradelyPlus"],
             dbResponse["gradeType"],
             dbResponse["choosenSemester"],
-            dbResponse["\$id"]);
+            dbResponse["\$id"],
+             dbResponse["color"]);
 
         userSignedIn = true;
       }).catchError((error) {});
@@ -123,3 +124,6 @@ Future listDocuments(
 
   return response;
 }
+
+
+

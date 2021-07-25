@@ -10,8 +10,6 @@ import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/loading.dart';
 import 'LessonsDetail.dart';
 import 'data.dart';
-import 'auth/login.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'shared/defaultWidgets.dart';
 import 'chooseSemester.dart';
 import 'dart:math' as math;
@@ -23,14 +21,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:emoji_chooser/emoji_chooser.dart';
 
-String test =
-    """{"sum":1,"documents":[{"\$id":"60f7176206ac6","\$collection":"60f40d1b66424","\$permissions":{"read":["*"],"write":["*"]},"name":"test semester","uid":"","lessons":[{"\$id":"60f71ed5b81ce","\$collection":"60f40d0ed5da4","\$permissions":[],"name":"test less","emoji":":*++","average":3},{"\$id":"60f72024f1d23","\$collection":"60f40d0ed5da4","\$permissions":{"read":["user:60f438e64c47b"],"write":["user:60f438e64c47b"]},"name":"1","emoji":"","average":2},{"\$id":"60f72057dae32","\$collection":"60f40d0ed5da4","\$permissions":{"read":["user:60f438e64c47b"],"write":["user:60f438e64c47b"]},"name":"2","emoji":"","average":1},{"\$id":"60f722de54bbd","\$collection":"60f40d0ed5da4","\$permissions":{"read":["user:60f438e64c47b"],"write":["user:60f438e64c47b"]},"name":"fdfd","average":-99,"emoji":""}]}]}""";
-double screenwidth = 0;
-bool darkmode = false;
-List semesterAveragePP = [];
-List emojiList = [];
-var emoji = "";
-String selectedEmoji = "";
+String _selectedEmoji = "";
 
 class HomeSite extends StatefulWidget {
   const HomeSite({
@@ -45,10 +36,6 @@ class _HomeSiteState extends State<HomeSite> {
   pushNotification() {
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification notification = message.notification;
-      AndroidNotification android = message.notification?.android;
-    });
 // Asks permission for push notifcations in ios
     _firebaseMessaging.requestPermission(sound: true, badge: true, alert: true);
   }
@@ -63,7 +50,6 @@ class _HomeSiteState extends State<HomeSite> {
         collection: collectionSemester,
         name: "lessonList",
         filters: ["\$id=${user.choosenSemester}"]);
-    print(response);
 
     choosenSemesterName =
         jsonDecode(response.toString())["documents"][0]["name"];
@@ -83,7 +69,6 @@ class _HomeSiteState extends State<HomeSite> {
         index = -1;
       }
       if (id != null) {
-        print(emoji);
         setState(() {
           lessonList.add(Lesson(
               response[index]["\$id"],
@@ -106,7 +91,6 @@ class _HomeSiteState extends State<HomeSite> {
         setState(() {
           averageOfSemesterPP = _ppSum;
           averageOfSemester = _sum / _count;
-          print(averageOfSemester);
         });
       }
     }
@@ -130,7 +114,7 @@ class _HomeSiteState extends State<HomeSite> {
   Widget build(BuildContext context) {
     screenwidth = MediaQuery.of(context).size.width;
     darkModeColorChanger(context);
-    buttonDisabled = false;
+
     if (choosenSemesterName == "noSemesterChmoosed") {
       return LoadingScreen();
     } else {
@@ -227,7 +211,7 @@ class _HomeSiteState extends State<HomeSite> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => addLesson()),
+                                      builder: (context) => AddLesson()),
                                 );
                               }),
                         ),
@@ -269,11 +253,12 @@ class _HomeSiteState extends State<HomeSite> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  updateLesson()),
+                                                  UpdateLesson()),
                                         );
                                         selectedLessonName =
                                             lessonList[index].name;
-                                        selectedEmoji = lessonList[index].emoji;
+                                        _selectedEmoji =
+                                            lessonList[index].emoji;
                                         selectedLesson = lessonList[index].id;
                                       },
                                     ),
@@ -387,14 +372,7 @@ class _HomeSiteState extends State<HomeSite> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 35.0),
-                              child: Divider(
-                                thickness: 0.7,
-                                height: 1,
-                              ),
-                            ),
+                            listDivider()
                           ],
                         ),
                       );
@@ -404,18 +382,16 @@ class _HomeSiteState extends State<HomeSite> {
               ])));
     }
   }
-
-  
 }
 
 var courseList = [];
 
-class addLesson extends StatefulWidget {
+class AddLesson extends StatefulWidget {
   @override
-  _addLessonState createState() => _addLessonState();
+  _AddLessonState createState() => _AddLessonState();
 }
 
-class _addLessonState extends State<addLesson> {
+class _AddLessonState extends State<AddLesson> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -443,7 +419,7 @@ class _addLessonState extends State<addLesson> {
             GestureDetector(
               onDoubleTap: () {
                 setState(() {
-                  selectedEmoji = "";
+                  _selectedEmoji = "";
                 });
               },
               onTap: () {
@@ -480,7 +456,7 @@ class _addLessonState extends State<addLesson> {
                               })()),
                               onSelected: (_emoji) {
                                 setState(() {
-                                  selectedEmoji = _emoji.char;
+                                  _selectedEmoji = _emoji.char;
                                 });
 
                                 Navigator.of(subcontext).pop(_emoji);
@@ -494,14 +470,14 @@ class _addLessonState extends State<addLesson> {
                 } else {}
               },
               child: ((() {
-                if (selectedEmoji == "") {
+                if (_selectedEmoji == "") {
                   return Text(
                     "no emoji".tr(),
                     style: TextStyle(color: primaryColor),
                   );
                 } else {
                   return Text(
-                    selectedEmoji.toString(),
+                    _selectedEmoji.toString(),
                     style: TextStyle(fontSize: 70),
                   );
                 }
@@ -509,7 +485,7 @@ class _addLessonState extends State<addLesson> {
             ),
             Spacer(flex: 2),
             TextField(
-                inputFormatters: [EmojiRegex()],
+                inputFormatters: [emojiRegex()],
                 controller: addLessonController,
                 textAlign: TextAlign.left,
                 decoration: inputDec("Fach Name".tr())),
@@ -542,27 +518,21 @@ class _addLessonState extends State<addLesson> {
 }
 
 createLesson(String lessonName) async {
-  Future result = database.createDocument(
+  database.createDocument(
     collectionId: collectionLessons,
     parentDocument: user.choosenSemester,
     parentProperty: "lessons",
     parentPropertyType: "append",
-    data: {"name": lessonName, "average": -99, "emoji": selectedEmoji},
+    data: {"name": lessonName, "average": -99, "emoji": _selectedEmoji},
   );
-
-  result.then((response) {
-    print(response);
-  }).catchError((error) {
-    print(error.response);
-  });
 }
 
-class updateLesson extends StatefulWidget {
+class UpdateLesson extends StatefulWidget {
   @override
-  _updateLessonState createState() => _updateLessonState();
+  _UpdateLessonState createState() => _UpdateLessonState();
 }
 
-class _updateLessonState extends State<updateLesson> {
+class _UpdateLessonState extends State<UpdateLesson> {
   @override
   Widget build(BuildContext context) {
     renameTestWeightController.text = selectedLessonName;
@@ -591,7 +561,7 @@ class _updateLessonState extends State<updateLesson> {
             GestureDetector(
               onDoubleTap: () {
                 setState(() {
-                  selectedEmoji = "";
+                  _selectedEmoji = "";
                 });
               },
               onTap: () {
@@ -628,7 +598,7 @@ class _updateLessonState extends State<updateLesson> {
                               })()),
                               onSelected: (_emoji) {
                                 setState(() {
-                                  selectedEmoji = _emoji.char;
+                                  _selectedEmoji = _emoji.char;
                                 });
 
                                 Navigator.of(subcontext).pop(_emoji);
@@ -642,14 +612,14 @@ class _updateLessonState extends State<updateLesson> {
                 } else {}
               },
               child: ((() {
-                if (selectedEmoji == "") {
+                if (_selectedEmoji == "") {
                   return Text(
                     "no emoji".tr(),
                     style: TextStyle(color: primaryColor),
                   );
                 } else {
                   return Text(
-                    selectedEmoji.toString(),
+                    _selectedEmoji.toString(),
                     style: TextStyle(fontSize: 70),
                   );
                 }
@@ -658,7 +628,7 @@ class _updateLessonState extends State<updateLesson> {
             Spacer(flex: 2),
             TextField(
                 controller: renameTestWeightController,
-                inputFormatters: [EmojiRegex()],
+                inputFormatters: [emojiRegex()],
                 textAlign: TextAlign.left,
                 decoration: inputDec("Fach Name".tr())),
             SizedBox(
@@ -670,7 +640,14 @@ class _updateLessonState extends State<updateLesson> {
               ),
               child: Text("unbenennen".tr()),
               onPressed: () {
-                updateLessonF(renameTestWeightController.text);
+                database.updateDocument(
+                    collectionId: collectionLessons,
+                    documentId: selectedLesson,
+                    data: {
+                      "name": renameTestWeightController.text,
+                      "emoji": _selectedEmoji
+                    });
+
                 HapticFeedback.mediumImpact();
                 Navigator.pushAndRemoveUntil(
                   context,
@@ -688,11 +665,4 @@ class _updateLessonState extends State<updateLesson> {
       ),
     );
   }
-}
-
-updateLessonF(String lessonUpdate) {
-  database.updateDocument(
-      collectionId: collectionLessons,
-      documentId: selectedLesson,
-      data: {"name": lessonUpdate, "emoji": selectedEmoji});
 }

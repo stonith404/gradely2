@@ -1,17 +1,12 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gradely/chooseSemester.dart';
+
 import 'package:gradely/main.dart';
-import 'package:gradely/data.dart';
-import 'package:gradely/semesterDetail.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/shared/VARIABLES.dart';
-import 'package:gradely/auth/login.dart';
 
 RoundedRectangleBorder defaultRoundedCorners() {
   return RoundedRectangleBorder(
@@ -55,7 +50,7 @@ InputDecoration inputDec(String _label) {
   );
 }
 
-FilteringTextInputFormatter EmojiRegex() {
+FilteringTextInputFormatter emojiRegex() {
   return FilteringTextInputFormatter.deny(RegExp(
       r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'));
 }
@@ -68,6 +63,7 @@ ButtonStyle elev() {
 
 //dialog
 
+// ignore: missing_return
 Widget gradelyDialog({context, title, text, actions}) {
   androidDialog() {
     return AlertDialog(

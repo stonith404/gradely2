@@ -37,6 +37,7 @@ class User {
   String gradeType;
   String choosenSemester;
   String dbID;
+  String color;
 
   User(
       this.id,
@@ -49,5 +50,5 @@ class User {
       this.gradelyPlus,
       this.gradeType,
       this.choosenSemester,
-      this.dbID);
+      this.dbID, this.color);
 }
