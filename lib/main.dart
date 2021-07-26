@@ -1,6 +1,7 @@
 import 'package:appwrite/appwrite.dart' hide Locale;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gradely/GRADELY_OLD/main.dart' hide primaryColor;
 import 'package:gradely/screens/auth/login.dart';
 import 'package:gradely/screens/main/semesterDetail.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
@@ -9,17 +10,12 @@ import 'package:gradely/shared/loading.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-
 bool isLoggedIn = false;
-
 
 List<String> testList = [];
 var courseListID = [];
 var allAverageList = [];
 var allAverageListPP = [];
-
-
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,8 +36,20 @@ void main() async {
     path: 'assets/translations',
     fallbackLocale: Locale('en'),
     saveLocale: true,
-    child: MaterialWrapper(),
+    child: GradelyVersionWrapper(),
   ));
+}
+
+class GradelyVersionWrapper extends StatelessWidget {
+  bool newGradely = true;
+  @override
+  Widget build(BuildContext context) {
+    if (newGradely) {
+      return MaterialWrapper();
+    } else {
+      return OLDMaterialWrapper();
+    }
+  }
 }
 
 class MaterialWrapper extends StatelessWidget {

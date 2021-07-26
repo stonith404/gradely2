@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gradely/GRADELY_OLD/main.dart'
-    show  OLDMaterialWrapper;
-import 'package:gradely/main.dart';
-
-import 'package:gradely/shared/VARIABLES.dart';
-import 'package:gradely/shared/defaultWidgets.dart';
-import 'package:gradely/shared/loading.dart';
-import 'register.dart';
-
-import 'resetPassword.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:gradely/GRADELY_OLD/main.dart';
+import 'package:gradely/GRADELY_OLD//shared/loading.dart';
+import 'package:gradely/GRADELY_OLD//shared/defaultWidgets.dart';
+import 'package:gradely/GRADELY_OLD/userAuth/resetPassword.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
+import 'package:gradely/screens/auth/register.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -22,21 +18,17 @@ TextEditingController _emailController = new TextEditingController();
 TextEditingController _passwordController = new TextEditingController();
 FirebaseAuth auth = FirebaseAuth.instance;
 
+bool isLoading = false;
+String _email = "";
+String _password = "";
 String _errorMessage = "";
 
 class _LoginScreenState extends State<LoginScreen> {
   signInUser() async {
     FocusScope.of(context).unfocus();
-    Future result = account.createSession(
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
-
-    setState(() {
-      isLoading = false;
-    });
-
-    result.then((response) {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: _email, password: _password);
       setState(() {
         isLoading = false;
       });
@@ -44,15 +36,27 @@ class _LoginScreenState extends State<LoginScreen> {
         context,
         MaterialPageRoute(builder: (context) => HomeWrapper()),
       );
-
-      _passwordController.text = "";
-      print(response);
-    }).catchError((error) {
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        gradelyDialog(
+            context: context, title: "error".tr(), text: "userNotFound".tr());
+      } else if (e.code == 'wrong-password') {
+        gradelyDialog(
+            context: context, title: "error".tr(), text: "wrongPassword".tr());
+      }
       setState(() {
         isLoading = false;
       });
-      gradelyDialog(context: context, title: "error".tr(), text: error.message);
-    });
+    }
+    _passwordController.text = "";
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    SchedulerBinding.instance
+        .addPostFrameCallback((_) => gradelyOLDinfo(context));
   }
 
   void setState(fn) {
@@ -73,9 +77,19 @@ class _LoginScreenState extends State<LoginScreen> {
           leading: Container(),
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Image.asset(
-            'assets/images/iconT.png',
-            height: 60,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "OLD VERSION OF GRADELY",
+                style: TextStyle(fontSize: 15),
+              ),
+              IconButton(
+                  onPressed: () {
+                    gradelyOLDinfo(context);
+                  },
+                  icon: Icon(Icons.info_rounded))
+            ],
           ),
         ),
         body: isLoading
@@ -119,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           controller: _emailController,
                           textAlign: TextAlign.left,
-                          decoration: inputDecAuth("Deine Email".tr())),
+                          decoration: InputDecAuth("Deine Email".tr())),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -127,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passwordController,
                           textAlign: TextAlign.left,
                           obscureText: true,
-                          decoration: inputDecAuth("Dein Passwort".tr())),
+                          decoration: InputDecAuth("Dein Passwort".tr())),
                     ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -135,6 +149,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         onPressed: () {
                           setState(() {
+                            _email = _emailController.text;
+                            _password = _passwordController.text;
                             isLoading = true;
                           });
                           signInUser();
@@ -149,18 +165,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(color: Colors.red),
                     ),
                     Spacer(flex: 1),
-                    TextButton(
-                        onPressed: () {
-                         
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OLDMaterialWrapper()),
-                          );
-                        },
-                        child: Text(
-                            "❗️" + "gradely_migration_registred_before".tr(),
-                            style: TextStyle(color: Colors.white))),
                     TextButton(
                         onPressed: () {
                           Navigator.pushReplacement(
@@ -193,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-InputDecoration inputDecAuth(_label) {
+InputDecoration InputDecAuth(_label) {
   return InputDecoration(
     disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),

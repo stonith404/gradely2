@@ -121,5 +121,7 @@
   "coffee" : "coffee",
   "ice coffee" : "ice coffee",
   "success" : "success",
-  "nameUpdated" : "Your name was updated"
+  "nameUpdated" : "Your name was updated",
+  "gradely_migration_registred_before" : "Registred before the 1st august?",
+  "gradely_migration_info" : "As of August 1st, Gradely has a new database in Switzerland, not like before by Google in Western Europe. If you registered before August 1st, you can continue to use gradely, but the app will no longer be updated. If you want to continue to benefit from updates, please register again. \n\nI'm sorry for the inconvenience.\n\nAs an excuse you will receive Gradely Plus for free with your newly created account. Contact me at elias@eliasschneider.com."
 }

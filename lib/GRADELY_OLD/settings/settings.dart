@@ -2,22 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely/screens/auth/introScreen.dart';
-import 'package:gradely/screens/main/semesterDetail.dart';
-import 'package:gradely/screens/settings/userInfo.dart';
-import 'package:gradely/shared/defaultWidgets.dart';
+import 'package:gradely/GRADELY_OLD/LessonsDetail.dart';
+import 'package:gradely/GRADELY_OLD/introScreen.dart';
+import 'package:gradely/GRADELY_OLD/main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gradely/GRADELY_OLD/semesterDetail.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:gradely/shared/FUNCTIONS.dart';
-import 'package:gradely/shared/VARIABLES.dart';
-import 'package:gradely/data.dart';
+import 'package:gradely/GRADELY_OLD//userAuth/login.dart';
+import 'package:gradely/GRADELY_OLD/data.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'platformList.dart';
-import 'contact.dart';
-import 'gradelyPlus.dart';
-import 'customize.dart';
+import 'package:gradely/GRADELY_OLD/settings/platformList.dart';
+import 'package:gradely/GRADELY_OLD/settings/contact.dart';
+import 'package:gradely/GRADELY_OLD/settings/gradelyPlus.dart';
+import 'package:gradely/GRADELY_OLD/settings/customize.dart';
+import 'package:gradely/GRADELY_OLD/settings/userInfo.dart';
+import 'package:gradely/GRADELY_OLD/shared/defaultWidgets.dart';
 
 Future settingsScreen(BuildContext context) {
-  String gradesResult = user.gradeType;
   return showCupertinoModalBottomSheet(
     shadow: BoxShadow(
       color: Colors.grey.withOpacity(0.3),
@@ -51,29 +52,28 @@ Future settingsScreen(BuildContext context) {
                         decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                color: bwColor.withOpacity(0.3),
+                                color: Colors.grey.withOpacity(0.3),
                                 spreadRadius: 5,
                                 blurRadius: 7,
                                 offset:
                                     Offset(0, 3), // changes position of shadow
                               ),
                             ],
-                            color: bwColor,
+                            color: Colors.white,
                             borderRadius: BorderRadius.all(
                               Radius.circular(25),
                             )),
                         child: IconButton(
                             iconSize: 15,
-                            color: wbColor,
-                            onPressed: () async {
-                              await getUserInfo();
+                            color: primaryColor,
+                            onPressed: () {
                               Navigator.of(context).pop();
                               Navigator.pushReplacement(
                                 context,
                                 PageRouteBuilder(
                                   pageBuilder:
                                       (context, animation1, animation2) =>
-                                          SemesterDetail(),
+                                          HomeSite(),
                                   transitionDuration: Duration(seconds: 0),
                                 ),
                               );
@@ -104,12 +104,17 @@ Future settingsScreen(BuildContext context) {
                                 );
                               },
                               items: [
-                                Icon(FontAwesome5Solid.user,
-                                    size: 15, color: primaryColor),
+                                Icon(
+                                  FontAwesome5Solid.user,
+                                  size: 15,
+                                  color: primaryColor,
+                                ),
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text(user.name == "" ? user.email : user.name),
+                                Text(auth.currentUser.displayName == null
+                                    ? auth.currentUser.email
+                                    : auth.currentUser.displayName),
                                 Spacer(
                                   flex: 1,
                                 ),
@@ -125,8 +130,11 @@ Future settingsScreen(BuildContext context) {
                             children: [
                               settingsListTile(
                                   items: [
-                                    Icon(FontAwesome5Solid.laptop,
-                                        size: 15, color: primaryColor),
+                                    Icon(
+                                      FontAwesome5Solid.laptop,
+                                      size: 15,
+                                      color: primaryColor,
+                                    ),
                                     SizedBox(
                                       width: 10,
                                     ),
@@ -144,15 +152,16 @@ Future settingsScreen(BuildContext context) {
                                 child: settingsListTile(
                                     items: [
                                       Icon(
-                                          user.gradelyPlus
-                                              ? FontAwesome5Solid.palette
-                                              : FontAwesome5Solid.star,
-                                          size: 17,
-                                          color: primaryColor),
+                                        gradelyPlus
+                                            ? FontAwesome5Solid.palette
+                                            : FontAwesome5Solid.star,
+                                        size: 17,
+                                        color: primaryColor,
+                                      ),
                                       SizedBox(
                                         width: 10,
                                       ),
-                                      Text(user.gradelyPlus
+                                      Text(gradelyPlus
                                           ? "customize".tr()
                                           : "Gradely Plus"),
                                     ],
@@ -160,10 +169,9 @@ Future settingsScreen(BuildContext context) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                user.gradelyPlus
-                                                    ? CustomizeT()
-                                                    : GradelyPlusWrapper()),
+                                            builder: (context) => gradelyPlus
+                                                ? CustomizeT()
+                                                : GradelyPlusWrapper()),
                                       );
                                     }),
                               ),
@@ -171,8 +179,11 @@ Future settingsScreen(BuildContext context) {
                               settingsListTile(
                                 arrow: false,
                                 items: [
-                                  Icon(CupertinoIcons.plus_slash_minus,
-                                      size: 15, color: primaryColor),
+                                  Icon(
+                                    CupertinoIcons.plus_slash_minus,
+                                    size: 15,
+                                    color: primaryColor,
+                                  ),
                                   SizedBox(
                                     width: 10,
                                   ),
@@ -192,20 +203,18 @@ Future settingsScreen(BuildContext context) {
                                       );
                                     }).toList(),
                                     onChanged: (value) {
-                                      var newValue = "av";
+                                      var newValue = "Pluspunkte";
                                       if (value == "Pluspunkte") {
-                                        newValue = "pp";
+                                        newValue = "Pluspunkte";
                                       } else if (value == "pluspoints") {
-                                        newValue = "pp";
+                                        newValue = "Pluspunkte";
                                       } else {
-                                        newValue = "av";
+                                        newValue = "Durchschnitt";
                                       }
-                                      database.updateDocument(
-                                          documentId: user.dbID,
-                                          collectionId: collectionUser,
-                                          data: {
-                                            "gradeType": newValue,
-                                          });
+                                      FirebaseFirestore.instance
+                                          .collection('userData')
+                                          .doc(auth.currentUser.uid)
+                                          .update({'gradesResult': newValue});
                                       setState(() {
                                         gradesResult = newValue;
                                       });
@@ -225,8 +234,11 @@ Future settingsScreen(BuildContext context) {
                             children: [
                               settingsListTile(
                                 items: [
-                                  Icon(FontAwesome5Solid.envelope,
-                                      size: 15, color: primaryColor),
+                                  Icon(
+                                    FontAwesome5Solid.envelope,
+                                    size: 15,
+                                    color: primaryColor,
+                                  ),
                                   SizedBox(
                                     width: 10,
                                   ),
@@ -247,8 +259,11 @@ Future settingsScreen(BuildContext context) {
                               ),
                               settingsListTile(
                                 items: [
-                                  Icon(FontAwesome5Solid.redo,
-                                      size: 15, color: primaryColor),
+                                  Icon(
+                                    FontAwesome5Solid.redo,
+                                    size: 15,
+                                    color: primaryColor,
+                                  ),
                                   SizedBox(
                                     width: 10,
                                   ),
