@@ -6,9 +6,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely/shared/loading.dart';
 import 'data.dart';
-import 'auth/login.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'shared/defaultWidgets.dart';
 import 'main.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -25,6 +24,7 @@ class ChooseSemester extends StatefulWidget {
 
 class _ChooseSemesterState extends State<ChooseSemester> {
   _getSemesters() async {
+    setState(() => isLoading = true);
     semesterList = [];
     var response;
 
@@ -57,6 +57,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
         });
       }
     }
+    setState(() => isLoading = false);
   }
 
   saveChoosenSemester(String _choosenSemester) {
@@ -82,20 +83,12 @@ class _ChooseSemesterState extends State<ChooseSemester> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shape: defaultRoundedCorners(),
-        backgroundColor: primaryColor,
-        title: Text("Semester"),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_outlined,
-          ),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => HomeWrapper()),
-            );
-          },
+        iconTheme: IconThemeData(
+          color: primaryColor,
         ),
+        backgroundColor: defaultBGColor,
+        elevation: 0,
+        title: Text("Semester", style: appBarTextTheme),
       ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: primaryColor,
@@ -103,157 +96,151 @@ class _ChooseSemesterState extends State<ChooseSemester> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddSemester()),
+              MaterialPageRoute(builder: (context) => addSemester()),
             );
           }),
       body: Column(
         children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: semesterList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
-                  child: Slidable(
-                    actionPane: SlidableDrawerActionPane(),
-                    actionExtentRatio: 0.25,
-                    secondaryActions: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                        ),
-                        child: IconSlideAction(
-                          color: primaryColor,
-                          iconWidget: Icon(
-                            FontAwesome5Solid.pencil_alt,
-                            color: Colors.white,
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UpdateSemester()),
-                            );
-
-                            selectedSemester = semesterList[index].id;
-                          },
-                        ),
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        ),
-                        child: IconSlideAction(
-                          color: primaryColor,
-                          iconWidget: Icon(
-                            FontAwesome5.trash_alt,
-                            color: Colors.white,
-                          ),
-                          onTap: () {
-                            return gradelyDialog(
-                              context: context,
-                              title: "Achtung".tr(),
-                              text:
-                                  '${'Bist du sicher, dass du'.tr()} "${semesterList[index].name}" ${'löschen willst?'.tr()}',
-                              actions: <Widget>[
-                                TextButton(
-                                  child: Text(
-                                    "Nein".tr(),
-                                    style: TextStyle(color: wbColor),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    HapticFeedback.lightImpact();
-                                  },
+          isLoading
+              ? gradelyLoadingIndicator()
+              : Expanded(
+                  child: ListView.builder(
+                    itemCount: semesterList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                        child: Slidable(
+                          actionPane: SlidableDrawerActionPane(),
+                          actionExtentRatio: 0.25,
+                          secondaryActions: <Widget>[
+                            ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                              ),
+                              child: IconSlideAction(
+                                color: primaryColor,
+                                iconWidget: Icon(
+                                  FontAwesome5Solid.pencil_alt,
+                                  color: Colors.white,
                                 ),
-                                TextButton(
-                                  child: Text(
-                                    "Löschen".tr(),
-                                    style: TextStyle(color: Colors.red),
-                                  ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => updateSemester()),
+                                  );
+
+                                  selectedSemester = semesterList[index].id;
+                                },
+                              ),
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              ),
+                              child: IconSlideAction(
+                                color: primaryColor,
+                                iconWidget: Icon(
+                                  FontAwesome5.trash_alt,
+                                  color: Colors.white,
+                                ),
+                                onTap: () {
+                                  return gradelyDialog(
+                                    context: context,
+                                    title: "Achtung".tr(),
+                                    text:
+                                        '${'Bist du sicher, dass du'.tr()} "${semesterList[index].name}" ${'löschen willst?'.tr()}',
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text(
+                                          "Nein".tr(),
+                                          style: TextStyle(color: wbColor),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          HapticFeedback.lightImpact();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text(
+                                          "Löschen".tr(),
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                        onPressed: () {
+                                          database.deleteDocument(
+                                              collectionId: collectionSemester,
+                                              documentId:
+                                                  semesterList[index].id);
+
+                                          HapticFeedback.heavyImpact();
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ChooseSemester()),
+                                            (Route<dynamic> route) => false,
+                                          );
+
+                                          selectedSemester =
+                                              semesterList[index].id;
+                                        },
+                                      )
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                          child: Container(
+                            decoration: boxDec(),
+                            child: ListTile(
+                              title: Text(
+                                semesterList[index].name,
+                              ),
+                              trailing: IconButton(
+                                  color: primaryColor,
+                                  icon: Icon(Icons.arrow_forward),
                                   onPressed: () {
-                                    FirebaseFirestore.instance
-                                        .collection(
-                                            'userData/${auth.currentUser.uid}/semester/')
-                                        .doc(semesterList[index].id)
-                                        .set({});
-                                    FirebaseFirestore.instance
-                                        .collection(
-                                            'userData/${auth.currentUser.uid}/semester/')
-                                        .doc(semesterList[index].id)
-                                        .delete();
-                                    HapticFeedback.heavyImpact();
+                                    choosenSemester = semesterList[index].id;
+                                    choosenSemesterName =
+                                        semesterList[index].name;
+                                    saveChoosenSemester(choosenSemester);
+                                    HapticFeedback.mediumImpact();
                                     Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              ChooseSemester()),
+                                          builder: (context) => HomeWrapper()),
                                       (Route<dynamic> route) => false,
                                     );
-
-                                    selectedSemester = semesterList[index].id;
-                                  },
-                                )
-                              ],
-                            );
-                          },
+                                  }),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
-                    child: Container(
-                      decoration: boxDec(),
-                      child: ListTile(
-                        title: Text(
-                          semesterList[index].name,
-                        ),
-                        trailing: IconButton(
-                            color: primaryColor,
-                            icon: Icon(Icons.arrow_forward),
-                            onPressed: () {
-                              choosenSemester = semesterList[index].id;
-                              choosenSemesterName = semesterList[index].name;
-                              saveChoosenSemester(choosenSemester);
-                              HapticFeedback.mediumImpact();
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeWrapper()),
-                                (Route<dynamic> route) => false,
-                              );
-                            }),
-                      ),
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-          ),
+                ),
         ],
       ),
     );
   }
-}
 
-class UpdateSemester extends StatefulWidget {
-  @override
-  _UpdateSemesterState createState() => _UpdateSemesterState();
-}
-
-class _UpdateSemesterState extends State<UpdateSemester> {
-  @override
-  void initState() {
-    super.initState();
+  updateSemester() {
     renameSemesterController.text = choosenSemesterName;
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: primaryColor,
-        title: Text("renameSemester".tr()),
+        iconTheme: IconThemeData(
+          color: primaryColor,
+        ),
+        backgroundColor: defaultBGColor,
+        elevation: 0,
+        title: Text(
+          "renameSemester".tr(),
+          style: appBarTextTheme,
+        ),
         shape: defaultRoundedCorners(),
       ),
       body: Padding(
@@ -274,17 +261,16 @@ class _UpdateSemesterState extends State<UpdateSemester> {
                 primary: primaryColor, // background
               ),
               child: Text("unbenennen".tr()),
-              onPressed: () {
-                updateSemesterF(renameSemesterController.text);
+              onPressed: () async {
+                await database.updateDocument(
+                    collectionId: collectionSemester,
+                    documentId: selectedSemester,
+                    data: {"name": renameSemesterController.text});
                 HapticFeedback.mediumImpact();
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChooseSemester()),
-                  (Route<dynamic> route) => false,
-                );
+                await _getSemesters();
+                Navigator.of(context).pop();
 
                 renameSemesterController.text = "";
-                semesterList = [];
               },
             ),
           ],
@@ -292,29 +278,16 @@ class _UpdateSemesterState extends State<UpdateSemester> {
       ),
     );
   }
-}
 
-updateSemesterF(String lessonUpdate) {
-  FirebaseFirestore.instance
-      .collection('userData')
-      .doc(auth.currentUser.uid)
-      .collection('semester')
-      .doc(selectedSemester)
-      .update({"name": lessonUpdate});
-}
-
-class AddSemester extends StatefulWidget {
-  @override
-  _AddSemesterState createState() => _AddSemesterState();
-}
-
-class _AddSemesterState extends State<AddSemester> {
-  @override
-  Widget build(BuildContext context) {
+  addSemester() {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: primaryColor,
-        title: Text("Semester hinzufügen".tr()),
+        iconTheme: IconThemeData(
+          color: primaryColor,
+        ),
+        elevation: 0,
+        backgroundColor: defaultBGColor,
+        title: Text("Semester hinzufügen".tr(), style: appBarTextTheme),
         shape: defaultRoundedCorners(),
       ),
       body: Padding(

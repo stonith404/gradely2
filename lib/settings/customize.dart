@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradely/main.dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import 'settings.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gradely/auth/login.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../shared/defaultWidgets.dart';
 
@@ -35,22 +34,23 @@ class _CustomizeTState extends State<CustomizeT> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: primaryColor,
-        title: Text(
-          "customize".tr(),
+        iconTheme: IconThemeData(
+          color: primaryColor,
         ),
+        backgroundColor: defaultBGColor,
+        elevation: 0,
+        title: Text("customize".tr(), style: appBarTextTheme),
         leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios_outlined,
-            ),
+            icon: Icon(Icons.arrow_back_ios_outlined, color: primaryColor),
             onPressed: () {
-              FirebaseFirestore.instance
-                  .collection('userData')
-                  .doc(auth.currentUser.uid)
-                  .update({
-                'primaryColor':
-                    "#${(primaryColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
-              });
+              database.updateDocument(
+                  collectionId: collectionUser,
+                  documentId: user.dbID,
+                  data: {
+                    'color':
+                        "#${(primaryColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
+                  });
+
               settingsScreen(context);
             }),
       ),

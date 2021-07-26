@@ -64,7 +64,7 @@ ButtonStyle elev() {
 //dialog
 
 // ignore: missing_return
-Widget gradelyDialog({context, title, text, actions}) {
+Widget gradelyDialog({@required context, @required title, @required text, actions}) {
   androidDialog() {
     return AlertDialog(
         title: Text(title),

@@ -1,12 +1,6 @@
-import 'dart:io';
-
-import 'package:gradely/shared/VARIABLES.dart';
-
 import 'main.dart';
 import 'package:flutter/material.dart';
-import 'LessonsDetail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'auth/login.dart';
 import 'chooseSemester.dart';
 import 'dart:async';
@@ -14,11 +8,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 final String cacheField = 'updatedAt';
 
-final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
 num plusPoints = 0;
 
-bool isMaintanceEnabled = false;
-String gradesResult = "Pluspunkte";
+
 num plusPointsallAverageList = 0;
 Timer timer;
 DocumentSnapshot uidDB;
@@ -49,6 +42,8 @@ getPluspoints(num value) {
   } else if (value >= 1) {
     plusPoints = -6;
   } else if (value == -99) {
+    plusPoints = 0;
+  }else if (value.isNaN) {
     plusPoints = 0;
   }
   return plusPoints;
@@ -110,79 +105,12 @@ formatDate(picked) {
   return "${_formatted.year}.${_formatted.month}.${_formatted.day}";
 }
 
-getUIDDocuments() async {
-  uidDB = await FirebaseFirestore.instance
-      .collection('userData')
-      .doc(auth.currentUser.uid)
-      .get();
-
-  gradesResult = uidDB.get('gradesResult');
-  choosenSemesterName = uidDB.get('choosenSemesterName');
-
-  if (uidDB.get('choosenSemester') == null) {
-    FirebaseFirestore.instance
-        .collection('userData')
-        .doc(auth.currentUser.uid)
-        .update({'choosenSemester': 'noSemesterChoosed'});
-  } else {
-    choosenSemester = uidDB.get('choosenSemester');
-  }
-  try {
-    if (uidDB.get('primaryColor') != null) {
-      primaryColor = Color(
-          int.parse(uidDB.get('primaryColor').substring(1, 7), radix: 16) +
-              0xFF000000);
-    } else {
-      primaryColor = Color(0xFF6C63FF);
-    }
-  } catch (e) {
-    primaryColor = Color(0xFF6C63FF);
-  }
-}
 
 void launchURL(_url) async =>
     await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 
-getauthStatus() {
-  if (FirebaseAuth.instance.currentUser == null) {
-    navigatorKey.currentState.pushNamed('/settings');
-  }
-}
 
-getReleaseNotes() async {
-  uidDB = await FirebaseFirestore.instance
-      .collection('shared/releaseNotes/releaseNotes/')
-      .doc("1.0.3")
-      .get();
-  if (Platform.localeName == "de") {
-    releaseNotes = uidDB.get('de');
-  } else {
-    releaseNotes = uidDB.get('en');
-  }
-}
 
-checkForNetwork() async {
-  try {
-    final result = await InternetAddress.lookup('google.com');
-    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      internetConnected = true;
-    }
-  } on SocketException catch (_) {
-    internetConnected = false;
-  }
-}
 
-darkModeColorChanger(context) {
-  var brightness = MediaQuery.of(context).platformBrightness;
-  if (brightness == Brightness.dark) {
-    darkmode = true;
-    bwColor = Colors.grey[850];
-    wbColor = Colors.white;
-    defaultBGColor = Colors.grey[900];
-  } else {
-    darkmode = false;
-    bwColor = Colors.white;
-    wbColor = Colors.grey[850];
-    defaultBGColor = Color(0xFFE5E8F2);
-  }
-}
+
+

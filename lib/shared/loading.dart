@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-
-import 'package:gradely/data.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gradely/main.dart';
 import 'package:gradely/settings/settings.dart';
 import 'package:flutter/services.dart';
-import 'defaultWidgets.dart';
+import 'package:gradely/shared/FUNCTIONS.dart';
+import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely/shared/WIDGETS.dart';
 import 'dart:math' as math;
 
 class LoadingScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _LoadingScreenState extends State<LoadingScreen>
   AnimationController controllerOne;
   Animation<Color> animationOne;
   Animation<Color> animationTwo;
-
+  List list = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   @override
   void initState() {
     super.initState();
@@ -49,172 +50,154 @@ class _LoadingScreenState extends State<LoadingScreen>
   Widget build(BuildContext context) {
     darkModeColorChanger(context);
     return Scaffold(
-        body: NestedScrollView(
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return <Widget>[
-          SliverAppBar(
-            backgroundColor: primaryColor,
-            forceElevated: true,
-            title: Image.asset(
-              'assets/images/iconT.png',
-              height: 60,
-            ),
-            bottom: PreferredSize(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+        appBar: AppBar(
+          backgroundColor: defaultBGColor,
+          elevation: 0,
+          title: Image.asset(
+            'assets/images/iconT.png',
+            height: 60,
+          ),
+          leading: Transform(
+            alignment: Alignment.center,
+            transform: Matrix4.rotationY(math.pi),
+            child: IconButton(
+                icon: Icon(Icons.segment, color: primaryColor),
+                onPressed: () async {
+                  HapticFeedback.lightImpact();
+
+                  settingsScreen(context);
+                }),
+          ),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.switch_left, color: primaryColor),
+                onPressed: () {}),
+          ],
+        ),
+        body: ShaderMask(
+            shaderCallback: (rect) {
+              return LinearGradient(
+                      tileMode: TileMode.mirror,
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [animationOne.value, animationTwo.value])
+                  .createShader(
+                rect,
+              );
+            },
+            child: Padding(
+                padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
+                child: Column(children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        )),
+                    child: Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          ShaderMask(
-                            shaderCallback: (rect) {
-                              return LinearGradient(
-                                  tileMode: TileMode.mirror,
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  colors: [
-                                    animationOne.value,
-                                    animationTwo.value
-                                  ]).createShader(
-                                rect,
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                              ),
-                              width: 200,
-                              height: 30.0,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 15.0),
-                            child: ShaderMask(
-                              shaderCallback: (rect) {
-                                return LinearGradient(
-                                    tileMode: TileMode.mirror,
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight,
-                                    colors: [
-                                      animationOne.value,
-                                      animationTwo.value
-                                    ]).createShader(
-                                  rect,
-                                );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: primaryColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ShaderMask(
+                                shaderCallback: (rect) {
+                                  return LinearGradient(
+                                      tileMode: TileMode.mirror,
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: [
+                                        animationOne.value,
+                                        animationTwo.value
+                                      ]).createShader(
+                                    rect,
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: primaryColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                  width: 200,
+                                  height: 30.0,
                                 ),
-                                width: 200,
-                                height: 17.0,
                               ),
-                            ),
-                          )
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15.0),
+                                child: ShaderMask(
+                                  shaderCallback: (rect) {
+                                    return LinearGradient(
+                                        tileMode: TileMode.mirror,
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [
+                                          animationOne.value,
+                                          animationTwo.value
+                                        ]).createShader(
+                                      rect,
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: primaryColor,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    width: 200,
+                                    height: 17.0,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Spacer(flex: 1),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 15, 10),
+                            child: IconButton(
+                                icon: Icon(Icons.add),
+                                color: Colors.white,
+                                onPressed: () {}),
+                          ),
                         ],
                       ),
                     ),
-                    Spacer(flex: 1),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 15, 10),
-                      child: IconButton(
-                          icon: Icon(Icons.add),
-                          color: Colors.white,
-                          onPressed: () {}),
-                    ),
-                  ],
-                ),
-                preferredSize: Size(0, 130)),
-            leading: Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.rotationY(math.pi),
-              child: IconButton(
-                  icon: Icon(Icons.segment),
-                  onPressed: () async {
-                    HapticFeedback.lightImpact();
-
-                    settingsScreen(context);
-                  }),
-            ),
-            floating: true,
-            actions: [
-              IconButton(icon: Icon(Icons.switch_left), onPressed: () async {}),
-            ],
-            shape: defaultRoundedCorners(),
-          ),
-        ];
-      },
-      body: ShaderMask(
-        shaderCallback: (rect) {
-          return LinearGradient(
-              tileMode: TileMode.mirror,
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [animationOne.value, animationTwo.value]).createShader(
-            rect,
-          );
-        },
-        child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (index, context) {
-              return Padding(
-                  padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
-                  child: Container(
-                    decoration: boxDec(),
-                    child: ListTile(),
-                  ));
-            }),
-      ),
-    ));
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: 9,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                decoration: listContainerDecoration(
+                                    index: index, list: list),
+                                child: ListTile(),
+                              ),
+                              listDivider()
+                            ],
+                          );
+                        }),
+                  ),
+                ]))));
   }
 }
 
-class LoadingBlock extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: double.infinity,
-            height: 100,
-            color: Colors.white,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            height: 8.0,
-            color: Colors.white,
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            width: double.infinity,
-            height: 8.0,
-            color: Colors.white,
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            width: 40.0,
-            height: 8.0,
-            color: Colors.white,
-          ),
-        ],
+Widget gradelyLoadingIndicator() {
+  return Expanded(
+    child: Center(
+      child: SpinKitWave(
+        color: primaryColor,
+        size: 20.0,
       ),
-    );
-  }
+    ),
+  );
 }

@@ -80,6 +80,7 @@ class MaterialWrapper extends StatelessWidget {
         backgroundColor: Colors.grey[300],
       ),
       darkTheme: ThemeData(
+        fontFamily: "Nunito",
         appBarTheme: AppBarTheme(
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.white),
@@ -136,5 +137,3 @@ class _State extends State<HomeWrapper> {
     );
   }
 }
-
-

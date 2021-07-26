@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Lesson {
   String id;
   String name;
@@ -37,7 +39,7 @@ class User {
   String gradeType;
   String choosenSemester;
   String dbID;
-  String color;
+  Color color;
 
   User(
       this.id,
@@ -50,5 +52,6 @@ class User {
       this.gradelyPlus,
       this.gradeType,
       this.choosenSemester,
-      this.dbID, this.color);
+      this.dbID,
+      this.color);
 }

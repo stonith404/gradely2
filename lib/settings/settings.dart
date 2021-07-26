@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely/LessonsDetail.dart';
 import 'package:gradely/introScreen.dart';
 import 'package:gradely/semesterDetail.dart';
 import 'package:gradely/settings/userInfo.dart';
@@ -20,7 +19,7 @@ import '../shared/defaultWidgets.dart';
 import '../data.dart';
 
 Future settingsScreen(BuildContext context) {
-  gradesResult = user.gradeType;
+  String gradesResult  = user.gradeType;
   return showCupertinoModalBottomSheet(
     shadow: BoxShadow(
       color: Colors.grey.withOpacity(0.3),

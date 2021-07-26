@@ -6,12 +6,11 @@ import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/WIDGETS.dart';
+import 'package:gradely/shared/loading.dart';
 import 'package:gradely/statistics.dart';
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'data.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'auth/login.dart';
 import 'chooseSemester.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'shared/defaultWidgets.dart';
@@ -19,14 +18,12 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-String selectedTest = "selectedTest";
+Grade selectedTest;
 String errorMessage = "";
 double averageOfGrades = 0;
 
 num _sumW = 0;
 num _sum = 0;
-var defaultBGColor;
-Timer timer;
 
 var selectedDate = DateTime.now();
 TextEditingController editTestInfoName = new TextEditingController();
@@ -39,13 +36,30 @@ class LessonsDetail extends StatefulWidget {
 }
 
 class _LessonsDetailState extends State<LessonsDetail> {
+  updateAverage() {
+    database.updateDocument(
+        documentId: selectedLesson,
+        collectionId: collectionLessons,
+        data: {
+          "average": (() {
+            if (averageOfGrades.isNaN) {
+              return -99;
+            } else {
+              return averageOfGrades;
+            }
+          }()),
+        });
+  }
+
   getTests() async {
+    setState(() => isLoading = true);
     gradeList = [];
     var response;
 
     choosenSemester = user.choosenSemester;
 
     response = await listDocuments(
+      orderField: "date",
       collection: collectionLessons,
       name: "gradeList_$selectedLesson",
       filters: ["\$id=$selectedLesson"],
@@ -79,6 +93,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
           );
         });
       }
+      gradeList.sort((a, b) => b.date.compareTo(a.date));
 
       _sumW = 0;
       _sum = 0;
@@ -91,14 +106,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
       setState(() {
         averageOfGrades = _sum / _sumW;
       });
-
-      database.updateDocument(
-          documentId: selectedLesson,
-          collectionId: collectionLessons,
-          data: {
-            "average": averageOfGrades,
-          });
     }
+    updateAverage();
+    setState(() => isLoading = false);
   }
 
   void initState() {
@@ -115,152 +125,150 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   @override
   Widget build(BuildContext context) {
-    getPluspoints(averageOfGrades);
     darkModeColorChanger(context);
 
     return Scaffold(
       appBar: AppBar(
           backgroundColor: defaultBGColor,
-          leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios_outlined, color: primaryColor),
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeWrapper()),
-                  (Route<dynamic> route) => false,
-                );
-                try {
-                  timer.cancel();
-                } catch (e) {}
-              }),
           title: Text(selectedLessonName,
               style:
                   TextStyle(color: primaryColor, fontWeight: FontWeight.w800)),
           elevation: 0),
       body: Column(
         children: [
-          Expanded(
-            child: gradeList.length == 0
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "empty1".tr(),
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w900),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("empty2".tr()),
-                              Icon(
-                                FontAwesome5Solid.sync,
-                                size: 15,
-                              ),
-                              Text("empty3".tr())
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("empty4".tr()),
-                              Icon(Icons.add),
-                              Text("empty5".tr())
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                : Column(
-                    children: [
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: gradeList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 15),
-                              decoration: listContainerDecoration(
-                                  index: index, list: gradeList),
-                              child: Slidable(
-                                actionPane: SlidableDrawerActionPane(),
-                                actionExtentRatio: 0.25,
-                                secondaryActions: <Widget>[
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: IconSlideAction(
-                                      color: primaryColor,
-                                      iconWidget: Icon(
-                                        FontAwesome5.trash_alt,
-                                        color: Colors.white,
-                                      ),
-                                      onTap: () {
-                                        selectedTest = gradeList[index].id;
-                                        FirebaseFirestore.instance
-                                            .collection(
-                                                'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                                            .doc(selectedTest)
-                                            .delete();
-                                        HapticFeedback.mediumImpact();
-                                        getTests();
-                                      },
-                                    ),
-                                  ),
-                                ],
-                                child: Column(
+          isLoading
+              ? gradelyLoadingIndicator()
+              : Expanded(
+                  child: gradeList.length == 0
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "empty1".tr(),
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w900),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    ListTile(
-                                        title: Text(
-                                          gradeList[index].name,
-                                        ),
-                                        subtitle: gradeList.isEmpty
-                                            ? Text("")
-                                            : Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.calculate_outlined,
-                                                    size: 20,
-                                                  ),
-                                                  Text(" " +
-                                                      gradeList[index]
-                                                          .weight
-                                                          .toString() +
-                                                      "   "),
-                                                  Icon(
-                                                    Icons.date_range,
-                                                    size: 20,
-                                                  ),
-                                                  Text(" " +
-                                                      gradeList[index]
-                                                          .date
-                                                          .toString()),
-                                                ],
-                                              ),
-                                        trailing: Text(gradeList[index]
-                                            .grade
-                                            .toStringAsFixed(2)),
-                                        onTap: () async {
-                                          getTests();
-
-                                          testDetail(context);
-                                        }),
-                                    listDivider()
+                                    Text("empty2".tr()),
+                                    Icon(
+                                      FontAwesome5Solid.sync,
+                                      size: 15,
+                                    ),
+                                    Text("empty3".tr())
                                   ],
                                 ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("empty4".tr()),
+                                    Icon(Icons.add),
+                                    Text("empty5".tr())
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      : Column(
+                          children: [
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Expanded(
+                              child: ListView.builder(
+                                itemCount: gradeList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 15),
+                                    decoration: listContainerDecoration(
+                                        index: index, list: gradeList),
+                                    child: Slidable(
+                                      actionPane: SlidableDrawerActionPane(),
+                                      actionExtentRatio: 0.25,
+                                      secondaryActions: <Widget>[
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: IconSlideAction(
+                                            color: primaryColor,
+                                            iconWidget: Icon(
+                                              FontAwesome5.trash_alt,
+                                              color: Colors.white,
+                                            ),
+                                            onTap: () {
+                                              database.deleteDocument(
+                                                  collectionId:
+                                                      collectionGrades,
+                                                  documentId:
+                                                      gradeList[index].id);
+                                              HapticFeedback.mediumImpact();
+
+                                              setState(() {
+                                                gradeList.removeWhere((item) =>
+                                                    item.id ==
+                                                    gradeList[index].id);
+                                              });
+                                              updateAverage();
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                      child: Column(
+                                        children: [
+                                          ListTile(
+                                              title: Text(
+                                                gradeList[index].name,
+                                              ),
+                                              subtitle: gradeList.isEmpty
+                                                  ? Text("")
+                                                  : Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons
+                                                              .calculate_outlined,
+                                                          size: 20,
+                                                        ),
+                                                        Text(" " +
+                                                            gradeList[index]
+                                                                .weight
+                                                                .toString() +
+                                                            "   "),
+                                                        Icon(
+                                                          Icons.date_range,
+                                                          size: 20,
+                                                        ),
+                                                        Text(" " +
+                                                            gradeList[index]
+                                                                .date
+                                                                .toString()),
+                                                      ],
+                                                    ),
+                                              trailing: Text(gradeList[index]
+                                                  .grade
+                                                  .toStringAsFixed(2)),
+                                              onTap: () async {
+                                                selectedTest = gradeList[index];
+
+                                                testDetail(context);
+                                              }),
+                                          listDivider()
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-          ),
+                ),
           Container(
             decoration: BoxDecoration(
               color: bwColor,
@@ -281,13 +289,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         ? Column(
                             children: [
                               Text(
-                                (() {
-                                  if (averageOfGrades.isNaN) {
-                                    return "0";
-                                  } else {
-                                    return plusPoints.toString();
-                                  }
-                                }()),
+                                getPluspoints(averageOfGrades).toString(),
                                 style: TextStyle(fontSize: 17),
                               ),
                               Text(
@@ -426,14 +428,11 @@ class _LessonsDetailState extends State<LessonsDetail> {
   }
 
   Future testDetail(BuildContext context) {
-    editTestInfoGrade.text = testDetails["grade"].toString();
-    editTestInfoName.text = testDetails["name"];
-    editTestInfoWeight.text = testDetails["weight"].toString();
-    if (testDetails["date"].toString() == "null") {
-      editTestDateController.text = formatDate(DateTime.now());
-    } else {
-      editTestDateController.text = testDetails["date"].toString();
-    }
+    editTestInfoGrade.text = selectedTest.grade.toString();
+    editTestInfoName.text = selectedTest.name;
+    editTestInfoWeight.text = selectedTest.weight.toString();
+
+    editTestDateController.text = selectedTest.date.toString();
 
     return showCupertinoModalBottomSheet(
       backgroundColor: defaultBGColor,
@@ -458,27 +457,25 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         backgroundColor: primaryColor,
                         child: IconButton(
                             color: Colors.white,
-                            onPressed: () {
-                              FirebaseFirestore.instance
-                                  .collection(
-                                      'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
-                                  .doc(selectedTest)
-                                  .set({
-                                "name": editTestInfoName.text,
-                                "grade": double.parse(
-                                  editTestInfoGrade.text.replaceAll(",", "."),
-                                ),
-                                "weight": double.parse(editTestInfoWeight.text
-                                    .replaceAll(",", ".")),
-                                "date": editTestDateController.text
-                              });
+                            onPressed: () async {
+                              await database.updateDocument(
+                                  collectionId: collectionGrades,
+                                  documentId: selectedTest.id,
+                                  data: {
+                                    "name": editTestInfoName.text,
+                                    "grade": double.parse(
+                                      editTestInfoGrade.text
+                                          .replaceAll(",", "."),
+                                    ),
+                                    "weight": double.parse(editTestInfoWeight
+                                        .text
+                                        .replaceAll(",", ".")),
+                                    "date": editTestDateController.text
+                                  });
+
                               HapticFeedback.lightImpact();
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LessonsDetail()),
-                                (Route<dynamic> route) => false,
-                              );
+                              await getTests();
+                              Navigator.of(context).pop();
                             },
                             icon: Icon(Icons.edit)),
                       ),
@@ -487,7 +484,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Text(
-                      testDetails["name"],
+                      selectedTest.name,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                     ),
@@ -607,8 +604,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             child: IconButton(
                                 color: Colors.white,
                                 onPressed: () async {
-                                  getTests();
-
                                   bool isNumeric() {
                                     if (addTestGradeController.text == null) {
                                       return false;
@@ -644,6 +639,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                     },
                                   );
 
+                                  getTests();
                                   addLessonController.text = "";
 
                                   HapticFeedback.lightImpact();
@@ -763,7 +759,7 @@ Future dreamGradeC(BuildContext context) {
     expand: true,
     context: context,
     builder: (context) => StatefulBuilder(builder:
-        (BuildContext context, StateSetter setState /*You can rename this!*/) {
+        (BuildContext context, StateSetter setState) {
       getDreamGrade() {
         try {
           setState(() {

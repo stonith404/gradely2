@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gradely/chooseSemester.dart';
+import 'package:gradely/main.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,9 +35,12 @@ Future<bool> getUserInfo() async {
             dbResponse["gradeType"],
             dbResponse["choosenSemester"],
             dbResponse["\$id"],
-             dbResponse["color"]);
+            Color(int.parse(dbResponse["color"].substring(1, 7), radix: 16) +
+                0xFF000000));
 
         userSignedIn = true;
+
+        primaryColor = user.color;
       }).catchError((error) {});
     });
   } catch (_) {
@@ -104,11 +108,18 @@ Future internetConnection() async {
 }
 
 Future listDocuments(
-    {@required String collection, @required String name, List filters}) async {
+    {@required String collection,
+    @required String name,
+    List filters,
+    String orderField}) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var response;
   if (await internetConnection()) {
     Future result = database.listDocuments(
+      orderField:  orderField,
+   
+   
+      orderType: "ASC",
       filters: filters ?? [],
       collectionId: collection,
     );
@@ -125,5 +136,34 @@ Future listDocuments(
   return response;
 }
 
+Future<bool> reAuthenticate(
+    {@required String email, @required String password}) async {
+  bool success = false;
 
+  Future result = account.createSession(email: email, password: password);
 
+  await result.then((response) {
+    print(response);
+    success = true;
+  }).catchError((error) {
+    print(error.message);
+    success = false;
+  });
+
+  return success;
+}
+
+darkModeColorChanger(context) {
+  var brightness = MediaQuery.of(context).platformBrightness;
+  if (brightness == Brightness.dark) {
+    darkmode = true;
+    bwColor = Colors.grey[850];
+    wbColor = Colors.white;
+    defaultBGColor = Colors.grey[900];
+  } else {
+    darkmode = false;
+    bwColor = Colors.white;
+    wbColor = Colors.grey[850];
+    defaultBGColor = Color(0xFFE5E8F2);
+  }
+}

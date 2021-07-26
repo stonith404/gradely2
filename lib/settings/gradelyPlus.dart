@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-
 import 'dart:async';
 import 'package:gradely/main.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gradely/auth/login.dart';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:flutter/services.dart';
 
@@ -196,12 +193,12 @@ class _GradelyPlusState extends State<GradelyPlus> {
     setState(() {
       _isLoading = false;
     });
-    // await getUIDDocuments();
 
-    FirebaseFirestore.instance
-        .collection('userData')
-        .doc(auth.currentUser.uid)
-        .update({'gradelyPlus': true});
+    database.updateDocument(
+        collectionId: collectionUser,
+        documentId: user.dbID,
+        data: {'gradelyPlus': true});
+
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => HomeWrapper()),
@@ -214,8 +211,8 @@ class _GradelyPlusState extends State<GradelyPlus> {
             title: Text("🎉 " + "gradelyPS1".tr()),
             content: Text("gradelyPS2".tr()),
             actions: <Widget>[
-                             ElevatedButton(
-         style: elev(),
+              ElevatedButton(
+                style: elev(),
                 child: Text("ok"),
                 onPressed: () {
                   Navigator.of(context).pop();

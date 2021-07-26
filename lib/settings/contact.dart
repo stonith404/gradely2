@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradely/semesterDetail.dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:gradely/data.dart';
@@ -36,7 +37,7 @@ class _ContactScreenState extends State<ContactScreen> {
           '$_message\n ________________\n Email: ${auth.currentUser.email}'; //body of the email
 
     try {
-   await send(message, smtpServer);
+      await send(message, smtpServer);
       setState(() {
         isEmailsent = false;
       });
@@ -61,7 +62,7 @@ class _ContactScreenState extends State<ContactScreen> {
                   Text("${"contactSuccess2".tr()} ${auth.currentUser.email}."),
               actions: <Widget>[
                 ElevatedButton(
-         style: elev(),
+                  style: elev(),
                   child: Text("ok"),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -93,8 +94,8 @@ class _ContactScreenState extends State<ContactScreen> {
               ),
               content: Text("contactError1".tr()),
               actions: <Widget>[
-                            ElevatedButton(
-         style: elev(),
+                ElevatedButton(
+                  style: elev(),
                   child: Text("Super".tr()),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -116,9 +117,14 @@ class _ContactScreenState extends State<ContactScreen> {
         },
         child: Scaffold(
           appBar: AppBar(
-              shape: defaultRoundedCorners(),
-              backgroundColor: primaryColor,
-              title: Text("contactDev".tr())),
+              iconTheme: IconThemeData(
+                color: primaryColor,
+              ),
+              backgroundColor: defaultBGColor,
+              elevation: 0,
+              title: Text("contactDev".tr(),
+                  style: TextStyle(
+                      color: primaryColor, fontWeight: FontWeight.w800))),
           body: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(

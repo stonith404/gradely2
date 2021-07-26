@@ -19,7 +19,7 @@ TextEditingController _emailController = new TextEditingController();
 TextEditingController _passwordController = new TextEditingController();
 FirebaseAuth auth = FirebaseAuth.instance;
 
-bool isLoading = false;
+
 String _errorMessage = "";
 
 class _LoginScreenState extends State<LoginScreen> {

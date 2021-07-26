@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gradely/data.dart';
 import 'package:gradely/main.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gradely/shared/VARIABLES.dart';
 
 import 'package:gradely/shared/defaultWidgets.dart';
 
@@ -10,9 +11,12 @@ class PlatformList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shape: defaultRoundedCorners(),
-        backgroundColor: primaryColor,
-        title: Text("Plattformen".tr()),
+        iconTheme: IconThemeData(
+          color: primaryColor,
+        ),
+        backgroundColor: defaultBGColor,
+        elevation: 0,
+        title: Text("Plattformen".tr(), style: appBarTextTheme),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),

@@ -1,7 +1,7 @@
+import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely/LessonsDetail.dart';
 import 'package:gradely/data.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
@@ -10,7 +10,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/main.dart';
 import 'package:flutter/services.dart';
 import 'package:gradely/auth/login.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 String _password = "";
 
@@ -59,7 +58,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
                   Navigator.of(context).pop();
                   try {
-             await account.updateEmail(
+                    await account.updateEmail(
                       email: _email,
                       password: _password,
                     );
@@ -88,7 +87,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         ),
         backgroundColor: defaultBGColor,
         elevation: 0,
-        shape: defaultRoundedCorners(),
         actions: [
           IconButton(
               icon: Icon(
@@ -97,19 +95,23 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 color: primaryColor,
               ),
               onPressed: () async {
-                await FirebaseAuth.instance.signOut();
+                Future result = account.getSession(
+                  sessionId: 'current',
+                );
+
+                await result.then((response) {
+                  response = jsonDecode(response.toString());
+
+                  account.deleteSession(sessionId: response["\$id"]);
+                });
+
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => HomeWrapper()),
                 );
               })
         ],
-        title: Text(
-          "account".tr(),
-          style: TextStyle(
-            color: primaryColor,
-          ),
-        ),
+        title: Text("account".tr(), style: appBarTextTheme),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -197,7 +199,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   onPressed: () {
                     showDialog(
                         context: context,
-                        builder: (BuildContext context) {
+                        builder: (BuildContext contextP) {
                           return AlertDialog(
                             title: Text("userinfoD1".tr()),
                             content: Container(
@@ -217,34 +219,33 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             ),
                             actions: <Widget>[
                               TextButton(
-                                child: Text("delete".tr()),
-                                onPressed: () async {
-                                  _password = passwordController.text;
-                                  var authResult =
-                                      await fuser.reauthenticateWithCredential(
-                                    EmailAuthProvider.credential(
-                                      email: fuser.email,
-                                      password: _password,
-                                    ),
-                                  );
-                                  Navigator.of(context).pop();
-                                  try {
-                                    FirebaseFirestore.instance
-                                        .collection('userData')
-                                        .doc(auth.currentUser.uid)
-                                        .delete();
-                                    authResult.user.delete();
+                                  child: Text("delete".tr()),
+                                  onPressed: () async {
+                                    Navigator.of(contextP).pop();
+                                    if (await reAuthenticate(
+                                        email: user.email,
+                                        password: passwordController.text)) {
+                                      await database.deleteDocument(
+                                          collectionId: collectionUser,
+                                          documentId: user.dbID);
 
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => LoginScreen()),
-                                    );
-                                  } on FirebaseAuthException catch (_) {}
+                                      await account.delete();
 
-                                  HapticFeedback.lightImpact();
-                                },
-                              ),
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                LoginScreen()),
+                                      );
+
+                                      HapticFeedback.lightImpact();
+                                    } else {
+                                      gradelyDialog(
+                                          context: context,
+                                          title: "error".tr(),
+                                          text: "wrongPassword".tr());
+                                    }
+                                  }),
                             ],
                           );
                         });
