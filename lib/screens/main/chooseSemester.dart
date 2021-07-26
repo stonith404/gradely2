@@ -3,19 +3,19 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gradely/main.dart';
+import 'package:gradely/screens/main/semesterDetail.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:gradely/shared/loading.dart';
-import 'data.dart';
-import 'shared/defaultWidgets.dart';
-import 'main.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 
 bool isChecked = false;
 String choosenSemester;
-String selectedSemester;
+Semester _selectedSemester;
 
 class ChooseSemester extends StatefulWidget {
   @override
@@ -131,7 +131,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                         builder: (context) => updateSemester()),
                                   );
 
-                                  selectedSemester = semesterList[index].id;
+                                  _selectedSemester = semesterList[index];
                                 },
                               ),
                             ),
@@ -183,8 +183,8 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                             (Route<dynamic> route) => false,
                                           );
 
-                                          selectedSemester =
-                                              semesterList[index].id;
+                                          _selectedSemester =
+                                              semesterList[index];
                                         },
                                       )
                                     ],
@@ -228,7 +228,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
   }
 
   updateSemester() {
-    renameSemesterController.text = choosenSemesterName;
+    renameSemesterController.text = _selectedSemester.name;
 
     return Scaffold(
       appBar: AppBar(
@@ -264,7 +264,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
               onPressed: () async {
                 await database.updateDocument(
                     collectionId: collectionSemester,
-                    documentId: selectedSemester,
+                    documentId: _selectedSemester.id,
                     data: {"name": renameSemesterController.text});
                 HapticFeedback.mediumImpact();
                 await _getSemesters();

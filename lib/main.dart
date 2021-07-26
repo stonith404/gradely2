@@ -1,26 +1,25 @@
 import 'package:appwrite/appwrite.dart' hide Locale;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gradely/screens/auth/login.dart';
+import 'package:gradely/screens/main/semesterDetail.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/loading.dart';
-import 'auth/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely/semesterDetail.dart';
+
 
 bool isLoggedIn = false;
-Color primaryColor = Color(0xFF6C63FF);
+
 
 List<String> testList = [];
 var courseListID = [];
 var allAverageList = [];
 var allAverageListPP = [];
-String selectedLesson = "";
-String selectedLessonName;
-double averageOfSemester = 0 / -0;
-num averageOfSemesterPP = 0 / -0;
-String choosenSemesterName = "noSemesterChoosed";
+
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -131,7 +130,7 @@ class _State extends State<HomeWrapper> {
           if (snapshot.data == false)
             return LoginScreen();
           else
-            return HomeSite();
+            return SemesterDetail();
         }
       },
     );

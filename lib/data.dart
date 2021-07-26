@@ -1,8 +1,6 @@
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'auth/login.dart';
-import 'chooseSemester.dart';
 import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -76,28 +74,6 @@ getPluspointsallAverageList(num value) {
     plusPoints = 0;
   }
 }
-
-TextEditingController addLessonController = new TextEditingController();
-TextEditingController changeEmailController = new TextEditingController();
-TextEditingController changeDisplayName = new TextEditingController();
-TextEditingController addSemesterController = new TextEditingController();
-TextEditingController renameTestWeightController = new TextEditingController();
-TextEditingController renameSemesterController = new TextEditingController();
-TextEditingController addGradeNameController = new TextEditingController();
-TextEditingController addGradeGradeController = new TextEditingController();
-TextEditingController addTestNameController = new TextEditingController();
-TextEditingController addTestGradeController = new TextEditingController();
-TextEditingController addTestWeightController = new TextEditingController();
-TextEditingController addTestDateController = new TextEditingController();
-TextEditingController editTestDateController = new TextEditingController();
-TextEditingController contactMessage = new TextEditingController();
-TextEditingController dreamGradeGrade = new TextEditingController();
-TextEditingController dreamGradeWeight = new TextEditingController();
-TextEditingController passwordController = new TextEditingController();
-TextEditingController passwordPlaceholder = new TextEditingController();
-TextEditingController editTestInfoName = new TextEditingController();
-TextEditingController editTestInfoGrade = new TextEditingController();
-TextEditingController editTestInfoWeight = new TextEditingController();
 var testDetails;
 
 formatDate(picked) {

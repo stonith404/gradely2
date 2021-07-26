@@ -59,6 +59,7 @@
    "contactSuccess2": "thanks for your message. i will contact you with this email:  ",
    "pwResetSuccess1": "an email to reset your password was sent. please check also your spam folder.",
    "error" : "error",
+   "error_unknown" : "There was an unknown error",
    "contactError1": "unfortunately there is an error. you can try it later or you can contact me under elias@eliasschneider.com",
    "contact1": "do you have a feature suggestion, an error to report or something else? you can contact me.",
    "dream grade" : "dream grade",

@@ -9,12 +9,16 @@ List<Semester> semesterList = [];
 
 User user;
 
+//strings
+
+
 //bools
 bool isLoading = false;
 bool darkmode = false;
 
-//int's
+//num's
 double screenwidth = 0;
+
 
 //appwrite var's
 Client client;
@@ -22,6 +26,7 @@ Account account;
 Database database;
 
 //colors
+Color primaryColor = Color(0xFF6C63FF);
 Color wbColor;
 Color bwColor;
 Color defaultBGColor;

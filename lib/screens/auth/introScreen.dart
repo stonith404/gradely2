@@ -4,15 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:gradely/screens/auth/login.dart';
+import 'package:gradely/screens/main/chooseSemester.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:gradely/main.dart';
-import 'package:gradely/chooseSemester.dart';
-import 'data.dart';
-import 'shared/defaultWidgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'auth/login.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 

@@ -59,6 +59,7 @@
     "contactSuccess2": "Danke für deine Nachricht. Ich werde mich bei dir unter dieser Email melden: ",
     "pwResetSuccess1": "Eine Email um dein Passwort zurückzusetzen wurde erfolgreich gesendet. Bitte beachte auch dein Spam Fach.",
     "error" : "fehler",
+    "error_unknown" : "Es gab einen unbekannten fehler.",
     "contactError1": "Leider ist ein Fehler aufgetreten. Versuche es später nochmals, oder konatkiere mich unter elias@eliasschneider.com",
     "contact1" : "Hast du ein Feature Vorschlag, einen Fehler zu melden oder etwas anderes? Gerne kannst du mich kontaktieren.",
     "dream grade" : "Wunschnote",

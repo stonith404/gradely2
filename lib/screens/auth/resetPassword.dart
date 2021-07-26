@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gradely/main.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
-import '../main.dart';
-import '../shared/loading.dart';
+import 'package:gradely/shared/loading.dart';
 import 'login.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';

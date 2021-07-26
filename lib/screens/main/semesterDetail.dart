@@ -1,38 +1,38 @@
 import 'dart:convert';
 import 'dart:ui';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gradely/data.dart';
+import 'package:gradely/screens/settings/settings.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/WIDGETS.dart';
+import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:gradely/shared/loading.dart';
 import 'LessonsDetail.dart';
-import 'data.dart';
-import 'shared/defaultWidgets.dart';
 import 'chooseSemester.dart';
 import 'dart:math' as math;
-import 'settings/settings.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'main.dart';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:emoji_chooser/emoji_chooser.dart';
 
+String selectedLesson = "";
+String selectedLessonName;
 String _selectedEmoji = "";
+double _averageOfSemester = 0 / -0;
+double _averageOfSemesterPP = 0 / -0;
+String choosenSemesterName = "-";
 
-class HomeSite extends StatefulWidget {
-  const HomeSite({
-    Key key,
-  }) : super(key: key);
-
+class SemesterDetail extends StatefulWidget {
   @override
-  _HomeSiteState createState() => _HomeSiteState();
+  _SemesterDetailState createState() => _SemesterDetailState();
 }
 
-class _HomeSiteState extends State<HomeSite> {
+class _SemesterDetailState extends State<SemesterDetail> {
   pushNotification() {
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
@@ -90,8 +90,8 @@ class _HomeSiteState extends State<HomeSite> {
         _ppSum += getPluspoints(e.average);
         _count = _count + 1;
         setState(() {
-          averageOfSemesterPP = _ppSum;
-          averageOfSemester = _sum / _count;
+          _averageOfSemesterPP = _ppSum;
+          _averageOfSemester = _sum / _count;
         });
       }
     }
@@ -180,22 +180,22 @@ class _HomeSiteState extends State<HomeSite> {
                                     const EdgeInsets.symmetric(vertical: 15.0),
                                 child: (() {
                                   if (user.gradeType == "av") {
-                                    if (averageOfSemester.isNaN) {
+                                    if (_averageOfSemester.isNaN) {
                                       return Text(
                                           "${'Notendurchschnitt'.tr()}: -",
                                           style:
                                               TextStyle(color: Colors.white));
                                     }
                                     return Text(
-                                        "${'Notendurchschnitt'.tr()}: ${averageOfSemester.toStringAsFixed(2)}",
+                                        "${'Notendurchschnitt'.tr()}: ${_averageOfSemester.toStringAsFixed(2)}",
                                         style: TextStyle(color: Colors.white));
-                                  } else if (averageOfSemester.isNaN) {
+                                  } else if (_averageOfSemester.isNaN) {
                                     return Text(
-                                        "${'Pluspunkte'.tr()}: ${averageOfSemesterPP.toStringAsFixed(2)} / ${'Notendurchschnitt'.tr()}: -",
+                                        "${'Pluspunkte'.tr()}: ${_averageOfSemesterPP.toStringAsFixed(2)} / ${'Notendurchschnitt'.tr()}: -",
                                         style: TextStyle(color: Colors.white));
                                   } else {
                                     return Text(
-                                        "${'Pluspunkte'.tr()}: ${averageOfSemesterPP.toStringAsFixed(2)} / ${'Notendurchschnitt'.tr()}: ${averageOfSemester.toStringAsFixed(2)}",
+                                        "${'Pluspunkte'.tr()}: ${_averageOfSemesterPP.toStringAsFixed(2)} / ${'Notendurchschnitt'.tr()}: ${_averageOfSemester.toStringAsFixed(2)}",
                                         style: TextStyle(color: Colors.white));
                                   }
                                 }())),

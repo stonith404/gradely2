@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:gradely/semesterDetail.dart';
+import 'package:gradely/screens/main/semesterDetail.dart';
+import 'package:gradely/shared/FUNCTIONS.dart';
+
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
-import 'package:gradely/data.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:gradely/main.dart';
-import 'package:gradely/auth/login.dart';
+
 import 'package:flutter_icons/flutter_icons.dart';
 
 class ContactScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class _ContactScreenState extends State<ContactScreen> {
       ..recipients.add('elias@eliasschneider.com') //recipent email
       ..subject = 'New Message for Gradely' //subject of the email
       ..text =
-          '$_message\n ________________\n Email: ${auth.currentUser.email}'; //body of the email
+          '$_message\n ________________\n Email: ${user.email}'; //body of the email
 
     try {
       await send(message, smtpServer);
@@ -44,7 +45,7 @@ class _ContactScreenState extends State<ContactScreen> {
       contactMessage.text = "";
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HomeSite()),
+        MaterialPageRoute(builder: (context) => SemesterDetail()),
       );
       showDialog(
           context: context,
@@ -59,7 +60,7 @@ class _ContactScreenState extends State<ContactScreen> {
                 ],
               ),
               content:
-                  Text("${"contactSuccess2".tr()} ${auth.currentUser.email}."),
+                  Text("${"contactSuccess2".tr()} ${user.email}."),
               actions: <Widget>[
                 ElevatedButton(
                   style: elev(),
@@ -78,7 +79,7 @@ class _ContactScreenState extends State<ContactScreen> {
       });
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HomeSite()),
+        MaterialPageRoute(builder: (context) => SemesterDetail()),
       );
       showDialog(
           context: context,

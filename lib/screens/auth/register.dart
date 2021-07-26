@@ -2,13 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gradely/auth/login.dart';
-import 'package:gradely/introScreen.dart';
+import 'package:gradely/screens/auth/introScreen.dart';
 import 'package:gradely/shared/VARIABLES.dart';
-import '../main.dart';
-import '../shared/defaultWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
+import 'package:gradely/shared/defaultWidgets.dart';
 import 'login.dart';
 
 class RegisterScreen extends StatefulWidget {

@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely/introScreen.dart';
-import 'package:gradely/semesterDetail.dart';
-import 'package:gradely/settings/userInfo.dart';
+import 'package:gradely/screens/auth/introScreen.dart';
+import 'package:gradely/screens/main/semesterDetail.dart';
+import 'package:gradely/screens/settings/userInfo.dart';
+import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
@@ -14,12 +15,8 @@ import 'platformList.dart';
 import 'contact.dart';
 import 'gradelyPlus.dart';
 import 'customize.dart';
-
-import '../shared/defaultWidgets.dart';
-import '../data.dart';
-
 Future settingsScreen(BuildContext context) {
-  String gradesResult  = user.gradeType;
+  String gradesResult = user.gradeType;
   return showCupertinoModalBottomSheet(
     shadow: BoxShadow(
       color: Colors.grey.withOpacity(0.3),
@@ -75,7 +72,7 @@ Future settingsScreen(BuildContext context) {
                                 PageRouteBuilder(
                                   pageBuilder:
                                       (context, animation1, animation2) =>
-                                          HomeSite(),
+                                          SemesterDetail(),
                                   transitionDuration: Duration(seconds: 0),
                                 ),
                               );

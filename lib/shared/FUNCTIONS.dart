@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:gradely/chooseSemester.dart';
 import 'package:gradely/main.dart';
+import 'package:gradely/screens/main/chooseSemester.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -167,3 +167,29 @@ darkModeColorChanger(context) {
     defaultBGColor = Color(0xFFE5E8F2);
   }
 }
+
+
+//text controllers
+
+
+TextEditingController addLessonController = new TextEditingController();
+TextEditingController changeEmailController = new TextEditingController();
+TextEditingController changeDisplayName = new TextEditingController();
+TextEditingController addSemesterController = new TextEditingController();
+TextEditingController renameTestWeightController = new TextEditingController();
+TextEditingController renameSemesterController = new TextEditingController();
+TextEditingController addGradeNameController = new TextEditingController();
+TextEditingController addGradeGradeController = new TextEditingController();
+TextEditingController addTestNameController = new TextEditingController();
+TextEditingController addTestGradeController = new TextEditingController();
+TextEditingController addTestWeightController = new TextEditingController();
+TextEditingController addTestDateController = new TextEditingController();
+TextEditingController editTestDateController = new TextEditingController();
+TextEditingController contactMessage = new TextEditingController();
+TextEditingController dreamGradeGrade = new TextEditingController();
+TextEditingController dreamGradeWeight = new TextEditingController();
+TextEditingController passwordController = new TextEditingController();
+TextEditingController passwordPlaceholder = new TextEditingController();
+TextEditingController editTestInfoName = new TextEditingController();
+TextEditingController editTestInfoGrade = new TextEditingController();
+TextEditingController editTestInfoWeight = new TextEditingController();

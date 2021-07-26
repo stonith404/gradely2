@@ -2,21 +2,23 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gradely/data.dart';
+import 'package:gradely/screens/main/chooseSemester.dart';
+import 'package:gradely/screens/main/semesterDetail.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/WIDGETS.dart';
+import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:gradely/shared/loading.dart';
-import 'package:gradely/statistics.dart';
-import 'main.dart';
+import 'package:gradely/screens/main/statistics.dart';
 import 'package:flutter/material.dart';
-import 'data.dart';
-import 'chooseSemester.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'shared/defaultWidgets.dart';
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+
+
 
 Grade selectedTest;
 String errorMessage = "";

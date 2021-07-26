@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gradely/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import '../shared/defaultWidgets.dart';
+import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely/shared/defaultWidgets.dart';
 
 class DevInfo extends StatefulWidget {
   @override
