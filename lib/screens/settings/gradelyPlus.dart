@@ -36,11 +36,14 @@ class GradelyPlusUnsupportet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: primaryColor,
+        ),
         title: Text(
           "Gradely Plus",
+          style: TextStyle(color: primaryColor),
         ),
-        shape: defaultRoundedCorners(),
-        backgroundColor: primaryColor,
+        backgroundColor: defaultBGColor,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -179,9 +182,9 @@ class _GradelyPlusState extends State<GradelyPlus> {
     await FlutterInappPurchase.instance.initConnection;
     await FlutterInappPurchase.instance.clearTransactionIOS();
     iapList = (await FlutterInappPurchase.instance.getProducts([
-      "com.eliasschneider.gradely.iap.gradelyplus",
-      "com.eliasschneider.gradely.iap.gradelyplus2",
-      "com.eliasschneider.gradely.iap.gradelyplus5"
+      "com.eliasschneider.gradely2.iap.gradelyplus",
+      "com.eliasschneider.gradely2.iap.gradelyplus2",
+      "com.eliasschneider.gradely2.iap.gradelyplus5"
     ]));
     setState(() {
       iapList = iapList;
@@ -399,20 +402,20 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                     style: elev(),
                                     onPressed: () async {
                                       buyProduct(
-                                          "com.eliasschneider.gradely.iap.gradelyplus");
+                                          "com.eliasschneider.gradely2.iap.gradelyplus");
                                     },
                                     child: Text(
                                         "☕️ Espresso ${iapList[0].localizedPrice ?? "-"}")),
                                 ElevatedButton(
                                     style: elev(),
                                     onPressed: () async => buyProduct(
-                                        "com.eliasschneider.gradely.iap.gradelyplus2"),
+                                        "com.eliasschneider.gradely2.iap.gradelyplus2"),
                                     child: Text(
                                         "🧋 ${'coffee'.tr()} ${iapList[1].localizedPrice ?? "-"}")),
                                 ElevatedButton(
                                     style: elev(),
                                     onPressed: () async => buyProduct(
-                                        "com.eliasschneider.gradely.iap.gradelyplus5"),
+                                        "com.eliasschneider.gradely2.iap.gradelyplus5"),
                                     child: Text(
                                         "🧊 ${'ice_coffee'.tr()} ${iapList[2].localizedPrice ?? "-"}")),
                               ])

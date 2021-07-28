@@ -2,12 +2,10 @@ import 'package:appwrite/appwrite.dart' hide Locale;
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gradely/GRADELY_OLD/main.dart' hide primaryColor;
 import 'package:gradely/screens/auth/login.dart';
 import 'package:gradely/screens/main/semesterDetail.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
-import 'package:gradely/shared/loading.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,10 +20,9 @@ var allAverageListPP = [];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
   await Firebase.initializeApp();
-  await sharedPrefs();
 
+  await sharedPrefs();
   client = Client();
   account = Account(client);
   database = Database(client);
@@ -33,36 +30,20 @@ void main() async {
   client
       .setEndpoint('https://aw.cloud.eliasschneider.com/v1')
       .setProject('60f40cb212896');
-  getUserInfo();
+  await getUserInfo();
   runApp(EasyLocalization(
-    supportedLocales: [Locale('de'), Locale('en')],
-    useOnlyLangCode: true,
-    path: 'assets/translations/gradelyTranslation.csv',
-    assetLoader: CsvAssetLoader(),
-    fallbackLocale: Locale('en'),
-    saveLocale: true,
-    child: GradelyVersionWrapper(),
-  ));
+      supportedLocales: [Locale('de'), Locale('en')],
+      useOnlyLangCode: true,
+      path: 'assets/translations/gradelyTranslation.csv',
+      assetLoader: CsvAssetLoader(),
+      fallbackLocale: Locale('en'),
+      saveLocale: true,
+      child: MaterialWrapper()));
 }
 
 Future<bool> isGradelyNewVersion() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getBool("newGradely") ?? true;
-}
-
-class GradelyVersionWrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: isGradelyNewVersion(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (snapshot.data == true)
-          return MaterialWrapper();
-        else
-          return OLDMaterialWrapper();
-      },
-    );
-  }
 }
 
 class MaterialWrapper extends StatelessWidget {

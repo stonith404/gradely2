@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gradely/GRADELY_OLD/main.dart' show OLDMaterialWrapper;
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely/main.dart';
+import 'package:gradely/shared/FUNCTIONS.dart';
 
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
@@ -20,7 +20,6 @@ class LoginScreen extends StatefulWidget {
 
 TextEditingController _emailController = new TextEditingController();
 TextEditingController _passwordController = new TextEditingController();
-FirebaseAuth auth = FirebaseAuth.instance;
 
 String _errorMessage = "";
 
@@ -37,13 +36,14 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = false;
     });
 
-    result.then((response) {
+    result.then((response) async {
       setState(() {
         isLoading = false;
       });
 
       prefs.remove("newGradely");
       prefs.setBool("signedIn", true);
+      await getUserInfo();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeWrapper()),
@@ -77,10 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
           leading: Container(),
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Image.asset(
-            'assets/images/iconT.png',
-            height: 60,
-          ),
+          title: SvgPicture.asset("assets/images/logo.svg",
+                          color: primaryColor, height: 30),
         ),
         body: isLoading
             ? LoadingScreen()
@@ -99,11 +97,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "welcome_back".tr(),
+                              "welcome".tr(),
                               style:
                                   TextStyle(fontSize: 40, color: Colors.white),
                             ),
-                   
+                            Text(
+                              "back".tr(),
+                              style: TextStyle(
+                                fontSize: 40,
+                                color: Colors.white,
+                              ),
+                            )
                           ],
                         ),
                       ],
@@ -111,13 +115,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     Spacer(
                       flex: 4,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: _emailController,
-                          textAlign: TextAlign.left,
-                          decoration: inputDecAuth("your_email".tr())),
+                    Container(
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextField(
+                                keyboardType: TextInputType.emailAddress,
+                                controller: _emailController,
+                                textAlign: TextAlign.left,
+                                decoration: inputDecAuth("your_email".tr())),
+                          ),
+                        ],
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -135,6 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           setState(() {
                             isLoading = true;
                           });
+                          
                           signInUser();
                         },
                         child: Text("sign_in".tr())),
@@ -146,17 +158,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(color: Colors.red),
                     ),
                     Spacer(flex: 1),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OLDMaterialWrapper()),
-                          );
-                        },
-                        child: Text(
-                            "❗️" + "gradely_migration_registred_before".tr(),
-                            style: TextStyle(color: Colors.white))),
                     TextButton(
                         onPressed: () {
                           Navigator.pushReplacement(

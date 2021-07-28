@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely/screens/auth/login.dart';
 import 'package:gradely/screens/main/chooseSemester.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
@@ -11,7 +12,6 @@ import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:gradely/main.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 
@@ -57,10 +57,11 @@ class _IntroScreenState extends State<IntroScreen> {
                       MaterialPageRoute(builder: (context) => LoginScreen()),
                       (Route<dynamic> route) => false,
                     );
-                    await FirebaseAuth.instance.signOut();
+                   
                   },
                 ),
-                Image.asset('assets/images/iconT.png', width: 50),
+              SvgPicture.asset("assets/images/logo.svg",
+                          color: primaryColor, height: 30),
               ],
             ),
           ),
@@ -72,7 +73,7 @@ class _IntroScreenState extends State<IntroScreen> {
           titleWidget: Text("welcome".tr(),
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
           body:
-              "Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen."
+              "intro_gradely_helps_monitoring"
                   .tr(),
           image: Padding(
             padding: const EdgeInsets.only(top: 80.0),

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely/screens/auth/introScreen.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -16,7 +16,6 @@ class RegisterScreen extends StatefulWidget {
 
 TextEditingController _emailController = new TextEditingController();
 TextEditingController _passwordController = new TextEditingController();
-FirebaseAuth auth = FirebaseAuth.instance;
 
 String _errorMessage = "";
 
@@ -84,10 +83,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Image.asset(
-            'assets/images/iconT.png',
-            height: 60,
-          ),
+          title: SvgPicture.asset("assets/images/logo.svg",
+                          color: primaryColor, height: 30),
         ),
         body: Padding(
           padding: const EdgeInsets.all(24.0),

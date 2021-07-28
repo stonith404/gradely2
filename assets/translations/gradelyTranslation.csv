@@ -30,7 +30,7 @@ sign_up,sign up,Registrieren
 question_have_account,do you have an account already?,Hast du bereits ein Account?
 question_no_account,you don't have an account?,Hast du noch kein Account?
 welcome,welcome!,Willkommen!
-welcome_message_monitoring,welcome to gradely. gradely helps you to monitor your grades. ,Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen.
+intro_gradely_helps_monitoring,welcome to gradely. gradely helps you to monitor your grades. ,Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen.
 everywhere_available,everywhere available,überall verfügbar
 intro_messaqge_sync,your grades are stored in the cloud. so you can add or view your grades on your laptop handy or ipad.,"Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf deinem Laptop, Handy oder iPad Noten hinzufügen und anschauen."
 intro_more_in_settings,More Informations can you find in the settings.,Mehr Infos findest du in den Einstellungen.
@@ -77,7 +77,7 @@ change_password_text,to change your password click the button below. you get an 
 delete_account_text,caution! Do you really want to delete your account and your grades? this can't be undone.,Achtung! Willst du wirklich all deine Noten und dein Account löschen? Dies kann nicht Rückgängig gemacht werden.
 reset,reset,Zurücksetzen
 create,create,Erstellen
-welcome_back,welcome \n back,Willkommen \n zurück
+welcome_back,welcome back,Willkommen zurück
 account,account,Account
 no_emoji_choosed,no emoji choosed,Kein Emoji ausgewählt
 error_weak_password,your password is too weak. Try again.,Zu schwaches Passwort. Versuche es erneut.
@@ -105,4 +105,4 @@ gradely_migration_registred_before,Registred before the 1st august?,Vor dem 1. A
 gradely_migration_info,As of August 1st Gradely has a new database in Switzerland not like before by Google in Western Europe. If you registered before August 1st you can continue to use gradely but the app will no longer be updated. If you want to continue to benefit from updates please register again. \n\nI'm sorry for the inconvenience.\n\nAs an excuse you will receive Gradely Plus for free with your newly created account. Contact me at elias@eliasschneider.com.,
 no_network_offline_loading,It looks like you're offline and your grades aren't stored in the cache.,"Es sieht so aus, wie du offline bist und deine Noten nicht im Cache gespeichert sind."
 network_needed_title,Network Connection,Internet Verbindung
-"network_needed_text:To use this feature, you need a network connection.",To use this feature you need a network connection.,"Um diese Funktion zu nutzen, brauchst du eine Internet Verbindung."
+network_needed_text,"To use this feature you need a network connection.","Um diese Funktion zu nutzen, brauchst du eine Internet Verbindung".

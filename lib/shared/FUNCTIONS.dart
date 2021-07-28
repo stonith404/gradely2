@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:gradely/GRADELY_OLD/shared/defaultWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/screens/main/chooseSemester.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely/shared/WIDGETS.dart';
+import 'package:gradely/shared/defaultWidgets.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future getUserInfo() async {
@@ -14,29 +16,35 @@ Future getUserInfo() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   if (await internetConnection()) {
-    Future accountResult = account.get();
+    
+
+    Future  accountResult = account.get();
 
     await accountResult.then((r) async {
       accountResponse = r.toString();
 
       await prefs.setString("accountResult", accountResponse);
     }).catchError((error) {
-      if (error.code == 401) {
-        prefs.setBool("signedIn", false);
-      }
+  
     });
   } else {
     accountResponse = prefs.getString("accountResult");
   }
 
   accountResponse = jsonDecode(accountResponse.toString());
-  Future dbResult = listDocuments(
+
+  if(accountResponse == null){
+ prefs.setBool("signedIn", false);
+  }else{
+      Future dbResult = listDocuments(
       name: "userDB",
       collection: collectionUser,
       filters: ["uid=${accountResponse['\$id']}"]);
 
   await dbResult.then((dbResponse) {
     dbResponse = jsonDecode(dbResponse.toString())["documents"][0];
+
+  
 
     user = User(
         accountResponse['\$id'],
@@ -55,6 +63,8 @@ Future getUserInfo() async {
 
     primaryColor = user.color;
   });
+  }
+
 }
 
 getSemesters() async {
@@ -174,8 +184,9 @@ darkModeColorChanger(context) {
 
 noNetworkDialog(context) async {
   if (!await internetConnection()) {
-    return gradelyDialog(
+    errorSuccessDialog(
         context: context,
+        error: true,
         title: "network_needed_title".tr(),
         text: "network_needed_text".tr());
   }

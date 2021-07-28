@@ -31,7 +31,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.eliasschneider.gradely</string>
+			<string>com.eliasschneider.gradely2</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>gradely</string>

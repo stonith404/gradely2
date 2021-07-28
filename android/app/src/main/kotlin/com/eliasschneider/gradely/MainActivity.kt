@@ -1,4 +1,4 @@
-package com.eliasschneider.gradely
+package com.eliasschneider.gradely2
 
 import io.flutter.embedding.android.FlutterActivity
 

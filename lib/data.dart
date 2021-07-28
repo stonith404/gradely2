@@ -1,6 +1,3 @@
-import 'main.dart';
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,7 +9,7 @@ num plusPoints = 0;
 
 num plusPointsallAverageList = 0;
 Timer timer;
-DocumentSnapshot uidDB;
+
 String releaseNotes = "";
 bool internetConnected = true;
 

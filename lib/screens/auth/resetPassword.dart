@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely/main.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
@@ -16,13 +16,11 @@ class ResetPW extends StatefulWidget {
 
 TextEditingController _emailController = new TextEditingController();
 
-FirebaseAuth auth = FirebaseAuth.instance;
-
 String _email = "";
 
 class _ResetPWState extends State<ResetPW> {
   sendPasswordResetEmail(String _email) async {
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: _email);
+    // await FirebaseAuth.instance.sendPasswordResetEmail(email: _email);
   }
 
   @override
@@ -36,10 +34,8 @@ class _ResetPWState extends State<ResetPW> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Image.asset(
-            'assets/images/iconT.png',
-            height: 60,
-          ),
+          title: SvgPicture.asset("assets/images/logo.svg",
+              color: primaryColor, height: 30),
         ),
         body: isLoading
             ? LoadingScreen()

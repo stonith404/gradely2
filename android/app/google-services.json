@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:319573029893:android:f19e8aba2cf4a46b1dd86c",
         "android_client_info": {
-          "package_name": "com.eliasschneider.gradely"
+          "package_name": "com.eliasschneider.gradely2"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "319573029893-2v0rgfd0kg7sntd6johkn8g7a43qt7l2.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.eliasschneider.gradely"
+                "bundle_id": "com.eliasschneider.gradely2"
               }
             }
           ]

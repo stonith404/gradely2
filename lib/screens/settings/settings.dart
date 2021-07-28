@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely/screens/auth/introScreen.dart';
 import 'package:gradely/screens/main/semesterDetail.dart';
+import 'package:gradely/screens/settings/appInfo.dart';
 import 'package:gradely/screens/settings/customize.dart';
 import 'package:gradely/screens/settings/userInfo.dart';
+import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
@@ -139,7 +141,7 @@ Future settingsScreen(BuildContext context) {
                                           builder: (context) => PlatformList()),
                                     );
                                   }),
-                              Divider(),
+                              listDivider(),
                               SizedBox(
                                 child: settingsListTile(
                                     items: [
@@ -167,7 +169,7 @@ Future settingsScreen(BuildContext context) {
                                       );
                                     }),
                               ),
-                              Divider(),
+                              listDivider(),
                               settingsListTile(
                                 arrow: false,
                                 items: [
@@ -220,51 +222,74 @@ Future settingsScreen(BuildContext context) {
                           height: 20,
                         ),
                         Container(
-                          decoration: whiteBoxDec(),
-                          child: Column(
-                            children: [
-                              settingsListTile(
-                                items: [
-                                  Icon(FontAwesome5Solid.envelope,
-                                      size: 15, color: primaryColor),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("contact_developer".tr()),
-                                ],
-                                onTap: () {
-                                  if (kIsWeb) {
-                                    launchURL("https://gradelyapp.com");
-                                  } else {
+                            decoration: whiteBoxDec(),
+                            child: Column(
+                              children: [
+                                settingsListTile(
+                                  items: [
+                                    Icon(FontAwesome5Solid.envelope,
+                                        size: 15, color: primaryColor),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("contact_developer".tr()),
+                                  ],
+                                  onTap: () {
+                                    if (kIsWeb) {
+                                      launchURL("https://gradelyapp.com");
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ContactScreen()),
+                                      );
+                                    }
+                                  },
+                                ),
+                                listDivider(),
+                                settingsListTile(
+                                  items: [
+                                    Icon(FontAwesome5Solid.redo,
+                                        size: 15, color: primaryColor),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("restart_intro".tr()),
+                                  ],
+                                  onTap: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              ContactScreen()),
+                                          builder: (context) => IntroScreen()),
                                     );
-                                  }
-                                },
-                              ),
-                              settingsListTile(
-                                items: [
-                                  Icon(FontAwesome5Solid.redo,
-                                      size: 15, color: primaryColor),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("restart_intro".tr()),
-                                ],
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => IntroScreen()),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
+                                  },
+                                ),
+                              ],
+                            )),
+                        SizedBox(
+                          height: 20,
                         ),
+                        Container(
+                            decoration: whiteBoxDec(),
+                            child: settingsListTile(
+                              context: context,
+                              items: [
+                                Icon(FontAwesome5Solid.info_circle,
+                                    size: 15, color: primaryColor),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("restart_intro".tr()),
+                              ],
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AppInfo()),
+                                );
+                              },
+                            ))
                       ],
                     ),
                   ),

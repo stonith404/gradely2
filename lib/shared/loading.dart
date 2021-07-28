@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gradely/screens/settings/settings.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
@@ -53,10 +54,8 @@ class _LoadingScreenState extends State<LoadingScreen>
         appBar: AppBar(
           backgroundColor: defaultBGColor,
           elevation: 0,
-          title: Image.asset(
-            'assets/images/iconT.png',
-            height: 60,
-          ),
+          title: SvgPicture.asset("assets/images/logo.svg",
+                          color: primaryColor, height: 30),
           leading: Transform(
             alignment: Alignment.center,
             transform: Matrix4.rotationY(math.pi),

@@ -17,6 +17,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:emoji_chooser/emoji_chooser.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 String selectedLesson = "";
 String selectedLessonName;
@@ -98,7 +99,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
   @override
   void initState() {
     super.initState();
-
+    getUserInfo();
     getLessons();
     pushNotification();
   }
@@ -113,8 +114,8 @@ class _SemesterDetailState extends State<SemesterDetail> {
   Widget build(BuildContext context) {
     screenwidth = MediaQuery.of(context).size.width;
     darkModeColorChanger(context);
-
-    if (choosenSemesterName == null) {
+ 
+    if (user.choosenSemester == null ) {
       return ChooseSemester();
     } else {
       return Scaffold(
@@ -127,10 +128,8 @@ class _SemesterDetailState extends State<SemesterDetail> {
                     new SliverAppBar(
                       backgroundColor: defaultBGColor,
                       elevation: 0,
-                      title: Image.asset(
-                        'assets/images/iconT.png',
-                        height: 60,
-                      ),
+                      title: SvgPicture.asset("assets/images/logo.svg",
+                          color: primaryColor, height: 30),
                       leading: Transform(
                         alignment: Alignment.center,
                         transform: Matrix4.rotationY(math.pi),

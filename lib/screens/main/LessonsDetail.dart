@@ -56,6 +56,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
     gradeList = [];
     var response;
 
+  if (user.choosenSemester == null) {
+    return ChooseSemester();
+  }
+
     choosenSemester = user.choosenSemester;
 
     response = await listDocuments(
