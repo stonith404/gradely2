@@ -64,7 +64,7 @@ class _CustomizeTState extends State<CustomizeT> {
               height: 180,
               child: Column(
                 children: [
-                  Text("custom1".tr(),
+                  Text("change_app_colors".tr(),
                       style: TextStyle(fontWeight: FontWeight.w700)),
                   SizedBox(
                     height: 30,
@@ -136,7 +136,8 @@ class _CustomizeState extends State<Customize> {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            Text("custom1".tr(), style: TextStyle(fontWeight: FontWeight.w700)),
+            Text("change_app_colors".tr(),
+                style: TextStyle(fontWeight: FontWeight.w700)),
             SizedBox(height: 20),
             Container(
               height: 100,

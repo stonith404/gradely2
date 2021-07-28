@@ -55,11 +55,11 @@ class _ContactScreenState extends State<ContactScreen> {
                 children: [
                   Icon(FontAwesome5Solid.check_circle),
                   Spacer(flex: 1),
-                  Text("contactSuccess1".tr()),
+                  Text("sent".tr()),
                   Spacer(flex: 10)
                 ],
               ),
-              content: Text("${"contactSuccess2".tr()} ${user.email}."),
+              content: Text("${"contact_success_text".tr()} ${user.email}."),
               actions: <Widget>[
                 ElevatedButton(
                   style: elev(),
@@ -91,7 +91,7 @@ class _ContactScreenState extends State<ContactScreen> {
                   Spacer(flex: 10)
                 ],
               ),
-              content: Text("contactError1".tr()),
+              content: Text("error_contact".tr()),
               actions: <Widget>[
                 ElevatedButton(
                   style: elev(),
@@ -120,7 +120,7 @@ class _ContactScreenState extends State<ContactScreen> {
               ),
               backgroundColor: defaultBGColor,
               elevation: 0,
-              title: Text("contactDev".tr(),
+              title: Text("contact_developer".tr(),
                   style: TextStyle(
                       color: primaryColor, fontWeight: FontWeight.w800))),
           body: Padding(
@@ -128,13 +128,13 @@ class _ContactScreenState extends State<ContactScreen> {
             child: Column(
               children: [
                 SizedBox(height: 50),
-                Text("contact1".tr()),
+                Text("settings_contact_description".tr()),
                 SizedBox(height: 50),
                 Container(
                   child: TextField(
                       controller: contactMessage,
                       maxLines: 8,
-                      decoration: inputDec("Deine Nachricht".tr())),
+                      decoration: inputDec("your_message".tr())),
                 ),
                 SizedBox(height: 50),
                 ElevatedButton(

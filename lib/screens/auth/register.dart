@@ -50,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         print(error);
         print(error.response);
       });
-  prefs.setBool("signedIn", true);
+      prefs.setBool("signedIn", true);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => IntroScreen()),
@@ -104,11 +104,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Create".tr(),
+                        "create".tr(),
                         style: TextStyle(fontSize: 40, color: Colors.white),
                       ),
                       Text(
-                        "Account".tr(),
+                        "account".tr(),
                         style: TextStyle(
                           fontSize: 40,
                           color: Colors.white,
@@ -127,7 +127,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     keyboardType: TextInputType.emailAddress,
                     controller: _emailController,
                     textAlign: TextAlign.left,
-                    decoration: inputDecAuth("Deine Email".tr())),
+                    decoration: inputDecAuth("your_email".tr())),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -135,7 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: _passwordController,
                     textAlign: TextAlign.left,
                     obscureText: true,
-                    decoration: inputDecAuth("Dein Passwort".tr())),
+                    decoration: inputDecAuth("your_password".tr())),
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -164,7 +164,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       MaterialPageRoute(builder: (context) => LoginScreen()),
                     );
                   },
-                  child: Text("Hast du schon ein Account?".tr(),
+                  child: Text("question_have_account".tr(),
                       style: TextStyle(color: Colors.white))),
               Spacer(
                 flex: 3,

@@ -58,7 +58,7 @@ class _ResetPWState extends State<ResetPW> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Reset".tr(),
+                              "reset".tr(),
                               style:
                                   TextStyle(fontSize: 40, color: Colors.white),
                             ),
@@ -79,7 +79,7 @@ class _ResetPWState extends State<ResetPW> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
-                        decoration: inputDecAuth("Deine Email".tr()),
+                        decoration: inputDecAuth("your_email".tr()),
                         keyboardType: TextInputType.emailAddress,
                         controller: _emailController,
                         textAlign: TextAlign.left,
@@ -110,11 +110,12 @@ class _ResetPWState extends State<ResetPW> {
                                     children: [
                                       Icon(FontAwesome5Solid.check_circle),
                                       Spacer(flex: 1),
-                                      Text("contactSuccess1".tr()),
+                                      Text("sent".tr()),
                                       Spacer(flex: 10)
                                     ],
                                   ),
-                                  content: Text("pwResetSuccess1".tr()),
+                                  content:
+                                      Text("password_reset_success_text".tr()),
                                   actions: <Widget>[
                                     ElevatedButton(
                                       style: elev(),
@@ -127,7 +128,7 @@ class _ResetPWState extends State<ResetPW> {
                                 );
                               });
                         },
-                        child: Text("Link anfordern".tr())),
+                        child: Text("request_link".tr())),
                     Spacer(flex: 1),
                     TextButton(
                         onPressed: () {
@@ -137,7 +138,7 @@ class _ResetPWState extends State<ResetPW> {
                                 builder: (context) => LoginScreen()),
                           );
                         },
-                        child: Text("zurück".tr(),
+                        child: Text("back".tr(),
                             style: TextStyle(color: Colors.white))),
                     Spacer(
                       flex: 3,

@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart' hide Locale;
+import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely/GRADELY_OLD/main.dart' hide primaryColor;
@@ -21,10 +22,10 @@ var allAverageListPP = [];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  
+
   await Firebase.initializeApp();
   await sharedPrefs();
- 
+
   client = Client();
   account = Account(client);
   database = Database(client);
@@ -32,11 +33,12 @@ void main() async {
   client
       .setEndpoint('https://aw.cloud.eliasschneider.com/v1')
       .setProject('60f40cb212896');
-        getUserInfo();
+  getUserInfo();
   runApp(EasyLocalization(
     supportedLocales: [Locale('de'), Locale('en')],
     useOnlyLangCode: true,
-    path: 'assets/translations',
+    path: 'assets/translations/gradelyTranslation.csv',
+    assetLoader: CsvAssetLoader(),
     fallbackLocale: Locale('en'),
     saveLocale: true,
     child: GradelyVersionWrapper(),

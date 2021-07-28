@@ -12,8 +12,6 @@ import 'package:flutter/services.dart';
 
 String _password = "";
 
-
-
 class UserInfoScreen extends StatefulWidget {
   @override
   _UserInfoScreenState createState() => _UserInfoScreenState();
@@ -34,18 +32,18 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("userinfoP1".tr()),
+            title: Text("action_required".tr()),
             content: Container(
               height: 150,
               child: Column(
                 children: [
-                  Text("userinfoP2".tr()),
+                  Text("re_enter_password_save_changes".tr()),
                   SizedBox(height: 10),
                   TextField(
                       controller: passwordController,
                       textAlign: TextAlign.left,
                       obscureText: true,
-                      decoration: inputDec("Dein Passwort".tr())),
+                      decoration: inputDec("your_password".tr())),
                 ],
               ),
             ),
@@ -67,9 +65,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       context,
                       MaterialPageRoute(builder: (context) => HomeWrapper()),
                     );
-                  }catch(e){
-
-                  }
+                  } catch (e) {}
                 },
               ),
             ],
@@ -102,7 +98,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   response = jsonDecode(response.toString());
 
                   account.deleteSession(sessionId: response["\$id"]);
-                    prefs.setBool("signedIn", false);
+                  prefs.setBool("signedIn", false);
                 });
 
                 Navigator.pushReplacement(
@@ -124,7 +120,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   child: TextField(
                       controller: changeDisplayName,
                       textAlign: TextAlign.left,
-                      decoration: inputDec("yourName".tr())),
+                      decoration: inputDec("your_name".tr())),
                 ),
                 IconButton(
                   onPressed: () async {
@@ -133,7 +129,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       gradelyDialog(
                           context: context,
                           title: "success".tr(),
-                          text: 'nameUpdated'.tr());
+                          text: 'name_updated'.tr());
                     } catch (e) {
                       gradelyDialog(
                           context: context,
@@ -156,7 +152,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       keyboardType: TextInputType.emailAddress,
                       controller: changeEmailController,
                       textAlign: TextAlign.left,
-                      decoration: inputDec("userinfo1".tr())),
+                      decoration: inputDec("email".tr())),
                 ),
                 IconButton(
                   onPressed: () async {
@@ -183,12 +179,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                          title: Text("change password".tr()),
+                          title: Text("change_password".tr()),
                           content: Container(
                             height: 140,
                             child: Column(
                               children: [
-                                Text("userInfoRP1".tr()),
+                                Text("change_password_text".tr()),
                                 SizedBox(height: 20),
                                 ElevatedButton(
                                     style: elev(),
@@ -217,7 +213,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   obscureText: true,
                   controller: passwordPlaceholder,
                   textAlign: TextAlign.left,
-                  decoration: inputDec("password".tr())),
+                  decoration: inputDec("Password".tr())),
             ),
             SizedBox(
               height: 20,
@@ -238,19 +234,19 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         context: context,
                         builder: (BuildContext contextP) {
                           return AlertDialog(
-                            title: Text("userinfoD1".tr()),
+                            title: Text("delete_account".tr()),
                             content: Container(
                               height: 150,
                               child: Column(
                                 children: [
-                                  Text("userinfoD2".tr()),
+                                  Text("delete_account_text".tr()),
                                   SizedBox(height: 10),
                                   TextField(
                                       controller: passwordController,
                                       textAlign: TextAlign.left,
                                       obscureText: true,
                                       decoration:
-                                          inputDec("Dein Passwort".tr())),
+                                          inputDec("your_password".tr())),
                                 ],
                               ),
                             ),
@@ -274,12 +270,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                             builder: (context) =>
                                                 LoginScreen()),
                                       );
-                                        prefs.setBool("signedIn", false);
+                                      prefs.setBool("signedIn", false);
                                     } else {
                                       gradelyDialog(
                                           context: context,
                                           title: "error".tr(),
-                                          text: "wrongPassword".tr());
+                                          text: "error_wrong_password".tr());
                                     }
                                   }),
                             ],
@@ -287,7 +283,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         });
                   },
                   child: Text(
-                    "userinfoP3".tr(),
+                    "delete_account".tr(),
                     style: TextStyle(color: Colors.red),
                   )),
             )

@@ -23,7 +23,7 @@ double averageOfSemester = 0 / -0;
 num averageOfSemesterPP = 0 / -0;
 String choosenSemesterName = "noSemesterChoosed";
 
-void main() async {
+ mainGradelyOLD() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 

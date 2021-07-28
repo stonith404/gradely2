@@ -281,13 +281,13 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                         onTap: () {
                                           gradelyDialog(
                                             context: context,
-                                            title: "Achtung".tr(),
+                                            title: "warning".tr(),
                                             text:
-                                                '${'Bist du sicher, dass du'.tr()} "${lessonList[index].name}" ${'löschen willst?'.tr()}',
+                                                '${"delete_confirmation_p1'".tr()} "${lessonList[index].name}" ${"delete_confirmation_p2'".tr()}',
                                             actions: <Widget>[
                                               CupertinoButton(
                                                 child: Text(
-                                                  "Nein".tr(),
+                                                  "no".tr(),
                                                   style:
                                                       TextStyle(color: wbColor),
                                                 ),
@@ -297,7 +297,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                               ),
                                               CupertinoButton(
                                                 child: Text(
-                                                  "Löschen".tr(),
+                                                  "delete".tr(),
                                                   style: TextStyle(
                                                       color: Colors.red),
                                                 ),
@@ -399,7 +399,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
           ),
           backgroundColor: defaultBGColor,
           elevation: 0,
-          title: Text("Fach hinzufügen".tr(),
+          title: Text("add_lesson".tr(),
               style:
                   TextStyle(color: primaryColor, fontWeight: FontWeight.w800)),
           shape: defaultRoundedCorners(),
@@ -466,7 +466,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                 child: ((() {
                   if (_selectedEmoji == "") {
                     return Text(
-                      "no emoji".tr(),
+                      "no_emoji_choosed".tr(),
                       style: TextStyle(color: primaryColor),
                     );
                   } else {
@@ -482,7 +482,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                   inputFormatters: [emojiRegex()],
                   controller: addLessonController,
                   textAlign: TextAlign.left,
-                  decoration: inputDec("Fach Name".tr())),
+                  decoration: inputDec("lesson_name".tr())),
               SizedBox(
                 height: 40,
               ),
@@ -490,7 +490,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                 style: ElevatedButton.styleFrom(
                   primary: primaryColor,
                 ),
-                child: Text("hinzufügen".tr()),
+                child: Text("add".tr()),
                 onPressed: () async {
                   noNetworkDialog(context);
                   await database.createDocument(
@@ -529,7 +529,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
           ),
           backgroundColor: defaultBGColor,
           elevation: 0,
-          title: Text("Fach unbenennen".tr(),
+          title: Text("Fach rename".tr(),
               style:
                   TextStyle(color: primaryColor, fontWeight: FontWeight.w800)),
           shape: defaultRoundedCorners(),
@@ -596,7 +596,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                 child: ((() {
                   if (_selectedEmoji == "") {
                     return Text(
-                      "no emoji".tr(),
+                      "no_emoji_choosed".tr(),
                       style: TextStyle(color: primaryColor),
                     );
                   } else {
@@ -612,7 +612,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                   controller: renameTestWeightController,
                   inputFormatters: [emojiRegex()],
                   textAlign: TextAlign.left,
-                  decoration: inputDec("Fach Name".tr())),
+                  decoration: inputDec("lesson_name".tr())),
               SizedBox(
                 height: 40,
               ),
@@ -620,7 +620,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                 style: ElevatedButton.styleFrom(
                   primary: primaryColor,
                 ),
-                child: Text("unbenennen".tr()),
+                child: Text("rename".tr()),
                 onPressed: () async {
                   noNetworkDialog(context);
                   await database.updateDocument(

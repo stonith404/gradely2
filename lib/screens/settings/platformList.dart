@@ -29,22 +29,16 @@ class PlatformList extends StatelessWidget {
             ),
             SizedBox(height: 50),
             Text(
-              "pl1".tr(),
+              "settings_platforms_description".tr(),
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 15),
-            Text(
-                "Auf 'gradelyapp.com' kannst du Gradely für all deine Gerät herunterladen."
-                    .tr()),
-            SizedBox(height: 15),
-            SizedBox(height: 50),
-            SizedBox(height: 50),
+            SizedBox(height: 100),
             ElevatedButton(
                 style: elev(),
                 onPressed: () {
                   launchURL("https://gradelyapp.com");
                 },
-                child: Text("pl3".tr()))
+                child: Text("settings_platforms_download_button".tr()))
           ],
         ),
       ),

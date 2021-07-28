@@ -20,7 +20,11 @@ Future getUserInfo() async {
       accountResponse = r.toString();
 
       await prefs.setString("accountResult", accountResponse);
-    }).catchError((error) {});
+    }).catchError((error) {
+      if (error.code == 401) {
+        prefs.setBool("signedIn", false);
+      }
+    });
   } else {
     accountResponse = prefs.getString("accountResult");
   }
@@ -50,8 +54,6 @@ Future getUserInfo() async {
             0xFF000000));
 
     primaryColor = user.color;
-  }).catchError((error) {
-    print(error.code);
   });
 }
 
@@ -180,5 +182,5 @@ noNetworkDialog(context) async {
 }
 
 Future sharedPrefs() async {
-   prefs = await SharedPreferences.getInstance();
+  prefs = await SharedPreferences.getInstance();
 }

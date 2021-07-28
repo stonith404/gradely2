@@ -69,7 +69,7 @@ class _IntroScreenState extends State<IntroScreen> {
 
       pages: [
         PageViewModel(
-          titleWidget: Text("Willkommen!".tr(),
+          titleWidget: Text("welcome".tr(),
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
           body:
               "Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen."
@@ -81,33 +81,31 @@ class _IntroScreenState extends State<IntroScreen> {
           decoration: pageDecoration,
         ),
         PageViewModel(
-          titleWidget: Text("Überall verfügbar".tr(),
+          titleWidget: Text("everywhere_available".tr(),
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
-          body:
-              "Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf deinem Laptop, Handy oder iPad Noten hinzufügen und anschauen"
-                  .tr(),
+          body: "intro_messaqge_sync".tr(),
           image: _buildImage('sync.png'),
-          footer: Text("Mehr Infos findest du in den Einstellungen.".tr()),
+          footer: Text("intro_more_in_settings".tr()),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          titleWidget: Text("Pluspunkte oder Durchschnitt?".tr(),
+          titleWidget: Text("pluspoints_or_average".tr(),
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
           body:
-              "In den Einstellungen kannst du einstellen, ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll."
+              "grade_result_change_in_settings"
                   .tr(),
           image: _buildImage('choose.png'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          titleWidget: Text("Fast Fertig...".tr(),
+          titleWidget: Text("almost_finished".tr(),
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
           bodyWidget: Column(
             children: [
               Text(
-                "Füge ein Semester hinzu. Keine Angst, dieses kannst du später löschen oder unbenennen."
+                "intro_add_semester"
                     .tr(),
                 style: TextStyle(fontSize: 19),
               ),
@@ -124,7 +122,7 @@ class _IntroScreenState extends State<IntroScreen> {
             style: ElevatedButton.styleFrom(
               primary: primaryColor,
             ),
-            child: Text("hinzufügen".tr()),
+            child: Text("add".tr()),
             onPressed: () async {
               await getUserInfo();
               Future result = database.createDocument(

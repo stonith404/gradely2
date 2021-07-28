@@ -230,7 +230,7 @@ Future settingsScreen(BuildContext context) {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text("contactDev".tr()),
+                                  Text("contact_developer".tr()),
                                 ],
                                 onTap: () {
                                   if (kIsWeb) {
@@ -252,7 +252,7 @@ Future settingsScreen(BuildContext context) {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text("restartIntro".tr()),
+                                  Text("restart_intro".tr()),
                                 ],
                                 onTap: () {
                                   Navigator.push(

@@ -150,7 +150,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "empty1".tr(),
+                                  "emty_lesson_p1".tr(),
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w900),
@@ -158,12 +158,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("empty2".tr()),
+                                    Text("emty_lesson_p2".tr()),
                                     Icon(
                                       FontAwesome5Solid.plus,
                                       size: 15,
                                     ),
-                                    Text("empty3".tr())
+                                    Text("emty_lesson_p3".tr())
                                   ],
                                 ),
                               ],
@@ -348,7 +348,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            Text("dream grade".tr())
+                                            Text("dream_grade".tr())
                                           ],
                                         ),
                                         Spacer(flex: 5),
@@ -384,14 +384,14 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                             context: context,
                                                             title: "error".tr(),
                                                             text:
-                                                                "statsContainsNoDate"
+                                                                "error_stats_contain_no_date"
                                                                     .tr());
                                                       } else if (formatError) {
                                                         gradelyDialog(
                                                             context: context,
                                                             title: "error".tr(),
                                                             text:
-                                                                "statsDateBadlyFormatted"
+                                                                "error_stats_date_badly_formatted"
                                                                     .tr());
                                                       } else {
                                                         statisticsScreen(
@@ -492,7 +492,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                     child: TextField(
                       controller: editTestInfoName,
                       textAlign: TextAlign.left,
-                      decoration: inputDec("Test Name".tr()),
+                      decoration: inputDec("exam_name".tr()),
                       inputFormatters: [emojiRegex()],
                     ),
                   ),
@@ -626,7 +626,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                         child: Text(
-                          "addexam".tr(),
+                          "add_exam".tr(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 30),
                         ),
@@ -642,7 +642,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         child: TextField(
                           controller: addTestNameController,
                           textAlign: TextAlign.left,
-                          decoration: inputDec("Test Name".tr()),
+                          decoration: inputDec("exam_name".tr()),
                           inputFormatters: [emojiRegex()],
                         ),
                       ),
@@ -753,7 +753,7 @@ Future dreamGradeC(BuildContext context) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("dream grade calculator".tr(),
+                      Text("dream_grade_calulator".tr(),
                           style: TextStyle(fontSize: 25)),
                       CircleAvatar(
                         radius: 22,
@@ -782,7 +782,7 @@ Future dreamGradeC(BuildContext context) {
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
-                      decoration: inputDec("dream grade".tr()),
+                      decoration: inputDec("dream_grade".tr()),
                     ),
                   ),
                   Padding(
@@ -797,7 +797,7 @@ Future dreamGradeC(BuildContext context) {
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
-                      decoration: inputDec("dream grade weight".tr()),
+                      decoration: inputDec("dream _grade_weight".tr()),
                     ),
                   ),
                   SizedBox(
@@ -805,7 +805,7 @@ Future dreamGradeC(BuildContext context) {
                   ),
                   Row(
                     children: [
-                      Text("dreamGrade1".tr()),
+                      Text("dream_grade_result_text".tr()),
                       Text((() {
                         if (dreamgradeResult.isInfinite) {
                           return "-";

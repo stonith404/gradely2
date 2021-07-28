@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
       });
 
       prefs.remove("newGradely");
-        prefs.setBool("signedIn", true);
+      prefs.setBool("signedIn", true);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeWrapper()),
@@ -99,17 +99,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Welcome".tr(),
+                              "welcome_back".tr(),
                               style:
                                   TextStyle(fontSize: 40, color: Colors.white),
                             ),
-                            Text(
-                              "Back".tr(),
-                              style: TextStyle(
-                                fontSize: 40,
-                                color: Colors.white,
-                              ),
-                            )
+                   
                           ],
                         ),
                       ],
@@ -123,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           controller: _emailController,
                           textAlign: TextAlign.left,
-                          decoration: inputDecAuth("Deine Email".tr())),
+                          decoration: inputDecAuth("your_email".tr())),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -131,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passwordController,
                           textAlign: TextAlign.left,
                           obscureText: true,
-                          decoration: inputDecAuth("Dein Passwort".tr())),
+                          decoration: inputDecAuth("your_password".tr())),
                     ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -143,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                           signInUser();
                         },
-                        child: Text("Einloggen").tr()),
+                        child: Text("sign_in".tr())),
                     SizedBox(
                       height: 10,
                     ),
@@ -171,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 builder: (context) => RegisterScreen()),
                           );
                         },
-                        child: Text("Hast du noch kein Account?".tr(),
+                        child: Text("question_no_account".tr(),
                             style: TextStyle(color: Colors.white))),
                     TextButton(
                         onPressed: () {
@@ -181,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         child: Text(
-                          "Passwort vergessen?".tr(),
+                          "question_forgot_password".tr(),
                           style: TextStyle(color: Colors.white),
                         )),
                     Spacer(

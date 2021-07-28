@@ -26,7 +26,7 @@ String _errorMessage = "";
 
 class _LoginScreenState extends State<LoginScreen> {
   signInUser() async {
-           SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     FocusScope.of(context).unfocus();
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isLoading = false;
       });
-         prefs.setBool("newGradely", false);
+      prefs.setBool("newGradely", false);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeWrapper()),
@@ -136,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           controller: _emailController,
                           textAlign: TextAlign.left,
-                          decoration: InputDecAuth("Deine Email".tr())),
+                          decoration: InputDecAuth("your_email".tr())),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passwordController,
                           textAlign: TextAlign.left,
                           obscureText: true,
-                          decoration: InputDecAuth("Dein Passwort".tr())),
+                          decoration: InputDecAuth("your_password".tr())),
                     ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -158,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                           signInUser();
                         },
-                        child: Text("Einloggen").tr()),
+                        child: Text("sign_in".tr())),
                     SizedBox(
                       height: 10,
                     ),
@@ -175,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 builder: (context) => RegisterScreen()),
                           );
                         },
-                        child: Text("Hast du noch kein Account?".tr(),
+                        child: Text("question_no_account".tr(),
                             style: TextStyle(color: Colors.white))),
                     TextButton(
                         onPressed: () {
@@ -185,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         child: Text(
-                          "Passwort vergessen?".tr(),
+                          "question_forgot_password".tr(),
                           style: TextStyle(color: Colors.white),
                         )),
                     Spacer(

@@ -50,7 +50,7 @@ Future statisticsScreen(BuildContext context) {
                               color: primaryColor,
                               yValueMapper: (Grade stats, _) => stats.grade)
                         ])),
-                    Text("stats1".tr())
+                    Text("stats_description".tr())
                   ],
                 )),
           ));

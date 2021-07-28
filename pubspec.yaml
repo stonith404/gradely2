@@ -40,7 +40,8 @@ dependencies:
   modal_bottom_sheet: ^2.0.0
   flutter_launcher_icons:
   introduction_screen: ^2.1.0
-  easy_localization: 
+  easy_localization: ^3.0.0
+  easy_localization_loader: ^1.0.0
   url_launcher:
   firebase_messaging:  10.0.1
   mailer:

@@ -1,0 +1,108 @@
+key,en,de
+average,average,Durchschnitt
+pluspoints,pluspoints,Pluspunkte
+pp,Pluspoints,Pluspunkte
+av,Average,Durchschnitt
+settings,settings,Einstellungen
+platforms,platforms,Plattformen
+grade_result,grades results,Noten Resultate
+weight,weight,Gewichtung
+add_exam,add exam,Test hinzufügen
+exam_name,exam name,Test Name
+settings_platforms_description,the platforms and synchronization make gradely unique. you can save your grades here and at the same time your grades are on your other device! \n\n,"Die verfügbarkeit und Synchronisation macht Gradely einzigartig. Du kannst deine Noten hier hinzufügen und zur selben Zeit, sind deine Noten auf all deinen anderen Geräten!"
+delete,delete,löschen  
+no,no,Nein
+back,back,zurück
+rename,edit,bearbeiten
+add_semester,add semester,Semester hinzufügen
+add_lesson,add lesson,Fach hinzufügen
+lesson_name,lesson name,Fach Name
+delete_confirmation_p1,do you really want to delete,"Bist du sicher, dass du"
+delete_confirmation_p2,?,löschen willst?
+add,add,hinzufügen
+sign_in,sign in,Einloggen
+your_email,your email,Deine Email
+your_password,your password,Dein Passwort
+password,password,Passwort
+question_forgot_password,forgot password?,Passwort vergessen?
+request_link,request Link,Link anfordern
+sign_up,sign up,Registrieren
+question_have_account,do you have an account already?,Hast du bereits ein Account?
+question_no_account,you don't have an account?,Hast du noch kein Account?
+welcome,welcome!,Willkommen!
+welcome_message_monitoring,welcome to gradely. gradely helps you to monitor your grades. ,Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen.
+everywhere_available,everywhere available,überall verfügbar
+intro_messaqge_sync,your grades are stored in the cloud. so you can add or view your grades on your laptop handy or ipad.,"Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf deinem Laptop, Handy oder iPad Noten hinzufügen und anschauen."
+intro_more_in_settings,More Informations can you find in the settings.,Mehr Infos findest du in den Einstellungen.
+pluspoints_or_average,pluspoints or average?,Pluspunkte oder Durchschnitt?
+grade_result_change_in_settings,in the settings you can manage if your grades should display as an average or pluspoints.,In den Einstellungen kannst du einstellen ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.
+almost_finished,almost finished...,Fast Fertig...
+intro_add_semester,add a semester. no worries you can delete or edit this semester later.,Füge ein Semester hinzu. Keine Angst dieses kannst du später löschen oder unbenennen.
+settings_platforms_download_button,download gradely for your other devices.,Gradely für deine anderen Geräte herunterladen
+try_again,try again,Erneut versuchen
+restart_intro,restart Intro,Intro wiederholen
+contact_developer,contact or feature suggestion,Kontakt oder Feature Vorschlag
+your_message,your message,Deine Nachricht
+send,send,senden
+edit,edit,bearbeiten
+sent,sent!,gesendet!
+contact_success_text,thanks for your message. i will contact you with this email:,Danke für deine Nachricht. Ich werde mich bei dir unter dieser Email melden:
+password_reset_success_text,an email to reset your password was sent. please check also your spam folder.,Eine Email um dein Passwort zurückzusetzen wurde erfolgreich gesendet. Bitte beachte auch dein Spam Fach.
+error,error,Fehler
+error_unknown,There was an unknown error,Ein unbekannter Fehler ist aufgetreten
+error_contact,unfortunately there is an error. you can try it later or you can contact me under elias@eliasschneider.com,Leider ist ein Fehler aufgetreten. Versuche es später nochmals oder konatkiere mich unter elias@eliasschneider.com
+settings_contact_description,do you have a feature suggestion an error to report or something else? you can contact me.,Hast du ein Feature Vorschlag einen Fehler zu melden oder etwas anderes? Gerne kannst du mich kontaktieren.
+dream_grade,dream_grade,Wunschnote
+dream_grade_calulator,dream_grade_calulator,Wunschnoten rechner
+dream_grade_result_text,your grade for the next exam should be:,Deine Note für den nächsten test:
+dream _grade_weight,dream _grade_weight,Wunschnoten Gewichtung
+date,date,Datum
+benefit_support,support developer,Entwickler unterstützen
+gradely_plus_description,i invested a lot of time and money in this app. of course I want that this app is free. with gradely plus you can help me so i can make this app better.,Ich habe viele Stunden und Geld in diese App investiert. Ich möchte das diese App gratis ist. Mit Gradely Plus kann du mithelfen dass ich die App immer weiterentwickeln kann.
+benefit_customize_color,customize theme color,App Farben ändern
+benefit_more_coming_soon,more benefits coming soon,
+benefit_emojis,emojis in names,
+gradely_plus_mobile_only,gradely plus can only be bought on a mobile device. after the purchase you have gradely on any of your devices.,
+gradely_pluss_success_text,thank you so much for being a gradely plus user. Enjoy it!,
+customize,customize,
+change_app_colors,change app colors,
+loading,loading,Lädt...
+email,email,Email
+action_required,action required,
+re_enter_password_save_changes,please re enter your password to save your changes,Bitte gib dein Passwort ein um deine Änderungen zu speichern.
+delete_account,delete account,Account löschen
+save,save,speichern
+change_password,change password,Passwort ändern
+change_password_text,to change your password click the button below. you get an email there you can change your password.,Um dein Passwort zu ändern drücke den Knopf unten. Du bekommst eine Email dort kannst du dein Passwort ändern.
+delete_account_text,caution! Do you really want to delete your account and your grades? this can't be undone.,Achtung! Willst du wirklich all deine Noten und dein Account löschen? Dies kann nicht Rückgängig gemacht werden.
+reset,reset,Zurücksetzen
+create,create,Erstellen
+welcome_back,welcome \n back,Willkommen \n zurück
+account,account,Account
+no_emoji_choosed,no emoji choosed,Kein Emoji ausgewählt
+error_weak_password,your password is too weak. Try again.,Zu schwaches Passwort. Versuche es erneut.
+error_invalid_email,This email is invalid. Try again.,Die Email ist falsch formatiert. Versuche es erneut.
+error_email_in_use,an account with this email already exists. Try again.,Mit dieser Emailadresse gibt es schon einen Account. Versuche es erneut.
+error_wrong_password,this password is wrong. Try again.,Falsches Passwort. Versuche es erneut.
+error_user_not_found,an account whith this email doesn't exist. Try again.,Ein Account mit dieser Email existiert nicht. Versuche es erneut.
+rename_semester,rename semester,Semester unbennen
+emty_lesson_p1,it's really empty here.,Es ist sehr leer hier
+emty_lesson_p2,Click the ,Klicke auf 
+emty_lesson_p3,to add your first grade.,um eine Note hinzuzufügen.
+error_stats_date_badly_formatted,your grade dates are badly formatted. only this format is accepted:yyyy.MM.dd. please rechoose the dates in your grades then you can see your statistics.,Deine Daten zu den Noten sind falsch formatiert. Nur dieses Format ist akzeptiert:yyyy.MM.dd. Bitte wähle das Datum für jede Note erneut dann kannst du deine Statistiken sehen.
+error_stats_contain_no_date,some of your grades don't have dates. please add a date to every of your grade to see your statistics.,Ein paar Noten haben kein Datum. Bitte füge ein Datum hinzu um deine Statistiken zu sehen.
+statistics,statistics,Statistiken
+stats_description,This shows your grades along the date time period.,Diese Statistik zeigt dir deine Noten während der Datum Zeitperiode.
+your_name,your name,Dein Name
+features,features,features
+description,description,Beschreibung
+gradely_plus_explain_products,No matter what you buy you get the exact same features:,"Egal was du kaufst, du erhälst genau die gleichen Features."
+coffee,coffee,Kaffee
+ice_coffee,ice coffe,Eis Kaffee
+success,success,Erfolgreich
+name_updated,Your name was updated,Dein Name wurde aktualisiert
+gradely_migration_registred_before,Registred before the 1st august?,Vor dem 1. August registriert?
+gradely_migration_info,As of August 1st Gradely has a new database in Switzerland not like before by Google in Western Europe. If you registered before August 1st you can continue to use gradely but the app will no longer be updated. If you want to continue to benefit from updates please register again. \n\nI'm sorry for the inconvenience.\n\nAs an excuse you will receive Gradely Plus for free with your newly created account. Contact me at elias@eliasschneider.com.,
+no_network_offline_loading,It looks like you're offline and your grades aren't stored in the cache.,"Es sieht so aus, wie du offline bist und deine Noten nicht im Cache gespeichert sind."
+network_needed_title,Network Connection,Internet Verbindung
+"network_needed_text:To use this feature, you need a network connection.",To use this feature you need a network connection.,"Um diese Funktion zu nutzen, brauchst du eine Internet Verbindung."

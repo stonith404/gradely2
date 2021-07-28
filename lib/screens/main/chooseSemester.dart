@@ -150,13 +150,13 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                 onTap: () {
                                   return gradelyDialog(
                                     context: context,
-                                    title: "Achtung".tr(),
+                                    title: "warning".tr(),
                                     text:
-                                        '${'Bist du sicher, dass du'.tr()} "${semesterList[index].name}" ${'löschen willst?'.tr()}',
+                                        '${"delete_confirmation_p1'".tr()} "${semesterList[index].name}" ${"delete_confirmation_p2'".tr()}',
                                     actions: <Widget>[
                                       CupertinoButton(
                                         child: Text(
-                                          "Nein".tr(),
+                                          "no".tr(),
                                           style: TextStyle(color: wbColor),
                                         ),
                                         onPressed: () {
@@ -165,11 +165,11 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                       ),
                                       CupertinoButton(
                                         child: Text(
-                                          "Löschen".tr(),
+                                          "delete".tr(),
                                           style: TextStyle(color: Colors.red),
                                         ),
                                         onPressed: () {
-                                                  noNetworkDialog(context);
+                                          noNetworkDialog(context);
                                           database.deleteDocument(
                                               collectionId: collectionSemester,
                                               documentId:
@@ -234,7 +234,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
         backgroundColor: defaultBGColor,
         elevation: 0,
         title: Text(
-          "renameSemester".tr(),
+          "rename_semester".tr(),
           style: appBarTextTheme,
         ),
         shape: defaultRoundedCorners(),
@@ -256,9 +256,9 @@ class _ChooseSemesterState extends State<ChooseSemester> {
               style: ElevatedButton.styleFrom(
                 primary: primaryColor, // background
               ),
-              child: Text("unbenennen".tr()),
+              child: Text("rename".tr()),
               onPressed: () async {
-                        noNetworkDialog(context);
+                noNetworkDialog(context);
                 await database.updateDocument(
                     collectionId: collectionSemester,
                     documentId: _selectedSemester.id,
@@ -284,7 +284,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
         ),
         elevation: 0,
         backgroundColor: defaultBGColor,
-        title: Text("Semester hinzufügen".tr(), style: appBarTextTheme),
+        title: Text("add_semester".tr(), style: appBarTextTheme),
         shape: defaultRoundedCorners(),
       ),
       body: Padding(
@@ -304,9 +304,9 @@ class _ChooseSemesterState extends State<ChooseSemester> {
               style: ElevatedButton.styleFrom(
                 primary: primaryColor, // background
               ),
-              child: Text("hinzufügen".tr()),
+              child: Text("add".tr()),
               onPressed: () async {
-                        noNetworkDialog(context);
+                noNetworkDialog(context);
                 await getUserInfo();
                 await database.createDocument(
                     collectionId: collectionSemester,

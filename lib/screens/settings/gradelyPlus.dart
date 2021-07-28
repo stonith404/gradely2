@@ -54,7 +54,7 @@ class GradelyPlusUnsupportet extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Text("gradelyP1".tr()),
+            Text("gradely_plus_description".tr()),
             SizedBox(
               height: 30,
             ),
@@ -79,7 +79,7 @@ class GradelyPlusUnsupportet extends StatelessWidget {
                             color: primaryColor,
                           ),
                           SizedBox(width: 20),
-                          Text("gradelyP2".tr())
+                          Text("benefit_support".tr())
                         ],
                       ),
                     ),
@@ -97,7 +97,7 @@ class GradelyPlusUnsupportet extends StatelessWidget {
                             color: primaryColor,
                           ),
                           SizedBox(width: 20),
-                          Text("gradelyP3".tr())
+                          Text("benefit_customize_color".tr())
                         ],
                       ),
                     ),
@@ -115,7 +115,7 @@ class GradelyPlusUnsupportet extends StatelessWidget {
                             color: primaryColor,
                           ),
                           SizedBox(width: 20),
-                          Text("gradelyP6".tr())
+                          Text("benefit_emojis".tr())
                         ],
                       ),
                     ),
@@ -133,7 +133,7 @@ class GradelyPlusUnsupportet extends StatelessWidget {
                             color: primaryColor,
                           ),
                           SizedBox(width: 20),
-                          Text("gradelyP4".tr())
+                          Text("benefit_more_coming_soon".tr())
                         ],
                       ),
                     ),
@@ -144,7 +144,7 @@ class GradelyPlusUnsupportet extends StatelessWidget {
             SizedBox(
               height: 50,
             ),
-            Text("gradelyP5".tr(),
+            Text("gradely_plus_mobile_only".tr(),
                 style: TextStyle(fontStyle: FontStyle.italic))
           ]),
         ),
@@ -208,8 +208,8 @@ class _GradelyPlusState extends State<GradelyPlus> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("🎉 " + "gradelyPS1".tr()),
-            content: Text("gradelyPS2".tr()),
+            title: Text("🎉 Wohooo"),
+            content: Text("gradely_pluss_success_text".tr()),
             actions: <Widget>[
               ElevatedButton(
                 style: elev(),
@@ -296,7 +296,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text("gradelyP1".tr()),
+                        Text("gradely_plus_description".tr()),
                         SizedBox(
                           height: 30,
                         ),
@@ -321,7 +321,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                         color: primaryColor,
                                       ),
                                       SizedBox(width: 20),
-                                      Text("gradelyP2".tr())
+                                      Text("benefit_support".tr())
                                     ],
                                   ),
                                 ),
@@ -339,7 +339,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                         color: primaryColor,
                                       ),
                                       SizedBox(width: 20),
-                                      Text("gradelyP3".tr())
+                                      Text("benefit_customize_color".tr())
                                     ],
                                   ),
                                 ),
@@ -357,7 +357,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                         color: primaryColor,
                                       ),
                                       SizedBox(width: 20),
-                                      Text("gradelyP6".tr())
+                                      Text("benefit_emojis".tr())
                                     ],
                                   ),
                                 ),
@@ -375,7 +375,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                         color: primaryColor,
                                       ),
                                       SizedBox(width: 20),
-                                      Text("gradelyP4".tr())
+                                      Text("benefit_more_coming_soon".tr())
                                     ],
                                   ),
                                 ),
@@ -389,7 +389,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                         Platform.isIOS || Platform.isAndroid
                             ? Column(children: [
                                 Text(
-                                  "gradelyPExpl".tr(),
+                                  "gradely_plus_explain_products".tr(),
                                   textAlign: TextAlign.center,
                                 ),
                                 SizedBox(
@@ -414,9 +414,9 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                     onPressed: () async => buyProduct(
                                         "com.eliasschneider.gradely.iap.gradelyplus5"),
                                     child: Text(
-                                        "🧊 ${'ice coffee'.tr()} ${iapList[2].localizedPrice ?? "-"}")),
+                                        "🧊 ${'ice_coffee'.tr()} ${iapList[2].localizedPrice ?? "-"}")),
                               ])
-                            : Text("gradelyP5".tr(),
+                            : Text("gradely_plus_mobile_only".tr(),
                                 style: TextStyle(fontStyle: FontStyle.italic))
                       ]),
                     ),
