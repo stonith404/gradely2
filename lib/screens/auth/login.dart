@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gradely/GRADELY_OLD/main.dart'
-    show  OLDMaterialWrapper;
+import 'package:gradely/GRADELY_OLD/main.dart' show OLDMaterialWrapper;
 import 'package:gradely/main.dart';
 
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:gradely/shared/loading.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'register.dart';
 
 import 'resetPassword.dart';
@@ -26,6 +26,7 @@ String _errorMessage = "";
 
 class _LoginScreenState extends State<LoginScreen> {
   signInUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     FocusScope.of(context).unfocus();
     Future result = account.createSession(
       email: _emailController.text,
@@ -40,6 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isLoading = false;
       });
+
+      prefs.remove("newGradely");
+        prefs.setBool("signedIn", true);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeWrapper()),
@@ -138,7 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             isLoading = true;
                           });
                           signInUser();
-                          HapticFeedback.lightImpact();
                         },
                         child: Text("Einloggen").tr()),
                     SizedBox(
@@ -151,7 +154,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     Spacer(flex: 1),
                     TextButton(
                         onPressed: () {
-                         
                           Navigator.push(
                             context,
                             MaterialPageRoute(

@@ -94,7 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
       child: Scaffold(
-     backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.redAccent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -172,8 +172,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       isLoading = true;
                     });
                     createUser();
-
-                    HapticFeedback.lightImpact();
                   },
                   child: Text("Registrieren".tr(),
                       style: TextStyle(color: Colors.white))),

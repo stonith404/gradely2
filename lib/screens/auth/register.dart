@@ -18,9 +18,6 @@ TextEditingController _emailController = new TextEditingController();
 TextEditingController _passwordController = new TextEditingController();
 FirebaseAuth auth = FirebaseAuth.instance;
 
-
-
-
 String _errorMessage = "";
 
 class _RegisterScreenState extends State<RegisterScreen> {
@@ -53,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         print(error);
         print(error.response);
       });
-
+  prefs.setBool("signedIn", true);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => IntroScreen()),
@@ -149,8 +146,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       isLoading = true;
                     });
                     createUser();
-
-                    HapticFeedback.lightImpact();
                   },
                   child: Text("Registrieren".tr(),
                       style: TextStyle(color: Colors.white))),

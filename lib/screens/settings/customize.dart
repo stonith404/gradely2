@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gradely/main.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'settings.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 
 List _colorList = [
   Color(0xFF6C63FF),
@@ -56,38 +54,49 @@ class _CustomizeTState extends State<CustomizeT> {
             }),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
             SizedBox(height: 30),
-            Text("custom1".tr(), style: TextStyle(fontWeight: FontWeight.w700)),
-            SizedBox(height: 30),
             Container(
-              height: 100,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: _colorList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        primaryColor = _colorList[index];
-                      });
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Container(
-                          height: 1,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: _colorList[index],
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(65),
-                            ),
-                          )),
+              padding: EdgeInsetsDirectional.all(20),
+              decoration: whiteBoxDec(),
+              height: 180,
+              child: Column(
+                children: [
+                  Text("custom1".tr(),
+                      style: TextStyle(fontWeight: FontWeight.w700)),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _colorList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              primaryColor = _colorList[index];
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Container(
+                                height: 1,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  color: _colorList[index],
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(65),
+                                  ),
+                                )),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                  ),
+                ],
               ),
             ),
           ],

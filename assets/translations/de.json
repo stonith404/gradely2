@@ -1,13 +1,13 @@
  {
-    "Notendurchschnitt":"Notendurchschnitt",
-    "Pluspunkte":"Pluspunkte",
+    "average":"Notendurchschnitt",
+    "pluspoints":"Pluspunkte",
     "pp":"Pluspunkte",
     "av":"Durchschnitt",
-    "Einstellungen":"Einstellungen",
-    "Plattformen":"Plattformen",
-    "Noten Resultate":"Noten Resultate",
-    "Gewichtung":"Gewichtung",
-    "Note":"Note",
+    "settings":"Einstellungen",
+    "platforms":"Plattformen",
+    "grade_result":"Noten Resultate",
+    "weight":"Gewichtung",
+    "grade":"Note",
     "Test updaten":"Test updaten",
     "addexam":"Test hinzufügen",
     "Test löschen":"Test löschen",
@@ -106,9 +106,7 @@
     "renameSemester" : "Semester unbennen",
     "empty1" : "Hier ist es sehr leer. 🔎",
     "empty2" : "Klicke auf das  ",
-    "empty3" : "  um deinen Noten vom Server zu holen.",
-    "empty4" : "Oder klicke ",
-   "empty5" : " um eine neue Note zu hinzufügen",
+    "empty3" : "  um die erste Note hinzuzfügen.",
    "statsDateBadlyFormatted" : "Deine Daten zu den Noten sind falsch formatiert. Nur dieses Format ist akzeptiert: yyyy.MM.dd. Bitte wähle das Datum für jede Note erneut, dann kannst du deine Statistiken sehen.",
    "statsContainsNoDate" : "Einpaar Noten haben kein Datum. Bitte füge ein Datum hinzu um deine Statistiken zu sehen.",
    "statistics" : "Statistiken",
@@ -123,6 +121,8 @@
    "success" : "Super.",
    "nameUpdated" : "Dein Name wurde aktualisiert",
    "gradely_migration_registred_before" : "Vor dem 1. August registriert?",
-   "gradely_migration_info" : "Ab dem 1. August hat gradely eine neue Datenbank in der Schweiz, nicht so wie vorher bei Google in West Europa. Wenn du dich vor dem 1. August registriert hast, kannst du gradely weiterhin benutzen aber die app wird nicht mehr aktualisiert. Falls du weiterhin von Updates profitieren willst, registriere dich erneut. \n\nTut mir leid für die Umstände. \n\n Als Entschuldigung bekommst du mit deinem neu erstellten Account, kostenlos Gradely Plus. Kontaktiere mich unter elias@eliasschneider.com."
-
+   "gradely_migration_info" : "Ab dem 1. August hat gradely eine neue Datenbank in der Schweiz, nicht so wie vorher bei Google in West Europa. Wenn du dich vor dem 1. August registriert hast, kannst du gradely weiterhin benutzen aber die app wird nicht mehr aktualisiert. Falls du weiterhin von Updates profitieren willst, registriere dich erneut. \n\nTut mir leid für die Umstände. \n\n Als Entschuldigung bekommst du mit deinem neu erstellten Account, kostenlos Gradely Plus. Kontaktiere mich unter elias@eliasschneider.com.",
+   "no_network_offline_loading" : "Es sieht so aus, wie du offline bist und deine Noten nicht im Cache gespeichert sind.",
+   "network_needed_title" : "Internetverbindung",
+   "network_needed_text" : "Um diese Funktion zu nutzen, brauchst du eine aktive Internetverbindung"
    }

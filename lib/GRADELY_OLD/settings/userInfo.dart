@@ -68,8 +68,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       MaterialPageRoute(builder: (context) => HomeWrapper()),
                     );
                   } on FirebaseAuthException catch (e) {}
-
-                  HapticFeedback.lightImpact();
                 },
               ),
             ],
@@ -222,8 +220,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                           builder: (context) => LoginScreen()),
                                     );
                                   } on FirebaseAuthException catch (e) {}
-
-                                  HapticFeedback.lightImpact();
                                 },
                               ),
                             ],

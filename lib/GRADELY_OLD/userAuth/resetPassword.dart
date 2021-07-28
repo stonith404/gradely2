@@ -132,7 +132,6 @@ class _ResetPWState extends State<ResetPW> {
                                       child: Text("ok"),
                                       onPressed: () {
                                         Navigator.of(context).pop();
-                                        HapticFeedback.lightImpact();
                                       },
                                     ),
                                   ],
@@ -143,7 +142,6 @@ class _ResetPWState extends State<ResetPW> {
                     Spacer(flex: 1),
                     TextButton(
                         onPressed: () {
-                          HapticFeedback.lightImpact();
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

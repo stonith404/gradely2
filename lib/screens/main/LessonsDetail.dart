@@ -18,8 +18,6 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-
-
 Grade selectedTest;
 String errorMessage = "";
 double averageOfGrades = 0;
@@ -131,6 +129,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
     return Scaffold(
       appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: primaryColor,
+          ),
           backgroundColor: defaultBGColor,
           title: Text(selectedLessonName,
               style:
@@ -139,7 +140,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
       body: Column(
         children: [
           isLoading
-              ? gradelyLoadingIndicator()
+              ? GradelyLoadingIndicator()
               : Expanded(
                   child: gradeList.length == 0
                       ? Padding(
@@ -159,20 +160,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                   children: [
                                     Text("empty2".tr()),
                                     Icon(
-                                      FontAwesome5Solid.sync,
+                                      FontAwesome5Solid.plus,
                                       size: 15,
                                     ),
                                     Text("empty3".tr())
                                   ],
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("empty4".tr()),
-                                    Icon(Icons.add),
-                                    Text("empty5".tr())
-                                  ],
-                                )
                               ],
                             ),
                           ),
@@ -205,12 +198,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                               color: Colors.white,
                                             ),
                                             onTap: () {
+                                              noNetworkDialog(context);
                                               database.deleteDocument(
                                                   collectionId:
                                                       collectionGrades,
                                                   documentId:
                                                       gradeList[index].id);
-                                              HapticFeedback.mediumImpact();
 
                                               setState(() {
                                                 gradeList.removeWhere((item) =>
@@ -318,7 +311,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         icon: Icon(Icons.add),
                         onPressed: () {
                           addTest(context);
-                          HapticFeedback.lightImpact();
                         }),
                     IconButton(
                         icon: Icon(FontAwesome5Solid.calculator, size: 17),
@@ -416,8 +408,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                       ],
                                     ),
                                   ));
-
-                          HapticFeedback.lightImpact();
                         }),
                   ],
                 ),
@@ -460,6 +450,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         child: IconButton(
                             color: Colors.white,
                             onPressed: () async {
+                              noNetworkDialog(context);
                               await database.updateDocument(
                                   collectionId: collectionGrades,
                                   documentId: selectedTest.id,
@@ -475,7 +466,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                     "date": editTestDateController.text
                                   });
 
-                              HapticFeedback.lightImpact();
                               await getTests();
                               Navigator.of(context).pop();
                             },
@@ -551,7 +541,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
-                      decoration: inputDec("Note".tr()),
+                      decoration: inputDec("grade".tr()),
                     ),
                   ),
                   Padding(
@@ -561,7 +551,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
-                      decoration: inputDec("Gewichtung".tr()),
+                      decoration: inputDec("weight".tr()),
                     ),
                   ),
                   SizedBox(
@@ -606,24 +596,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             child: IconButton(
                                 color: Colors.white,
                                 onPressed: () async {
-                                  bool isNumeric() {
-                                    if (addTestGradeController.text == null) {
-                                      return false;
-                                    }
-                                    return double.tryParse(
-                                            addTestGradeController.text) !=
-                                        null;
-                                  }
-
-                                  if (isNumeric() == false) {
-                                    setState(() {
-                                      errorMessage =
-                                          "Bitte eine gültige Note eingeben.";
-                                    });
-
-                                    Future.delayed(Duration(seconds: 4))
-                                        .then((value) => {errorMessage = ""});
-                                  }
+                                  noNetworkDialog(context);
                                   await database.createDocument(
                                     collectionId: collectionGrades,
                                     parentDocument: selectedLesson,
@@ -641,20 +614,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                     },
                                   );
 
-                                  getTests();
+                                  await getTests();
                                   addLessonController.text = "";
 
-                                  HapticFeedback.lightImpact();
-
-                                  Navigator.pushReplacement(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder:
-                                          (context, animation1, animation2) =>
-                                              LessonsDetail(),
-                                      transitionDuration: Duration(seconds: 0),
-                                    ),
-                                  );
+                                  Navigator.of(context).pop();
                                 },
                                 icon: Icon(Icons.add)),
                           ),
@@ -730,7 +693,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             keyboardType:
                                 TextInputType.numberWithOptions(decimal: true),
                             textAlign: TextAlign.left,
-                            decoration: inputDec("Note".tr())),
+                            decoration: inputDec("grade".tr())),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -739,7 +702,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             keyboardType:
                                 TextInputType.numberWithOptions(decimal: true),
                             textAlign: TextAlign.left,
-                            decoration: inputDec("Gewichtung".tr())),
+                            decoration: inputDec("weight".tr())),
                       ),
                       Text(errorMessage)
                     ],
@@ -760,8 +723,8 @@ Future dreamGradeC(BuildContext context) {
   return showCupertinoModalBottomSheet(
     expand: true,
     context: context,
-    builder: (context) => StatefulBuilder(builder:
-        (BuildContext context, StateSetter setState) {
+    builder: (context) =>
+        StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
       getDreamGrade() {
         try {
           setState(() {

@@ -157,7 +157,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         await checkForNetwork();
 
                         if (internetConnected) {
-                          HapticFeedback.lightImpact();
                           setState(() {
                             buttonDisabled = true;
                             Timer(Duration(seconds: 20), () {
@@ -304,7 +303,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                 'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/$selectedLesson/grades')
                                             .doc(gradeList[index].id)
                                             .delete();
-                                        HapticFeedback.mediumImpact();
+
                                         getTests(true);
                                       },
                                     ),
@@ -425,7 +424,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         icon: Icon(Icons.add),
                         onPressed: () {
                           addTest(context);
-                          HapticFeedback.lightImpact();
                         }),
                     IconButton(
                         icon: Icon(FontAwesome5Solid.calculator, size: 17),
@@ -523,8 +521,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                       ],
                                     ),
                                   ));
-
-                          HapticFeedback.lightImpact();
                         }),
                   ],
                 ),
@@ -583,7 +579,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                     .replaceAll(",", ".")),
                                 "date": editTestDateController.text
                               });
-                              HapticFeedback.lightImpact();
+
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
@@ -760,7 +756,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
                                   addLessonController.text = "";
 
-                                  HapticFeedback.lightImpact();
                                   Navigator.pushReplacement(
                                     context,
                                     PageRouteBuilder(

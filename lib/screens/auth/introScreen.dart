@@ -145,7 +145,6 @@ class _IntroScreenState extends State<IntroScreen> {
                 print(error.response);
               });
 
-              HapticFeedback.mediumImpact();
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => ChooseSemester()),

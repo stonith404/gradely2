@@ -161,8 +161,6 @@ class _HomeSiteState extends State<HomeSite> {
             child: IconButton(
                 icon: Icon(Icons.segment, color: primaryColor),
                 onPressed: () async {
-                  HapticFeedback.lightImpact();
-
                   settingsScreen(context);
                 }),
           ),
@@ -170,7 +168,6 @@ class _HomeSiteState extends State<HomeSite> {
             IconButton(
                 icon: Icon(Icons.switch_left, color: primaryColor),
                 onPressed: () async {
-                  HapticFeedback.lightImpact();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ChooseSemester()),
@@ -236,7 +233,6 @@ class _HomeSiteState extends State<HomeSite> {
                             icon: Icon(Icons.add),
                             color: Colors.white,
                             onPressed: () {
-                              HapticFeedback.lightImpact();
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -327,7 +323,6 @@ class _HomeSiteState extends State<HomeSite> {
                                             style: TextStyle(color: wbColor),
                                           ),
                                           onPressed: () {
-                                            HapticFeedback.lightImpact();
                                             Navigator.of(context).pop();
                                           },
                                         ),
@@ -347,7 +342,7 @@ class _HomeSiteState extends State<HomeSite> {
                                                     'userData/${auth.currentUser.uid}/semester/$choosenSemester/lessons/')
                                                 .doc(lessonList[index].id)
                                                 .delete();
-                                            HapticFeedback.heavyImpact();
+
                                             Navigator.pushAndRemoveUntil(
                                               context,
                                               MaterialPageRoute(
@@ -406,7 +401,6 @@ class _HomeSiteState extends State<HomeSite> {
                                       })(),
                                     ),
                                     onTap: () {
-                                      HapticFeedback.lightImpact();
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -560,7 +554,7 @@ class _addLessonState extends State<addLesson> {
               child: Text("hinzufügen".tr()),
               onPressed: () {
                 createLesson(addLessonController.text);
-                HapticFeedback.mediumImpact();
+
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => HomeWrapper()),
@@ -705,7 +699,7 @@ class _updateLessonState extends State<updateLesson> {
               child: Text("unbenennen".tr()),
               onPressed: () {
                 updateLessonF(renameTestWeightController.text);
-                HapticFeedback.mediumImpact();
+
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => HomeWrapper()),

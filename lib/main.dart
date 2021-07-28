@@ -9,6 +9,7 @@ import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/loading.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 bool isLoggedIn = false;
 
@@ -20,9 +21,10 @@ var allAverageListPP = [];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
+  
   await Firebase.initializeApp();
-
+  await sharedPrefs();
+ 
   client = Client();
   account = Account(client);
   database = Database(client);
@@ -30,6 +32,7 @@ void main() async {
   client
       .setEndpoint('https://aw.cloud.eliasschneider.com/v1')
       .setProject('60f40cb212896');
+        getUserInfo();
   runApp(EasyLocalization(
     supportedLocales: [Locale('de'), Locale('en')],
     useOnlyLangCode: true,
@@ -40,15 +43,23 @@ void main() async {
   ));
 }
 
+Future<bool> isGradelyNewVersion() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getBool("newGradely") ?? true;
+}
+
 class GradelyVersionWrapper extends StatelessWidget {
-  bool newGradely = true;
   @override
   Widget build(BuildContext context) {
-    if (newGradely) {
-      return MaterialWrapper();
-    } else {
-      return OLDMaterialWrapper();
-    }
+    return FutureBuilder<bool>(
+      future: isGradelyNewVersion(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.data == true)
+          return MaterialWrapper();
+        else
+          return OLDMaterialWrapper();
+      },
+    );
   }
 }
 
@@ -121,26 +132,12 @@ class _State extends State<HomeWrapper> {
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   }
 
-  void setState(fn) {
-    if (mounted) {
-      super.setState(fn);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: getUserInfo(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return LoadingScreen();
-        } else {
-          if (snapshot.data == false)
-            return LoginScreen();
-          else
-            return SemesterDetail();
-        }
-      },
-    );
+    if (prefs.getBool("signedIn")) {
+      return SemesterDetail();
+    } else {
+      return LoginScreen();
+    }
   }
 }

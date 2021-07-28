@@ -65,7 +65,6 @@ class _ContactScreenState extends State<ContactScreen> {
                   child: Text("ok"),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    HapticFeedback.lightImpact();
                   },
                 ),
               ],
@@ -98,7 +97,6 @@ class _ContactScreenState extends State<ContactScreen> {
                   child: Text("Super".tr()),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    HapticFeedback.lightImpact();
                   },
                 ),
               ],
@@ -141,7 +139,6 @@ class _ContactScreenState extends State<ContactScreen> {
                             if (contactMessage.text == "") {
                             } else {
                               sendMail(contactMessage.text);
-                              HapticFeedback.mediumImpact();
                             }
                           },
                     child: Text("send")),

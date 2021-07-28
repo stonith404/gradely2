@@ -152,7 +152,6 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                   ),
                                   onPressed: () {
                                     Navigator.of(context).pop();
-                                    HapticFeedback.lightImpact();
                                   },
                                 ),
                                 TextButton(
@@ -171,7 +170,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                             'userData/${auth.currentUser.uid}/semester/')
                                         .doc(semesterListID[index])
                                         .delete();
-                                    HapticFeedback.heavyImpact();
+
                                     Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
@@ -203,7 +202,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                               choosenSemesterName = semesterList[index];
                               saveChoosenSemester(
                                   choosenSemester, choosenSemesterName);
-                              HapticFeedback.mediumImpact();
+
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
@@ -264,7 +263,7 @@ class _UpdateSemesterState extends State<UpdateSemester> {
               child: Text("unbenennen".tr()),
               onPressed: () {
                 updateSemesterF(renameSemesterController.text);
-                HapticFeedback.mediumImpact();
+
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => ChooseSemester()),
@@ -325,7 +324,7 @@ class _AddSemesterState extends State<AddSemester> {
               child: Text("hinzufügen".tr()),
               onPressed: () {
                 createSemester(addSemesterController.text);
-                HapticFeedback.mediumImpact();
+
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => ChooseSemester()),

@@ -18,14 +18,11 @@ TextEditingController _emailController = new TextEditingController();
 
 FirebaseAuth auth = FirebaseAuth.instance;
 
-
 String _email = "";
-
 
 class _ResetPWState extends State<ResetPW> {
   sendPasswordResetEmail(String _email) async {
-
-        await FirebaseAuth.instance.sendPasswordResetEmail(email: _email);
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: _email);
   }
 
   @override
@@ -120,11 +117,10 @@ class _ResetPWState extends State<ResetPW> {
                                   content: Text("pwResetSuccess1".tr()),
                                   actions: <Widget>[
                                     ElevatedButton(
-                               style: elev(),
+                                      style: elev(),
                                       child: Text("ok"),
                                       onPressed: () {
                                         Navigator.of(context).pop();
-                                        HapticFeedback.lightImpact();
                                       },
                                     ),
                                   ],
@@ -135,7 +131,6 @@ class _ResetPWState extends State<ResetPW> {
                     Spacer(flex: 1),
                     TextButton(
                         onPressed: () {
-                          HapticFeedback.lightImpact();
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely/screens/auth/introScreen.dart';
 import 'package:gradely/screens/main/semesterDetail.dart';
+import 'package:gradely/screens/settings/customize.dart';
 import 'package:gradely/screens/settings/userInfo.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -14,7 +15,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'platformList.dart';
 import 'contact.dart';
 import 'gradelyPlus.dart';
-import 'customize.dart';
 
 Future settingsScreen(BuildContext context) {
   String gradesResult = user.gradeType;
@@ -83,7 +83,7 @@ Future settingsScreen(BuildContext context) {
                     ],
                   ),
                   Text(
-                    "Einstellungen".tr(),
+                    "settings".tr(),
                     style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25),
                   ),
                   SizedBox(
@@ -130,7 +130,7 @@ Future settingsScreen(BuildContext context) {
                                     SizedBox(
                                       width: 10,
                                     ),
-                                    Text("Plattformen".tr()),
+                                    Text("platforms".tr()),
                                   ],
                                   onTap: () {
                                     Navigator.push(
@@ -176,7 +176,7 @@ Future settingsScreen(BuildContext context) {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text("Noten Resultate".tr()),
+                                  Text("grade_result".tr()),
                                   Spacer(
                                     flex: 1,
                                   ),
@@ -184,7 +184,7 @@ Future settingsScreen(BuildContext context) {
                                     hint: Text(gradesResult.tr()),
                                     items: <String>[
                                       'Durchschnitt'.tr(),
-                                      'Pluspunkte'.tr(),
+                                      'pluspoints'.tr(),
                                     ].map((String value) {
                                       return new DropdownMenuItem<String>(
                                         value: value,

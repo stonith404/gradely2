@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely/data.dart';
 import 'package:gradely/screens/auth/login.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
@@ -14,7 +12,7 @@ import 'package:flutter/services.dart';
 
 String _password = "";
 
-var fuser = FirebaseAuth.instance.currentUser;
+
 
 class UserInfoScreen extends StatefulWidget {
   @override
@@ -69,9 +67,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       context,
                       MaterialPageRoute(builder: (context) => HomeWrapper()),
                     );
-                  } on FirebaseAuthException catch (_) {}
+                  }catch(e){
 
-                  HapticFeedback.lightImpact();
+                  }
                 },
               ),
             ],
@@ -104,6 +102,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   response = jsonDecode(response.toString());
 
                   account.deleteSession(sessionId: response["\$id"]);
+                    prefs.setBool("signedIn", false);
                 });
 
                 Navigator.pushReplacement(
@@ -275,8 +274,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                             builder: (context) =>
                                                 LoginScreen()),
                                       );
-
-                                      HapticFeedback.lightImpact();
+                                        prefs.setBool("signedIn", false);
                                     } else {
                                       gradelyDialog(
                                           context: context,

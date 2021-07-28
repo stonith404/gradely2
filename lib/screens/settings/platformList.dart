@@ -16,7 +16,7 @@ class PlatformList extends StatelessWidget {
         ),
         backgroundColor: defaultBGColor,
         elevation: 0,
-        title: Text("Plattformen".tr(), style: appBarTextTheme),
+        title: Text("platforms".tr(), style: appBarTextTheme),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),

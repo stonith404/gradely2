@@ -1,7 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gradely/main.dart';
-import 'package:flutter/services.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/screens/settings/settings.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
@@ -63,8 +63,6 @@ class _LoadingScreenState extends State<LoadingScreen>
             child: IconButton(
                 icon: Icon(Icons.segment, color: primaryColor),
                 onPressed: () async {
-                  HapticFeedback.lightImpact();
-
                   settingsScreen(context);
                 }),
           ),
@@ -191,13 +189,58 @@ class _LoadingScreenState extends State<LoadingScreen>
   }
 }
 
-Widget gradelyLoadingIndicator() {
-  return Expanded(
-    child: Center(
-      child: SpinKitWave(
-        color: primaryColor,
-        size: 20.0,
+class GradelyLoadingIndicator extends StatefulWidget {
+  @override
+  _GradelyLoadingIndicatorState createState() =>
+      _GradelyLoadingIndicatorState();
+}
+class _GradelyLoadingIndicatorState extends State<GradelyLoadingIndicator> {
+  bool show = false;
+  Timer timer;
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(Duration(seconds: 7), (Timer t) {
+      setState(() {
+        show = true;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SpinKitWave(
+                color: primaryColor,
+                size: 25.0,
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              show
+                  ? Text(
+                      "no_network_offline_loading".tr(),
+                      style: TextStyle(
+                          color: primaryColor,
+                          fontSize: 15,
+                          fontStyle: FontStyle.italic),
+                    )
+                  : Container()
+            ],
+          ),
+        ),
       ),
-    ),
-  );
+    );
+  }
 }

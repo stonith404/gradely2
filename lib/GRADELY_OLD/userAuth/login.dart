@@ -8,6 +8,7 @@ import 'package:gradely/GRADELY_OLD/userAuth/resetPassword.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:gradely/screens/auth/register.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -25,6 +26,7 @@ String _errorMessage = "";
 
 class _LoginScreenState extends State<LoginScreen> {
   signInUser() async {
+           SharedPreferences prefs = await SharedPreferences.getInstance();
     FocusScope.of(context).unfocus();
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -32,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isLoading = false;
       });
+         prefs.setBool("newGradely", false);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeWrapper()),
@@ -154,7 +157,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             isLoading = true;
                           });
                           signInUser();
-                          HapticFeedback.lightImpact();
                         },
                         child: Text("Einloggen").tr()),
                     SizedBox(

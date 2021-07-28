@@ -203,7 +203,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
       context,
       MaterialPageRoute(builder: (context) => HomeWrapper()),
     );
-    HapticFeedback.heavyImpact();
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -216,7 +216,6 @@ class _GradelyPlusState extends State<GradelyPlus> {
                 child: Text("ok"),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  HapticFeedback.lightImpact();
                 },
               ),
             ],

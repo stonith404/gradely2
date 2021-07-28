@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -102,7 +103,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
       body: Column(
         children: [
           isLoading
-              ? gradelyLoadingIndicator()
+              ? GradelyLoadingIndicator()
               : Expanded(
                   child: ListView.builder(
                     itemCount: semesterList.length,
@@ -153,38 +154,33 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                     text:
                                         '${'Bist du sicher, dass du'.tr()} "${semesterList[index].name}" ${'löschen willst?'.tr()}',
                                     actions: <Widget>[
-                                      TextButton(
+                                      CupertinoButton(
                                         child: Text(
                                           "Nein".tr(),
                                           style: TextStyle(color: wbColor),
                                         ),
                                         onPressed: () {
                                           Navigator.of(context).pop();
-                                          HapticFeedback.lightImpact();
                                         },
                                       ),
-                                      TextButton(
+                                      CupertinoButton(
                                         child: Text(
                                           "Löschen".tr(),
                                           style: TextStyle(color: Colors.red),
                                         ),
                                         onPressed: () {
+                                                  noNetworkDialog(context);
                                           database.deleteDocument(
                                               collectionId: collectionSemester,
                                               documentId:
                                                   semesterList[index].id);
 
-                                          HapticFeedback.heavyImpact();
-                                          Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ChooseSemester()),
-                                            (Route<dynamic> route) => false,
-                                          );
-
-                                          _selectedSemester =
-                                              semesterList[index];
+                                          setState(() {
+                                            semesterList.removeWhere((item) =>
+                                                item.id ==
+                                                semesterList[index].id);
+                                          });
+                                          Navigator.of(context).pop();
                                         },
                                       )
                                     ],
@@ -207,7 +203,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                     choosenSemesterName =
                                         semesterList[index].name;
                                     saveChoosenSemester(choosenSemester);
-                                    HapticFeedback.mediumImpact();
+
                                     Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
@@ -262,11 +258,12 @@ class _ChooseSemesterState extends State<ChooseSemester> {
               ),
               child: Text("unbenennen".tr()),
               onPressed: () async {
+                        noNetworkDialog(context);
                 await database.updateDocument(
                     collectionId: collectionSemester,
                     documentId: _selectedSemester.id,
                     data: {"name": renameSemesterController.text});
-                HapticFeedback.mediumImpact();
+
                 await _getSemesters();
                 Navigator.of(context).pop();
 
@@ -308,17 +305,20 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                 primary: primaryColor, // background
               ),
               child: Text("hinzufügen".tr()),
-              onPressed: () {
-                createSemester(addSemesterController.text);
-                HapticFeedback.mediumImpact();
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChooseSemester()),
-                  (Route<dynamic> route) => false,
-                );
+              onPressed: () async {
+                        noNetworkDialog(context);
+                await getUserInfo();
+                await database.createDocument(
+                    collectionId: collectionSemester,
+                    parentDocument: user.dbID,
+                    parentProperty: "semesters",
+                    parentPropertyType: "append",
+                    data: {"name": addSemesterController.text});
+
+                await _getSemesters();
+                Navigator.of(context).pop();
 
                 addLessonController.text = "";
-                semesterList = [];
               },
             ),
           ],
@@ -326,14 +326,4 @@ class _ChooseSemesterState extends State<ChooseSemester> {
       ),
     );
   }
-}
-
-createSemester(String semesterName) async {
-  await getUserInfo();
-  database.createDocument(
-      collectionId: collectionSemester,
-      parentDocument: user.dbID,
-      parentProperty: "semesters",
-      parentPropertyType: "append",
-      data: {"name": semesterName});
 }

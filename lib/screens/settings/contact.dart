@@ -59,15 +59,13 @@ class _ContactScreenState extends State<ContactScreen> {
                   Spacer(flex: 10)
                 ],
               ),
-              content:
-                  Text("${"contactSuccess2".tr()} ${user.email}."),
+              content: Text("${"contactSuccess2".tr()} ${user.email}."),
               actions: <Widget>[
                 ElevatedButton(
                   style: elev(),
                   child: Text("ok"),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    HapticFeedback.lightImpact();
                   },
                 ),
               ],
@@ -100,7 +98,6 @@ class _ContactScreenState extends State<ContactScreen> {
                   child: Text("Super".tr()),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    HapticFeedback.lightImpact();
                   },
                 ),
               ],
@@ -148,7 +145,6 @@ class _ContactScreenState extends State<ContactScreen> {
                             if (contactMessage.text == "") {
                             } else {
                               sendMail(contactMessage.text);
-                              HapticFeedback.mediumImpact();
                             }
                           },
                     child: Text("send")),

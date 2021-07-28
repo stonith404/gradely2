@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gradely/main.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../../main.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 Future statisticsScreen(BuildContext context) {

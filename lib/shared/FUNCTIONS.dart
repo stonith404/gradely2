@@ -1,52 +1,58 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:gradely/main.dart';
+import 'package:gradely/GRADELY_OLD/shared/defaultWidgets.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/screens/main/chooseSemester.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<bool> getUserInfo() async {
-  bool userSignedIn;
+Future getUserInfo() async {
+  var accountResponse;
 
-  try {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  if (await internetConnection()) {
     Future accountResult = account.get();
 
-    await accountResult.then((accountResponse) async {
-      accountResponse = jsonDecode(accountResponse.toString());
-      Future dbResult = database.listDocuments(
-          collectionId: collectionUser,
-          filters: ["uid=${accountResponse['\$id']}"]);
+    await accountResult.then((r) async {
+      accountResponse = r.toString();
 
-      await dbResult.then((dbResponse) {
-        dbResponse = jsonDecode(dbResponse.toString())["documents"][0];
-
-        user = User(
-            accountResponse['\$id'],
-            accountResponse['name'],
-            accountResponse['registration'],
-            accountResponse['status'],
-            accountResponse['passwordUpdate'],
-            accountResponse['email'],
-            accountResponse['emailVerification'],
-            dbResponse["gradelyPlus"],
-            dbResponse["gradeType"],
-            dbResponse["choosenSemester"],
-            dbResponse["\$id"],
-            Color(int.parse(dbResponse["color"].substring(1, 7), radix: 16) +
-                0xFF000000));
-
-        userSignedIn = true;
-
-        primaryColor = user.color;
-      }).catchError((error) {});
-    });
-  } catch (_) {
-    userSignedIn = false;
+      await prefs.setString("accountResult", accountResponse);
+    }).catchError((error) {});
+  } else {
+    accountResponse = prefs.getString("accountResult");
   }
-  return userSignedIn;
+
+  accountResponse = jsonDecode(accountResponse.toString());
+  Future dbResult = listDocuments(
+      name: "userDB",
+      collection: collectionUser,
+      filters: ["uid=${accountResponse['\$id']}"]);
+
+  await dbResult.then((dbResponse) {
+    dbResponse = jsonDecode(dbResponse.toString())["documents"][0];
+
+    user = User(
+        accountResponse['\$id'],
+        accountResponse['name'],
+        accountResponse['registration'],
+        accountResponse['status'],
+        accountResponse['passwordUpdate'],
+        accountResponse['email'],
+        accountResponse['emailVerification'],
+        dbResponse["gradelyPlus"],
+        dbResponse["gradeType"],
+        dbResponse["choosenSemester"],
+        dbResponse["\$id"],
+        Color(int.parse(dbResponse["color"].substring(1, 7), radix: 16) +
+            0xFF000000));
+
+    primaryColor = user.color;
+  }).catchError((error) {
+    print(error.code);
+  });
 }
 
 getSemesters() async {
@@ -116,10 +122,6 @@ Future listDocuments(
   var response;
   if (await internetConnection()) {
     Future result = database.listDocuments(
-      orderField:  orderField,
-   
-   
-      orderType: "ASC",
       filters: filters ?? [],
       collectionId: collection,
     );
@@ -168,28 +170,15 @@ darkModeColorChanger(context) {
   }
 }
 
+noNetworkDialog(context) async {
+  if (!await internetConnection()) {
+    return gradelyDialog(
+        context: context,
+        title: "network_needed_title".tr(),
+        text: "network_needed_text".tr());
+  }
+}
 
-//text controllers
-
-
-TextEditingController addLessonController = new TextEditingController();
-TextEditingController changeEmailController = new TextEditingController();
-TextEditingController changeDisplayName = new TextEditingController();
-TextEditingController addSemesterController = new TextEditingController();
-TextEditingController renameTestWeightController = new TextEditingController();
-TextEditingController renameSemesterController = new TextEditingController();
-TextEditingController addGradeNameController = new TextEditingController();
-TextEditingController addGradeGradeController = new TextEditingController();
-TextEditingController addTestNameController = new TextEditingController();
-TextEditingController addTestGradeController = new TextEditingController();
-TextEditingController addTestWeightController = new TextEditingController();
-TextEditingController addTestDateController = new TextEditingController();
-TextEditingController editTestDateController = new TextEditingController();
-TextEditingController contactMessage = new TextEditingController();
-TextEditingController dreamGradeGrade = new TextEditingController();
-TextEditingController dreamGradeWeight = new TextEditingController();
-TextEditingController passwordController = new TextEditingController();
-TextEditingController passwordPlaceholder = new TextEditingController();
-TextEditingController editTestInfoName = new TextEditingController();
-TextEditingController editTestInfoGrade = new TextEditingController();
-TextEditingController editTestInfoWeight = new TextEditingController();
+Future sharedPrefs() async {
+   prefs = await SharedPreferences.getInstance();
+}

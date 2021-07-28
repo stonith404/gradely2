@@ -138,8 +138,6 @@ class _LoadingScreenState extends State<LoadingScreen>
               child: IconButton(
                   icon: Icon(Icons.segment),
                   onPressed: () async {
-                    HapticFeedback.lightImpact();
-
                     settingsScreen(context);
                   }),
             ),
