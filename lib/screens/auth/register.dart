@@ -6,6 +6,7 @@ import 'package:gradely/screens/auth/introScreen.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
+import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'login.dart';
 
@@ -21,6 +22,7 @@ String _errorMessage = "";
 
 class _RegisterScreenState extends State<RegisterScreen> {
   createUser() async {
+       isLoadingController.add(true);
     FocusScope.of(context).unfocus();
 
     Future resultCreateAccount = account.create(
@@ -58,12 +60,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       print(error);
       print(error.response);
 
-      gradelyDialog(context: context, title: "error".tr(), text: error.message);
+      errorSuccessDialog(context: context, error: true, text: error.message);
     });
 
-    setState(() {
-      isLoading = false;
-    });
+    isLoadingController.add(false);
   }
 
   void setState(fn) {
@@ -84,7 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: SvgPicture.asset("assets/images/logo.svg",
-                          color: primaryColor, height: 30),
+              color: primaryColor, height: 30),
         ),
         body: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -134,18 +134,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscureText: true,
                     decoration: inputDecAuth("your_password".tr())),
               ),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xFF554dd1), // background
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    createUser();
-                  },
-                  child: Text("Registrieren".tr(),
-                      style: TextStyle(color: Colors.white))),
+              gradelyButton(
+                onPressed: () async {
+               
+                  await createUser();
+                
+                },
+                text: "sign_up".tr(),
+              ),
               SizedBox(
                 height: 10,
               ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely/main.dart';
+import 'package:gradely/screens/main/chooseSemester.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 
 import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:gradely/shared/loading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isLoading = false;
       });
-      gradelyDialog(context: context, title: "error".tr(), text: error.message);
+      errorSuccessDialog(context: context, error: true, text: error.message);
     });
   }
 
@@ -78,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: SvgPicture.asset("assets/images/logo.svg",
-                          color: primaryColor, height: 30),
+              color: primaryColor, height: 30),
         ),
         body: isLoading
             ? LoadingScreen()
@@ -115,20 +117,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     Spacer(
                       flex: 4,
                     ),
-                    Container(
-                      color: Colors.white,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextField(
-                                keyboardType: TextInputType.emailAddress,
-                                controller: _emailController,
-                                textAlign: TextAlign.left,
-                                decoration: inputDecAuth("your_email".tr())),
-                          ),
-                        ],
-                      ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                              keyboardType: TextInputType.emailAddress,
+                              controller: _emailController,
+                              textAlign: TextAlign.left,
+                              decoration: inputDecAuth("your_email".tr())),
+                        ),
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -138,18 +137,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           obscureText: true,
                           decoration: inputDecAuth("your_password".tr())),
                     ),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Color(0xFF554dd1), // background
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          
-                          signInUser();
+                    gradelyButton(
+                        onPressed: () async {
+                          isLoadingController.add(true);
+
+                          await signInUser();
+                          isLoadingController.add(false);
                         },
-                        child: Text("sign_in".tr())),
+                        text: "sign_in".tr()),
                     SizedBox(
                       height: 10,
                     ),

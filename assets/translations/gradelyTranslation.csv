@@ -9,7 +9,7 @@ grade_result,grades results,Noten Resultate
 weight,weight,Gewichtung
 add_exam,add exam,Test hinzufügen
 exam_name,exam name,Test Name
-settings_platforms_description,the platforms and synchronization make gradely unique. you can save your grades here and at the same time your grades are on your other device! \n\n,"Die verfügbarkeit und Synchronisation macht Gradely einzigartig. Du kannst deine Noten hier hinzufügen und zur selben Zeit, sind deine Noten auf all deinen anderen Geräten!"
+settings_platforms_description,the platforms and synchronization make gradely unique. you can save your grades here and at the same time your grades are on your other device!,"Die verfügbarkeit und Synchronisation macht Gradely einzigartig. Du kannst deine Noten hier hinzufügen und zur selben Zeit, sind deine Noten auf all deinen anderen Geräten!"
 delete,delete,löschen  
 no,no,Nein
 back,back,zurück
@@ -41,21 +41,22 @@ intro_add_semester,add a semester. no worries you can delete or edit this semest
 settings_platforms_download_button,download gradely for your other devices.,Gradely für deine anderen Geräte herunterladen
 try_again,try again,Erneut versuchen
 restart_intro,restart Intro,Intro wiederholen
-contact_developer,contact or feature suggestion,Kontakt oder Feature Vorschlag
+contact_developer,Contact developer,Entwickler kontaktieren
 your_message,your message,Deine Nachricht
-send,send,senden
+send, send, senden
 edit,edit,bearbeiten
 sent,sent!,gesendet!
+or,or,oder
 contact_success_text,thanks for your message. i will contact you with this email:,Danke für deine Nachricht. Ich werde mich bei dir unter dieser Email melden:
 password_reset_success_text,an email to reset your password was sent. please check also your spam folder.,Eine Email um dein Passwort zurückzusetzen wurde erfolgreich gesendet. Bitte beachte auch dein Spam Fach.
 error,error,Fehler
 error_unknown,There was an unknown error,Ein unbekannter Fehler ist aufgetreten
 error_contact,unfortunately there is an error. you can try it later or you can contact me under elias@eliasschneider.com,Leider ist ein Fehler aufgetreten. Versuche es später nochmals oder konatkiere mich unter elias@eliasschneider.com
-settings_contact_description,do you have a feature suggestion an error to report or something else? you can contact me.,Hast du ein Feature Vorschlag einen Fehler zu melden oder etwas anderes? Gerne kannst du mich kontaktieren.
-dream_grade,dream_grade,Wunschnote
-dream_grade_calulator,dream_grade_calulator,Wunschnoten rechner
+settings_contact_description,"Any question, contact me! 🙂","fragen, kontaktiere mich! 🙂"
+dream_grade,dream grade,Wunschnote
+dream_grade_calulator,dream grade calulator,Wunschnoten rechner
 dream_grade_result_text,your grade for the next exam should be:,Deine Note für den nächsten test:
-dream _grade_weight,dream _grade_weight,Wunschnoten Gewichtung
+dream _grade_weight,dream grade weight,Wunschnoten Gewichtung
 date,date,Datum
 benefit_support,support developer,Entwickler unterstützen
 gradely_plus_description,i invested a lot of time and money in this app. of course I want that this app is free. with gradely plus you can help me so i can make this app better.,Ich habe viele Stunden und Geld in diese App investiert. Ich möchte das diese App gratis ist. Mit Gradely Plus kann du mithelfen dass ich die App immer weiterentwickeln kann.
@@ -105,4 +106,23 @@ gradely_migration_registred_before,Registred before the 1st august?,Vor dem 1. A
 gradely_migration_info,As of August 1st Gradely has a new database in Switzerland not like before by Google in Western Europe. If you registered before August 1st you can continue to use gradely but the app will no longer be updated. If you want to continue to benefit from updates please register again. \n\nI'm sorry for the inconvenience.\n\nAs an excuse you will receive Gradely Plus for free with your newly created account. Contact me at elias@eliasschneider.com.,
 no_network_offline_loading,It looks like you're offline and your grades aren't stored in the cache.,"Es sieht so aus, wie du offline bist und deine Noten nicht im Cache gespeichert sind."
 network_needed_title,Network Connection,Internet Verbindung
-network_needed_text,"To use this feature you need a network connection.","Um diese Funktion zu nutzen, brauchst du eine Internet Verbindung".
+network_needed_text,"To use this feature you need a network connection.","Um diese Funktion zu nutzen, brauchst du eine Internet Verbindung."
+app_info,App Information, App Informationen
+server_location,Server Location,Server Standort
+app_language,App Language,App Sprache
+server_connection,Server Connection,Server Verbindung
+app_name,App Name,App Name
+version,Version,Version
+build,Build,Build
+licenses,Licenses,Lizensen
+contribute,Contribute,Mithelfen
+error_server_not_reachable_title,Server not reachable,Server nicht verfügbar
+error_server_not_reachable_text,"Currently the server is not reachable, please try again in a few minutes","Im Moment ist der Server nicht erreichbar, bitte versuche es in einpaar Minuten erneut."
+contribute_leading_text,"If you want to contribute to make gradely better, here are you right ❤️","Falls du mithelfen willst, Gradely besser zu machen bist du hier richtig ❤️"
+languages,Languages,Sprachen
+bug_or_improvement,Bug or improvement,Bug oder Vorschläge
+contribute_translate_p1,"To give every user an awesome experience, Gradely should be translated in many languages.","Um jedem Nutzer ein super Erlebnis zu geben, sollte Gradely in vielen Sprachen verfügbar sein"
+contribute_translate_p2,"Found some language error, or better do you want to help translate Gradely in another language?", "Hast du ein Fehler bei einer Sprache gefunden oder noch besser, willst du helfen, gradely in eine andere Sprache zu übersetzen?"
+contribute_feature_bug_suggestion,"Did you spot a bug or do you have an improvement or suggestion?",
+or_something_else, Or something else?, Oder etwas anderes?
+contact_me, Contact me, Kontaktiere mich

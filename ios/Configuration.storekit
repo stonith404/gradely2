@@ -1,6 +1,54 @@
 {
-  "products" : [
+  "identifier" : "B21025D8",
+  "nonRenewingSubscriptions" : [
 
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "9C96A56B",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.eliasschneider.gradely2.iap.gradelyplus",
+      "referenceName" : "test",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "2",
+      "familyShareable" : false,
+      "internalID" : "9F66A22E",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.eliasschneider.gradely2.iap.gradelyplus",
+      "referenceName" : "test 2",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "5",
+      "familyShareable" : false,
+      "internalID" : "142A5F80",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.eliasschneider.gradely2.iap.gradelyplus",
+      "referenceName" : "test 5",
+      "type" : "Consumable"
+    }
   ],
   "settings" : {
 
@@ -10,6 +58,6 @@
   ],
   "version" : {
     "major" : 1,
-    "minor" : 0
+    "minor" : 1
   }
 }

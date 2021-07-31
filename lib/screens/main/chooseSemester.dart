@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +10,10 @@ import 'package:gradely/screens/main/semesterDetail.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:gradely/shared/loading.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/services.dart';
 
 bool isChecked = false;
 String choosenSemester;
@@ -102,6 +103,9 @@ class _ChooseSemesterState extends State<ChooseSemester> {
           }),
       body: Column(
         children: [
+          SizedBox(
+            height: 30,
+          ),
           isLoading
               ? GradelyLoadingIndicator()
               : Expanded(
@@ -109,7 +113,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                     itemCount: semesterList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
-                        padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                        padding: EdgeInsets.symmetric(horizontal: 15),
                         child: Slidable(
                           actionPane: SlidableDrawerActionPane(),
                           actionExtentRatio: 0.25,
@@ -190,27 +194,35 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                             ),
                           ],
                           child: Container(
-                            decoration: boxDec(),
-                            child: ListTile(
-                              title: Text(
-                                semesterList[index].name,
-                              ),
-                              trailing: IconButton(
-                                  color: primaryColor,
-                                  icon: Icon(Icons.arrow_forward),
-                                  onPressed: () {
-                                    choosenSemester = semesterList[index].id;
-                                    choosenSemesterName =
-                                        semesterList[index].name;
-                                    saveChoosenSemester(choosenSemester);
+                            decoration: listContainerDecoration(
+                                index: index, list: semesterList),
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: Text(
+                                    semesterList[index].name,
+                                  ),
+                                  trailing: IconButton(
+                                      color: primaryColor,
+                                      icon: Icon(Icons.arrow_forward),
+                                      onPressed: () async {
+                                        choosenSemester =
+                                            semesterList[index].id;
+                                        choosenSemesterName =
+                                            semesterList[index].name;
+                                        await saveChoosenSemester(
+                                            choosenSemester);
 
-                                    Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomeWrapper()),
-                                      (Route<dynamic> route) => false,
-                                    );
-                                  }),
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomeWrapper()),
+                                          (Route<dynamic> route) => false,
+                                        );
+                                      }),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -252,12 +264,10 @@ class _ChooseSemesterState extends State<ChooseSemester> {
             SizedBox(
               height: 40,
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: primaryColor, // background
-              ),
-              child: Text("rename".tr()),
+            gradelyButton(
+              text: "rename".tr(),
               onPressed: () async {
+                isLoadingController.add(true);
                 noNetworkDialog(context);
                 await database.updateDocument(
                     collectionId: collectionSemester,
@@ -268,6 +278,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                 Navigator.of(context).pop();
 
                 renameSemesterController.text = "";
+                isLoadingController.add(false);
               },
             ),
           ],
@@ -300,27 +311,24 @@ class _ChooseSemesterState extends State<ChooseSemester> {
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: primaryColor, // background
-              ),
-              child: Text("add".tr()),
-              onPressed: () async {
-                noNetworkDialog(context);
-                await getUserInfo();
-                await database.createDocument(
-                    collectionId: collectionSemester,
-                    parentDocument: user.dbID,
-                    parentProperty: "semesters",
-                    parentPropertyType: "append",
-                    data: {"name": addSemesterController.text});
+            gradelyButton(
+                text: "edit".tr(),
+                onPressed: () async {
+                  isLoadingController.add(true);
+                  noNetworkDialog(context);
+                  await getUserInfo();
+                  await database.createDocument(
+                      collectionId: collectionSemester,
+                      parentDocument: user.dbID,
+                      parentProperty: "semesters",
+                      parentPropertyType: "append",
+                      data: {"name": addSemesterController.text});
 
-                await _getSemesters();
-                Navigator.of(context).pop();
+                  await _getSemesters();
+                  Navigator.of(context).pop();
 
-                addLessonController.text = "";
-              },
-            ),
+                  isLoadingController.add(false);
+                })
           ],
         ),
       ),

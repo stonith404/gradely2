@@ -5,6 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely/screens/auth/login.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/main.dart';
@@ -126,14 +127,14 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   onPressed: () async {
                     try {
                       await account.updateName(name: changeDisplayName.text);
-                      gradelyDialog(
+                      errorSuccessDialog(
                           context: context,
-                          title: "success".tr(),
+                          error: false,
                           text: 'name_updated'.tr());
                     } catch (e) {
-                      gradelyDialog(
+                      errorSuccessDialog(
                           context: context,
-                          title: "error".tr(),
+                          error: true,
                           text: "error_unknown".tr());
                     }
                   },
@@ -159,9 +160,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     try {
                       changeEmail(changeEmailController.text);
                     } catch (e) {
-                      gradelyDialog(
-                          context: context,
-                          title: "error".tr(),
+                      errorSuccessDialog(
+                                          context: context,
+                                          error: true,
                           text: "error_unknown".tr());
                     }
                   },
@@ -186,9 +187,10 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                               children: [
                                 Text("change_password_text".tr()),
                                 SizedBox(height: 20),
-                                ElevatedButton(
-                                    style: elev(),
+                                gradelyButton(
+                               
                                     onPressed: () {
+                                          isLoadingController.add(true);
                                       Future result = account.createRecovery(
                                         email: "login@eliasschneider.com",
                                         url:
@@ -201,8 +203,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       });
 
                                       Navigator.of(context).pop();
+                                          isLoadingController.add(false);
                                     },
-                                    child: Text("send".tr()))
+                                    text: "send".tr())
                               ],
                             ),
                           ));
@@ -218,13 +221,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-                style: elev(),
-                onPressed: () {
-                  if (changeEmailController.text != user.email) {
-                  } else {}
-                },
-                child: Text("save").tr()),
             Spacer(flex: 3),
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
@@ -272,9 +268,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       );
                                       prefs.setBool("signedIn", false);
                                     } else {
-                                      gradelyDialog(
+                                      errorSuccessDialog(
                                           context: context,
-                                          title: "error".tr(),
+                                          error: true,
                                           text: "error_wrong_password".tr());
                                     }
                                   }),

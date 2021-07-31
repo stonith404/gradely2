@@ -6,26 +6,25 @@ import 'package:gradely/screens/main/chooseSemester.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/WIDGETS.dart';
-import 'package:gradely/shared/defaultWidgets.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future getUserInfo() async {
   var accountResponse;
+  bool missingScope = false;
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   if (await internetConnection()) {
-    
-
-    Future  accountResult = account.get();
+    Future accountResult = account.get();
 
     await accountResult.then((r) async {
       accountResponse = r.toString();
 
       await prefs.setString("accountResult", accountResponse);
     }).catchError((error) {
-  
+      if (error.code == 401) {
+        missingScope = true;
+      }
     });
   } else {
     accountResponse = prefs.getString("accountResult");
@@ -33,38 +32,35 @@ Future getUserInfo() async {
 
   accountResponse = jsonDecode(accountResponse.toString());
 
-  if(accountResponse == null){
- prefs.setBool("signedIn", false);
-  }else{
-      Future dbResult = listDocuments(
-      name: "userDB",
-      collection: collectionUser,
-      filters: ["uid=${accountResponse['\$id']}"]);
+  if (missingScope) {
+    prefs.setBool("signedIn", false);
+  } else {
+    Future dbResult = listDocuments(
+        name: "userDB",
+        collection: collectionUser,
+        filters: ["uid=${accountResponse['\$id']}"]);
 
-  await dbResult.then((dbResponse) {
-    dbResponse = jsonDecode(dbResponse.toString())["documents"][0];
+    await dbResult.then((dbResponse) {
+      dbResponse = jsonDecode(dbResponse.toString())["documents"][0];
 
-  
+      user = User(
+          accountResponse['\$id'],
+          accountResponse['name'],
+          accountResponse['registration'],
+          accountResponse['status'],
+          accountResponse['passwordUpdate'],
+          accountResponse['email'],
+          accountResponse['emailVerification'],
+          dbResponse["gradelyPlus"],
+          dbResponse["gradeType"],
+          dbResponse["choosenSemester"],
+          dbResponse["\$id"],
+          Color(int.parse(dbResponse["color"].substring(1, 7), radix: 16) +
+              0xFF000000));
 
-    user = User(
-        accountResponse['\$id'],
-        accountResponse['name'],
-        accountResponse['registration'],
-        accountResponse['status'],
-        accountResponse['passwordUpdate'],
-        accountResponse['email'],
-        accountResponse['emailVerification'],
-        dbResponse["gradelyPlus"],
-        dbResponse["gradeType"],
-        dbResponse["choosenSemester"],
-        dbResponse["\$id"],
-        Color(int.parse(dbResponse["color"].substring(1, 7), radix: 16) +
-            0xFF000000));
-
-    primaryColor = user.color;
-  });
+      primaryColor = user.color;
+    });
   }
-
 }
 
 getSemesters() async {
@@ -109,6 +105,18 @@ getSemesters() async {
   }).catchError((error) {
     print(error);
   });
+}
+
+Future checkIfServerOnline() async {
+  try {
+    final result = await InternetAddress.lookup('aw.cloud.eliasschneider.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {}
+  } on SocketException catch (_) {
+    errorSuccessDialog(
+        error: true,
+        title: "error_server_not_reachable_title".tr(),
+        text: "error_server_not_reachable_text".tr());
+  }
 }
 
 Future internetConnection() async {
@@ -168,14 +176,15 @@ Future<bool> reAuthenticate(
 }
 
 darkModeColorChanger(context) {
-  var brightness = MediaQuery.of(context).platformBrightness;
-  if (brightness == Brightness.dark) {
+  if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
     darkmode = true;
-    bwColor = Colors.grey[850];
+    brightness = "dark";
+    bwColor = Color(0xFF1d1c1e);
     wbColor = Colors.white;
-    defaultBGColor = Colors.grey[900];
+    defaultBGColor = Color(0xFF010001);
   } else {
     darkmode = false;
+    brightness = "light";
     bwColor = Colors.white;
     wbColor = Colors.grey[850];
     defaultBGColor = Color(0xFFE5E8F2);

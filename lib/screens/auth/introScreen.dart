@@ -7,8 +7,10 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely/screens/auth/login.dart';
 import 'package:gradely/screens/main/chooseSemester.dart';
+import 'package:gradely/screens/main/semesterDetail.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:gradely/main.dart';
@@ -24,7 +26,7 @@ class _IntroScreenState extends State<IntroScreen> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   Widget _buildImage(String assetName, [double width = 350]) {
-    return Image.asset('assets/images/$assetName', width: width);
+    return Image.asset('assets/images/$brightness/$assetName', width: width);
   }
 
   @override
@@ -57,11 +59,10 @@ class _IntroScreenState extends State<IntroScreen> {
                       MaterialPageRoute(builder: (context) => LoginScreen()),
                       (Route<dynamic> route) => false,
                     );
-                   
                   },
                 ),
-              SvgPicture.asset("assets/images/logo.svg",
-                          color: primaryColor, height: 30),
+                SvgPicture.asset("assets/images/logo.svg",
+                    color: primaryColor, height: 30),
               ],
             ),
           ),
@@ -72,9 +73,7 @@ class _IntroScreenState extends State<IntroScreen> {
         PageViewModel(
           titleWidget: Text("welcome".tr(),
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
-          body:
-              "intro_gradely_helps_monitoring"
-                  .tr(),
+          body: "intro_gradely_helps_monitoring".tr(),
           image: Padding(
             padding: const EdgeInsets.only(top: 80.0),
             child: _buildImage('welcome.png'),
@@ -94,9 +93,7 @@ class _IntroScreenState extends State<IntroScreen> {
           titleWidget: Text("pluspoints_or_average".tr(),
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
-          body:
-              "grade_result_change_in_settings"
-                  .tr(),
+          body: "grade_result_change_in_settings".tr(),
           image: _buildImage('choose.png'),
           decoration: pageDecoration,
         ),
@@ -106,8 +103,7 @@ class _IntroScreenState extends State<IntroScreen> {
           bodyWidget: Column(
             children: [
               Text(
-                "intro_add_semester"
-                    .tr(),
+                "intro_add_semester".tr(),
                 style: TextStyle(fontSize: 19),
               ),
               Padding(
@@ -119,12 +115,10 @@ class _IntroScreenState extends State<IntroScreen> {
               ),
             ],
           ),
-          footer: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: primaryColor,
-            ),
-            child: Text("add".tr()),
+          footer: gradelyButton(
+            text: "add".tr(),
             onPressed: () async {
+              isLoadingController.add(true);
               await getUserInfo();
               Future result = database.createDocument(
                   collectionId: collectionSemester,
@@ -146,12 +140,13 @@ class _IntroScreenState extends State<IntroScreen> {
 
               Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => ChooseSemester()),
+                MaterialPageRoute(builder: (context) => SemesterDetail()),
                 (Route<dynamic> route) => false,
               );
 
               addLessonController.text = "";
               semesterList = [];
+              isLoadingController.add(false);
             },
           ),
           decoration: pageDecoration.copyWith(

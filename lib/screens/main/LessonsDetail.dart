@@ -56,9 +56,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
     gradeList = [];
     var response;
 
-  if (user.choosenSemester == null) {
-    return ChooseSemester();
-  }
+    if (user.choosenSemester == null) {
+      return ChooseSemester();
+    }
 
     choosenSemester = user.choosenSemester;
 
@@ -448,33 +448,28 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      CircleAvatar(
-                        radius: 22,
-                        backgroundColor: primaryColor,
-                        child: IconButton(
-                            color: Colors.white,
-                            onPressed: () async {
-                              noNetworkDialog(context);
-                              await database.updateDocument(
-                                  collectionId: collectionGrades,
-                                  documentId: selectedTest.id,
-                                  data: {
-                                    "name": editTestInfoName.text,
-                                    "grade": double.parse(
-                                      editTestInfoGrade.text
-                                          .replaceAll(",", "."),
-                                    ),
-                                    "weight": double.parse(editTestInfoWeight
-                                        .text
-                                        .replaceAll(",", ".")),
-                                    "date": editTestDateController.text
-                                  });
+                      gradelyIconButton(
+                          onPressed: () async {
+                            isLoadingController.add(true);
+                            noNetworkDialog(context);
+                            await database.updateDocument(
+                                collectionId: collectionGrades,
+                                documentId: selectedTest.id,
+                                data: {
+                                  "name": editTestInfoName.text,
+                                  "grade": double.parse(
+                                    editTestInfoGrade.text.replaceAll(",", "."),
+                                  ),
+                                  "weight": double.parse(editTestInfoWeight.text
+                                      .replaceAll(",", ".")),
+                                  "date": editTestDateController.text
+                                });
 
-                              await getTests();
-                              Navigator.of(context).pop();
-                            },
-                            icon: Icon(Icons.edit)),
-                      ),
+                            await getTests();
+                            Navigator.of(context).pop();
+                            isLoadingController.add(false);
+                          },
+                          icon: Icon(Icons.edit)),
                     ],
                   ),
                   Padding(
@@ -594,12 +589,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          CircleAvatar(
-                            radius: 22,
-                            backgroundColor: primaryColor,
-                            child: IconButton(
-                                color: Colors.white,
-                                onPressed: () async {
+                                           gradelyIconButton(
+                          onPressed: () async {
+                            isLoadingController.add(true);
                                   noNetworkDialog(context);
                                   await database.createDocument(
                                     collectionId: collectionGrades,
@@ -622,9 +614,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                   addLessonController.text = "";
 
                                   Navigator.of(context).pop();
+                                             isLoadingController.add(false);
                                 },
                                 icon: Icon(Icons.add)),
-                          ),
+                          
                         ],
                       ),
                       Padding(

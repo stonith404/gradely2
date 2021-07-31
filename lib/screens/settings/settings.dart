@@ -5,6 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely/screens/auth/introScreen.dart';
 import 'package:gradely/screens/main/semesterDetail.dart';
 import 'package:gradely/screens/settings/appInfo.dart';
+import 'package:gradely/screens/settings/contribute.dart';
 import 'package:gradely/screens/settings/customize.dart';
 import 'package:gradely/screens/settings/userInfo.dart';
 import 'package:gradely/shared/WIDGETS.dart';
@@ -30,283 +31,273 @@ Future settingsScreen(BuildContext context) {
     context: context,
     builder: (context) => StatefulBuilder(builder:
         (BuildContext context, StateSetter setState /*You can rename this!*/) {
-      return SingleChildScrollView(
-        controller: ModalScrollController.of(context),
-        child: Material(
-          color: defaultBGColor,
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 1,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+      return Material(
+        color: defaultBGColor,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 1,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: bwColor.withOpacity(0.3),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                          color: bwColor,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(25),
+                          )),
+                      child: IconButton(
+                          iconSize: 15,
+                          color: wbColor,
+                          onPressed: () async {
+                            await getUserInfo();
+                            Navigator.of(context).pop();
+                            Navigator.pushReplacement(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        SemesterDetail(),
+                                transitionDuration: Duration(seconds: 0),
+                              ),
+                            );
+                          },
+                          icon: Icon(Icons.arrow_forward_ios_outlined)),
+                    ),
+                  ],
+                ),
+                Text(
+                  "settings".tr(),
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                  child: Column(
                     children: [
                       Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: bwColor.withOpacity(0.3),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset:
-                                    Offset(0, 3), // changes position of shadow
-                              ),
-                            ],
-                            color: bwColor,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(25),
-                            )),
-                        child: IconButton(
-                            iconSize: 15,
-                            color: wbColor,
-                            onPressed: () async {
-                              await getUserInfo();
-                              Navigator.of(context).pop();
-                              Navigator.pushReplacement(
+                        child: settingsListTile(
+                            context: context,
+                            onTap: () {
+                              Navigator.push(
                                 context,
-                                PageRouteBuilder(
-                                  pageBuilder:
-                                      (context, animation1, animation2) =>
-                                          SemesterDetail(),
-                                  transitionDuration: Duration(seconds: 0),
-                                ),
+                                MaterialPageRoute(
+                                    builder: (context) => UserInfoScreen()),
                               );
                             },
-                            icon: Icon(Icons.arrow_forward_ios_outlined)),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    "settings".tr(),
-                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                    child: ListView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        Container(
-                          child: settingsListTile(
-                              context: context,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => UserInfoScreen()),
-                                );
-                              },
-                              items: [
-                                Icon(FontAwesome5Solid.user,
-                                    size: 15, color: primaryColor),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(user.name == "" ? user.email : user.name),
-                                Spacer(
-                                  flex: 1,
-                                ),
-                              ]),
-                          decoration: whiteBoxDec(),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          decoration: whiteBoxDec(),
-                          child: Column(
-                            children: [
-                              settingsListTile(
-                                  items: [
-                                    Icon(FontAwesome5Solid.laptop,
-                                        size: 15, color: primaryColor),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("platforms".tr()),
-                                  ],
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => PlatformList()),
-                                    );
-                                  }),
-                              listDivider(),
+                            items: [
+                              Icon(FontAwesome5Solid.user,
+                                  size: 15, color: primaryColor),
                               SizedBox(
-                                child: settingsListTile(
-                                    items: [
-                                      Icon(
-                                          user.gradelyPlus
-                                              ? FontAwesome5Solid.palette
-                                              : FontAwesome5Solid.star,
-                                          size: 17,
-                                          color: primaryColor),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(user.gradelyPlus
-                                          ? "customize".tr()
-                                          : "Gradely Plus"),
-                                    ],
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                user.gradelyPlus
-                                                    ? CustomizeT()
-                                                    : GradelyPlusWrapper()),
-                                      );
-                                    }),
+                                width: 10,
                               ),
-                              listDivider(),
-                              settingsListTile(
-                                arrow: false,
+                              Text(user.name == "" ? user.email : user.name),
+                              Spacer(
+                                flex: 1,
+                              ),
+                            ]),
+                        decoration: whiteBoxDec(),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        decoration: whiteBoxDec(),
+                        child: Column(
+                          children: [
+                            settingsListTile(
                                 items: [
-                                  Icon(CupertinoIcons.plus_slash_minus,
+                                  Icon(FontAwesome5Solid.laptop,
                                       size: 15, color: primaryColor),
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text("grade_result".tr()),
-                                  Spacer(
-                                    flex: 1,
-                                  ),
-                                  DropdownButton<String>(
-                                    hint: Text(gradesResult.tr()),
-                                    items: <String>[
-                                      'Durchschnitt'.tr(),
-                                      'pluspoints'.tr(),
-                                    ].map((String value) {
-                                      return new DropdownMenuItem<String>(
-                                        value: value,
-                                        child: new Text(value),
-                                      );
-                                    }).toList(),
-                                    onChanged: (value) {
-                                      var newValue = "av";
-                                      if (value == "Pluspunkte") {
-                                        newValue = "pp";
-                                      } else if (value == "pluspoints") {
-                                        newValue = "pp";
-                                      } else {
-                                        newValue = "av";
-                                      }
-                                      database.updateDocument(
-                                          documentId: user.dbID,
-                                          collectionId: collectionUser,
-                                          data: {
-                                            "gradeType": newValue,
-                                          });
-                                      setState(() {
-                                        gradesResult = newValue;
-                                      });
-                                    },
-                                  ),
+                                  Text("platforms".tr()),
                                 ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                            decoration: whiteBoxDec(),
-                            child: Column(
-                              children: [
-                                settingsListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => PlatformList()),
+                                  );
+                                }),
+                            listDivider(),
+                            SizedBox(
+                              child: settingsListTile(
                                   items: [
-                                    Icon(FontAwesome5Solid.envelope,
-                                        size: 15, color: primaryColor),
+                                    Icon(
+                                        user.gradelyPlus
+                                            ? FontAwesome5Solid.palette
+                                            : FontAwesome5Solid.star,
+                                        size: 17,
+                                        color: primaryColor),
                                     SizedBox(
                                       width: 10,
                                     ),
-                                    Text("contact_developer".tr()),
-                                  ],
-                                  onTap: () {
-                                    if (kIsWeb) {
-                                      launchURL("https://gradelyapp.com");
-                                    } else {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ContactScreen()),
-                                      );
-                                    }
-                                  },
-                                ),
-                                listDivider(),
-                                settingsListTile(
-                                  items: [
-                                    Icon(FontAwesome5Solid.redo,
-                                        size: 15, color: primaryColor),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("restart_intro".tr()),
+                                    Text(user.gradelyPlus
+                                        ? "customize".tr()
+                                        : "Gradely Plus"),
                                   ],
                                   onTap: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => IntroScreen()),
+                                          builder: (context) => user.gradelyPlus
+                                              ? CustomizeT()
+                                              : GradelyPlusWrapper()),
                                     );
-                                  },
-                                ),
-                              ],
-                            )),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                            decoration: whiteBoxDec(),
-                            child: settingsListTile(
-                              context: context,
+                                  }),
+                            ),
+                            listDivider(),
+                            settingsListTile(
+                              arrow: false,
                               items: [
-                                Icon(FontAwesome5Solid.info_circle,
+                                Icon(CupertinoIcons.plus_slash_minus,
                                     size: 15, color: primaryColor),
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text("restart_intro".tr()),
+                                Text("grade_result".tr()),
+                                Spacer(
+                                  flex: 1,
+                                ),
+                                DropdownButton<String>(
+                                  hint: Text(gradesResult.tr()),
+                                  items: <String>[
+                                    'av'.tr(),
+                                    'pp'.tr(),
+                                  ].map((String value) {
+                                    return new DropdownMenuItem<String>(
+                                      value: value,
+                                      child: new Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    var newValue = "av";
+                                    if (value == "Pluspunkte") {
+                                      newValue = "pp";
+                                    } else if (value == "Pluspoints") {
+                                      newValue = "pp";
+                                    } else {
+                                      newValue = "av";
+                                    }
+                                    database.updateDocument(
+                                        documentId: user.dbID,
+                                        collectionId: collectionUser,
+                                        data: {
+                                          "gradeType": newValue,
+                                        });
+                                    setState(() {
+                                      gradesResult = newValue;
+                                    });
+                                  },
+                                ),
                               ],
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AppInfo()),
-                                );
-                              },
-                            ))
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0),
-                        child: Text(
-                          "www.gradelyapp.com",
-                          style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ],
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                          decoration: whiteBoxDec(),
+                          child: Column(
+                            children: [
+                              settingsListTile(
+                                items: [
+                                  Icon(FontAwesome5Solid.envelope,
+                                      size: 15, color: primaryColor),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("contact_developer".tr()),
+                                ],
+                                onTap: () {
+                                  if (kIsWeb) {
+                                    launchURL("https://gradelyapp.com");
+                                  } else {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ContactScreen()),
+                                    );
+                                  }
+                                },
+                              ),
+                              settingsListTile(
+                                context: context,
+                                items: [
+                                  Icon(FontAwesome5Solid.heart,
+                                      size: 15, color: primaryColor),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("contribute".tr()),
+                                ],
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Contribute()),
+                                  );
+                                },
+                              ),
+                              settingsListTile(
+                                context: context,
+                                items: [
+                                  Icon(FontAwesome5Solid.info_circle,
+                                      size: 15, color: primaryColor),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("app_info".tr()),
+                                ],
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AppInfo()),
+                                  );
+                                },
+                              ),
+                            ],
+                          ))
                     ],
-                  )
-                ],
-              ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: Text(
+                        "www.gradelyapp.com",
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
         ),

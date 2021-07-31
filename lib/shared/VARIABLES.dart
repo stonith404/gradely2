@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely/main.dart';
@@ -11,6 +13,7 @@ List<Semester> semesterList = [];
 User user;
 
 //strings
+String brightness = "light";
 
 //bools
 bool isLoading = false;
@@ -68,3 +71,7 @@ TextEditingController passwordPlaceholder = new TextEditingController();
 TextEditingController editTestInfoName = new TextEditingController();
 TextEditingController editTestInfoGrade = new TextEditingController();
 TextEditingController editTestInfoWeight = new TextEditingController();
+
+//Streams
+StreamController<bool> isLoadingController = StreamController<bool>.broadcast();
+Stream isLoadingStream = isLoadingController.stream;

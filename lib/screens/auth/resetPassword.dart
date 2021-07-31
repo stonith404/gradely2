@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely/main.dart';
 import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:gradely/shared/loading.dart';
 import 'login.dart';
@@ -84,10 +85,8 @@ class _ResetPWState extends State<ResetPW> {
                     Spacer(
                       flex: 1,
                     ),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Color(0xFF554dd1), // background
-                        ),
+                    gradelyButton(
+      
                         onPressed: () {
                           _email = _emailController.text;
 
@@ -113,9 +112,9 @@ class _ResetPWState extends State<ResetPW> {
                                   content:
                                       Text("password_reset_success_text".tr()),
                                   actions: <Widget>[
-                                    ElevatedButton(
-                                      style: elev(),
-                                      child: Text("ok"),
+                                    gradelyButton(
+                                      
+                                      text: "ok",
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
@@ -124,7 +123,7 @@ class _ResetPWState extends State<ResetPW> {
                                 );
                               });
                         },
-                        child: Text("request_link".tr())),
+                     text: "request_link".tr()),
                     Spacer(flex: 1),
                     TextButton(
                         onPressed: () {

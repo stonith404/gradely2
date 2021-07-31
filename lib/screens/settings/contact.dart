@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gradely/data.dart';
+import 'package:gradely/screens/main/chooseSemester.dart';
 import 'package:gradely/screens/main/semesterDetail.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 
 import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely/shared/WIDGETS.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
@@ -61,9 +64,9 @@ class _ContactScreenState extends State<ContactScreen> {
               ),
               content: Text("${"contact_success_text".tr()} ${user.email}."),
               actions: <Widget>[
-                ElevatedButton(
-                  style: elev(),
-                  child: Text("ok"),
+                gradelyButton(
+              
+                  text: "ok",
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -93,9 +96,9 @@ class _ContactScreenState extends State<ContactScreen> {
               ),
               content: Text("error_contact".tr()),
               actions: <Widget>[
-                ElevatedButton(
-                  style: elev(),
-                  child: Text("Super".tr()),
+                gradelyButton(
+        
+                  text: "ok",
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -127,9 +130,9 @@ class _ContactScreenState extends State<ContactScreen> {
             padding: const EdgeInsets.all(24.0),
             child: Column(
               children: [
-                SizedBox(height: 50),
+                SizedBox(height: 20),
                 Text("settings_contact_description".tr()),
-                SizedBox(height: 50),
+                SizedBox(height: 20),
                 Container(
                   child: TextField(
                       controller: contactMessage,
@@ -137,17 +140,18 @@ class _ContactScreenState extends State<ContactScreen> {
                       decoration: inputDec("your_message".tr())),
                 ),
                 SizedBox(height: 50),
-                ElevatedButton(
-                    style: elev(),
+                gradelyButton(
                     onPressed: isEmailsent
                         ? null
                         : () {
+                            isLoadingController.add(true);
                             if (contactMessage.text == "") {
                             } else {
                               sendMail(contactMessage.text);
                             }
+                            isLoadingController.add(false);
                           },
-                    child: Text("send")),
+                    text: "send".tr()),
               ],
             ),
           ),

@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
-import 'package:flutter/services.dart';
+
 
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
@@ -168,9 +169,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
   List iapList = [];
 
   buyProduct(String id) async {
-    setState(() {
-      _isLoading = true;
-    });
+    isLoadingController.add(true);
     initPlatformState();
     await FlutterInappPurchase.instance.clearTransactionIOS();
 
@@ -193,9 +192,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
   }
 
   finishPurchase() async {
-    setState(() {
-      _isLoading = false;
-    });
+    isLoadingController.add(false);
 
     database.updateDocument(
         collectionId: collectionUser,
@@ -214,9 +211,9 @@ class _GradelyPlusState extends State<GradelyPlus> {
             title: Text("🎉 Wohooo"),
             content: Text("gradely_pluss_success_text".tr()),
             actions: <Widget>[
-              ElevatedButton(
-                style: elev(),
-                child: Text("ok"),
+              gradelyButton(
+     
+                text: "ok",
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -264,9 +261,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
 
     purchaseErrorSubscription =
         FlutterInappPurchase.purchaseError.listen((purchaseError) {
-      setState(() {
-        _isLoading = false;
-      });
+    isLoadingController.add(false);
       print('purchase-error: $purchaseError');
     });
   }
@@ -275,8 +270,12 @@ class _GradelyPlusState extends State<GradelyPlus> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Gradely Plus"),
-          shape: defaultRoundedCorners(),
+          iconTheme: IconThemeData(
+            color: primaryColor,
+          ),
+          backgroundColor: defaultBGColor,
+          elevation: 0,
+          title: Text("Gradely Plus", style: appBarTextTheme),
         ),
         body: iapList.isEmpty
             ? Center(
@@ -284,9 +283,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                   color: primaryColor,
                 ),
               )
-            : Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
+            : 
                   SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(24.0),
@@ -398,38 +395,34 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                 SizedBox(
                                   height: 15,
                                 ),
-                                ElevatedButton(
-                                    style: elev(),
+                                gradelyButton(
+                        
                                     onPressed: () async {
                                       buyProduct(
                                           "com.eliasschneider.gradely2.iap.gradelyplus");
                                     },
-                                    child: Text(
-                                        "☕️ Espresso ${iapList[0].localizedPrice ?? "-"}")),
-                                ElevatedButton(
-                                    style: elev(),
+                                    text: 
+                                        "☕️ Espresso ${iapList[0].localizedPrice ?? "-"}"),
+                                gradelyButton(
+                                
                                     onPressed: () async => buyProduct(
                                         "com.eliasschneider.gradely2.iap.gradelyplus2"),
-                                    child: Text(
-                                        "🧋 ${'coffee'.tr()} ${iapList[1].localizedPrice ?? "-"}")),
-                                ElevatedButton(
-                                    style: elev(),
+                                    text: 
+                                        "🧋 ${'coffee'.tr()} ${iapList[1].localizedPrice ?? "-"}"),
+                                gradelyButton(
+                                  
                                     onPressed: () async => buyProduct(
                                         "com.eliasschneider.gradely2.iap.gradelyplus5"),
-                                    child: Text(
-                                        "🧊 ${'ice_coffee'.tr()} ${iapList[2].localizedPrice ?? "-"}")),
+                                    text: 
+                                        "🧊 ${'ice_coffee'.tr()} ${iapList[2].localizedPrice ?? "-"}"),
                               ])
                             : Text("gradely_plus_mobile_only".tr(),
                                 style: TextStyle(fontStyle: FontStyle.italic))
                       ]),
                     ),
                   ),
-                  _isLoading
-                      ? CircularProgressIndicator(
-                          color: primaryColor,
-                        )
-                      : Container()
-                ],
-              ));
+                 
+                
+              );
   }
 }

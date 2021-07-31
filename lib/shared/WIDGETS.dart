@@ -94,3 +94,47 @@ errorSuccessDialog(
     animationDuration: Duration(milliseconds: 500),
   )..show(context);
 }
+
+Widget gradelyButton({Function onPressed, String text}) {
+  return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+    isLoadingStream.listen((value) {
+      setState(() {
+        if (value == null) {
+          value = false;
+        }
+        isLoading = value;
+      });
+    });
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: primaryColor, // background
+          elevation: 0,
+          padding: EdgeInsets.all(12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12), // <-- Radius
+          ),
+        ),
+        child: isLoading ? CupertinoActivityIndicator() : Text(text),
+        onPressed: onPressed);
+  });
+}
+
+Widget gradelyIconButton({Function onPressed, Icon icon}) {
+  return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+    isLoadingStream.listen((value) {
+      setState(() {
+        if (value == null) {
+          value = false;
+        }
+        isLoading = value;
+      });
+    });
+    return CircleAvatar(
+        radius: 22,
+        backgroundColor: primaryColor,
+        child: IconButton(
+            color: Colors.white,
+            icon: isLoading ? CupertinoActivityIndicator() : icon,
+            onPressed: onPressed));
+  });
+}

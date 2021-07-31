@@ -69,7 +69,6 @@ class MaterialWrapper extends StatelessWidget {
             style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
         )),
-        fontFamily: "Nunito",
         dialogBackgroundColor: Colors.grey[300],
         appBarTheme: AppBarTheme(
           centerTitle: true,
@@ -86,13 +85,13 @@ class MaterialWrapper extends StatelessWidget {
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.white),
         ),
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Color(0xFF010001),
         textButtonTheme: TextButtonThemeData(
             style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
         )),
-        dialogBackgroundColor: Colors.grey[900],
-        scaffoldBackgroundColor: Colors.grey[900],
+        dialogBackgroundColor: Color(0xFF010001),
+        scaffoldBackgroundColor: Color(0xFF010001),
         brightness: Brightness.dark,
         primaryColor: primaryColor,
         floatingActionButtonTheme:
