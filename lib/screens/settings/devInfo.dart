@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 
@@ -9,20 +8,9 @@ class DevInfo extends StatefulWidget {
 }
 
 class _DevInfoState extends State<DevInfo> {
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   String _homeScreenText = "";
 
-  @override
-  initState() {
-    super.initState();
-    _firebaseMessaging.getToken().then((String token) {
-      assert(token != null);
-      setState(() {
-        _homeScreenText = "$token";
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

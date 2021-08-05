@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gradely/data.dart';
-import 'package:gradely/screens/main/chooseSemester.dart';
 import 'package:gradely/screens/main/semesterDetail.dart';
-import 'package:gradely/shared/FUNCTIONS.dart';
-
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/WIDGETS.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/services.dart';
-import 'package:gradely/main.dart';
-
 import 'package:flutter_icons/flutter_icons.dart';
 
 class ContactScreen extends StatefulWidget {

@@ -42,7 +42,7 @@ Padding listDivider() {
   );
 }
 
-//error_success dialog
+//error success dialog
 
 errorSuccessDialog(
     {BuildContext context,
@@ -50,6 +50,7 @@ errorSuccessDialog(
     String title,
     @required String text}) {
   Flushbar(
+    maxWidth: 350,
     leftBarIndicatorColor:
         error ? Colors.redAccent[400] : Colors.greenAccent[400],
     titleText: Padding(

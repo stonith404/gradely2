@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gradely/data.dart';
 import 'package:gradely/screens/settings/gradelyPlus.dart';
 import 'package:gradely/screens/settings/settings.dart';
 import 'package:gradely/shared/CLASSES.dart';
@@ -15,7 +14,6 @@ import 'LessonsDetail.dart';
 import 'chooseSemester.dart';
 import 'dart:math' as math;
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:emoji_chooser/emoji_chooser.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,12 +31,6 @@ class SemesterDetail extends StatefulWidget {
 }
 
 class _SemesterDetailState extends State<SemesterDetail> {
-  pushNotification() {
-    FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-
-// Asks permission for push notifcations in ios
-    _firebaseMessaging.requestPermission(sound: true, badge: true, alert: true);
-  }
 
   appwriteDB(Function function) {}
 
@@ -50,7 +42,6 @@ class _SemesterDetailState extends State<SemesterDetail> {
         collection: collectionSemester,
         name: "lessonList",
         filters: ["\$id=${user.choosenSemester}"]);
-
     choosenSemesterName =
         jsonDecode(response.toString())["documents"][0]["name"];
     response = jsonDecode(response.toString())["documents"][0]["lessons"];
@@ -89,6 +80,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
         _sum += e.average;
         _ppSum += getPluspoints(e.average);
         _count = _count + 1;
+
         setState(() {
           _averageOfSemesterPP = _ppSum;
           _averageOfSemester = _sum / _count;
@@ -102,8 +94,6 @@ class _SemesterDetailState extends State<SemesterDetail> {
     super.initState();
     getUserInfo();
     getLessons();
-    checkIfServerOnline();
-    pushNotification();
   }
 
   void setState(fn) {
@@ -120,6 +110,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
     if (user.choosenSemester == "noSemesterChoosed") {
       return ChooseSemester();
     } else {
+      print(_averageOfSemester);
       return Scaffold(
           body: Padding(
               padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
@@ -186,7 +177,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                       vertical: 15.0),
                                   child: Row(
                                     children: [
-                                      Text("Ø".tr(),
+                                      Text("Ø",
                                           style: TextStyle(
                                             fontSize: 19,
                                             color: Colors.white,

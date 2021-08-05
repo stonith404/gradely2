@@ -7,6 +7,9 @@ import 'package:gradely/shared/CLASSES.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/WIDGETS.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+//get info of current logged in user
 
 Future getUserInfo() async {
   var accountResponse;
@@ -63,6 +66,8 @@ Future getUserInfo() async {
   }
 }
 
+//public function to get all semesters
+
 getSemesters() async {
   lessonList = [];
   print(user.gradeType);
@@ -107,17 +112,7 @@ getSemesters() async {
   });
 }
 
-Future checkIfServerOnline() async {
-  try {
-    final result = await InternetAddress.lookup('aw.cloud.eliasschneider.com');
-    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {}
-  } on SocketException catch (_) {
-    errorSuccessDialog(
-        error: true,
-        title: "error_server_not_reachable_title".tr(),
-        text: "error_server_not_reachable_text".tr());
-  }
-}
+//checks if client is connected to the server
 
 Future internetConnection() async {
   bool connected;
@@ -132,6 +127,8 @@ Future internetConnection() async {
 
   return connected;
 }
+
+//get documents from the db or from the cache
 
 Future listDocuments(
     {@required String collection,
@@ -158,6 +155,8 @@ Future listDocuments(
   return response;
 }
 
+//re authenticates the user
+
 Future<bool> reAuthenticate(
     {@required String email, @required String password}) async {
   bool success = false;
@@ -175,6 +174,8 @@ Future<bool> reAuthenticate(
   return success;
 }
 
+//checks if darkmode is activated and changes colors
+
 darkModeColorChanger(context) {
   if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
     darkmode = true;
@@ -191,6 +192,8 @@ darkModeColorChanger(context) {
   }
 }
 
+//if there is no connection, show a dialog
+
 noNetworkDialog(context) async {
   if (!await internetConnection()) {
     errorSuccessDialog(
@@ -201,6 +204,56 @@ noNetworkDialog(context) async {
   }
 }
 
+//reads data from the cache
+
 Future sharedPrefs() async {
   prefs = await SharedPreferences.getInstance();
 }
+
+//convertes average to pluspoints
+
+getPluspoints(num value) {
+  double plusPoints;
+
+  if (value >= 5.75) {
+    plusPoints = 2;
+  } else if (value >= 5.25) {
+    plusPoints = 1.5;
+  } else if (value >= 4.75) {
+    plusPoints = 1;
+  } else if (value >= 4.25) {
+    plusPoints = 0.5;
+  } else if (value >= 3.75) {
+    plusPoints = 0;
+  } else if (value >= 3.25) {
+    plusPoints = -1;
+  } else if (value >= 2.75) {
+    plusPoints = -2;
+  } else if (value >= 2.25) {
+    plusPoints = -3;
+  } else if (value >= 1.75) {
+    plusPoints = -4;
+  } else if (value >= 1.25) {
+    plusPoints = -5;
+  } else if (value >= 1) {
+    plusPoints = -6;
+  } else if (value == -99) {
+    plusPoints = 0;
+  } else if (value.isNaN) {
+    plusPoints = 0;
+  }
+  return plusPoints;
+}
+
+
+//formats the date to the supported date
+
+formatDate(picked) {
+  var _formatted = DateTime.parse(picked.toString());
+  return "${_formatted.year}.${_formatted.month}.${_formatted.day}";
+}
+
+//launch url with the package "url launcher"
+
+void launchURL(_url) async =>
+    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';

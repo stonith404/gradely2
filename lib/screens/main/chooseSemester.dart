@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -62,8 +60,8 @@ class _ChooseSemesterState extends State<ChooseSemester> {
     setState(() => isLoading = false);
   }
 
-  saveChoosenSemester(String _choosenSemester) {
-    database.updateDocument(
+  saveChoosenSemester(String _choosenSemester) async {
+    await database.updateDocument(
         collectionId: collectionUser,
         documentId: user.dbID,
         data: {"choosenSemester": _choosenSemester});

@@ -63,15 +63,15 @@ date,date,Datum
 benefit_support,support developer,Entwickler unterstützen
 gradely_plus_description,i invested a lot of time and money in this app. of course I want that this app is free. with gradely plus you can help me so i can make this app better.,Ich habe viele Stunden und Geld in diese App investiert. Ich möchte das diese App gratis ist. Mit Gradely Plus kann du mithelfen dass ich die App immer weiterentwickeln kann.
 benefit_customize_color,customize theme color,App Farben ändern
-benefit_more_coming_soon,more benefits coming soon,
-benefit_emojis,emojis in names,
-gradely_plus_mobile_only,gradely plus can only be bought on a mobile device. after the purchase you have gradely on any of your devices.,
-gradely_pluss_success_text,thank you so much for being a gradely plus user. Enjoy it!,
-customize,customize,
-change_app_colors,change app colors,
+benefit_more_coming_soon,more benefits coming soon,Mehr Vorteile kommen bald
+benefit_emojis,emojis in names,Emojis in Namen
+gradely_plus_mobile_only,gradely plus can only be bought on a mobile device. after the purchase you have gradely on any of your devices.,Gradely Plus kann nur auf an einem Handy gekauft werden. Nach dem Kauf hast du Gradely Plus auf allen Geräten.
+gradely_pluss_success_text,thank you so much for being a gradely plus user. Enjoy it!,"Danke viel mals, dass du ein Gradely Plus Nutzer bist. Viel Spass!"
+customize,customize,Personalisieren
+change_app_colors,change app colors,Theme Farben ändern
 loading,loading,Lädt...
 email,email,Email
-action_required,action required,
+action_required,action required,Handlung erforderlich
 re_enter_password_save_changes,please re enter your password to save your changes,Bitte gib dein Passwort ein um deine Änderungen zu speichern.
 delete_account,delete account,Account löschen
 save,save,speichern
@@ -104,8 +104,6 @@ coffee,coffee,Kaffee
 ice_coffee,ice coffe,Eis Kaffee
 success,success,Erfolgreich
 name_updated,Your name was updated,Dein Name wurde aktualisiert
-gradely_migration_registred_before,Registred before the 1st august?,Vor dem 1. August registriert?
-gradely_migration_info,As of August 1st Gradely has a new database in Switzerland not like before by Google in Western Europe. If you registered before August 1st you can continue to use gradely but the app will no longer be updated. If you want to continue to benefit from updates please register again. \n\nI'm sorry for the inconvenience.\n\nAs an excuse you will receive Gradely Plus for free with your newly created account. Contact me at elias@eliasschneider.com.,
 no_network_offline_loading,It looks like you're offline and your grades aren't stored in the cache.,"Es sieht so aus, wie du offline bist und deine Noten nicht im Cache gespeichert sind."
 network_needed_title,Network Connection,Internet Verbindung
 network_needed_text,"To use this feature you need a network connection.","Um diese Funktion zu nutzen, brauchst du eine Internet Verbindung."
@@ -124,7 +122,7 @@ contribute_leading_text,"If you want to contribute to make gradely better, here 
 languages,Languages,Sprachen
 bug_or_improvement,Bug or improvement,Bug oder Vorschläge
 contribute_translate_p1,"To give every user an awesome experience, Gradely should be translated in many languages.","Um jedem Nutzer ein super Erlebnis zu geben, sollte Gradely in vielen Sprachen verfügbar sein"
-contribute_translate_p2,"Found some language error, or better do you want to help translate Gradely in another language?", "Hast du ein Fehler bei einer Sprache gefunden oder noch besser, willst du helfen, gradely in eine andere Sprache zu übersetzen?"
-contribute_feature_bug_suggestion,"Did you spot a bug or do you have an improvement or suggestion?",
+contribute_translate_p2,"Found some language error, or better do you want to help translate Gradely in another language?","Hast du ein Fehler bei einer Sprache gefunden oder noch besser, willst du helfen, gradely in eine andere Sprache zu übersetzen?"
+"contribute_feature_bug_suggestion","Did you spot a bug or do you have an improvement or suggestion?","Hast du einen Bug entdeckt oder hast eine Verbesserung?"
 or_something_else, Or something else?, Oder etwas anderes?
 contact_me, Contact me, Kontaktiere mich

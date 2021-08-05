@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gradely/screens/main/chooseSemester.dart';
 import 'package:gradely/screens/settings/contact.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/shared/WIDGETS.dart';
-import 'package:gradely/shared/defaultWidgets.dart';
 
 class Contribute extends StatelessWidget {
   @override

@@ -40,13 +40,11 @@ dependencies:
   easy_localization: ^3.0.0
   easy_localization_loader: ^1.0.0
   url_launcher:
-  firebase_messaging:  ^10.0.1
-  mailer:
+  mailer: ^5.0.1 
   flutter_icons:
   shared_preferences: ^2.0.6
   emoji_chooser:
   syncfusion_flutter_charts: ^19.1.66+1
-  quiver: ^3.0.1
   flutter_inapp_purchase: ^5.0.1
   flutter_spinkit: ^5.0.0
   another_flushbar: ^1.10.24
@@ -59,7 +57,6 @@ dev_dependencies:
 
 flutter_icons:
   image_path: "assets/icon/logo2.png"
-  macos: true
   ios: true
   android: true
   

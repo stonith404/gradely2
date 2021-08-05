@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely/screens/auth/introScreen.dart';
 import 'package:gradely/screens/main/semesterDetail.dart';
 import 'package:gradely/screens/settings/appInfo.dart';
 import 'package:gradely/screens/settings/contribute.dart';
@@ -13,7 +12,6 @@ import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
-import 'package:gradely/data.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'platformList.dart';
 import 'contact.dart';
@@ -162,7 +160,7 @@ Future settingsScreen(BuildContext context) {
                                       MaterialPageRoute(
                                           builder: (context) => user.gradelyPlus
                                               ? CustomizeT()
-                                              : GradelyPlusWrapper()),
+                                              : GradelyPlus()),
                                     );
                                   }),
                             ),

@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
-import 'package:gradely/main.dart';
 import 'package:gradely/shared/CLASSES.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +9,8 @@ List<Grade> gradeList = [];
 List<Semester> semesterList = [];
 
 User user;
+SharedPreferences prefs;
+
 
 //strings
 String brightness = "light";
@@ -40,9 +40,7 @@ final collectionSemester = "60f40d1b66424";
 final collectionLessons = "60f40d0ed5da4";
 final collectionGrades = "60f71651520e5";
 
-//
 
-SharedPreferences prefs;
 
 //vars for customize
 var appBarTextTheme =
@@ -54,7 +52,6 @@ var title =
 //text controllers
 
 TextEditingController addLessonController = new TextEditingController();
-
 TextEditingController changeEmailController = new TextEditingController();
 TextEditingController changeDisplayName = new TextEditingController();
 TextEditingController addSemesterController = new TextEditingController();

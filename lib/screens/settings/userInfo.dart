@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely/screens/auth/login.dart';
+import 'package:gradely/screens/auth/sign_in.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/WIDGETS.dart';
@@ -25,7 +25,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
     changeEmailController.text = user.email;
     changeDisplayName.text = user.name ?? "";
-    passwordPlaceholder.text = "1234567891011";
+    passwordPlaceholder.text = "123456789";
   }
 
   changeEmail(_email) async {
@@ -34,19 +34,17 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("action_required".tr()),
-            content: Container(
-              height: 150,
-              child: ListView(
-                children: [
-                  Text("re_enter_password_save_changes".tr()),
-                  SizedBox(height: 10),
-                  TextField(
-                      controller: passwordController,
-                      textAlign: TextAlign.left,
-                      obscureText: true,
-                      decoration: inputDec(label:"your_password".tr())),
-                ],
-              ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("re_enter_password_save_changes".tr()),
+                SizedBox(height: 10),
+                TextField(
+                    controller: passwordController,
+                    textAlign: TextAlign.left,
+                    obscureText: true,
+                    decoration: inputDec(label: "your_password".tr())),
+              ],
             ),
             actions: <Widget>[
               TextButton(
@@ -114,113 +112,120 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
-            SizedBox(height: 70),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                      controller: changeDisplayName,
-                      textAlign: TextAlign.left,
-                      decoration: inputDec(label:"your_name".tr())),
-                ),
-                IconButton(
-                  onPressed: () async {
-                    try {
-                      await account.updateName(name: changeDisplayName.text);
-                      errorSuccessDialog(
+            Expanded(
+              child: ListView(
+                children: [
+                  SizedBox(height: 70),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                            controller: changeDisplayName,
+                            textAlign: TextAlign.left,
+                            decoration: inputDec(label: "your_name".tr())),
+                      ),
+                      IconButton(
+                        onPressed: () async {
+                          try {
+                            await account.updateName(
+                                name: changeDisplayName.text);
+                            errorSuccessDialog(
+                                context: context,
+                                error: false,
+                                text: 'name_updated'.tr());
+                          } catch (e) {
+                            errorSuccessDialog(
+                                context: context,
+                                error: true,
+                                text: "error_unknown".tr());
+                          }
+                        },
+                        icon: Icon(FontAwesome5Solid.save),
+                        color: primaryColor,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                            keyboardType: TextInputType.emailAddress,
+                            controller: changeEmailController,
+                            textAlign: TextAlign.left,
+                            decoration: inputDec(label: "email".tr())),
+                      ),
+                      IconButton(
+                        onPressed: () async {
+                          try {
+                            changeEmail(changeEmailController.text);
+                          } catch (e) {
+                            errorSuccessDialog(
+                                context: context,
+                                error: true,
+                                text: "error_unknown".tr());
+                          }
+                        },
+                        icon: Icon(FontAwesome5Solid.save),
+                        color: primaryColor,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
                           context: context,
-                          error: false,
-                          text: 'name_updated'.tr());
-                    } catch (e) {
-                      errorSuccessDialog(
-                          context: context,
-                          error: true,
-                          text: "error_unknown".tr());
-                    }
-                  },
-                  icon: Icon(FontAwesome5Solid.save),
-                  color: primaryColor,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      controller: changeEmailController,
-                      textAlign: TextAlign.left,
-                      decoration: inputDec(label:"email".tr())),
-                ),
-                IconButton(
-                  onPressed: () async {
-                    try {
-                      changeEmail(changeEmailController.text);
-                    } catch (e) {
-                      errorSuccessDialog(
-                          context: context,
-                          error: true,
-                          text: "error_unknown".tr());
-                    }
-                  },
-                  icon: Icon(FontAwesome5Solid.save),
-                  color: primaryColor,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            GestureDetector(
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                          title: Text("change_password".tr()),
-                          content: Container(
-                            height: 140,
-                            child: Column(
-                              children: [
-                                Text("change_password_text".tr()),
-                                SizedBox(height: 20),
-                                gradelyButton(
-                                    onPressed: () {
-                                      isLoadingController.add(true);
-                                      Future result = account.createRecovery(
-                                        email: "login@eliasschneider.com",
-                                        url:
-                                            'https://aw.cloud.eliasschneider.com',
-                                      );
-                                      result.then((response) {
-                                        print(response);
-                                      }).catchError((error) {
-                                        print(error.response);
-                                      });
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("change_password".tr()),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text("change_password_text".tr()),
+                                  SizedBox(height: 20),
+                                  gradelyButton(
+                                      onPressed: () {
+                                        isLoadingController.add(true);
+                                        Future result = account.createRecovery(
+                                          email: user.email,
+                                          url:
+                                              'https://aw.cloud.eliasschneider.com',
+                                        );
+                                        result.then((response) {
+                                          print(response);
+                                        }).catchError((error) {
+                                          errorSuccessDialog(
+                                              error: true, text: error.message);
+                                        });
 
-                                      Navigator.of(context).pop();
-                                      isLoadingController.add(false);
-                                    },
-                                    text: "send".tr())
-                              ],
-                            ),
-                          ));
-                    });
-              },
-              child: TextField(
-                  enabled: false,
-                  obscureText: true,
-                  controller: passwordPlaceholder,
-                  textAlign: TextAlign.left,
-                  decoration: inputDec(label:"Password".tr())),
+                                        Navigator.of(context).pop();
+                                        isLoadingController.add(false);
+                                      },
+                                      text: "send".tr())
+                                ],
+                              ),
+                            );
+                          });
+                    },
+                    child: TextField(
+                        enabled: false,
+                        obscureText: true,
+                        controller: passwordPlaceholder,
+                        textAlign: TextAlign.left,
+                        decoration: inputDec(label: "Password".tr())),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Spacer(flex: 100),
+                ],
+              ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Spacer(flex: 3),
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: TextButton(
@@ -240,8 +245,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       controller: passwordController,
                                       textAlign: TextAlign.left,
                                       obscureText: true,
-                                      decoration:
-                                          inputDec(label:"your_password".tr())),
+                                      decoration: inputDec(
+                                          label: "your_password".tr())),
                                 ],
                               ),
                             ),

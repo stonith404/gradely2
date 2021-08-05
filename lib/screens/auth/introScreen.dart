@@ -2,18 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gradely/screens/auth/login.dart';
-import 'package:gradely/screens/main/chooseSemester.dart';
+import 'package:gradely/screens/auth/sign_in.dart';
 import 'package:gradely/screens/main/semesterDetail.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:gradely/main.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 

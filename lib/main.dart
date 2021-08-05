@@ -2,11 +2,10 @@ import 'package:appwrite/appwrite.dart' hide Locale;
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gradely/screens/auth/login.dart';
+import 'package:gradely/screens/auth/sign_in.dart';
 import 'package:gradely/screens/main/semesterDetail.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,8 +19,6 @@ var allAverageListPP = [];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await Firebase.initializeApp();
-
   await sharedPrefs();
   client = Client();
   account = Account(client);

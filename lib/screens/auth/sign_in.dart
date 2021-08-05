@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely/main.dart';
-import 'package:gradely/screens/auth/introScreen.dart';
-import 'package:gradely/screens/auth/register.dart';
+import 'package:gradely/screens/auth/sign_up.dart';
 import 'package:gradely/screens/auth/resetPassword.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
@@ -15,54 +12,32 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 bool _obsecuredText = true;
 
-class RegisterScreen extends StatefulWidget {
+class SignInPage extends StatefulWidget {
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _SignInPageState createState() => _SignInPageState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
-  createUser() async {
+class _SignInPageState extends State<SignInPage> {
+  signInUser() async {
     isLoadingController.add(true);
-    FocusScope.of(context).unfocus();
-
-    Future resultCreateAccount = account.create(
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Future result = account.createSession(
       email: emailController.text,
       password: passwordController.text,
     );
-
-    resultCreateAccount.then((response) async {
-      await account.createSession(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      response = jsonDecode(response.toString());
-
-      Future resultCreateDB =
-          database.createDocument(collectionId: collectionUser, data: {
-        "uid": response["\$id"],
-        "gradelyPlus": false,
-        "gradeType": "av",
-        "choosenSemester": "noSemesterChoosed"
-      });
-
-      resultCreateDB.then((response) {
-        print(response);
-      }).catchError((error) {
-        print(error);
-        print(error.response);
-      });
+    await result.then((response) async {
+      prefs.remove("newGradely");
       prefs.setBool("signedIn", true);
+      await getUserInfo();
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => IntroScreen()),
+        MaterialPageRoute(builder: (context) => HomeWrapper()),
       );
-    }).catchError((error) {
-      print(error);
-      print(error.response);
 
+      passwordController.text = "";
+    }).catchError((error) {
       errorSuccessDialog(context: context, error: true, text: error.message);
     });
-
     isLoadingController.add(false);
   }
 
@@ -131,7 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Row(
                     children: [
                       Text(
-                        "sign_up".tr(),
+                        "sign_in".tr(),
                         style: title,
                       ),
                     ],
@@ -162,18 +137,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       )),
                   Spacer(flex: 10),
                   gradelyButton(
-                      text: "sign_up".tr(),
-                      onPressed: () async {
-                        await createUser();
-                        passwordController.text = "";
-                      }),
+                      text: "Anmelden", onPressed: () => signInUser()),
                   Spacer(flex: 35),
                   TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterScreen()),
+                        );
                       },
                       child: Text(
-                        "question_have_account".tr(),
+                        "question_no_account".tr(),
+                        style: TextStyle(color: primaryColor),
+                      )),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ResetPW()),
+                        );
+                      },
+                      child: Text(
+                        "question_forgot_password".tr(),
                         style: TextStyle(color: primaryColor),
                       )),
                   Spacer(flex: 5),

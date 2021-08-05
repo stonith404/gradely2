@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gradely/main.dart';
-import 'package:gradely/screens/auth/login.dart';
-import 'package:gradely/screens/auth/register.dart';
-import 'package:gradely/screens/auth/resetPassword.dart';
+import 'package:gradely/screens/auth/sign_in.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ResetPW extends StatefulWidget {
   @override

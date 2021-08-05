@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gradely/data.dart';
 import 'package:gradely/screens/main/chooseSemester.dart';
 import 'package:gradely/screens/main/semesterDetail.dart';
 import 'package:gradely/shared/CLASSES.dart';
@@ -243,10 +242,18 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                           Icons.date_range,
                                                           size: 20,
                                                         ),
-                                                        Text(" " +
-                                                            gradeList[index]
-                                                                .date
-                                                                .toString()),
+                                                        Text((() {
+                                                          if (gradeList[index]
+                                                                  .date ==
+                                                              "") {
+                                                            return "  -";
+                                                          } else {
+                                                            return " " +
+                                                                gradeList[index]
+                                                                    .date
+                                                                    .toString();
+                                                          }
+                                                        }())),
                                                       ],
                                                     ),
                                               trailing: Text(gradeList[index]
