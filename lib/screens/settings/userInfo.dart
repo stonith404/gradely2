@@ -36,7 +36,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             title: Text("action_required".tr()),
             content: Container(
               height: 150,
-              child: Column(
+              child: ListView(
                 children: [
                   Text("re_enter_password_save_changes".tr()),
                   SizedBox(height: 10),
@@ -44,7 +44,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       controller: passwordController,
                       textAlign: TextAlign.left,
                       obscureText: true,
-                      decoration: inputDec("your_password".tr())),
+                      decoration: inputDec(label:"your_password".tr())),
                 ],
               ),
             ),
@@ -121,7 +121,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   child: TextField(
                       controller: changeDisplayName,
                       textAlign: TextAlign.left,
-                      decoration: inputDec("your_name".tr())),
+                      decoration: inputDec(label:"your_name".tr())),
                 ),
                 IconButton(
                   onPressed: () async {
@@ -153,7 +153,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       keyboardType: TextInputType.emailAddress,
                       controller: changeEmailController,
                       textAlign: TextAlign.left,
-                      decoration: inputDec("email".tr())),
+                      decoration: inputDec(label:"email".tr())),
                 ),
                 IconButton(
                   onPressed: () async {
@@ -161,8 +161,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       changeEmail(changeEmailController.text);
                     } catch (e) {
                       errorSuccessDialog(
-                                          context: context,
-                                          error: true,
+                          context: context,
+                          error: true,
                           text: "error_unknown".tr());
                     }
                   },
@@ -188,9 +188,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                 Text("change_password_text".tr()),
                                 SizedBox(height: 20),
                                 gradelyButton(
-                               
                                     onPressed: () {
-                                          isLoadingController.add(true);
+                                      isLoadingController.add(true);
                                       Future result = account.createRecovery(
                                         email: "login@eliasschneider.com",
                                         url:
@@ -203,7 +202,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       });
 
                                       Navigator.of(context).pop();
-                                          isLoadingController.add(false);
+                                      isLoadingController.add(false);
                                     },
                                     text: "send".tr())
                               ],
@@ -216,7 +215,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   obscureText: true,
                   controller: passwordPlaceholder,
                   textAlign: TextAlign.left,
-                  decoration: inputDec("Password".tr())),
+                  decoration: inputDec(label:"Password".tr())),
             ),
             SizedBox(
               height: 20,
@@ -242,7 +241,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       textAlign: TextAlign.left,
                                       obscureText: true,
                                       decoration:
-                                          inputDec("your_password".tr())),
+                                          inputDec(label:"your_password".tr())),
                                 ],
                               ),
                             ),
@@ -263,8 +262,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                LoginScreen()),
+                                            builder: (context) => SignInPage()),
                                       );
                                       prefs.setBool("signedIn", false);
                                     } else {

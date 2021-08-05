@@ -21,15 +21,17 @@ delete_confirmation_p1,do you really want to delete,"Bist du sicher, dass du"
 delete_confirmation_p2,?,löschen willst?
 add,add,hinzufügen
 sign_in,sign in,Einloggen
+password_remembered,Remember your password?,Weisst du dein Passwort?
 your_email,your email,Deine Email
 your_password,your password,Dein Passwort
 password,password,Passwort
 question_forgot_password,forgot password?,Passwort vergessen?
+reset_password,Reset Password,Passwort zurücksetzen
 request_link,request Link,Link anfordern
 sign_up,sign up,Registrieren
 question_have_account,do you have an account already?,Hast du bereits ein Account?
 question_no_account,you don't have an account?,Hast du noch kein Account?
-welcome,welcome!,Willkommen!
+welcome,welcome,Willkommen
 intro_gradely_helps_monitoring,welcome to gradely. gradely helps you to monitor your grades. ,Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen.
 everywhere_available,everywhere available,überall verfügbar
 intro_messaqge_sync,your grades are stored in the cloud. so you can add or view your grades on your laptop handy or ipad.,"Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf deinem Laptop, Handy oder iPad Noten hinzufügen und anschauen."

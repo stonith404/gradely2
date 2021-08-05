@@ -1,39 +1,39 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gradely/screens/auth/introScreen.dart';
-import 'package:gradely/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gradely/main.dart';
+import 'package:gradely/screens/auth/introScreen.dart';
+import 'package:gradely/screens/auth/register.dart';
+import 'package:gradely/screens/auth/resetPassword.dart';
+import 'package:gradely/shared/FUNCTIONS.dart';
+import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
-import 'login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+bool _obsecuredText = true;
 
 class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-TextEditingController _emailController = new TextEditingController();
-TextEditingController _passwordController = new TextEditingController();
-
-String _errorMessage = "";
-
 class _RegisterScreenState extends State<RegisterScreen> {
   createUser() async {
-       isLoadingController.add(true);
+    isLoadingController.add(true);
     FocusScope.of(context).unfocus();
 
     Future resultCreateAccount = account.create(
-      email: _emailController.text,
-      password: _passwordController.text,
+      email: emailController.text,
+      password: passwordController.text,
     );
 
     resultCreateAccount.then((response) async {
       await account.createSession(
-        email: _emailController.text,
-        password: _passwordController.text,
+        email: emailController.text,
+        password: passwordController.text,
       );
       response = jsonDecode(response.toString());
 
@@ -66,105 +66,122 @@ class _RegisterScreenState extends State<RegisterScreen> {
     isLoadingController.add(false);
   }
 
-  void setState(fn) {
-    if (mounted) {
-      super.setState(fn);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
-      },
-      child: Scaffold(
-        backgroundColor: primaryColor,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: SvgPicture.asset("assets/images/logo.svg",
-              color: primaryColor, height: 30),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+    darkModeColorChanger(context);
+    return Scaffold(
+      backgroundColor: defaultBGColor,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Stack(
+            alignment: AlignmentDirectional.bottomEnd,
             children: [
-              Spacer(
-                flex: 2,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              Column(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "create".tr(),
-                        style: TextStyle(fontSize: 40, color: Colors.white),
-                      ),
-                      Text(
-                        "account".tr(),
-                        style: TextStyle(
-                          fontSize: 40,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
-                  ),
+                  Container(
+                      alignment: AlignmentDirectional.center,
+                      color: primaryColor,
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      width: MediaQuery.of(context).size.width * 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/images/logo.svg",
+                                  color: Colors.white, height: 60),
+                              Text(" radely",
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ))
+                            ],
+                          ),
+                        ],
+                      )),
+                  //fix the small space
+                  Container(
+                    width: MediaQuery.of(context).size.width * 1,
+                    height: 1,
+                    color: defaultBGColor,
+                  )
                 ],
               ),
-              Spacer(
-                flex: 4,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    controller: _emailController,
-                    textAlign: TextAlign.left,
-                    decoration: inputDecAuth("your_email".tr())),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                    controller: _passwordController,
-                    textAlign: TextAlign.left,
-                    obscureText: true,
-                    decoration: inputDecAuth("your_password".tr())),
-              ),
-              gradelyButton(
-                onPressed: () async {
-               
-                  await createUser();
-                
-                },
-                text: "sign_up".tr(),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                _errorMessage,
-                style: TextStyle(color: Colors.red),
-              ),
-              Spacer(flex: 1),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
-                  },
-                  child: Text("question_have_account".tr(),
-                      style: TextStyle(color: Colors.white))),
-              Spacer(
-                flex: 3,
-              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topStart: Radius.circular(20),
+                    topEnd: Radius.circular(20),
+                  ),
+                  color: defaultBGColor,
+                ),
+                height: MediaQuery.of(context).size.height * 0.05,
+              )
             ],
           ),
-        ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "sign_up".tr(),
+                        style: title,
+                      ),
+                    ],
+                  ),
+                  Spacer(flex: 10),
+                  TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      controller: emailController,
+                      textAlign: TextAlign.left,
+                      decoration: inputDec(label: "Deine Email")),
+                  Spacer(flex: 5),
+                  TextField(
+                      controller: passwordController,
+                      textAlign: TextAlign.left,
+                      obscureText: _obsecuredText,
+                      decoration: inputDec(
+                        label: "Dein Passwort",
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _obsecuredText = !_obsecuredText;
+                            });
+                          },
+                          icon: Icon(Icons.remove_red_eye,
+                              color:
+                                  _obsecuredText ? Colors.grey : primaryColor),
+                        ),
+                      )),
+                  Spacer(flex: 10),
+                  gradelyButton(
+                      text: "sign_up".tr(),
+                      onPressed: () async {
+                        await createUser();
+                        passwordController.text = "";
+                      }),
+                  Spacer(flex: 35),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        "question_have_account".tr(),
+                        style: TextStyle(color: primaryColor),
+                      )),
+                  Spacer(flex: 5),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

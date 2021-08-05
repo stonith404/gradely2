@@ -1,146 +1,164 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely/main.dart';
+import 'package:gradely/screens/auth/login.dart';
+import 'package:gradely/screens/auth/register.dart';
+import 'package:gradely/screens/auth/resetPassword.dart';
+import 'package:gradely/shared/FUNCTIONS.dart';
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
-import 'package:gradely/shared/loading.dart';
-import 'login.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ResetPW extends StatefulWidget {
   @override
   _ResetPWState createState() => _ResetPWState();
 }
 
-TextEditingController _emailController = new TextEditingController();
-
-String _email = "";
-
 class _ResetPWState extends State<ResetPW> {
-  sendPasswordResetEmail(String _email) async {
-    // await FirebaseAuth.instance.sendPasswordResetEmail(email: _email);
+  sendPasswordResetEmail(String email) async {
+    Future result = account.createRecovery(
+      email: email,
+      url: 'https://user.gradelyapp.com?mode=passwordReset',
+    );
+    result.then((response) {
+      print(response);
+    }).catchError((error) {
+      print(error.response);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
-      },
-      child: Scaffold(
-        backgroundColor: primaryColor,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: SvgPicture.asset("assets/images/logo.svg",
-              color: primaryColor, height: 30),
-        ),
-        body: isLoading
-            ? LoadingScreen()
-            : Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Spacer(
-                      flex: 2,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "reset".tr(),
-                              style:
-                                  TextStyle(fontSize: 40, color: Colors.white),
-                            ),
-                            Text(
-                              "Password".tr(),
-                              style: TextStyle(
-                                fontSize: 40,
-                                color: Colors.white,
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    Spacer(
-                      flex: 3,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        decoration: inputDecAuth("your_email".tr()),
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _emailController,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    Spacer(
-                      flex: 1,
-                    ),
-                    gradelyButton(
-      
-                        onPressed: () {
-                          _email = _emailController.text;
-
-                          sendPasswordResetEmail(_email);
-
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()),
-                          );
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Row(
-                                    children: [
-                                      Icon(FontAwesome5Solid.check_circle),
-                                      Spacer(flex: 1),
-                                      Text("sent".tr()),
-                                      Spacer(flex: 10)
-                                    ],
-                                  ),
-                                  content:
-                                      Text("password_reset_success_text".tr()),
-                                  actions: <Widget>[
-                                    gradelyButton(
-                                      
-                                      text: "ok",
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              });
-                        },
-                     text: "request_link".tr()),
-                    Spacer(flex: 1),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()),
-                          );
-                        },
-                        child: Text("back".tr(),
-                            style: TextStyle(color: Colors.white))),
-                    Spacer(
-                      flex: 3,
-                    ),
-                  ],
-                ),
+    darkModeColorChanger(context);
+    return Scaffold(
+      backgroundColor: defaultBGColor,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Stack(
+            alignment: AlignmentDirectional.bottomEnd,
+            children: [
+              Column(
+                children: [
+                  Container(
+                      alignment: AlignmentDirectional.center,
+                      color: primaryColor,
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      width: MediaQuery.of(context).size.width * 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/images/logo.svg",
+                                  color: Colors.white, height: 60),
+                              Text(" radely",
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ))
+                            ],
+                          ),
+                        ],
+                      )),
+                  //fix the small space
+                  Container(
+                    width: MediaQuery.of(context).size.width * 1,
+                    height: 1,
+                    color: defaultBGColor,
+                  )
+                ],
               ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topStart: Radius.circular(20),
+                    topEnd: Radius.circular(20),
+                  ),
+                  color: defaultBGColor,
+                ),
+                height: MediaQuery.of(context).size.height * 0.05,
+              )
+            ],
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "reset_password".tr(),
+                        style: title,
+                      ),
+                    ],
+                  ),
+                  Spacer(flex: 10),
+                  TextField(
+                    decoration: inputDec(label: "your_email".tr()),
+                    keyboardType: TextInputType.emailAddress,
+                    controller: emailController,
+                    textAlign: TextAlign.left,
+                  ),
+                  Spacer(
+                    flex: 5,
+                  ),
+                  gradelyButton(
+                      onPressed: () {
+                        sendPasswordResetEmail(emailController.text);
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignInPage()),
+                        );
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Row(
+                                  children: [
+                                    Icon(FontAwesome5Solid.check_circle),
+                                    Spacer(flex: 1),
+                                    Text("sent".tr()),
+                                    Spacer(flex: 10)
+                                  ],
+                                ),
+                                content:
+                                    Text("password_reset_success_text".tr()),
+                                actions: <Widget>[
+                                  gradelyButton(
+                                    text: "ok",
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                      text: "request_link".tr()),
+                  Spacer(flex: 35),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        "password_remembered".tr(),
+                        style: TextStyle(color: primaryColor),
+                      )),
+                  Spacer(flex: 5),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

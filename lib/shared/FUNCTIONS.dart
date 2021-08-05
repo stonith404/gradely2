@@ -187,7 +187,7 @@ darkModeColorChanger(context) {
     brightness = "light";
     bwColor = Colors.white;
     wbColor = Colors.grey[850];
-    defaultBGColor = Color(0xFFE5E8F2);
+    defaultBGColor = Color(0xFFF2F2F7);
   }
 }
 

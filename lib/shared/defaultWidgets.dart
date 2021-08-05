@@ -31,13 +31,18 @@ BoxDecoration whiteBoxDec() {
       ));
 }
 
-InputDecoration inputDec(String _label) {
+InputDecoration inputDec({String label, var suffixIcon}) {
   return InputDecoration(
+    suffixIcon: suffixIcon ??
+        Icon(
+          Icons.ac_unit,
+          color: bwColor,
+        ),
     disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         borderSide: BorderSide.none),
     filled: true,
-    labelText: _label,
+    labelText: label,
     fillColor: bwColor,
     labelStyle: TextStyle(fontSize: 17.0, height: 0.8, color: primaryColor),
     focusedBorder: OutlineInputBorder(
@@ -55,13 +60,14 @@ FilteringTextInputFormatter emojiRegex() {
       r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'));
 }
 
-
-
 //dialog
 
 // ignore: missing_return
 Widget gradelyDialog(
-    {@required BuildContext context, @required String title, @required String text, var actions}) {
+    {@required BuildContext context,
+    @required String title,
+    @required String text,
+    var actions}) {
   androidDialog() {
     return AlertDialog(
         title: Text(title),

@@ -491,7 +491,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                     child: TextField(
                       controller: editTestInfoName,
                       textAlign: TextAlign.left,
-                      decoration: inputDec("exam_name".tr()),
+                      decoration: inputDec(label: "exam_name".tr()),
                       inputFormatters: [emojiRegex()],
                     ),
                   ),
@@ -529,7 +529,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         child: TextField(
                             controller: editTestDateController,
                             textAlign: TextAlign.left,
-                            decoration: inputDec("date".tr())),
+                            decoration: inputDec(label: "date".tr())),
                       ),
                     ),
                   ),
@@ -540,7 +540,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
-                      decoration: inputDec("grade".tr()),
+                      decoration: inputDec(label: "grade".tr()),
                     ),
                   ),
                   Padding(
@@ -550,7 +550,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
-                      decoration: inputDec("weight".tr()),
+                      decoration: inputDec(label: "weight".tr()),
                     ),
                   ),
                   SizedBox(
@@ -589,35 +589,34 @@ class _LessonsDetailState extends State<LessonsDetail> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                                           gradelyIconButton(
-                          onPressed: () async {
-                            isLoadingController.add(true);
-                                  noNetworkDialog(context);
-                                  await database.createDocument(
-                                    collectionId: collectionGrades,
-                                    parentDocument: selectedLesson,
-                                    parentProperty: "grades",
-                                    parentPropertyType: "append",
-                                    data: {
-                                      "name": addTestNameController.text,
-                                      "grade": double.parse(
-                                          addTestGradeController.text
-                                              .replaceAll(",", ".")),
-                                      "weight": double.parse(
-                                          addTestWeightController.text
-                                              .replaceAll(",", ".")),
-                                      "date": addTestDateController.text
-                                    },
-                                  );
+                          gradelyIconButton(
+                              onPressed: () async {
+                                isLoadingController.add(true);
+                                noNetworkDialog(context);
+                                await database.createDocument(
+                                  collectionId: collectionGrades,
+                                  parentDocument: selectedLesson,
+                                  parentProperty: "grades",
+                                  parentPropertyType: "append",
+                                  data: {
+                                    "name": addTestNameController.text,
+                                    "grade": double.parse(addTestGradeController
+                                        .text
+                                        .replaceAll(",", ".")),
+                                    "weight": double.parse(
+                                        addTestWeightController.text
+                                            .replaceAll(",", ".")),
+                                    "date": addTestDateController.text
+                                  },
+                                );
 
-                                  await getTests();
-                                  addLessonController.text = "";
+                                await getTests();
+                                addLessonController.text = "";
 
-                                  Navigator.of(context).pop();
-                                             isLoadingController.add(false);
-                                },
-                                icon: Icon(Icons.add)),
-                          
+                                Navigator.of(context).pop();
+                                isLoadingController.add(false);
+                              },
+                              icon: Icon(Icons.add)),
                         ],
                       ),
                       Padding(
@@ -639,7 +638,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                         child: TextField(
                           controller: addTestNameController,
                           textAlign: TextAlign.left,
-                          decoration: inputDec("exam_name".tr()),
+                          decoration: inputDec(label: "exam_name".tr()),
                           inputFormatters: [emojiRegex()],
                         ),
                       ),
@@ -679,7 +678,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             child: TextField(
                                 controller: addTestDateController,
                                 textAlign: TextAlign.left,
-                                decoration: inputDec("date".tr())),
+                                decoration: inputDec(label: "date".tr())),
                           ),
                         ),
                       ),
@@ -690,7 +689,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             keyboardType:
                                 TextInputType.numberWithOptions(decimal: true),
                             textAlign: TextAlign.left,
-                            decoration: inputDec("grade".tr())),
+                            decoration: inputDec(label: "grade".tr())),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -699,7 +698,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             keyboardType:
                                 TextInputType.numberWithOptions(decimal: true),
                             textAlign: TextAlign.left,
-                            decoration: inputDec("weight".tr())),
+                            decoration: inputDec(label: "weight".tr())),
                       ),
                       Text(errorMessage)
                     ],
@@ -779,7 +778,7 @@ Future dreamGradeC(BuildContext context) {
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
-                      decoration: inputDec("dream_grade".tr()),
+                      decoration: inputDec(label: "dream_grade".tr()),
                     ),
                   ),
                   Padding(
@@ -794,7 +793,7 @@ Future dreamGradeC(BuildContext context) {
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
-                      decoration: inputDec("dream _grade_weight".tr()),
+                      decoration: inputDec(label: "dream _grade_weight".tr()),
                     ),
                   ),
                   SizedBox(

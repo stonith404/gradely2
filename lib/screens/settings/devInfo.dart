@@ -35,7 +35,7 @@ class _DevInfoState extends State<DevInfo> {
             style: TextStyle(fontWeight: FontWeight.w300),
           ),
         ),
-        body: Column(
+        body: ListView(
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(15, 70, 15, 50),

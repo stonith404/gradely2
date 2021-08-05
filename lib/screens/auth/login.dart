@@ -1,37 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely/main.dart';
-import 'package:gradely/screens/main/chooseSemester.dart';
+import 'package:gradely/screens/auth/register.dart';
+import 'package:gradely/screens/auth/resetPassword.dart';
 import 'package:gradely/shared/FUNCTIONS.dart';
-
 import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
-import 'package:gradely/shared/loading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'register.dart';
 
-import 'resetPassword.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/services.dart';
+bool _obsecuredText = true;
 
-class LoginScreen extends StatefulWidget {
+class SignInPage extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignInPageState createState() => _SignInPageState();
 }
 
-TextEditingController _emailController = new TextEditingController();
-TextEditingController _passwordController = new TextEditingController();
-
-String _errorMessage = "";
-
-class _LoginScreenState extends State<LoginScreen> {
+class _SignInPageState extends State<SignInPage> {
   signInUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     FocusScope.of(context).unfocus();
     Future result = account.createSession(
-      email: _emailController.text,
-      password: _passwordController.text,
+      email: emailController.text,
+      password: passwordController.text,
     );
 
     setState(() {
@@ -51,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => HomeWrapper()),
       );
 
-      _passwordController.text = "";
+      passwordController.text = "";
       print(response);
     }).catchError((error) {
       setState(() {
@@ -61,145 +53,138 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void setState(fn) {
-    if (mounted) {
-      super.setState(fn);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
-      },
-      child: Scaffold(
-        backgroundColor: primaryColor,
-        appBar: AppBar(
-          leading: Container(),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: SvgPicture.asset("assets/images/logo.svg",
-              color: primaryColor, height: 30),
-        ),
-        body: isLoading
-            ? LoadingScreen()
-            : Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Spacer(
-                      flex: 2,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "welcome".tr(),
-                              style:
-                                  TextStyle(fontSize: 40, color: Colors.white),
-                            ),
-                            Text(
-                              "back".tr(),
-                              style: TextStyle(
-                                fontSize: 40,
-                                color: Colors.white,
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    Spacer(
-                      flex: 4,
-                    ),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                              keyboardType: TextInputType.emailAddress,
-                              controller: _emailController,
-                              textAlign: TextAlign.left,
-                              decoration: inputDecAuth("your_email".tr())),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                          controller: _passwordController,
-                          textAlign: TextAlign.left,
-                          obscureText: true,
-                          decoration: inputDecAuth("your_password".tr())),
-                    ),
-                    gradelyButton(
-                        onPressed: () async {
-                          isLoadingController.add(true);
-
-                          await signInUser();
-                          isLoadingController.add(false);
-                        },
-                        text: "sign_in".tr()),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      _errorMessage,
-                      style: TextStyle(color: Colors.red),
-                    ),
-                    Spacer(flex: 1),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterScreen()),
-                          );
-                        },
-                        child: Text("question_no_account".tr(),
-                            style: TextStyle(color: Colors.white))),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => ResetPW()),
-                          );
-                        },
-                        child: Text(
-                          "question_forgot_password".tr(),
-                          style: TextStyle(color: Colors.white),
-                        )),
-                    Spacer(
-                      flex: 3,
-                    ),
-                  ],
-                ),
+    darkModeColorChanger(context);
+    return Scaffold(
+      backgroundColor: defaultBGColor,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Stack(
+            alignment: AlignmentDirectional.bottomEnd,
+            children: [
+              Column(
+                children: [
+                  Container(
+                      alignment: AlignmentDirectional.center,
+                      color: primaryColor,
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      width: MediaQuery.of(context).size.width * 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/images/logo.svg",
+                                  color: Colors.white, height: 60),
+                              Text(" radely",
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ))
+                            ],
+                          ),
+                        ],
+                      )),
+                  //fix the small space
+                  Container(
+                    width: MediaQuery.of(context).size.width * 1,
+                    height: 1,
+                    color: defaultBGColor,
+                  )
+                ],
               ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topStart: Radius.circular(20),
+                    topEnd: Radius.circular(20),
+                  ),
+                  color: defaultBGColor,
+                ),
+                height: MediaQuery.of(context).size.height * 0.05,
+              )
+            ],
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "sign_in".tr(),
+                        style: title,
+                      ),
+                    ],
+                  ),
+                  Spacer(flex: 10),
+                  TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      controller: emailController,
+                      textAlign: TextAlign.left,
+                      decoration: inputDec(label: "Deine Email")),
+                  Spacer(flex: 5),
+                  TextField(
+                      controller: passwordController,
+                      textAlign: TextAlign.left,
+                      obscureText: _obsecuredText,
+                      decoration: inputDec(
+                        label: "Dein Passwort",
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _obsecuredText = !_obsecuredText;
+                            });
+                          },
+                          icon: Icon(Icons.remove_red_eye,
+                              color:
+                                  _obsecuredText ? Colors.grey : primaryColor),
+                        ),
+                      )),
+                  Spacer(flex: 10),
+                  gradelyButton(
+                      text: "Anmelden",
+                      onPressed: () async {
+                        await signInUser();
+                        passwordController.text = "";
+                      }),
+                  Spacer(flex: 35),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterScreen()),
+                        );
+                      },
+                      child: Text(
+                        "question_no_account".tr(),
+                        style: TextStyle(color: primaryColor),
+                      )),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ResetPW()),
+                        );
+                      },
+                      child: Text(
+                        "question_forgot_password".tr(),
+                        style: TextStyle(color: primaryColor),
+                      )),
+                  Spacer(flex: 5),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
-}
-
-InputDecoration inputDecAuth(_label) {
-  return InputDecoration(
-    disabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-        borderSide: BorderSide.none),
-    filled: true,
-    labelText: _label,
-    fillColor: Color(0xFF554dd1),
-    labelStyle: TextStyle(fontSize: 17.0, height: 0.8, color: Colors.white),
-    focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-        borderSide: BorderSide.none),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-      borderSide: BorderSide.none,
-    ),
-  );
 }

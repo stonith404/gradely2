@@ -22,8 +22,7 @@ class PlatformList extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: ListView(
           children: [
             Image.asset(
               "assets/images/$brightness/sync.png",

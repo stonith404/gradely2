@@ -65,7 +65,6 @@ class _ContactScreenState extends State<ContactScreen> {
               content: Text("${"contact_success_text".tr()} ${user.email}."),
               actions: <Widget>[
                 gradelyButton(
-              
                   text: "ok",
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -97,7 +96,6 @@ class _ContactScreenState extends State<ContactScreen> {
               content: Text("error_contact".tr()),
               actions: <Widget>[
                 gradelyButton(
-        
                   text: "ok",
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -128,16 +126,14 @@ class _ContactScreenState extends State<ContactScreen> {
                       color: primaryColor, fontWeight: FontWeight.w800))),
           body: Padding(
             padding: const EdgeInsets.all(24.0),
-            child: Column(
+            child: ListView(
               children: [
-                SizedBox(height: 20),
-                Text("settings_contact_description".tr()),
-                SizedBox(height: 20),
+                SizedBox(height: 40),
                 Container(
                   child: TextField(
                       controller: contactMessage,
                       maxLines: 8,
-                      decoration: inputDec("your_message".tr())),
+                      decoration: inputDec(label: "your_message".tr())),
                 ),
                 SizedBox(height: 50),
                 gradelyButton(

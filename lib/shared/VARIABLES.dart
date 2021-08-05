@@ -48,9 +48,13 @@ SharedPreferences prefs;
 var appBarTextTheme =
     TextStyle(color: primaryColor, fontWeight: FontWeight.w800);
 
+var title =
+    TextStyle(color: primaryColor, fontWeight: FontWeight.w600, fontSize: 21);
+
 //text controllers
 
 TextEditingController addLessonController = new TextEditingController();
+
 TextEditingController changeEmailController = new TextEditingController();
 TextEditingController changeDisplayName = new TextEditingController();
 TextEditingController addSemesterController = new TextEditingController();
@@ -66,6 +70,7 @@ TextEditingController editTestDateController = new TextEditingController();
 TextEditingController contactMessage = new TextEditingController();
 TextEditingController dreamGradeGrade = new TextEditingController();
 TextEditingController dreamGradeWeight = new TextEditingController();
+TextEditingController emailController = new TextEditingController();
 TextEditingController passwordController = new TextEditingController();
 TextEditingController passwordPlaceholder = new TextEditingController();
 TextEditingController editTestInfoName = new TextEditingController();

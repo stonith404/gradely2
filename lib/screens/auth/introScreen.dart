@@ -56,7 +56,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   onPressed: () async {
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      MaterialPageRoute(builder: (context) => SignInPage()),
                       (Route<dynamic> route) => false,
                     );
                   },
@@ -111,7 +111,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 child: TextField(
                     controller: addSemesterController,
                     textAlign: TextAlign.left,
-                    decoration: inputDec("Semester Name".tr())),
+                    decoration: inputDec(label: "Semester Name".tr())),
               ),
             ],
           ),

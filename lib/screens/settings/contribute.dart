@@ -85,7 +85,7 @@ Widget whiteContainer({List<Widget> children}) {
         borderRadius: BorderRadius.all(
           Radius.circular(10),
         ),
-        color: Colors.white),
+        color: bwColor),
     child: Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(

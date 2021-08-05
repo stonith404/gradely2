@@ -76,7 +76,7 @@ class MaterialWrapper extends StatelessWidget {
         ),
         brightness: Brightness.light,
         primaryColor: primaryColor,
-        scaffoldBackgroundColor: Color(0xFFE5E8F2),
+        scaffoldBackgroundColor: Color(0xFFF2F2F7),
         backgroundColor: Colors.grey[300],
       ),
       darkTheme: ThemeData(
@@ -107,19 +107,24 @@ class HomeWrapper extends StatefulWidget {
 }
 
 class _State extends State<HomeWrapper> {
+  aw() async {
+    await getUserInfo();
+  }
+
   @override
   void initState() {
     super.initState();
-
+    aw();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   }
 
   @override
   Widget build(BuildContext context) {
+    client.setLocale(Localizations.localeOf(context).toString());
     if (prefs.getBool("signedIn")) {
       return SemesterDetail();
     } else {
-      return LoginScreen();
+      return SignInPage();
     }
   }
 }

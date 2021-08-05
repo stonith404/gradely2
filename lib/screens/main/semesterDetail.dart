@@ -157,7 +157,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                 },
                 body: Column(children: [
                   SizedBox(
-                    height: 30,
+                    height: 15,
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -244,6 +244,9 @@ class _SemesterDetailState extends State<SemesterDetail> {
                         ],
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 15,
                   ),
                   Expanded(
                     child: ListView.builder(
@@ -495,7 +498,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                   inputFormatters: [emojiRegex()],
                   controller: addLessonController,
                   textAlign: TextAlign.left,
-                  decoration: inputDec("lesson_name".tr())),
+                  decoration: inputDec(label: "lesson_name".tr())),
               SizedBox(
                 height: 40,
               ),
@@ -630,7 +633,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                   controller: renameTestWeightController,
                   inputFormatters: [emojiRegex()],
                   textAlign: TextAlign.left,
-                  decoration: inputDec("lesson_name".tr())),
+                  decoration: inputDec(label: "lesson_name".tr())),
               SizedBox(
                 height: 40,
               ),

@@ -260,7 +260,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                 controller: renameSemesterController,
                 textAlign: TextAlign.left,
                 inputFormatters: [emojiRegex()],
-                decoration: inputDec("Semester Name")),
+                decoration: inputDec(label: "Semester Name")),
             SizedBox(
               height: 40,
             ),
@@ -307,7 +307,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                 inputFormatters: [emojiRegex()],
                 controller: addSemesterController,
                 textAlign: TextAlign.left,
-                decoration: inputDec("Semester Name")),
+                decoration: inputDec(label: "Semester Name")),
             SizedBox(
               height: 20,
             ),
