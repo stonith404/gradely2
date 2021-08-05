@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "w.png",
+      "filename" : "gradely2_macOS_icon.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "w-1.png",
+      "filename" : "gradely2_macOS_icon-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "w-2.png",
+      "filename" : "gradely2_macOS_icon-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
