@@ -153,20 +153,20 @@ class _LessonsDetailState extends State<LessonsDetail> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "emty_lesson_p1".tr(),
+                                  "empty_lesson_p1".tr() + " 🔎\n",
                                   style: TextStyle(
                                       fontSize: 20,
-                                      fontWeight: FontWeight.w900),
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("emty_lesson_p2".tr()),
+                                    Text("empty_lesson_p2".tr() + " "),
                                     Icon(
                                       FontAwesome5Solid.plus,
                                       size: 15,
                                     ),
-                                    Text("emty_lesson_p3".tr())
+                                    Text(" " + "empty_lesson_p3".tr())
                                   ],
                                 ),
                               ],
@@ -808,7 +808,7 @@ Future dreamGradeC(BuildContext context) {
                   ),
                   Row(
                     children: [
-                      Text("dream_grade_result_text".tr()),
+                      Text("dream_grade_result_text".tr() + "  "),
                       Text((() {
                         if (dreamgradeResult.isInfinite) {
                           return "-";

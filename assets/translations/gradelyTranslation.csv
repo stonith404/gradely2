@@ -89,9 +89,9 @@ error_email_in_use,an account with this email already exists. Try again.,Mit die
 error_wrong_password,this password is wrong. Try again.,Falsches Passwort. Versuche es erneut.
 error_user_not_found,an account whith this email doesn't exist. Try again.,Ein Account mit dieser Email existiert nicht. Versuche es erneut.
 rename_semester,rename semester,Semester unbennen
-emty_lesson_p1,it's really empty here.,Es ist sehr leer hier
-emty_lesson_p2,Click the ,Klicke auf 
-emty_lesson_p3,to add your first grade.,um eine Note hinzuzufügen.
+empty_lesson_p1,it's really empty here.,Es ist sehr leer hier
+empty_lesson_p2,Click the,Klicke auf
+empty_lesson_p3,to add your first grade.,um eine Note hinzuzufügen.
 error_stats_date_badly_formatted,your grade dates are badly formatted. only this format is accepted:yyyy.MM.dd. please rechoose the dates in your grades then you can see your statistics.,Deine Daten zu den Noten sind falsch formatiert. Nur dieses Format ist akzeptiert:yyyy.MM.dd. Bitte wähle das Datum für jede Note erneut dann kannst du deine Statistiken sehen.
 error_stats_contain_no_date,some of your grades don't have dates. please add a date to every of your grade to see your statistics.,Ein paar Noten haben kein Datum. Bitte füge ein Datum hinzu um deine Statistiken zu sehen.
 statistics,statistics,Statistiken

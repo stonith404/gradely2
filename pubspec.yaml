@@ -15,11 +15,11 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.4.1+16
+version: 1.0.0+2
 #Latest builds:
-#ios: 1.4.1+5
-#MacOS  1.4.1+21
-#android: 14
+#ios: 1.0.0
+#MacOS  1.1.1+1
+#android: 1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -103,9 +103,8 @@ flutter:
           weight: 700
 
 
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+#1. flutter build windows
+#2. flutter pub run msix:create
 msix_config:
   store: true
   display_name: Gradely 2

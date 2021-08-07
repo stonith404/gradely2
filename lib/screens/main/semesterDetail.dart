@@ -31,7 +31,6 @@ class SemesterDetail extends StatefulWidget {
 }
 
 class _SemesterDetailState extends State<SemesterDetail> {
-
   appwriteDB(Function function) {}
 
   getLessons() async {
@@ -110,7 +109,6 @@ class _SemesterDetailState extends State<SemesterDetail> {
     if (user.choosenSemester == "noSemesterChoosed") {
       return ChooseSemester();
     } else {
-      print(_averageOfSemester);
       return Scaffold(
           body: Padding(
               padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
@@ -188,7 +186,8 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                       Text(
                                           _averageOfSemester.isNaN
                                               ? "-"
-                                              : _averageOfSemester.toString(),
+                                              : _averageOfSemester
+                                                  .toStringAsFixed(2),
                                           style: TextStyle(
                                             fontSize: 20,
                                             color: Colors.white,

@@ -32,9 +32,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
         collection: collectionUser,
         name: "semesterList",
         filters: ["uid=${user.id}"]);
-    print(response);
     response = jsonDecode(response.toString())["documents"][0]["semesters"];
-    print(response);
     bool _error = false;
     int index = -1;
 
@@ -310,7 +308,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
               height: 20,
             ),
             gradelyButton(
-                text: "edit".tr(),
+                text: "add".tr(),
                 onPressed: () async {
                   isLoadingController.add(true);
                   noNetworkDialog(context);

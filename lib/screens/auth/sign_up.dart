@@ -39,9 +39,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       prefs.setBool("signedIn", true);
       passwordController.text = "";
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => IntroScreen()),
+        (Route<dynamic> route) => false,
       );
     }).catchError((error) {
       errorSuccessDialog(context: context, error: true, text: error.message);
