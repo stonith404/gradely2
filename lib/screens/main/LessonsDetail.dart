@@ -249,8 +249,10 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                             return "  -";
                                                           } else {
                                                             return " " +
-                                                                gradeList[index]
-                                                                    .date
+                                                                formatDateForClient(gradeList[
+                                                                            index]
+                                                                        .date
+                                                                        .toString())
                                                                     .toString();
                                                           }
                                                         }())),
@@ -435,7 +437,8 @@ class _LessonsDetailState extends State<LessonsDetail> {
     editTestInfoName.text = selectedTest.name;
     editTestInfoWeight.text = selectedTest.weight.toString();
 
-    editTestDateController.text = selectedTest.date.toString();
+    editTestDateController.text =
+        formatDateForClient(selectedTest.date.toString());
 
     return showCupertinoModalBottomSheet(
       backgroundColor: defaultBGColor,
@@ -469,7 +472,8 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                   ),
                                   "weight": double.parse(editTestInfoWeight.text
                                       .replaceAll(",", ".")),
-                                  "date": editTestDateController.text
+                                  "date": formatDateForDB(
+                                      editTestDateController.text)
                                 });
 
                             await getTests();
@@ -524,12 +528,8 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             });
                         if (picked != null && picked != selectedDate)
                           setState(() {
-                            var _formatted = DateTime.parse(picked.toString());
                             editTestDateController.text =
-                                "${_formatted.year}.${_formatted.month}." +
-                                    (_formatted.day.toString().length > 1
-                                        ? _formatted.day.toString()
-                                        : "0${_formatted.day}");
+                                formatDateForClient(picked);
                           });
                       },
                       child: AbsorbPointer(
@@ -613,7 +613,8 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                     "weight": double.parse(
                                         addTestWeightController.text
                                             .replaceAll(",", ".")),
-                                    "date": addTestDateController.text
+                                    "date": formatDateForDB(
+                                        addTestDateController.text)
                                   },
                                 );
 
@@ -672,13 +673,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
                             if (picked != null && picked != selectedDate)
                               setState(() {
-                                var _formatted =
-                                    DateTime.parse(picked.toString());
+                                DateTime.parse(picked.toString());
                                 addTestDateController.text =
-                                    "${_formatted.year}.${_formatted.month}." +
-                                        (_formatted.day.toString().length > 1
-                                            ? _formatted.day.toString()
-                                            : "0${_formatted.day}");
+                                    formatDateForClient(picked);
                               });
                           },
                           child: AbsorbPointer(

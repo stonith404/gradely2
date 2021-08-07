@@ -8,6 +8,7 @@ platforms,platforms,Plattformen
 grade_result,grades results,Noten Resultate
 weight,weight,Gewichtung
 add_exam,add exam,Test hinzufügen
+grade,grade,Note
 exam_name,exam name,Test Name
 settings_platforms_description,the platforms and synchronization make gradely unique. you can save your grades here and at the same time your grades are on your other device!,"Die verfügbarkeit und Synchronisation macht Gradely einzigartig. Du kannst deine Noten hier hinzufügen und zur selben Zeit, sind deine Noten auf all deinen anderen Geräten!"
 delete,delete,löschen  

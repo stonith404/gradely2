@@ -194,7 +194,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                         Future result = account.createRecovery(
                                           email: user.email,
                                           url:
-                                              'https://aw.cloud.eliasschneider.com',
+                                              'https://user.gradelyapp.com?mode=passwordReset',
                                         );
                                         result.then((response) {
                                           print(response);

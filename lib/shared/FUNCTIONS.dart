@@ -245,14 +245,51 @@ getPluspoints(num value) {
   return plusPoints;
 }
 
-
 //formats the date to the supported date
 
-formatDate(picked) {
-  var _formatted = DateTime.parse(picked.toString());
-  return "${_formatted.year}.${_formatted.month}.${_formatted.day}";
+formatDateForDB(date) {
+  try {
+    var _formatted = DateTime.parse(date.toString());
+    print(_formatted.month.toString().length);
+    return "${_formatted.year}.${(() {
+      if ((_formatted.month).toString().length == 1) {
+        return NumberFormat("00").format(_formatted.month);
+      } else {
+        return _formatted.month;
+      }
+    }())}.${(() {
+      if ((_formatted.day).toString().length == 1) {
+        return NumberFormat("00").format(_formatted.day);
+      } else {
+        return _formatted.day;
+      }
+    }())}";
+  } catch (_) {
+    return "${date.substring(6, 10)}.${date.substring(3, 5)}.${date.substring(0, 2)}";
+  }
 }
 
+formatDateForClient(date) {
+  try {
+    var _formatted = DateTime.parse(date.toString());
+    print(_formatted.month.toString().length);
+    return "${(() {
+      if ((_formatted.day).toString().length == 1) {
+        return NumberFormat("00").format(_formatted.day);
+      } else {
+        return _formatted.day;
+      }
+    }())}.${(() {
+      if ((_formatted.month).toString().length == 1) {
+        return NumberFormat("00").format(_formatted.month);
+      } else {
+        return _formatted.month;
+      }
+    }())}.${_formatted.year}";
+  } catch (_) {
+    return "${date.substring(8, 10)}.${date.substring(5, 7)}.${date.substring(0, 4)}";
+  }
+}
 //launch url with the package "url launcher"
 
 void launchURL(_url) async =>
