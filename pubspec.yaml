@@ -19,7 +19,7 @@ version: 1.0.0+2
 #Latest builds:
 #ios: 1.0.0
 #MacOS  1.1.1+1
-#android: 1
+#android: 2
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -46,7 +46,7 @@ dependencies:
   shared_preferences: ^2.0.6
   emoji_chooser:
   syncfusion_flutter_charts: ^19.1.66+1
-  flutter_inapp_purchase: ^5.0.1
+  flutter_inapp_purchase: ^5.0.2
   flutter_spinkit: ^5.0.0
   another_flushbar: ^1.10.24
   flutter_svg: ^0.22.0

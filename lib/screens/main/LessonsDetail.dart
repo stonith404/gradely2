@@ -91,7 +91,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
               response[index]["name"],
               double.parse(response[index]["grade"].toString()),
               double.parse(response[index]["weight"].toString()),
-              response[index]["date"],
+              response[index]["date"] ?? "-",
             ),
           );
         });
@@ -472,8 +472,14 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                   ),
                                   "weight": double.parse(editTestInfoWeight.text
                                       .replaceAll(",", ".")),
-                                  "date": formatDateForDB(
-                                      editTestDateController.text)
+                                  "date": (() {
+                                    try {
+                                      return formatDateForDB(
+                                          editTestDateController.text);
+                                    } catch (_) {
+                                      return "-";
+                                    }
+                                  }())
                                 });
 
                             await getTests();
@@ -607,14 +613,22 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                   parentPropertyType: "append",
                                   data: {
                                     "name": addTestNameController.text,
-                                    "grade": double.parse(addTestGradeController
-                                        .text
-                                        .replaceAll(",", ".")),
-                                    "weight": double.parse(
-                                        addTestWeightController.text
-                                            .replaceAll(",", ".")),
-                                    "date": formatDateForDB(
-                                        addTestDateController.text)
+                                    "grade": (() {
+                                      double.parse(addTestGradeController.text
+                                          .replaceAll(",", "."));
+                                    }()),
+                                    "weight": (() {
+                                      double.parse(addTestWeightController.text
+                                          .replaceAll(",", "."));
+                                    }()),
+                                    "date": (() {
+                                      try {
+                                        return formatDateForDB(
+                                            addTestDateController.text);
+                                      } catch (_) {
+                                        return null;
+                                      }
+                                    }())
                                   },
                                 );
 

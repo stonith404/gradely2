@@ -270,24 +270,28 @@ formatDateForDB(date) {
 }
 
 formatDateForClient(date) {
-  try {
-    var _formatted = DateTime.parse(date.toString());
-    print(_formatted.month.toString().length);
-    return "${(() {
-      if ((_formatted.day).toString().length == 1) {
-        return NumberFormat("00").format(_formatted.day);
-      } else {
-        return _formatted.day;
-      }
-    }())}.${(() {
-      if ((_formatted.month).toString().length == 1) {
-        return NumberFormat("00").format(_formatted.month);
-      } else {
-        return _formatted.month;
-      }
-    }())}.${_formatted.year}";
-  } catch (_) {
-    return "${date.substring(8, 10)}.${date.substring(5, 7)}.${date.substring(0, 4)}";
+  if (date == "-") {
+    return "-";
+  } else {
+    try {
+      var _formatted = DateTime.parse(date.toString());
+      print(_formatted.month.toString().length);
+      return "${(() {
+        if ((_formatted.day).toString().length == 1) {
+          return NumberFormat("00").format(_formatted.day);
+        } else {
+          return _formatted.day;
+        }
+      }())}.${(() {
+        if ((_formatted.month).toString().length == 1) {
+          return NumberFormat("00").format(_formatted.month);
+        } else {
+          return _formatted.month;
+        }
+      }())}.${_formatted.year}";
+    } catch (_) {
+      return "${date.substring(8, 10)}.${date.substring(5, 7)}.${date.substring(0, 4)}";
+    }
   }
 }
 //launch url with the package "url launcher"

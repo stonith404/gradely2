@@ -32,8 +32,9 @@ class _GradelyPlusState extends State<GradelyPlus> {
   }
 
   getProducts() async {
-    if ( Platform.isIOS || Platform.isAndroid) {
-      await FlutterInappPurchase.instance.initConnection;
+    if (Platform.isIOS || Platform.isAndroid) {
+      var result = await FlutterInappPurchase.instance.initConnection;
+      print('result: $result');
       await FlutterInappPurchase.instance.clearTransactionIOS();
       iapList = (await FlutterInappPurchase.instance.getProducts([
         "com.eliasschneider.gradely2.iap.gradelyplus",
@@ -132,7 +133,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
         elevation: 0,
         title: Text("Gradely Plus", style: appBarTextTheme),
       ),
-      body: iapList.isEmpty && (Platform.isIOS || Platform.isAndroid  )
+      body: iapList.isEmpty && (Platform.isIOS || Platform.isAndroid)
           ? Center(
               child: CircularProgressIndicator(
                 color: primaryColor,
