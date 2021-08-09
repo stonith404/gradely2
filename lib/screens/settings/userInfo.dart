@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely/screens/auth/sign_in.dart';
-import 'package:gradely/shared/FUNCTIONS.dart';
-import 'package:gradely/shared/VARIABLES.dart';
-import 'package:gradely/shared/WIDGETS.dart';
-import 'package:gradely/shared/defaultWidgets.dart';
+import 'package:gradely2/screens/auth/sign_in.dart';
+import 'package:gradely2/shared/FUNCTIONS.dart';
+import 'package:gradely2/shared/VARIABLES.dart';
+import 'package:gradely2/shared/WIDGETS.dart';
+import 'package:gradely2/shared/defaultWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely/main.dart';
+import 'package:gradely2/main.dart';
 import 'package:flutter/services.dart';
 
 class UserInfoScreen extends StatefulWidget {

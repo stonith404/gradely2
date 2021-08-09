@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gradely/shared/VARIABLES.dart';
-import 'package:gradely/shared/defaultWidgets.dart';
+import 'package:gradely2/shared/VARIABLES.dart';
+import 'package:gradely2/shared/defaultWidgets.dart';
 
 class DevInfo extends StatefulWidget {
   @override
@@ -8,9 +8,7 @@ class DevInfo extends StatefulWidget {
 }
 
 class _DevInfoState extends State<DevInfo> {
-
   String _homeScreenText = "";
-
 
   @override
   Widget build(BuildContext context) {

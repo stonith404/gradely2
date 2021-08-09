@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gradely/shared/VARIABLES.dart';
-import 'package:gradely/shared/defaultWidgets.dart';
+import 'package:gradely2/shared/VARIABLES.dart';
+import 'package:gradely2/shared/defaultWidgets.dart';
 import 'settings.dart';
 import 'package:easy_localization/easy_localization.dart';
 

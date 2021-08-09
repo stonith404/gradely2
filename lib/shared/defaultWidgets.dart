@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely2/shared/VARIABLES.dart';
 
 RoundedRectangleBorder defaultRoundedCorners() {
   return RoundedRectangleBorder(

@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely/screens/main/chooseSemester.dart';
-import 'package:gradely/shared/CLASSES.dart';
-import 'package:gradely/shared/VARIABLES.dart';
-import 'package:gradely/shared/WIDGETS.dart';
+import 'package:gradely2/screens/main/chooseSemester.dart';
+import 'package:gradely2/shared/CLASSES.dart';
+import 'package:gradely2/shared/VARIABLES.dart';
+import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 

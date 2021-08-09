@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
-import 'package:gradely/shared/CLASSES.dart';
+import 'package:gradely2/shared/CLASSES.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 List<Lesson> lessonList = [];
@@ -10,7 +10,6 @@ List<Semester> semesterList = [];
 
 User user;
 SharedPreferences prefs;
-
 
 //strings
 String brightness = "light";
@@ -39,8 +38,6 @@ final collectionUser = "60f40d07accb6";
 final collectionSemester = "60f40d1b66424";
 final collectionLessons = "60f40d0ed5da4";
 final collectionGrades = "60f71651520e5";
-
-
 
 //vars for customize
 var appBarTextTheme =

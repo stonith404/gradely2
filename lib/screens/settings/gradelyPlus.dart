@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
-import 'package:gradely/main.dart';
+import 'package:gradely2/main.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely/shared/VARIABLES.dart';
-import 'package:gradely/shared/WIDGETS.dart';
-import 'package:gradely/shared/defaultWidgets.dart';
+import 'package:gradely2/shared/VARIABLES.dart';
+import 'package:gradely2/shared/WIDGETS.dart';
+import 'package:gradely2/shared/defaultWidgets.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
-import 'package:gradely/shared/loading.dart';
+import 'package:gradely2/shared/loading.dart';
 
 class GradelyPlus extends StatefulWidget {
   @override

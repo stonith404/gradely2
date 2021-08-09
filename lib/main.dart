@@ -2,10 +2,10 @@ import 'package:appwrite/appwrite.dart' hide Locale;
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gradely/screens/auth/sign_in.dart';
-import 'package:gradely/screens/main/semesterDetail.dart';
-import 'package:gradely/shared/FUNCTIONS.dart';
-import 'package:gradely/shared/VARIABLES.dart';
+import 'package:gradely2/screens/auth/sign_in.dart';
+import 'package:gradely2/screens/main/semesterDetail.dart';
+import 'package:gradely2/shared/FUNCTIONS.dart';
+import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
