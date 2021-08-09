@@ -291,7 +291,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                           context: context,
                                           title: "warning".tr(),
                                           text:
-                                              '${"delete_confirmation_p1'".tr()} "${lessonList[index].name}" ${"delete_confirmation_p2'".tr()}',
+                                              '${"delete_confirmation_p1".tr()} "${lessonList[index].name}" ${"delete_confirmation_p2".tr()}',
                                           actions: <Widget>[
                                             CupertinoButton(
                                               child: Text(

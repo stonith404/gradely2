@@ -613,14 +613,15 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                   parentPropertyType: "append",
                                   data: {
                                     "name": addTestNameController.text,
-                                    "grade": (() {
+                                    "grade": 
                                       double.parse(addTestGradeController.text
-                                          .replaceAll(",", "."));
-                                    }()),
-                                    "weight": (() {
+                                          .replaceAll(",", "."))
+                                
+                                ,
+                                    "weight": 
                                       double.parse(addTestWeightController.text
-                                          .replaceAll(",", "."));
-                                    }()),
+                                          .replaceAll(",", "."))
+                                 ,
                                     "date": (() {
                                       try {
                                         return formatDateForDB(
