@@ -9,6 +9,7 @@ import 'package:gradely/shared/VARIABLES.dart';
 import 'package:gradely/shared/WIDGETS.dart';
 import 'package:gradely/shared/defaultWidgets.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
+import 'package:gradely/shared/loading.dart';
 
 class GradelyPlus extends StatefulWidget {
   @override
@@ -133,10 +134,10 @@ class _GradelyPlusState extends State<GradelyPlus> {
         title: Text("Gradely Plus", style: appBarTextTheme),
       ),
       body: iapList.isEmpty && (Platform.isIOS || Platform.isAndroid)
-          ? Center(
-              child: CircularProgressIndicator(
-                color: primaryColor,
-              ),
+          ? Column(
+              children: [
+                GradelyLoadingIndicator(),
+              ],
             )
           : SingleChildScrollView(
               child: Padding(

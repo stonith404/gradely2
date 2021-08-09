@@ -489,9 +489,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
                               isLoadingController.add(false);
                             } catch (_) {
                               isLoadingController.add(false);
-                              gradelyDialog(
+                              errorSuccessDialog(
                                   context: context,
-                                  title: "error".tr(),
+                                  error: true,
                                   text: "error_grade_badly_formatted".tr());
                             }
                           },
@@ -647,9 +647,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                   isLoadingController.add(false);
                                 } catch (_) {
                                   isLoadingController.add(false);
-                                  gradelyDialog(
+                                  errorSuccessDialog(
                                       context: context,
-                                      title: "error".tr(),
+                                      error: true,
                                       text: "error_grade_badly_formatted".tr());
                                 }
                               },

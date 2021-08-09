@@ -66,7 +66,7 @@ class MaterialWrapper extends StatelessWidget {
             style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
         )),
-        dialogBackgroundColor: Colors.grey[300],
+        dialogBackgroundColor: Color(0xFFF2F2F7),
         appBarTheme: AppBarTheme(
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.white),

@@ -46,7 +46,7 @@ try_again,try again,Erneut versuchen
 restart_intro,restart Intro,Intro wiederholen
 contact_developer,Contact developer,Entwickler kontaktieren
 your_message,your message,Deine Nachricht
-send, send, senden
+send,send,senden
 edit,edit,bearbeiten
 sent,sent!,gesendet!
 or,or,oder
@@ -104,11 +104,12 @@ gradely_plus_explain_products,No matter what you buy you get the exact same feat
 coffee,coffee,Kaffee
 ice_coffee,ice coffe,Eis Kaffee
 success,success,Erfolgreich
+email_updated,Your email was updated,Deine Email wurde aktualisiert
 name_updated,Your name was updated,Dein Name wurde aktualisiert
-no_network_offline_loading,It looks like you're offline and your grades aren't stored in the cache.,"Es sieht so aus, wie du offline bist und deine Noten nicht im Cache gespeichert sind."
+no_network_offline_loading,It looks like you don't have a connection to the server and your data isnt't stored offline. Try again later.,"Es sieht so aus, dass du keine Verbindung zum Server hast und deine Daten nicht offline gespeichert sind. Versuche es später erneut."
 network_needed_title,Network Connection,Internet Verbindung
 network_needed_text,"To use this feature you need a network connection.","Um diese Funktion zu nutzen, brauchst du eine Internet Verbindung."
-app_info,App Information, App Informationen
+app_info,App Information,App Informationen
 server_location,Server Location,Server Standort
 app_language,App Language,App Sprache
 server_connection,Server Connection,Server Verbindung

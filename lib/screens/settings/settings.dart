@@ -83,7 +83,10 @@ Future settingsScreen(BuildContext context) {
                 ),
                 Text(
                   "settings".tr(),
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 25,
+                  ),
                 ),
                 SizedBox(
                   height: 20,

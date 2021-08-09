@@ -55,7 +55,7 @@ class _LoadingScreenState extends State<LoadingScreen>
           backgroundColor: defaultBGColor,
           elevation: 0,
           title: SvgPicture.asset("assets/images/logo.svg",
-                          color: primaryColor, height: 30),
+              color: primaryColor, height: 30),
           leading: Transform(
             alignment: Alignment.center,
             transform: Matrix4.rotationY(math.pi),
@@ -193,6 +193,7 @@ class GradelyLoadingIndicator extends StatefulWidget {
   _GradelyLoadingIndicatorState createState() =>
       _GradelyLoadingIndicatorState();
 }
+
 class _GradelyLoadingIndicatorState extends State<GradelyLoadingIndicator> {
   bool show = false;
   Timer timer;
@@ -230,6 +231,7 @@ class _GradelyLoadingIndicatorState extends State<GradelyLoadingIndicator> {
               show
                   ? Text(
                       "no_network_offline_loading".tr(),
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           color: primaryColor,
                           fontSize: 15,

@@ -11,8 +11,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely/main.dart';
 import 'package:flutter/services.dart';
 
-String _password = "";
-
 class UserInfoScreen extends StatefulWidget {
   @override
   _UserInfoScreenState createState() => _UserInfoScreenState();
@@ -50,21 +48,27 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               TextButton(
                 child: Text("ok"),
                 onPressed: () async {
-                  _password = passwordController.text;
+                  passwordController.text;
 
-                  Navigator.of(context).pop();
                   try {
                     await account.updateEmail(
                       email: _email,
-                      password: _password,
+                      password: passwordController.text,
                     );
-                    getUserInfo();
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeWrapper()),
-                    );
-                  } catch (e) {}
+                    Navigator.of(context).pop();
+                    errorSuccessDialog(
+                        context: context,
+                        error: false,
+                        text: "name_updated".tr());
+                  } catch (e) {
+                    print(e.message);
+                    Navigator.of(context).pop();
+                    errorSuccessDialog(
+                        context: context,
+                        error: true,
+                        text: "error_unknown".tr());
+                  }
+                  passwordController.text = "";
                 },
               ),
             ],
