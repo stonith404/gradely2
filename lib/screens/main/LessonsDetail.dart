@@ -462,29 +462,38 @@ class _LessonsDetailState extends State<LessonsDetail> {
                           onPressed: () async {
                             isLoadingController.add(true);
                             noNetworkDialog(context);
-                            await database.updateDocument(
-                                collectionId: collectionGrades,
-                                documentId: selectedTest.id,
-                                data: {
-                                  "name": editTestInfoName.text,
-                                  "grade": double.parse(
-                                    editTestInfoGrade.text.replaceAll(",", "."),
-                                  ),
-                                  "weight": double.parse(editTestInfoWeight.text
-                                      .replaceAll(",", ".")),
-                                  "date": (() {
-                                    try {
-                                      return formatDateForDB(
-                                          editTestDateController.text);
-                                    } catch (_) {
-                                      return "-";
-                                    }
-                                  }())
-                                });
-
-                            await getTests();
-                            Navigator.of(context).pop();
-                            isLoadingController.add(false);
+                            try {
+                              await database.updateDocument(
+                                  collectionId: collectionGrades,
+                                  documentId: selectedTest.id,
+                                  data: {
+                                    "name": editTestInfoName.text,
+                                    "grade": double.parse(
+                                      editTestInfoGrade.text
+                                          .replaceAll(",", "."),
+                                    ),
+                                    "weight": double.parse(editTestInfoWeight
+                                        .text
+                                        .replaceAll(",", ".")),
+                                    "date": (() {
+                                      try {
+                                        return formatDateForDB(
+                                            editTestDateController.text);
+                                      } catch (_) {
+                                        return "-";
+                                      }
+                                    }())
+                                  });
+                              await getTests();
+                              Navigator.of(context).pop();
+                              isLoadingController.add(false);
+                            } catch (_) {
+                              isLoadingController.add(false);
+                              gradelyDialog(
+                                  context: context,
+                                  title: "error".tr(),
+                                  text: "error_grade_badly_formatted".tr());
+                            }
                           },
                           icon: Icon(Icons.edit)),
                     ],
@@ -606,38 +615,43 @@ class _LessonsDetailState extends State<LessonsDetail> {
                               onPressed: () async {
                                 isLoadingController.add(true);
                                 noNetworkDialog(context);
-                                await database.createDocument(
-                                  collectionId: collectionGrades,
-                                  parentDocument: selectedLesson,
-                                  parentProperty: "grades",
-                                  parentPropertyType: "append",
-                                  data: {
-                                    "name": addTestNameController.text,
-                                    "grade": 
-                                      double.parse(addTestGradeController.text
-                                          .replaceAll(",", "."))
-                                
-                                ,
-                                    "weight": 
-                                      double.parse(addTestWeightController.text
-                                          .replaceAll(",", "."))
-                                 ,
-                                    "date": (() {
-                                      try {
-                                        return formatDateForDB(
-                                            addTestDateController.text);
-                                      } catch (_) {
-                                        return null;
-                                      }
-                                    }())
-                                  },
-                                );
+                                try {
+                                  await database.createDocument(
+                                    collectionId: collectionGrades,
+                                    parentDocument: selectedLesson,
+                                    parentProperty: "grades",
+                                    parentPropertyType: "append",
+                                    data: {
+                                      "name": addTestNameController.text,
+                                      "grade": double.parse(
+                                          addTestGradeController.text
+                                              .replaceAll(",", ".")),
+                                      "weight": double.parse(
+                                          addTestWeightController.text
+                                              .replaceAll(",", ".")),
+                                      "date": (() {
+                                        try {
+                                          return formatDateForDB(
+                                              addTestDateController.text);
+                                        } catch (_) {
+                                          return null;
+                                        }
+                                      }())
+                                    },
+                                  );
 
-                                await getTests();
-                                addLessonController.text = "";
+                                  await getTests();
+                                  addLessonController.text = "";
 
-                                Navigator.of(context).pop();
-                                isLoadingController.add(false);
+                                  Navigator.of(context).pop();
+                                  isLoadingController.add(false);
+                                } catch (_) {
+                                  isLoadingController.add(false);
+                                  gradelyDialog(
+                                      context: context,
+                                      title: "error".tr(),
+                                      text: "error_grade_badly_formatted".tr());
+                                }
                               },
                               icon: Icon(Icons.add)),
                         ],

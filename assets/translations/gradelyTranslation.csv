@@ -125,5 +125,6 @@ bug_or_improvement,Bug or improvement,Bug oder Vorschläge
 contribute_translate_p1,"To give every user an awesome experience, Gradely should be translated in many languages.","Um jedem Nutzer ein super Erlebnis zu geben, sollte Gradely in vielen Sprachen verfügbar sein"
 contribute_translate_p2,"Found some language error, or better do you want to help translate Gradely in another language?","Hast du ein Fehler bei einer Sprache gefunden oder noch besser, willst du helfen, gradely in eine andere Sprache zu übersetzen?"
 "contribute_feature_bug_suggestion","Did you spot a bug or do you have an improvement or suggestion?","Hast du einen Bug entdeckt oder hast eine Verbesserung?"
-or_something_else, Or something else?, Oder etwas anderes?
-contact_me, Contact me, Kontaktiere mich
+or_something_else,Or something else?,Oder etwas anderes?
+contact_me,Contact me,Kontaktiere mich
+error_grade_badly_formatted,Please check if your grade or weight is correctly formatted.,Bitte überprüfe ob die Note oder die Gewichtung korrekt formatiert ist.
