@@ -2,13 +2,25 @@
 
 A Grade Calculator App, that syncs all your Grades across all your devices, built with Flutter and with the amazing backend [Appwrite](https://appwrite.io).
 
+<br>
+
 ## Screenshots
 
-  <img src="https://gradelyapp.com/img/screenshots/iPhone.png" width="175" />
-  <img src="https://gradelyapp.com/img/screenshots/iPhone2.png" width="175" /> 
-  <img src="https://gradelyapp.com/img/screenshots/iPhone3.png" width="175" />
-  <img src="https://gradelyapp.com/img/screenshots/iPhone4.png" width="175" />
-
+<table>
+  <tr>
+    <td>Semester detail</td>
+     <td>Lesson detail</td>
+     <td>Grade detail</td>
+     <td>Semester detail  🌙</td>
+  </tr>
+  <tr>
+    <td><img src="https://gradelyapp.com/img/screenshots/iPhone.png" width="175"/></td>
+    <td><img src="https://gradelyapp.com/img/screenshots/iPhone2.png" width="175"/></td>
+    <td><img src="https://gradelyapp.com/img/screenshots/iPhone3.png" width="175"/></td>
+    <td><img src="https://gradelyapp.com/img/screenshots/iPhone4.png" width="175"/></td>
+  </tr>
+ </table>
+ 
 <br>
 
 ## Platforms
@@ -20,6 +32,8 @@ Gradely 2 is available on:
 - Windows
 
 You can download Gradely 2 on https://gradelyapp.com.
+
+<br>
 
 ## Contribute
 
@@ -35,6 +49,7 @@ Currently supported languages:
 - German
 - English
 
+<br>
 
 ## More about the project
 
