@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradely2/screens/settings/contact.dart';
+import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -21,9 +22,9 @@ class Contribute extends StatelessWidget {
         child: ListView(
           children: [
             SizedBox(
-              height: 30,
+              height: 20,
             ),
-            Image.asset("assets/images/$brightness/love.png", height: 200),
+            Image.asset("assets/images/$brightness/love.png", height: 150),
             SizedBox(
               height: 15,
             ),
@@ -62,14 +63,25 @@ class Contribute extends StatelessWidget {
             SizedBox(
               height: 30,
             ),
-            gradelyButton(
-                text: "contact_me".tr(),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ContactScreen()),
-                  );
-                })
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                gradelyButton(
+                    text: "contact_me".tr(),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ContactScreen()),
+                      );
+                    }),
+                gradelyButton(
+                    text: "view_github".tr(),
+                    onPressed: () {
+                      launchURL("https://github.com/generalxhd/Gradely2");
+                    }),
+              ],
+            )
           ],
         ),
       ),
