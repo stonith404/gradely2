@@ -1,114 +1,108 @@
 key,en,de
-average,average,Durchschnitt
-pluspoints,pluspoints,Pluspunkte
+average,Average,Durchschnitt
+pluspoints,Pluspoints,Pluspunkte
 pp,Pluspoints,Pluspunkte
 av,Average,Durchschnitt
-settings,settings,Einstellungen
-platforms,platforms,Plattformen
-grade_result,grades results,Noten Resultate
+settings,Settings,Einstellungen
+platforms,Platforms,Plattformen
+grade_result,Grades results,Noten Resultate
 weight,weight,Gewichtung
-add_exam,add exam,Test hinzufügen
+add_exam,Add exam,Test hinzufügen
 grade,grade,Note
 exam_name,exam name,Test Name
-settings_platforms_description,the platforms and synchronization make gradely unique. you can save your grades here and at the same time your grades are on your other device!,"Die verfügbarkeit und Synchronisation macht Gradely einzigartig. Du kannst deine Noten hier hinzufügen und zur selben Zeit, sind deine Noten auf all deinen anderen Geräten!"
-delete,delete,löschen  
-no,no,Nein
-back,back,zurück
-rename,edit,bearbeiten
-add_semester,add semester,Semester hinzufügen
-add_lesson,add lesson,Fach hinzufügen
-lesson_name,lesson name,Fach Name
-delete_confirmation_p1,do you really want to delete,"Bist du sicher, dass du"
+settings_platforms_description,The platforms and synchronization make gradely unique. You can save your grades here and at the same time your grades are on your other device!,"Die verfügbarkeit und Synchronisation macht Gradely einzigartig. Du kannst deine Noten hier hinzufügen und zur selben Zeit, sind deine Noten auf all deinen anderen Geräten!"
+delete,Delete,löschen
+no,No,Nein
+back,Back,zurück
+rename,Edit,bearbeiten
+add_semester,Add semester,Semester hinzufügen
+add_lesson,Add lesson,Fach hinzufügen
+lesson_name,Lesson name,Fach Name
+delete_confirmation_p1,Do you really want to delete,"Bist du sicher, dass du"
 delete_confirmation_p2,?,löschen willst?
-add,add,hinzufügen
-sign_in,sign in,Einloggen
+add,Add,hinzufügen
+sign_in,Sign in,Einloggen
 password_remembered,Remember your password?,Weisst du dein Passwort?
-your_email,your email,Deine Email
-your_password,your password,Dein Passwort
-password,password,Passwort
+your_email,Your email,Deine Email
+your_password,Your password,Dein Passwort
+password,Password,Passwort
 question_forgot_password,forgot password?,Passwort vergessen?
 reset_password,Reset Password,Passwort zurücksetzen
-request_link,request Link,Link anfordern
+request_link,Request Link,Link anfordern
 sign_up,sign up,Registrieren
-question_have_account,do you have an account already?,Hast du bereits ein Account?
-question_no_account,you don't have an account?,Hast du noch kein Account?
+question_have_account,Do you have an account already?,Hast du bereits ein Account?
+question_no_account,You don't have an account?,Hast du noch kein Account?
 welcome,welcome,Willkommen
-intro_gradely_helps_monitoring,welcome to gradely. gradely helps you to monitor your grades. ,Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen.
-everywhere_available,everywhere available,überall verfügbar
-intro_messaqge_sync,your grades are stored in the cloud. so you can add or view your grades on your laptop handy or ipad.,"Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf deinem Laptop, Handy oder iPad Noten hinzufügen und anschauen."
+intro_gradely_helps_monitoring,"Welcome to gradely. gradely helps you to monitor your grades. ",Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen.
+everywhere_available,Everywhere available,überall verfügbar
+intro_messaqge_sync,Your grades are stored in the cloud. so you can add or view your grades on your laptop handy or ipad.,"Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf deinem Laptop, Handy oder iPad Noten hinzufügen und anschauen."
 intro_more_in_settings,More Informations can you find in the settings.,Mehr Infos findest du in den Einstellungen.
-pluspoints_or_average,pluspoints or average?,Pluspunkte oder Durchschnitt?
-grade_result_change_in_settings,in the settings you can manage if your grades should display as an average or pluspoints.,In den Einstellungen kannst du einstellen ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.
-almost_finished,almost finished...,Fast Fertig...
-intro_add_semester,add a semester. no worries you can delete or edit this semester later.,Füge ein Semester hinzu. Keine Angst dieses kannst du später löschen oder unbenennen.
-settings_platforms_download_button,download gradely for your other devices.,Gradely für deine anderen Geräte herunterladen
-try_again,try again,Erneut versuchen
-restart_intro,restart Intro,Intro wiederholen
+pluspoints_or_average,Pluspoints or average?,Pluspunkte oder Durchschnitt?
+grade_result_change_in_settings,In the settings you can manage if your grades should display as an average or pluspoints.,In den Einstellungen kannst du einstellen ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.
+almost_finished,Almost finished...,Fast Fertig...
+intro_add_semester,Add a semester. No worries you can delete or edit this semester later.,Füge ein Semester hinzu. Keine Angst dieses kannst du später löschen oder unbenennen.
+settings_platforms_download_button,Download Gradely 2 for your other devices.,Gradely 2 für deine anderen Geräte herunterladen
+try_again,Try again,Erneut versuchen
+restart_intro,Restart Intro,Intro wiederholen
 contact_developer,Contact developer,Entwickler kontaktieren
-your_message,your message,Deine Nachricht
+your_message,Your message,Deine Nachricht
 send,send,senden
 edit,edit,bearbeiten
 sent,sent!,gesendet!
 or,or,oder
-contact_success_text,thanks for your message. i will contact you with this email:,Danke für deine Nachricht. Ich werde mich bei dir unter dieser Email melden:
-password_reset_success_text,an email to reset your password was sent. please check also your spam folder.,Eine Email um dein Passwort zurückzusetzen wurde erfolgreich gesendet. Bitte beachte auch dein Spam Fach.
+contact_success_text,Thanks for your message. I will contact you with this email:,Danke für deine Nachricht. Ich werde mich bei dir unter dieser Email melden:
+password_reset_success_text,An email to reset your password was sent. please check also your spam folder.,Eine Email um dein Passwort zurückzusetzen wurde erfolgreich gesendet. Bitte beachte auch dein Spam Fach.
 error,error,Fehler
 error_unknown,There was an unknown error,Ein unbekannter Fehler ist aufgetreten
-error_contact,unfortunately there is an error. you can try it later or you can contact me under elias@eliasschneider.com,Leider ist ein Fehler aufgetreten. Versuche es später nochmals oder konatkiere mich unter elias@eliasschneider.com
+error_contact,Unfortunately there is an error. You can try it later or you can contact me under elias@eliasschneider.com,Leider ist ein Fehler aufgetreten. Versuche es später nochmals oder konatkiere mich unter elias@eliasschneider.com
 settings_contact_description,"Any question, contact me! 🙂","fragen, kontaktiere mich! 🙂"
-dream_grade,dream grade,Wunschnote
-dream_grade_calulator,dream grade calulator,Wunschnoten rechner
-dream_grade_result_text,your grade for the next exam should be:,Deine Note für den nächsten test:
-dream _grade_weight,dream grade weight,Wunschnoten Gewichtung
+dream_grade,Dream grade,Wunschnote
+dream_grade_calulator,Dream grade calulator,Wunschnoten rechner
+dream_grade_result_text,Your grade for the next exam should be:,Deine Note für den nächsten test:
+dream _grade_weight,Dream grade weight,Wunschnoten Gewichtung
 date,date,Datum
-benefit_support,support developer,Entwickler unterstützen
-gradely_plus_description,i invested a lot of time and money in this app. of course I want that this app is free. with gradely plus you can help me so i can make this app better.,Ich habe viele Stunden und Geld in diese App investiert. Ich möchte das diese App gratis ist. Mit Gradely Plus kann du mithelfen dass ich die App immer weiterentwickeln kann.
-benefit_customize_color,customize theme color,App Farben ändern
-benefit_more_coming_soon,more benefits coming soon,Mehr Vorteile kommen bald
-benefit_emojis,emojis in names,Emojis in Namen
-gradely_plus_mobile_only,gradely plus can only be bought on a mobile device. after the purchase you have gradely on any of your devices.,Gradely Plus kann nur auf an einem Handy gekauft werden. Nach dem Kauf hast du Gradely Plus auf allen Geräten.
-gradely_pluss_success_text,thank you so much for being a gradely plus user. Enjoy it!,"Danke viel mals, dass du ein Gradely Plus Nutzer bist. Viel Spass!"
-customize,customize,Personalisieren
-change_app_colors,change app colors,Theme Farben ändern
+benefit_support,Support developer,Entwickler unterstützen
+gradely_plus_description,I invested a lot of time and money in this app. Of course I want that this app is free. With Gradely plus you can help me so i can make this app better.,Ich habe viele Stunden und Geld in diese App investiert. Ich möchte das diese App gratis ist. Mit Gradely Plus kann du mithelfen dass ich die App immer weiterentwickeln kann.
+benefit_customize_color,Customize theme color,App Farben ändern
+benefit_more_coming_soon,More benefits coming soon,Mehr Vorteile kommen bald
+benefit_emojis,Emojis in names,Emojis in Namen
+gradely_plus_mobile_only,Gradely plus can only be bought on a mobile device. After the purchase you have gradely on any of your devices.,Gradely Plus kann nur auf an einem Handy gekauft werden. Nach dem Kauf hast du Gradely Plus auf allen Geräten.
+gradely_pluss_success_text,Thank you so much for being a gradely plus user. Enjoy it!,"Danke viel mals, dass du ein Gradely Plus Nutzer bist. Viel Spass!"
+customize,Customize,Personalisieren
+change_app_colors,Change app colors,Theme Farben ändern
 loading,loading,Lädt...
-email,email,Email
-action_required,action required,Handlung erforderlich
-re_enter_password_save_changes,please re enter your password to save your changes,Bitte gib dein Passwort ein um deine Änderungen zu speichern.
-delete_account,delete account,Account löschen
+email,Email,Email
+action_required,Action required,Handlung erforderlich
+re_enter_password_save_changes,Please re enter your password to save your changes,Bitte gib dein Passwort ein um deine Änderungen zu speichern.
+delete_account,Delete account,Account löschen
 save,save,speichern
-change_password,change password,Passwort ändern
-change_password_text,to change your password click the button below. you get an email there you can change your password.,Um dein Passwort zu ändern drücke den Knopf unten. Du bekommst eine Email dort kannst du dein Passwort ändern.
-delete_account_text,caution! Do you really want to delete your account and your grades? this can't be undone.,Achtung! Willst du wirklich all deine Noten und dein Account löschen? Dies kann nicht Rückgängig gemacht werden.
-reset,reset,Zurücksetzen
-create,create,Erstellen
-welcome_back,welcome back,Willkommen zurück
-account,account,Account
-no_emoji_choosed,no emoji choosed,Kein Emoji ausgewählt
-error_weak_password,your password is too weak. Try again.,Zu schwaches Passwort. Versuche es erneut.
-error_invalid_email,This email is invalid. Try again.,Die Email ist falsch formatiert. Versuche es erneut.
-error_email_in_use,an account with this email already exists. Try again.,Mit dieser Emailadresse gibt es schon einen Account. Versuche es erneut.
-error_wrong_password,this password is wrong. Try again.,Falsches Passwort. Versuche es erneut.
-error_user_not_found,an account whith this email doesn't exist. Try again.,Ein Account mit dieser Email existiert nicht. Versuche es erneut.
-rename_semester,rename semester,Semester unbennen
-empty_lesson_p1,it's really empty here.,Es ist sehr leer hier
+change_password,Change password,Passwort ändern
+change_password_text,To change your password click the button below. you get an email there you can change your password.,Um dein Passwort zu ändern drücke den Knopf unten. Du bekommst eine Email dort kannst du dein Passwort ändern.
+delete_account_text,Warning! Do you really want to delete your account and your grades? this can't be undone.,Achtung! Willst du wirklich all deine Noten und dein Account löschen? Dies kann nicht Rückgängig gemacht werden.
+reset,Reset,Zurücksetzen
+create,Create,Erstellen
+account,Account,Account
+no_emoji_choosed,Click here to add an emoji,Klicke hier um ein Emoji hinzuzufügen
+rename_semester,Rename semester,Semester unbennen
+empty_lesson_p1,It's really empty here.,Es ist sehr leer hier
 empty_lesson_p2,Click the,Klicke auf
 empty_lesson_p3,to add your first grade.,um eine Note hinzuzufügen.
-error_stats_date_badly_formatted,your grade dates are badly formatted. only this format is accepted:yyyy.MM.dd. please rechoose the dates in your grades then you can see your statistics.,Deine Daten zu den Noten sind falsch formatiert. Nur dieses Format ist akzeptiert:yyyy.MM.dd. Bitte wähle das Datum für jede Note erneut dann kannst du deine Statistiken sehen.
-error_stats_contain_no_date,some of your grades don't have dates. please add a date to every of your grade to see your statistics.,Ein paar Noten haben kein Datum. Bitte füge ein Datum hinzu um deine Statistiken zu sehen.
-statistics,statistics,Statistiken
+error_stats_date_badly_formatted,Your grade dates are badly formatted. Only this format is accepted:yyyy.MM.dd. Please rechoose the dates in your grades then you can see your statistics.,Deine Daten zu den Noten sind falsch formatiert. Nur dieses Format ist akzeptiert:yyyy.MM.dd. Bitte wähle das Datum für jede Note erneut dann kannst du deine Statistiken sehen.
+error_stats_contain_no_date,Some of your grades don't have dates. Please add a date to every of your grade to see your statistics.,Ein paar Noten haben kein Datum. Bitte füge ein Datum hinzu um deine Statistiken zu sehen.
+statistics,Statistics,Statistiken
 stats_description,This shows your grades along the date time period.,Diese Statistik zeigt dir deine Noten während der Datum Zeitperiode.
-your_name,your name,Dein Name
-features,features,features
-description,description,Beschreibung
+your_name,Your name,Dein Name
+features,Features,Features
+description,Description,Beschreibung
 gradely_plus_explain_products,No matter what you buy you get the exact same features:,"Egal was du kaufst, du erhälst genau die gleichen Features."
-coffee,coffee,Kaffee
-ice_coffee,ice coffe,Eis Kaffee
-success,success,Erfolgreich
+coffee,Coffee,Kaffee
+ice_coffee,Ice coffe,Eis Kaffee
+success,Success,Erfolgreich
 email_updated,Your email was updated,Deine Email wurde aktualisiert
 name_updated,Your name was updated,Dein Name wurde aktualisiert
 no_network_offline_loading,It looks like you don't have a connection to the server and your data isnt't stored offline. Try again later.,"Es sieht so aus, dass du keine Verbindung zum Server hast und deine Daten nicht offline gespeichert sind. Versuche es später erneut."
 network_needed_title,Network Connection,Internet Verbindung
-network_needed_text,"To use this feature you need a network connection.","Um diese Funktion zu nutzen, brauchst du eine Internet Verbindung."
+network_needed_text,To use this feature you need a network connection.,"Um diese Funktion zu nutzen, brauchst du eine Internet Verbindung."
 app_info,App Information,App Informationen
 server_location,Server Location,Server Standort
 app_language,App Language,App Sprache
@@ -125,7 +119,7 @@ languages,Languages,Sprachen
 bug_or_improvement,Bug or improvement,Bug oder Vorschläge
 contribute_translate_p1,"To give every user an awesome experience, Gradely should be translated in many languages.","Um jedem Nutzer ein super Erlebnis zu geben, sollte Gradely in vielen Sprachen verfügbar sein"
 contribute_translate_p2,"Found some language error, or better do you want to help translate Gradely in another language?","Hast du ein Fehler bei einer Sprache gefunden oder noch besser, willst du helfen, gradely in eine andere Sprache zu übersetzen?"
-"contribute_feature_bug_suggestion","Did you spot a bug or do you have an improvement or suggestion?","Hast du einen Bug entdeckt oder hast eine Verbesserung?"
+contribute_feature_bug_suggestion,Did you spot a bug or do you have an improvement or suggestion?,Hast du einen Bug entdeckt oder hast eine Verbesserung?
 or_something_else,Or something else?,Oder etwas anderes?
 contact_me,Contact me,Kontaktiere mich
 error_grade_badly_formatted,Please check if your grade or weight is correctly formatted.,Bitte überprüfe ob die Note oder die Gewichtung korrekt formatiert ist.
