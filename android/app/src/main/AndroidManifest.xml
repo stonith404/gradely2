@@ -3,7 +3,7 @@
      <uses-permission android:name="android.permission.INTERNET"/>
    
    <application
-        android:label="gradely 2"
+        android:label="Gradely 2"
         android:icon="@mipmap/ic_launcher">
         <activity
 
