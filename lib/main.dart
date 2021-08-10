@@ -17,7 +17,7 @@ var courseListID = [];
 var allAverageList = [];
 var allAverageListPP = [];
 
-void main() async {
+void main() async { 
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await sharedPrefs();

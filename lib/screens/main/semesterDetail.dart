@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -112,290 +113,294 @@ class _SemesterDetailState extends State<SemesterDetail> {
       return Scaffold(
           body: Padding(
               padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
-              child: NestedScrollView(
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    SliverAppBar(
-                      backgroundColor: defaultBGColor,
-                      elevation: 0,
-                      title: SvgPicture.asset("assets/images/logo.svg",
-                          color: primaryColor, height: 30),
-                      leading: Transform(
-                        alignment: Alignment.center,
-                        transform: Matrix4.rotationY(math.pi),
-                        child: IconButton(
-                            icon: Icon(Icons.segment, color: primaryColor),
-                            onPressed: () async {
-                              settingsScreen(context);
-                            }),
+              child: ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: NestedScrollView(
+                  headerSliverBuilder:
+                      (BuildContext context, bool innerBoxIsScrolled) {
+                    return <Widget>[
+                      SliverAppBar(
+                        backgroundColor: defaultBGColor,
+                        elevation: 0,
+                        title: SvgPicture.asset("assets/images/logo.svg",
+                            color: primaryColor, height: 30),
+                        leading: Transform(
+                          alignment: Alignment.center,
+                          transform: Matrix4.rotationY(math.pi),
+                          child: IconButton(
+                              icon: Icon(Icons.segment, color: primaryColor),
+                              onPressed: () async {
+                                settingsScreen(context);
+                              }),
+                        ),
+                        actions: [
+                          IconButton(
+                              icon:
+                                  Icon(Icons.switch_left, color: primaryColor),
+                              onPressed: () async {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ChooseSemester()),
+                                );
+                              }),
+                        ],
                       ),
-                      actions: [
-                        IconButton(
-                            icon: Icon(Icons.switch_left, color: primaryColor),
-                            onPressed: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChooseSemester()),
-                              );
-                            }),
-                      ],
-                    ),
-                  ];
-                },
-                body: Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: ListView(
-                      padding: EdgeInsets.zero,
-                      physics: NeverScrollableScrollPhysics(),
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15),
-                              )),
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(15, 15, 15, 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      choosenSemesterName,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 28,
-                                          color: Colors.white),
-                                    ),
-                                    Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 15.0),
-                                        child: Row(
-                                          children: [
-                                            Text("Ø",
-                                                style: TextStyle(
-                                                  fontSize: 19,
+                    ];
+                  },
+                  body: Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: ListView(padding: EdgeInsets.zero, children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(15),
+                            )),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(15, 15, 15, 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    choosenSemesterName,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 28,
+                                        color: Colors.white),
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15.0),
+                                      child: Row(
+                                        children: [
+                                          Text("Ø",
+                                              style: TextStyle(
+                                                fontSize: 19,
+                                                color: Colors.white,
+                                              )),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                              _averageOfSemester.isNaN
+                                                  ? "-"
+                                                  : _averageOfSemester
+                                                      .toStringAsFixed(2),
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                              )),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          user.gradeType == "av"
+                                              ? Container()
+                                              : Icon(
+                                                  Icons
+                                                      .add_circle_outline_outlined,
+                                                  size: 19,
                                                   color: Colors.white,
-                                                )),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                                _averageOfSemester.isNaN
-                                                    ? "-"
-                                                    : _averageOfSemester
-                                                        .toStringAsFixed(2),
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.white,
-                                                )),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            user.gradeType == "av"
-                                                ? Container()
-                                                : Icon(
-                                                    Icons
-                                                        .add_circle_outline_outlined,
-                                                    size: 19,
+                                                ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          user.gradeType == "av"
+                                              ? Container()
+                                              : Text(
+                                                  _averageOfSemesterPP.isNaN
+                                                      ? "0"
+                                                      : _averageOfSemesterPP
+                                                          .toString(),
+                                                  style: TextStyle(
+                                                    fontSize: 20,
                                                     color: Colors.white,
-                                                  ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            user.gradeType == "av"
-                                                ? Container()
-                                                : Text(
-                                                    _averageOfSemesterPP.isNaN
-                                                        ? "0"
-                                                        : _averageOfSemesterPP
-                                                            .toString(),
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.white,
-                                                    ))
-                                          ],
-                                        )),
-                                  ],
-                                ),
-                                Spacer(flex: 1),
-                                IconButton(
-                                    icon: Icon(Icons.add),
-                                    color: Colors.white,
-                                    onPressed: () {
+                                                  ))
+                                        ],
+                                      )),
+                                ],
+                              ),
+                              Spacer(flex: 1),
+                              IconButton(
+                                  icon: Icon(Icons.add),
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => addLesson()),
+                                    );
+                                  }),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Platform.isMacOS || Platform.isWindows
+                          ? SizedBox(
+                              height: 10,
+                            )
+                          : Container(),
+                      Container(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: lessonList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Slidable(
+                              actionPane: SlidableDrawerActionPane(),
+                              actionExtentRatio: 0.25,
+                              secondaryActions: <Widget>[
+                                ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                  ),
+                                  child: IconSlideAction(
+                                    color: primaryColor,
+                                    iconWidget: Icon(
+                                      FontAwesome5Solid.pencil_alt,
+                                      color: Colors.white,
+                                    ),
+                                    onTap: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => addLesson()),
+                                            builder: (context) =>
+                                                updateLesson()),
                                       );
-                                    }),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            primary: false,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: lessonList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Slidable(
-                                actionPane: SlidableDrawerActionPane(),
-                                actionExtentRatio: 0.25,
-                                secondaryActions: <Widget>[
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      bottomLeft: Radius.circular(10),
+                                      selectedLessonName =
+                                          lessonList[index].name;
+                                      _selectedEmoji = lessonList[index].emoji;
+                                      selectedLesson = lessonList[index].id;
+                                    },
+                                  ),
+                                ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  ),
+                                  child: IconSlideAction(
+                                    color: primaryColor,
+                                    iconWidget: Icon(
+                                      FontAwesome5.trash_alt,
+                                      color: Colors.white,
                                     ),
-                                    child: IconSlideAction(
-                                      color: primaryColor,
-                                      iconWidget: Icon(
-                                        FontAwesome5Solid.pencil_alt,
-                                        color: Colors.white,
+                                    onTap: () {
+                                      gradelyDialog(
+                                        context: context,
+                                        title: "warning".tr(),
+                                        text:
+                                            '${"delete_confirmation_p1".tr()} "${lessonList[index].name}" ${"delete_confirmation_p2".tr()}',
+                                        actions: <Widget>[
+                                          CupertinoButton(
+                                            child: Text(
+                                              "no".tr(),
+                                              style: TextStyle(color: wbColor),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          CupertinoButton(
+                                            child: Text(
+                                              "delete".tr(),
+                                              style:
+                                                  TextStyle(color: Colors.red),
+                                            ),
+                                            onPressed: () async {
+                                              noNetworkDialog(context);
+                                              database.deleteDocument(
+                                                  collectionId:
+                                                      collectionLessons,
+                                                  documentId:
+                                                      lessonList[index].id);
+                                              setState(() {
+                                                lessonList.removeWhere((item) =>
+                                                    item.id ==
+                                                    lessonList[index].id);
+                                              });
+                                              Navigator.of(context).pop();
+                                            },
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                              child: Container(
+                                decoration: listContainerDecoration(
+                                    index: index, list: lessonList),
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      title: Row(
+                                        children: [
+                                          Text(lessonList[index].emoji + "  ",
+                                              style: TextStyle(
+                                                shadows: [
+                                                  Shadow(
+                                                    blurRadius: 5.0,
+                                                    color: darkmode
+                                                        ? Colors.grey[900]
+                                                        : Colors.grey[350],
+                                                    offset: Offset(2.0, 2.0),
+                                                  ),
+                                                ],
+                                              )),
+                                          Text(
+                                            lessonList[index].name,
+                                          ),
+                                        ],
+                                      ),
+                                      trailing: Text(
+                                        (() {
+                                          if (lessonList[index].average ==
+                                              -99) {
+                                            return "-";
+                                          } else if (user.gradeType == "pp") {
+                                            return getPluspoints(
+                                                    lessonList[index].average)
+                                                .toString();
+                                          } else {
+                                            return lessonList[index]
+                                                .average
+                                                .toStringAsFixed(2);
+                                          }
+                                        })(),
                                       ),
                                       onTap: () {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  updateLesson()),
-                                        );
+                                                  LessonsDetail()),
+                                        ).then((value) {
+                                          getLessons();
+                                        });
+
+                                        selectedLesson = lessonList[index].id;
                                         selectedLessonName =
                                             lessonList[index].name;
-                                        _selectedEmoji =
-                                            lessonList[index].emoji;
-                                        selectedLesson = lessonList[index].id;
                                       },
                                     ),
-                                  ),
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(10),
-                                      bottomRight: Radius.circular(10),
-                                    ),
-                                    child: IconSlideAction(
-                                      color: primaryColor,
-                                      iconWidget: Icon(
-                                        FontAwesome5.trash_alt,
-                                        color: Colors.white,
-                                      ),
-                                      onTap: () {
-                                        gradelyDialog(
-                                          context: context,
-                                          title: "warning".tr(),
-                                          text:
-                                              '${"delete_confirmation_p1".tr()} "${lessonList[index].name}" ${"delete_confirmation_p2".tr()}',
-                                          actions: <Widget>[
-                                            CupertinoButton(
-                                              child: Text(
-                                                "no".tr(),
-                                                style:
-                                                    TextStyle(color: wbColor),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                            CupertinoButton(
-                                              child: Text(
-                                                "delete".tr(),
-                                                style: TextStyle(
-                                                    color: Colors.red),
-                                              ),
-                                              onPressed: () async {
-                                                noNetworkDialog(context);
-                                                database.deleteDocument(
-                                                    collectionId:
-                                                        collectionLessons,
-                                                    documentId:
-                                                        lessonList[index].id);
-                                                setState(() {
-                                                  lessonList.removeWhere(
-                                                      (item) =>
-                                                          item.id ==
-                                                          lessonList[index].id);
-                                                });
-                                                Navigator.of(context).pop();
-                                              },
-                                            )
-                                          ],
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                                child: Container(
-                                  decoration: listContainerDecoration(
-                                      index: index, list: lessonList),
-                                  child: Column(
-                                    children: [
-                                      ListTile(
-                                        title: Row(
-                                          children: [
-                                            Text(lessonList[index].emoji + "  ",
-                                                style: TextStyle(
-                                                  shadows: [
-                                                    Shadow(
-                                                      blurRadius: 5.0,
-                                                      color: darkmode
-                                                          ? Colors.grey[900]
-                                                          : Colors.grey[350],
-                                                      offset: Offset(2.0, 2.0),
-                                                    ),
-                                                  ],
-                                                )),
-                                            Text(
-                                              lessonList[index].name,
-                                            ),
-                                          ],
-                                        ),
-                                        trailing: Text(
-                                          (() {
-                                            if (lessonList[index].average ==
-                                                -99) {
-                                              return "-";
-                                            } else if (user.gradeType == "pp") {
-                                              return getPluspoints(
-                                                      lessonList[index].average)
-                                                  .toString();
-                                            } else {
-                                              return lessonList[index]
-                                                  .average
-                                                  .toStringAsFixed(2);
-                                            }
-                                          })(),
-                                        ),
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LessonsDetail()),
-                                          ).then((value) {
-                                            getLessons();
-                                          });
-
-                                          selectedLesson = lessonList[index].id;
-                                          selectedLessonName =
-                                              lessonList[index].name;
-                                        },
-                                      ),
-                                      listDivider(),
-                                    ],
-                                  ),
+                                    listDivider(),
+                                  ],
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
-                      ]),
+                      ),
+                    ]),
+                  ),
                 ),
               )));
     }
