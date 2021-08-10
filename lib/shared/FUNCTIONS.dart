@@ -64,6 +64,7 @@ Future getUserInfo() async {
       primaryColor = user.color;
     });
   }
+  return "done";
 }
 
 //public function to get all semesters

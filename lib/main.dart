@@ -7,6 +7,7 @@ import 'package:gradely2/screens/main/semesterDetail.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gradely2/shared/loading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool isLoggedIn = false;
@@ -23,11 +24,9 @@ void main() async {
   client = Client();
   account = Account(client);
   database = Database(client);
-
   client
       .setEndpoint('https://aw.cloud.eliasschneider.com/v1')
       .setProject('60f40cb212896');
-  await getUserInfo();
   runApp(EasyLocalization(
       supportedLocales: [Locale('de'), Locale('en')],
       useOnlyLangCode: true,
@@ -77,7 +76,6 @@ class MaterialWrapper extends StatelessWidget {
         backgroundColor: Colors.grey[300],
       ),
       darkTheme: ThemeData(
-        fontFamily: "Nunito",
         appBarTheme: AppBarTheme(
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.white),
@@ -104,24 +102,30 @@ class HomeWrapper extends StatefulWidget {
 }
 
 class _State extends State<HomeWrapper> {
-  aw() async {
-    await getUserInfo();
-  }
-
+  Future getUserData;
   @override
   void initState() {
     super.initState();
-    aw();
+    getUserData = getUserInfo();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   }
 
   @override
   Widget build(BuildContext context) {
     client.setLocale(Localizations.localeOf(context).toString());
-    if (prefs.getBool("signedIn")) {
-      return SemesterDetail();
-    } else {
-      return SignInPage();
-    }
+//this future builder gets the user data and returns the semester detail page when done.
+    return FutureBuilder(
+        future: getUserData,
+        builder: (BuildContext context, AsyncSnapshot snap) {
+          if (snap.data == null) {
+            return LoadingScreen();
+          } else {
+            if (prefs.getBool("signedIn")) {
+              return SemesterDetail();
+            } else {
+              return SignInPage();
+            }
+          }
+        });
   }
 }
