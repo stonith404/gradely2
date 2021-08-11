@@ -23,7 +23,7 @@ class ChooseSemester extends StatefulWidget {
 }
 
 class _ChooseSemesterState extends State<ChooseSemester> {
-  _getSemesters() async {
+  getSemesters() async {
     setState(() => isLoading = true);
     semesterList = [];
     var response;
@@ -68,7 +68,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
   @override
   void initState() {
     super.initState();
-    _getSemesters();
+    getSemesters();
   }
 
   void setState(fn) {
@@ -270,7 +270,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                     documentId: _selectedSemester.id,
                     data: {"name": renameSemesterController.text});
 
-                await _getSemesters();
+                await getSemesters();
                 Navigator.of(context).pop();
 
                 renameSemesterController.text = "";
@@ -320,7 +320,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                         "name": addSemesterController.text
                       });
 
-                  await _getSemesters();
+                  await getSemesters();
                   Navigator.of(context).pop();
 
                   isLoadingController.add(false);

@@ -35,7 +35,7 @@ class LessonsDetail extends StatefulWidget {
 }
 
 class _LessonsDetailState extends State<LessonsDetail> {
-  updateAverage() {
+  updateAverage() async {
     database.updateDocument(
         documentId: selectedLesson,
         collectionId: collectionLessons,
@@ -213,7 +213,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                     item.id ==
                                                     gradeList[index].id);
                                               });
-                                              updateAverage();
+                                              getTests();
                                             },
                                           ),
                                         ),

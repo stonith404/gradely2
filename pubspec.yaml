@@ -6,8 +6,7 @@ publish_to: 'none'
 
 version: 1.0.1+3
 #Latest builds:
-#ios: 1.0.1+3
-#MacOS  1.0.0+5
+#MacOS  5
 #android: 3
 
 environment:

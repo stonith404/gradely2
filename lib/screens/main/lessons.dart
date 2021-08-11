@@ -38,15 +38,17 @@ class _SemesterDetailState extends State<SemesterDetail> {
         collection: collectionSemester,
         name: "semesterName",
         filters: ["\$id=${user.choosenSemester}"]);
-    choosenSemesterName =
-        jsonDecode(semesterResponse.toString())["documents"][0]["name"];
+    setState(() {
+      choosenSemesterName =
+          jsonDecode(semesterResponse.toString())["documents"][0]["name"];
+    });
 
     lessonList = [];
     var response;
 
     response = await listDocuments(
         collection: collectionLessons,
-        name: "lessonList",
+        name: "lessonList_${user.choosenSemester}",
         filters: ["parentId=${user.choosenSemester}"]);
     response = jsonDecode(response.toString())["documents"];
 
@@ -330,6 +332,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                                     item.id ==
                                                     lessonList[index].id);
                                               });
+                                              getLessons();
                                               Navigator.of(context).pop();
                                             },
                                           )
@@ -521,7 +524,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                   await database.createDocument(
                     collectionId: collectionLessons,
                     data: {
-                      "parentId" : user.choosenSemester,
+                      "parentId": user.choosenSemester,
                       "name": addLessonController.text,
                       "average": -99,
                       "emoji": _selectedEmoji

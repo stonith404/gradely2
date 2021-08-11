@@ -48,7 +48,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               TextButton(
                 child: Text("ok"),
                 onPressed: () async {
-                  passwordController.text;
 
                   try {
                     await account.updateEmail(
@@ -103,6 +102,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   account.deleteSession(sessionId: response["\$id"]);
                   prefs.setBool("signedIn", false);
                 });
+
+                clearVariables();
 
                 Navigator.pushReplacement(
                   context,
@@ -267,7 +268,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                           documentId: user.dbID);
 
                                       await account.delete();
-
+                                      clearVariables();
+                                      passwordController.text = "";
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(

@@ -66,8 +66,6 @@ Future getUserInfo() async {
   return "done";
 }
 
-
-
 //checks if client is connected to the server
 
 Future internetConnection() async {
@@ -254,3 +252,11 @@ formatDateForClient(date) {
 
 void launchURL(_url) async =>
     await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
+
+//clears all variables when user sign out
+clearVariables() {
+  prefs.clear();
+  gradeList = [];
+  semesterList = [];
+  lessonList = [];
+}
