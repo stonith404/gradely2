@@ -68,10 +68,14 @@ msix_config:
   display_name: Gradely 2
   publisher_display_name: Elias Schneider
   identity_name: 58500EliasSchneider.Gradely2
-  msix_version: 1.0.0.0
+  msix_version: 1.0.1.0
   publisher: CN=26AFB924-E2D8-4326-B33D-B268D9E4FB49
   architecture: x64
   capabilities: 'internetClient'
+  logo_path: assets\images\gradely2Icon.png
+  start_menu_icon_path: assets\images\gradely2Icon.png
+  tile_icon_path: assets\images\gradely2Icon.png
+  icons_background_color: transparent
 
 #this package generates the app icons for android & ios
 #Run this package with: flutter pub run flutter_launcher_icons:main
