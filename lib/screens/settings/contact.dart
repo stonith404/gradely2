@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gradely2/screens/main/semesterDetail.dart';
+import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:mailer/mailer.dart';

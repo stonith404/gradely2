@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely2/main.dart';
-import 'package:gradely2/screens/main/semesterDetail.dart';
+import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
@@ -29,10 +29,10 @@ class _ChooseSemesterState extends State<ChooseSemester> {
     var response;
 
     response = await listDocuments(
-        collection: collectionUser,
+        collection: collectionSemester,
         name: "semesterList",
-        filters: ["uid=${user.id}"]);
-    response = jsonDecode(response.toString())["documents"][0]["semesters"];
+        filters: ["parentId=${user.dbID}"]);
+    response = jsonDecode(response.toString())["documents"];
     bool _error = false;
     int index = -1;
 
@@ -315,10 +315,10 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                   await getUserInfo();
                   await database.createDocument(
                       collectionId: collectionSemester,
-                      parentDocument: user.dbID,
-                      parentProperty: "semesters",
-                      parentPropertyType: "append",
-                      data: {"name": addSemesterController.text});
+                      data: {
+                        "parentId": user.dbID,
+                        "name": addSemesterController.text
+                      });
 
                   await _getSemesters();
                   Navigator.of(context).pop();

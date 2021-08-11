@@ -3,7 +3,7 @@ import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely2/screens/auth/sign_in.dart';
-import 'package:gradely2/screens/main/semesterDetail.dart';
+import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';

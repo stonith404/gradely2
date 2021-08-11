@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/screens/main/chooseSemester.dart';
 import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -67,51 +66,7 @@ Future getUserInfo() async {
   return "done";
 }
 
-//public function to get all semesters
 
-getSemesters() async {
-  lessonList = [];
-  print(user.gradeType);
-
-  choosenSemester = user.choosenSemester;
-
-  Future result = database.listDocuments(
-    filters: [
-      "uid=${user.id}",
-    ],
-    collectionId: collectionSemester,
-  );
-
-  result.then((response) {
-    response = jsonDecode(response.toString())["documents"][0]["semesters"];
-
-    print(response);
-    bool _error = false;
-    int index = -1;
-
-    while (_error == false) {
-      index++;
-      String id;
-
-      try {
-        id = response[index]["\$id"];
-      } catch (e) {
-        _error = true;
-        index = -1;
-      }
-      if (id != null) {
-        lessonList.add(Lesson(
-            response[index]["\$id"],
-            response[index]["name"],
-            response[index]["emoji"],
-            double.parse(response[index]["average"].toString())));
-        print(lessonList.length);
-      }
-    }
-  }).catchError((error) {
-    print(error);
-  });
-}
 
 //checks if client is connected to the server
 

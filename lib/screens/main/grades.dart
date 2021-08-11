@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gradely2/screens/main/chooseSemester.dart';
-import 'package:gradely2/screens/main/semesterDetail.dart';
+import 'package:gradely2/screens/main/semesters.dart';
+import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
@@ -63,12 +63,12 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
     response = await listDocuments(
       orderField: "date",
-      collection: collectionLessons,
+      collection: collectionGrades,
       name: "gradeList_$selectedLesson",
-      filters: ["\$id=$selectedLesson"],
+      filters: ["parentId=$selectedLesson"],
     );
 
-    response = jsonDecode(response.toString())["documents"][0]["grades"];
+    response = jsonDecode(response.toString())["documents"];
 
     bool _error = false;
     int index = -1;
@@ -618,10 +618,8 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                 try {
                                   await database.createDocument(
                                     collectionId: collectionGrades,
-                                    parentDocument: selectedLesson,
-                                    parentProperty: "grades",
-                                    parentPropertyType: "append",
                                     data: {
+                                      "parentId": selectedLesson,
                                       "name": addTestNameController.text,
                                       "grade": double.parse(
                                           addTestGradeController.text

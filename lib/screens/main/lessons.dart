@@ -11,8 +11,8 @@ import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:gradely2/shared/defaultWidgets.dart';
-import 'LessonsDetail.dart';
-import 'chooseSemester.dart';
+import 'grades.dart';
+import 'semesters.dart';
 import 'dart:math' as math;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -32,19 +32,23 @@ class SemesterDetail extends StatefulWidget {
 }
 
 class _SemesterDetailState extends State<SemesterDetail> {
-  appwriteDB(Function function) {}
-
   getLessons() async {
+//get choosen semester name
+    var semesterResponse = await listDocuments(
+        collection: collectionSemester,
+        name: "semesterName",
+        filters: ["\$id=${user.choosenSemester}"]);
+    choosenSemesterName =
+        jsonDecode(semesterResponse.toString())["documents"][0]["name"];
+
     lessonList = [];
     var response;
 
     response = await listDocuments(
-        collection: collectionSemester,
+        collection: collectionLessons,
         name: "lessonList",
-        filters: ["\$id=${user.choosenSemester}"]);
-    choosenSemesterName =
-        jsonDecode(response.toString())["documents"][0]["name"];
-    response = jsonDecode(response.toString())["documents"][0]["lessons"];
+        filters: ["parentId=${user.choosenSemester}"]);
+    response = jsonDecode(response.toString())["documents"];
 
     bool _error = false;
     int index = -1;
@@ -516,10 +520,8 @@ class _SemesterDetailState extends State<SemesterDetail> {
                   noNetworkDialog(context);
                   await database.createDocument(
                     collectionId: collectionLessons,
-                    parentDocument: user.choosenSemester,
-                    parentProperty: "lessons",
-                    parentPropertyType: "append",
                     data: {
+                      "parentId" : user.choosenSemester,
                       "name": addLessonController.text,
                       "average": -99,
                       "emoji": _selectedEmoji

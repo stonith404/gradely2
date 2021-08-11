@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely2/screens/auth/sign_in.dart';
-import 'package:gradely2/screens/main/semesterDetail.dart';
+import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -119,10 +119,10 @@ class _IntroScreenState extends State<IntroScreen> {
               await getUserInfo();
               Future result = database.createDocument(
                   collectionId: collectionSemester,
-                  parentDocument: user.dbID,
-                  parentProperty: "semesters",
-                  parentPropertyType: "append",
-                  data: {"name": addSemesterController.text});
+                  data: {
+                    "parentId": user.dbID,
+                    "name": addSemesterController.text
+                  });
 
               result.then((response) {
                 response = jsonDecode(response.toString());

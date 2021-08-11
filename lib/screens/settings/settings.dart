@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely2/screens/main/semesterDetail.dart';
+import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/screens/settings/appInfo.dart';
 import 'package:gradely2/screens/settings/contribute.dart';
 import 'package:gradely2/screens/settings/customize.dart';
