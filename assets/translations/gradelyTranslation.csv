@@ -124,3 +124,10 @@ or_something_else,Or something else?,Oder etwas anderes?
 contact_me,Contact me,Kontaktiere mich
 error_grade_badly_formatted,Please check if your grade or weight is correctly formatted.,Bitte überprüfe ob die Note oder die Gewichtung korrekt formatiert ist.
 view_github,View on GitHub,Auf GitHub ansehen
+change_email,Change email,Email ändern
+intro_email_verification,"You have to verify your email, so you can't loose your grades. We sent an email to","Du musst deine Email bestätigen, so kannst du deine Noten nicht verlieren. Wir haben dir eine Email gesendet zu",
+add_first_semester,Add your first Semester,Füge dein erstes Semester hinzu
+error_email_not_verified,Please check your mails and verify your email.,Bitte überprüfe deine Mails und verifiziere deine Email.
+success_email_verified,Your email is verified.,Deine Email wurde bestätigt.
+i_verified_email,I verified my email,Ich habe meine Email bestätigt
+send_again,Send again,Erneut senden

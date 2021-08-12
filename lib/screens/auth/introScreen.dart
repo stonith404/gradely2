@@ -14,7 +14,11 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 
+// ignore: must_be_immutable
 class IntroScreen extends StatefulWidget {
+  int initPage;
+
+  IntroScreen({this.initPage = 0});
   @override
   _IntroScreenState createState() => _IntroScreenState();
 }
@@ -38,6 +42,7 @@ class _IntroScreenState extends State<IntroScreen> {
     );
 
     return IntroductionScreen(
+      initialPage: widget.initPage,
       key: introKey,
       globalHeader: Align(
         alignment: Alignment.topRight,
@@ -65,7 +70,6 @@ class _IntroScreenState extends State<IntroScreen> {
           ),
         ),
       ),
-
       pages: [
         PageViewModel(
           titleWidget: Text("welcome".tr(),
@@ -95,7 +99,8 @@ class _IntroScreenState extends State<IntroScreen> {
           decoration: pageDecoration,
         ),
         PageViewModel(
-          titleWidget: Text("almost_finished".tr(),
+          titleWidget: Text("add_first_semester".tr(),
+              textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
           bodyWidget: Column(
             children: [
@@ -108,7 +113,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 child: TextField(
                     controller: addSemesterController,
                     textAlign: TextAlign.left,
-                    decoration: inputDec(label: "Semester Name".tr())),
+                    decoration: inputDec(label: "Semester Name")),
               ),
             ],
           ),
@@ -153,25 +158,120 @@ class _IntroScreenState extends State<IntroScreen> {
           ),
           reverse: true,
         ),
-      ],
+        PageViewModel(
+          titleWidget: Text("almost_finished".tr(),
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
+          bodyWidget: Column(
+            children: [
+              Text(
+                "intro_email_verification".tr() + " " + user.email,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 19),
+              ),
+            ],
+          ),
+          footer: Column(
+            children: [
+              gradelyButton(
+                text: "i_verified_email".tr(),
+                onPressed: () async {
+                  isLoadingController.add(true);
+                  await getUserInfo();
+                  if (user.emailVerification) {
+                    errorSuccessDialog(
+                        context: context,
+                        error: false,
+                        text: "success_email_verified".tr());
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => SemesterDetail()),
+                      (Route<dynamic> route) => false,
+                    );
+                  } else {
+                    errorSuccessDialog(
+                        context: context,
+                        error: true,
+                        text: "error_email_not_verified".tr());
+                  }
 
+                  isLoadingController.add(false);
+                },
+              ),
+              TextButton(
+                  onPressed: () {
+                    account.createVerification(
+                        url: "https://user.gradelyapp.com?mode=verifyEmail");
+                  },
+                  child: Text("send_again".tr())),
+              Theme(
+                data: ThemeData().copyWith(
+                    dividerColor: Colors.transparent,
+                    accentColor: primaryColor),
+                child: ExpansionTile(
+                  textColor: primaryColor,
+                  collapsedTextColor: primaryColor,
+                  trailing: SizedBox.shrink(),
+                  expandedAlignment: Alignment.center,
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("      " + "change_email".tr()),
+                    ],
+                  ),
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                              keyboardType: TextInputType.emailAddress,
+                              controller: changeEmailController,
+                              textAlign: TextAlign.left,
+                              decoration: inputDec(label: "email".tr())),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            try {
+                              changeEmail(changeEmailController.text, context);
+                            } catch (e) {
+                              errorSuccessDialog(
+                                  context: context,
+                                  error: true,
+                                  text: e.message);
+                            }
+                          },
+                          icon: Icon(FontAwesome5Solid.save),
+                          color: primaryColor,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          decoration: pageDecoration.copyWith(
+            bodyFlex: 2,
+            bodyAlignment: Alignment.center,
+            imageAlignment: Alignment.topCenter,
+          ),
+          reverse: true,
+        ),
+      ],
       showDoneButton: false,
-      //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
       showSkipButton: true,
       skipFlex: 0,
       nextFlex: 0,
-      //rtl: true, // Display as right-to-left
       skip: const Text('Skip'),
       next: const Icon(Icons.arrow_forward),
-
       curve: Curves.fastLinearToSlowEaseIn,
       controlsMargin: const EdgeInsets.all(16),
       controlsPadding: kIsWeb
           ? const EdgeInsets.all(12.0)
           : const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-      dotsDecorator: const DotsDecorator(
+      dotsDecorator: DotsDecorator(
         size: Size(10.0, 10.0),
-        color: Color(0xFF6C63FF),
+        activeColor: primaryColor,
+        color: primaryColor,
         activeSize: Size(22.0, 10.0),
         activeShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0)),

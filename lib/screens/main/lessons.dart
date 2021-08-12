@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gradely2/screens/auth/introScreen.dart';
 import 'package:gradely2/screens/settings/gradelyPlus.dart';
 import 'package:gradely2/screens/settings/settings.dart';
 import 'package:gradely2/shared/CLASSES.dart';
@@ -114,6 +115,8 @@ class _SemesterDetailState extends State<SemesterDetail> {
 
     if (user.choosenSemester == "noSemesterChoosed") {
       return ChooseSemester();
+    } else if (!user.emailVerification) {
+      return IntroScreen(initPage: 4,);
     } else {
       return Scaffold(
           body: Padding(
