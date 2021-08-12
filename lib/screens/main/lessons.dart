@@ -43,7 +43,6 @@ class _SemesterDetailState extends State<SemesterDetail> {
           jsonDecode(semesterResponse.toString())["documents"][0]["name"];
     });
 
-    lessonList = [];
     var response;
 
     response = await listDocuments(
@@ -51,7 +50,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
         name: "lessonList_${user.choosenSemester}",
         filters: ["parentId=${user.choosenSemester}"]);
     response = jsonDecode(response.toString())["documents"];
-
+    lessonList = [];
     bool _error = false;
     int index = -1;
 

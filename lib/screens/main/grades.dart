@@ -52,7 +52,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   getTests() async {
     setState(() => isLoading = true);
-    gradeList = [];
     var response;
 
     if (user.choosenSemester == null) {
@@ -72,7 +71,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
     bool _error = false;
     int index = -1;
-
+    gradeList = [];
     while (_error == false) {
       index++;
       String id;
