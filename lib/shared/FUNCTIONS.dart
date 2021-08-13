@@ -6,7 +6,6 @@ import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:gradely2/shared/defaultWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 

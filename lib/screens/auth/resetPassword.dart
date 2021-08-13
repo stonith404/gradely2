@@ -6,7 +6,6 @@ import 'package:gradely2/screens/auth/sign_in.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:gradely2/shared/defaultWidgets.dart';
 
 class ResetPW extends StatefulWidget {
   @override

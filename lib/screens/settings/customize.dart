@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:gradely2/shared/defaultWidgets.dart';
 import 'settings.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -49,7 +48,7 @@ class _CustomizeTState extends State<CustomizeT> {
             SizedBox(height: 30),
             Container(
               padding: EdgeInsetsDirectional.all(20),
-              decoration: whiteBoxDec(),
+              decoration: boxDec(),
               height: 220,
               child: Column(
                 children: [

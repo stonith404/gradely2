@@ -8,7 +8,6 @@ import 'package:gradely2/screens/settings/contribute.dart';
 import 'package:gradely2/screens/settings/customize.dart';
 import 'package:gradely2/screens/settings/userInfo.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:gradely2/shared/defaultWidgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
@@ -115,13 +114,13 @@ Future settingsScreen(BuildContext context) {
                                 flex: 1,
                               ),
                             ]),
-                        decoration: whiteBoxDec(),
+                        decoration: boxDec(),
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       Container(
-                        decoration: whiteBoxDec(),
+                        decoration: boxDec(),
                         child: Column(
                           children: [
                             settingsListTile(
@@ -220,7 +219,7 @@ Future settingsScreen(BuildContext context) {
                         height: 20,
                       ),
                       Container(
-                          decoration: whiteBoxDec(),
+                          decoration: boxDec(),
                           child: Column(
                             children: [
                               settingsListTile(

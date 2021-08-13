@@ -4,9 +4,7 @@ import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
-import 'package:gradely2/shared/defaultWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 class ContactScreen extends StatefulWidget {
   @override

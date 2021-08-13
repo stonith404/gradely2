@@ -4,7 +4,6 @@ import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:gradely2/shared/defaultWidgets.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class _AppInfo {
@@ -81,7 +80,7 @@ class _AppInfoState extends State<AppInfo> {
           children: [
             Flexible(
               child: Container(
-                decoration: whiteBoxDec(),
+                decoration: boxDec(),
                 child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,

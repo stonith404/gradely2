@@ -7,9 +7,7 @@ import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:gradely2/shared/defaultWidgets.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-
 import 'package:easy_localization/easy_localization.dart';
 
 // ignore: must_be_immutable
@@ -145,8 +143,10 @@ class _IntroScreenState extends State<IntroScreen> {
                 print(error.response);
               });
 
-              errorSuccessDialog(context: context,
-                  error: false, text: "success_semester_added".tr());
+              errorSuccessDialog(
+                  context: context,
+                  error: false,
+                  text: "success_semester_added".tr());
 
               addLessonController.text = "";
               semesterList = [];
@@ -180,14 +180,12 @@ class _IntroScreenState extends State<IntroScreen> {
                   isLoadingController.add(true);
                   await getUserInfo();
                   if (user.emailVerification) {
-               
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => SemesterDetail()),
                       (Route<dynamic> route) => false,
-                      
                     );
-                         errorSuccessDialog(
+                    errorSuccessDialog(
                         context: context,
                         error: false,
                         text: "success_email_verified".tr());
@@ -203,12 +201,14 @@ class _IntroScreenState extends State<IntroScreen> {
               ),
               TextButton(
                   onPressed: () {
-                   Future result = account.createVerification(
+                    Future result = account.createVerification(
                         url: "https://user.gradelyapp.com?mode=verifyEmail");
 
                     result.then((response) {
-                    errorSuccessDialog(
-                          context: context, error: false, text: "success_email_sent".tr());
+                      errorSuccessDialog(
+                          context: context,
+                          error: false,
+                          text: "success_email_sent".tr());
                     }).catchError((error) {
                       errorSuccessDialog(
                           context: context, error: true, text: error.message);

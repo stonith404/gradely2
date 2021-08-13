@@ -7,7 +7,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:gradely2/shared/defaultWidgets.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:gradely2/shared/loading.dart';
 
@@ -163,7 +162,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                     height: 15,
                   ),
                   Container(
-                    decoration: whiteBoxDec(),
+                    decoration: boxDec(),
                     child: Column(
                       children: [
                         Container(

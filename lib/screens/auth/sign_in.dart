@@ -7,7 +7,6 @@ import 'package:gradely2/screens/auth/resetPassword.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:gradely2/shared/defaultWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool _obsecuredText = true;

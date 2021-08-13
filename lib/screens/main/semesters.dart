@@ -9,7 +9,6 @@ import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:gradely2/shared/defaultWidgets.dart';
 import 'package:gradely2/shared/loading.dart';
 import 'package:easy_localization/easy_localization.dart';
 

@@ -6,7 +6,6 @@ import 'package:gradely2/screens/auth/sign_in.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:gradely2/shared/defaultWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely2/main.dart';
 import 'package:flutter/services.dart';
@@ -151,8 +150,10 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                   result.then((response) {
                                     print(response);
                                   }).catchError((error) {
-                                    errorSuccessDialog(context: context,
-                                        error: true, text: error.message);
+                                    errorSuccessDialog(
+                                        context: context,
+                                        error: true,
+                                        text: error.message);
                                   });
 
                                   Navigator.of(context).pop();
