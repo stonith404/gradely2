@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,6 +26,13 @@ class _IntroScreenState extends State<IntroScreen> {
 
   Widget _buildImage(String assetName, [double width = 350]) {
     return Image.asset('assets/images/$brightness/$assetName', width: width);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    account.createVerification(
+        url: "https://user.gradelyapp.com?mode=verifyEmail");
   }
 
   @override
@@ -140,11 +145,8 @@ class _IntroScreenState extends State<IntroScreen> {
                 print(error.response);
               });
 
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => SemesterDetail()),
-                (Route<dynamic> route) => false,
-              );
+              errorSuccessDialog(context: context,
+                  error: false, text: "success_semester_added".tr());
 
               addLessonController.text = "";
               semesterList = [];
@@ -178,15 +180,17 @@ class _IntroScreenState extends State<IntroScreen> {
                   isLoadingController.add(true);
                   await getUserInfo();
                   if (user.emailVerification) {
-                    errorSuccessDialog(
-                        context: context,
-                        error: false,
-                        text: "success_email_verified".tr());
+               
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => SemesterDetail()),
                       (Route<dynamic> route) => false,
+                      
                     );
+                         errorSuccessDialog(
+                        context: context,
+                        error: false,
+                        text: "success_email_verified".tr());
                   } else {
                     errorSuccessDialog(
                         context: context,
@@ -199,8 +203,16 @@ class _IntroScreenState extends State<IntroScreen> {
               ),
               TextButton(
                   onPressed: () {
-                    account.createVerification(
+                   Future result = account.createVerification(
                         url: "https://user.gradelyapp.com?mode=verifyEmail");
+
+                    result.then((response) {
+                    errorSuccessDialog(
+                          context: context, error: false, text: "success_email_sent".tr());
+                    }).catchError((error) {
+                      errorSuccessDialog(
+                          context: context, error: true, text: error.message);
+                    });
                   },
                   child: Text("send_again".tr())),
               Theme(
@@ -258,16 +270,13 @@ class _IntroScreenState extends State<IntroScreen> {
         ),
       ],
       showDoneButton: false,
-      showSkipButton: true,
+      showSkipButton: false,
       skipFlex: 0,
       nextFlex: 0,
-      skip: const Text('Skip'),
       next: const Icon(Icons.arrow_forward),
       curve: Curves.fastLinearToSlowEaseIn,
       controlsMargin: const EdgeInsets.all(16),
-      controlsPadding: kIsWeb
-          ? const EdgeInsets.all(12.0)
-          : const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+      controlsPadding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
       dotsDecorator: DotsDecorator(
         size: Size(10.0, 10.0),
         activeColor: primaryColor,
@@ -277,7 +286,7 @@ class _IntroScreenState extends State<IntroScreen> {
           borderRadius: BorderRadius.all(Radius.circular(25.0)),
         ),
       ),
-      dotsContainerDecorator: const ShapeDecoration(
+      dotsContainerDecorator: ShapeDecoration(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),

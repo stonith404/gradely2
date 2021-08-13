@@ -131,3 +131,5 @@ error_email_not_verified,Please check your mails and verify your email.,Bitte ü
 success_email_verified,Your email is verified.,Deine Email wurde bestätigt.
 i_verified_email,I verified my email,Ich habe meine Email bestätigt
 send_again,Send again,Erneut senden
+success_semester_added,Your semester was added,Dein Semester wurde hinzugefügt
+success_email_sent,An email was sent successfully.,Eine Email wurde erfolgreich gesendet.

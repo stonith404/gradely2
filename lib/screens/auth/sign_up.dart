@@ -44,8 +44,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         MaterialPageRoute(builder: (context) => IntroScreen()),
         (Route<dynamic> route) => false,
       );
-      account.createVerification(
-          url: "https://user.gradelyapp.com?mode=verifyEmail");
     }).catchError((error) {
       errorSuccessDialog(context: context, error: true, text: error.message);
     });

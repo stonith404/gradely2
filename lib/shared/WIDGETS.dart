@@ -45,7 +45,7 @@ Padding listDivider() {
 //error success dialog
 
 errorSuccessDialog(
-    {BuildContext context,
+    { @required BuildContext context,
     @required bool error,
     String title,
     @required String text}) {

@@ -12,6 +12,7 @@ import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:gradely2/shared/defaultWidgets.dart';
+import 'package:gradely2/shared/loading.dart';
 import 'grades.dart';
 import 'semesters.dart';
 import 'dart:math' as math;
@@ -33,15 +34,17 @@ class SemesterDetail extends StatefulWidget {
 }
 
 class _SemesterDetailState extends State<SemesterDetail> {
-  getLessons() async {
+  getLessons(loading) async {
+    if (loading) setState(() => isLoading = true);
 //get choosen semester name
     var semesterResponse = await listDocuments(
         collection: collectionSemester,
         name: "semesterName",
         filters: ["\$id=${user.choosenSemester}"]);
     setState(() {
-      choosenSemesterName =
-          jsonDecode(semesterResponse.toString())["documents"][0]["name"];
+      choosenSemesterName = jsonDecode(semesterResponse.toString())["documents"]
+              [0]["name"] ??
+          "noSemesterChoosed";
     });
 
     var response;
@@ -76,7 +79,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
       }
       lessonList.sort((a, b) => b.average.compareTo(a.average));
     }
-
+    setState(() => isLoading = false);
     //getSemesteraverage
     double _sum = 0;
     double _ppSum = 0;
@@ -99,7 +102,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
   void initState() {
     super.initState();
     getUserInfo();
-    getLessons();
+    getLessons(true);
   }
 
   void setState(fn) {
@@ -116,7 +119,11 @@ class _SemesterDetailState extends State<SemesterDetail> {
     if (user.choosenSemester == "noSemesterChoosed") {
       return ChooseSemester();
     } else if (!user.emailVerification) {
-      return IntroScreen(initPage: 4,);
+      return IntroScreen(
+        initPage: 4,
+      );
+    } else if (isLoading) {
+      return LoadingScreen();
     } else {
       return Scaffold(
           body: Padding(
@@ -334,7 +341,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                                     item.id ==
                                                     lessonList[index].id);
                                               });
-                                              getLessons();
+                                              getLessons(false);
                                               Navigator.of(context).pop();
                                             },
                                           )
@@ -392,7 +399,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                               builder: (context) =>
                                                   LessonsDetail()),
                                         ).then((value) {
-                                          getLessons();
+                                          getLessons(false);
                                         });
 
                                         selectedLesson = lessonList[index].id;
@@ -533,7 +540,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                     },
                   );
 
-                  await getLessons();
+                  await getLessons(false);
                   Navigator.of(context).pop();
                   addLessonController.text = "";
                   isLoadingController.add(false);
@@ -663,7 +670,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                         "emoji": _selectedEmoji
                       });
 
-                  await getLessons();
+                  await getLessons(false);
                   Navigator.of(context).pop();
 
                   renameTestWeightController.text = "";

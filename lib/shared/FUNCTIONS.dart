@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -265,50 +266,54 @@ clearVariables() {
 //changes email of user
 
 changeEmail(_email, context) async {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("action_required".tr()),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text("re_enter_password_save_changes".tr()),
-                SizedBox(height: 10),
-                TextField(
-                    controller: passwordController,
-                    textAlign: TextAlign.left,
-                    obscureText: true,
-                    decoration: inputDec(label: "your_password".tr())),
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text("ok"),
-                onPressed: () async {
-
-                  try {
-                    await account.updateEmail(
-                      email: _email,
-                      password: passwordController.text,
-                    );
-                    Navigator.of(context).pop();
-                    errorSuccessDialog(
-                        context: context,
-                        error: false,
-                        text: "email_updated".tr());
-                  } catch (e) {
-                    print(e.message);
-                    Navigator.of(context).pop();
-                    errorSuccessDialog(
-                        context: context,
-                        error: true,
-                        text: "error_unknown".tr());
-                  }
-                  passwordController.text = "";
-                },
-              ),
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("action_required".tr()),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("re_enter_password_save_changes".tr()),
+              SizedBox(height: 10),
+              TextField(
+                  controller: passwordController,
+                  textAlign: TextAlign.left,
+                  obscureText: true,
+                  decoration: inputDec(label: "your_password".tr())),
             ],
-          );
-        });
-  }
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text("ok"),
+              onPressed: () async {
+                try {
+                  await account.updateEmail(
+                    email: _email,
+                    password: passwordController.text,
+                  );
+                  Navigator.of(context).pop();
+                  errorSuccessDialog(
+                      context: context,
+                      error: false,
+                      text: "email_updated".tr());
+
+                  Future.delayed(Duration(seconds: 2));
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => SemesterDetail()),
+                    (Route<dynamic> route) => false,
+                  );
+                } catch (e) {
+                  print(e.message);
+                  Navigator.of(context).pop();
+                  errorSuccessDialog(
+                      context: context, error: true, text: e.message);
+                }
+                passwordController.text = "";
+              },
+            ),
+          ],
+        );
+      });
+}
