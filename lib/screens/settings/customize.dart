@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
+import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:gradely2/shared/defaultWidgets.dart';
 import 'settings.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -38,20 +39,8 @@ class _CustomizeTState extends State<CustomizeT> {
         ),
         backgroundColor: defaultBGColor,
         elevation: 0,
-        title: Text("customize".tr(), style: appBarTextTheme),
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_outlined, color: primaryColor),
-            onPressed: () {
-              database.updateDocument(
-                  collectionId: collectionUser,
-                  documentId: user.dbID,
-                  data: {
-                    'color':
-                        "#${(primaryColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
-                  });
-
-              settingsScreen(context);
-            }),
+        title: Text("customize".tr(),
+            style: TextStyle(color: primaryColor, fontWeight: FontWeight.w800)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -61,7 +50,7 @@ class _CustomizeTState extends State<CustomizeT> {
             Container(
               padding: EdgeInsetsDirectional.all(20),
               decoration: whiteBoxDec(),
-              height: 180,
+              height: 220,
               child: Column(
                 children: [
                   Text("change_app_colors".tr(),
@@ -96,6 +85,23 @@ class _CustomizeTState extends State<CustomizeT> {
                       },
                     ),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  gradelyButton(
+                      text: "save",
+                      onPressed: () {
+                        database.updateDocument(
+                            collectionId: collectionUser,
+                            documentId: user.dbID,
+                            data: {
+                              'color':
+                                  "#${(primaryColor.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}"
+                            });
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        settingsScreen(context);
+                      })
                 ],
               ),
             ),
