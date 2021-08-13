@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -51,82 +52,56 @@ class _LoadingScreenState extends State<LoadingScreen>
   Widget build(BuildContext context) {
     darkModeColorChanger(context);
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: defaultBGColor,
-          elevation: 0,
-          title: SvgPicture.asset("assets/images/logo.svg",
-              color: primaryColor, height: 30),
-          leading: Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.rotationY(math.pi),
-            child: IconButton(
-                icon: Icon(Icons.segment, color: primaryColor),
-                onPressed: () async {
-                  settingsScreen(context);
-                }),
-          ),
-          actions: [
-            IconButton(
-                icon: Icon(Icons.switch_left, color: primaryColor),
-                onPressed: () {}),
-          ],
-        ),
-        body: ShaderMask(
-            shaderCallback: (rect) {
-              return LinearGradient(
-                      tileMode: TileMode.mirror,
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [animationOne.value, animationTwo.value])
-                  .createShader(
-                rect,
-              );
-            },
-            child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
-                child: Column(children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        )),
-                    child: Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ShaderMask(
-                                shaderCallback: (rect) {
-                                  return LinearGradient(
-                                      tileMode: TileMode.mirror,
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: [
-                                        animationOne.value,
-                                        animationTwo.value
-                                      ]).createShader(
-                                    rect,
-                                  );
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: primaryColor,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                  ),
-                                  width: 200,
-                                  height: 30.0,
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 15.0),
-                                child: ShaderMask(
+        body: Padding(
+            padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
+            child: ScrollConfiguration(
+              behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: NestedScrollView(
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return <Widget>[
+                    SliverAppBar(
+                      backgroundColor: defaultBGColor,
+                      elevation: 0,
+                      title: SvgPicture.asset("assets/images/logo.svg",
+                          color: primaryColor, height: 30),
+                      leading: Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.rotationY(math.pi),
+                        child: IconButton(
+                            icon: Icon(Icons.segment, color: primaryColor),
+                            onPressed: () async {
+                              settingsScreen(context);
+                            }),
+                      ),
+                      actions: [
+                        IconButton(
+                            icon: Icon(Icons.switch_left, color: primaryColor),
+                            onPressed: () async {}),
+                      ],
+                    ),
+                  ];
+                },
+                body: Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: Column(children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15),
+                          )),
+                      child: Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ShaderMask(
                                   shaderCallback: (rect) {
                                     return LinearGradient(
                                         tileMode: TileMode.mirror,
@@ -146,45 +121,89 @@ class _LoadingScreenState extends State<LoadingScreen>
                                           BorderRadius.all(Radius.circular(10)),
                                     ),
                                     width: 200,
-                                    height: 17.0,
+                                    height: 30.0,
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                          Spacer(flex: 1),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 15, 10),
-                            child: IconButton(
-                                icon: Icon(Icons.add),
-                                color: Colors.white,
-                                onPressed: () {}),
-                          ),
-                        ],
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 15.0),
+                                  child: ShaderMask(
+                                    shaderCallback: (rect) {
+                                      return LinearGradient(
+                                          tileMode: TileMode.mirror,
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                          colors: [
+                                            animationOne.value,
+                                            animationTwo.value
+                                          ]).createShader(
+                                        rect,
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                      ),
+                                      width: 200,
+                                      height: 17.0,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Spacer(flex: 1),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 15, 10),
+                              child: IconButton(
+                                  icon: Icon(Icons.add),
+                                  color: Colors.white,
+                                  onPressed: () {}),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: 9,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                decoration: listContainerDecoration(
-                                    index: index, list: list),
-                                child: ListTile(),
-                              ),
-                              listDivider()
-                            ],
-                          );
-                        }),
-                  ),
-                ]))));
+                    Platform.isMacOS || Platform.isWindows
+                        ? SizedBox(
+                            height: 10,
+                          )
+                        : Container(),
+                    Expanded(
+                        child: ShaderMask(
+                      shaderCallback: (rect) {
+                        return LinearGradient(
+                            tileMode: TileMode.mirror,
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              animationOne.value,
+                              animationTwo.value
+                            ]).createShader(
+                          rect,
+                        );
+                      },
+                      child: ListView.builder(
+                          itemCount: 9,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 15),
+                                  decoration: listContainerDecoration(
+                                      index: index, list: list),
+                                  child: ListTile(),
+                                ),
+                                listDivider()
+                              ],
+                            );
+                          }),
+                    ))
+                  ]),
+                ),
+              ),
+            )));
   }
 }
 
