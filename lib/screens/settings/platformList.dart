@@ -7,7 +7,6 @@ import 'package:gradely2/shared/WIDGETS.dart';
 class PlatformList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print(darkmode);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(

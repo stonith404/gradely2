@@ -14,12 +14,7 @@ class ContactScreen extends StatefulWidget {
 }
 
 class _ContactScreenState extends State<ContactScreen> {
-  bool isEmailsent = false;
   sendMail(String _message) async {
-    setState(() {
-      isEmailsent = true;
-    });
-
     String username = "gradelyapp@hotmail.com";
     String password = "gradlllyconntact!!5";
 
@@ -35,68 +30,27 @@ class _ContactScreenState extends State<ContactScreen> {
 
     try {
       await send(message, smtpServer);
-      setState(() {
-        isEmailsent = false;
-      });
+
       contactMessage.text = "";
+
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => SemesterDetail()),
       );
-      showDialog(
+
+      errorSuccessDialog(
           context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Row(
-                children: [
-                  Icon(FontAwesome5Solid.check_circle),
-                  Spacer(flex: 1),
-                  Text("sent".tr()),
-                  Spacer(flex: 10)
-                ],
-              ),
-              content: Text("${"contact_success_text".tr()} ${user.email}."),
-              actions: <Widget>[
-                gradelyButton(
-                  text: "ok",
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          });
+          error: false,
+          text: "${"contact_success_text".tr()} ${user.email}.",
+          title: "sent".tr());
     } on MailerException catch (_) {
-      setState(() {
-        isEmailsent = false;
-      });
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => SemesterDetail()),
       );
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Row(
-                children: [
-                  Icon(FontAwesome5Solid.exclamation_circle),
-                  Spacer(flex: 1),
-                  Text("error".tr()),
-                  Spacer(flex: 10)
-                ],
-              ),
-              content: Text("error_contact".tr()),
-              actions: <Widget>[
-                gradelyButton(
-                  text: "ok",
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          });
+
+      errorSuccessDialog(
+          context: context, error: true, text: "error_contact".tr());
     }
   }
 
@@ -130,16 +84,14 @@ class _ContactScreenState extends State<ContactScreen> {
                 ),
                 SizedBox(height: 50),
                 gradelyButton(
-                    onPressed: isEmailsent
-                        ? null
-                        : () {
-                            isLoadingController.add(true);
-                            if (contactMessage.text == "") {
-                            } else {
-                              sendMail(contactMessage.text);
-                            }
-                            isLoadingController.add(false);
-                          },
+                    onPressed: () async {
+                      isLoadingController.add(true);
+                      if (contactMessage.text == "") {
+                      } else {
+                        await sendMail(contactMessage.text);
+                      }
+                      isLoadingController.add(false);
+                    },
                     text: "send".tr()),
               ],
             ),

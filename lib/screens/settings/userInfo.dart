@@ -169,7 +169,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   obscureText: true,
                   controller: passwordPlaceholder,
                   textAlign: TextAlign.left,
-                  decoration: inputDec(label: "Password".tr())),
+                  decoration: inputDec(label: "password".tr())),
             ),
             SizedBox(
               height: 20,
