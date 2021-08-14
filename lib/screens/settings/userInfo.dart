@@ -42,18 +42,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 color: primaryColor,
               ),
               onPressed: () async {
-                Future result = account.getSession(
-                  sessionId: 'current',
-                );
-
-                await result.then((response) {
-                  response = jsonDecode(response.toString());
-
-                  account.deleteSession(sessionId: response["\$id"]);
-                  prefs.setBool("signedIn", false);
-                });
-
-                clearVariables();
+                await signOut();
 
                 Navigator.pushReplacement(
                   context,

@@ -316,3 +316,18 @@ changeEmail(_email, context) async {
         );
       });
 }
+
+signOut() async {
+  Future result = account.getSession(
+    sessionId: 'current',
+  );
+
+  await result.then((response) {
+    response = jsonDecode(response.toString());
+
+    account.deleteSession(sessionId: response["\$id"]);
+    prefs.setBool("signedIn", false);
+  });
+
+  clearVariables();
+}

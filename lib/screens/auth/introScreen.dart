@@ -59,6 +59,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   color: primaryColor,
                   icon: Icon(FontAwesome5Solid.sign_out_alt),
                   onPressed: () async {
+                    await signOut();
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => SignInPage()),
