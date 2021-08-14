@@ -81,16 +81,21 @@ class _ContactScreenState extends State<ContactScreen> {
                       decoration: inputDec(label: "your_message".tr())),
                 ),
                 SizedBox(height: 50),
-                gradelyButton(
-                    onPressed: () async {
-                      isLoadingController.add(true);
-                      if (contactMessage.text == "") {
-                      } else {
-                        await sendMail(contactMessage.text);
-                      }
-                      isLoadingController.add(false);
-                    },
-                    text: "send".tr()),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    gradelyButton(
+                        onPressed: () async {
+                          isLoadingController.add(true);
+                          if (contactMessage.text == "") {
+                          } else {
+                            await sendMail(contactMessage.text);
+                          }
+                          isLoadingController.add(false);
+                        },
+                        text: "send".tr()),
+                  ],
+                ),
               ],
             ),
           ),
