@@ -6,6 +6,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 Future statisticsScreen(BuildContext context) {
+  gradeList.sort((a, b) => a.date.compareTo(b.date));
   return showCupertinoModalBottomSheet(
     expand: true,
     context: context,

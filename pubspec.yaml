@@ -4,10 +4,10 @@ description: Your grades on every device.
 # The following line prevents the package from being accidentally published to pub.dev using `pub publish`. 
 publish_to: 'none'
 
-version: 1.0.3+5
+version: 1.0.3+6
 #Latest builds:
-#MacOS  5
-#android: 5
+#MacOS  10
+#android: 6
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

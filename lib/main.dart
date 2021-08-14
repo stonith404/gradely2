@@ -87,7 +87,7 @@ class MaterialWrapper extends StatelessWidget {
             style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
         )),
-        dialogBackgroundColor: Color(0xFF010001),
+        dialogBackgroundColor: Color(0xFF1a1a1a),
         scaffoldBackgroundColor: Color(0xFF010001),
         brightness: Brightness.dark,
         primaryColor: primaryColor,
