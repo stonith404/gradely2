@@ -35,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         "gradeType": "av",
         "choosenSemester": "noSemesterChoosed"
       });
-
+      await getUserInfo();
       prefs.setBool("signedIn", true);
       passwordController.text = "";
       Navigator.pushAndRemoveUntil(

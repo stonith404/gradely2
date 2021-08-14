@@ -17,7 +17,7 @@ var courseListID = [];
 var allAverageList = [];
 var allAverageListPP = [];
 
-void main() async { 
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await sharedPrefs();
@@ -61,6 +61,7 @@ class MaterialWrapper extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: ThemeData(
+        splashColor: primaryColor,
         textButtonTheme: TextButtonThemeData(
             style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
@@ -76,6 +77,7 @@ class MaterialWrapper extends StatelessWidget {
         backgroundColor: Colors.grey[300],
       ),
       darkTheme: ThemeData(
+        splashColor: primaryColor,
         appBarTheme: AppBarTheme(
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.white),
