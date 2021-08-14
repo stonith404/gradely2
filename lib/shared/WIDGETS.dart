@@ -206,39 +206,20 @@ Widget gradelyDialog(
     @required String title,
     @required String text,
     var actions}) {
-  androidDialog() {
-    return AlertDialog(
-        title: Text(title),
-        content: Text(text),
-        actions: actions ??
-            [
-              TextButton(
-                  child: Text(
-                    "Ok",
-                    style: TextStyle(color: primaryColor),
-                  ),
-                  onPressed: () => Navigator.of(context).pop())
-            ]);
-  }
-
   showDialog(
       context: context,
-      builder: (BuildContext context) {
-        if (Platform.isIOS || Platform.isMacOS) {
-          return CupertinoAlertDialog(
-              title: Text(title),
-              content: Text(text),
-              actions: actions ??
-                  [
-                    CupertinoButton(
-                        child: Text(
-                          "Ok",
-                          style: TextStyle(color: primaryColor),
-                        ),
-                        onPressed: () => Navigator.of(context).pop())
-                  ]);
-        } else {
-          return androidDialog();
-        }
+      builder: (context) {
+        return AlertDialog(
+            title: Text(title),
+            content: Text(text),
+            actions: actions ??
+                [
+                  TextButton(
+                      child: Text(
+                        "Ok",
+                        style: TextStyle(color: primaryColor),
+                      ),
+                      onPressed: () => Navigator.of(context).pop())
+                ]);
       });
 }

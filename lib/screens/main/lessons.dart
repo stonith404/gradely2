@@ -627,10 +627,36 @@ class _SemesterDetailState extends State<SemesterDetail> {
                       },
                     );
                   } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => GradelyPlus()),
-                    );
+                    gradelyDialog(
+                        context: context,
+                        title: "Gradely Plus",
+                        text: "gradely_plus_required".tr() + "❤️",
+                        actions: [
+                          CupertinoButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => GradelyPlus()),
+                                );
+                              },
+                              child: Text(
+                                "ok",
+                                style: TextStyle(color: primaryColor),
+                              )),
+                          CupertinoButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => GradelyPlus()),
+                                );
+                              },
+                              child: Text(
+                                "learn_more".tr(),
+                                style: TextStyle(color: primaryColor),
+                              )),
+                        ]);
                   }
                 },
                 child: ((() {

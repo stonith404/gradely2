@@ -77,6 +77,7 @@ re_enter_password_save_changes,Please re enter your password to save your change
 delete_account,Delete account,Account löschen
 save,save,speichern
 change_password,Change password,Passwort ändern
+warning,Warning,Achtung
 change_password_text,To change your password click the button below. you get an email there you can change your password.,Um dein Passwort zu ändern drücke den Knopf unten. Du bekommst eine Email dort kannst du dein Passwort ändern.
 delete_account_text,Warning! Do you really want to delete your account and your grades? this can't be undone.,Achtung! Willst du wirklich all deine Noten und dein Account löschen? Dies kann nicht Rückgängig gemacht werden.
 reset,Reset,Zurücksetzen
@@ -133,3 +134,5 @@ i_verified_email,I verified my email,Ich habe meine Email bestätigt
 send_again,Send again,Erneut senden
 success_semester_added,Your semester was added,Dein Semester wurde hinzugefügt
 success_email_sent,An email was sent successfully.,Eine Email wurde erfolgreich gesendet.
+gradely_plus_required,"To use this feature you have to be a Gradely Plus member, it's really cheap but supports this app really much.","Um diese Funktion zu nutzen, brauchst du Gradely Plus. Es ist nicht so teuer aber unterstützt die App sehr."
+learn_more,Learn more,Mehr erfahren
