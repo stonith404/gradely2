@@ -115,14 +115,14 @@ class _SignInPageState extends State<SignInPage> {
                       keyboardType: TextInputType.emailAddress,
                       controller: emailController,
                       textAlign: TextAlign.left,
-                      decoration: inputDec(label: "Deine Email")),
+                      decoration: inputDec(label: "your_email".tr())),
                   Spacer(flex: 5),
                   TextField(
                       controller: passwordController,
                       textAlign: TextAlign.left,
                       obscureText: _obsecuredText,
                       decoration: inputDec(
-                        label: "Dein Passwort",
+                        label: "your_password".tr(),
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
