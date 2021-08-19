@@ -113,30 +113,11 @@ class _ResetPWState extends State<ResetPW> {
                           context,
                           MaterialPageRoute(builder: (context) => SignInPage()),
                         );
-                        showDialog(
+                        errorSuccessDialog(
                             context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Row(
-                                  children: [
-                                    Icon(FontAwesome5Solid.check_circle),
-                                    Spacer(flex: 1),
-                                    Text("sent".tr()),
-                                    Spacer(flex: 10)
-                                  ],
-                                ),
-                                content:
-                                    Text("password_reset_success_text".tr()),
-                                actions: <Widget>[
-                                  gradelyButton(
-                                    text: "ok",
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            });
+                            error: false,
+                            text: "password_reset_success_text".tr(),
+                            title: "sent".tr());
                       },
                       text: "request_link".tr()),
                   Spacer(flex: 35),

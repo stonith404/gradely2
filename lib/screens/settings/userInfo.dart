@@ -136,7 +136,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                         'https://user.gradelyapp.com?mode=passwordReset',
                                   );
                                   result.then((response) {
-                                    print(response);
+                                    errorSuccessDialog(
+                                        context: context,
+                                        error: false,
+                                        text:
+                                            "password_reset_success_text".tr(),
+                                        title: "sent".tr());
                                   }).catchError((error) {
                                     errorSuccessDialog(
                                         context: context,
