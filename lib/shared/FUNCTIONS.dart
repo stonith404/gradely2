@@ -62,6 +62,8 @@ Future getUserInfo() async {
               0xFF000000));
 
       primaryColor = user.color;
+    }).catchError((error) {
+      print(error.response);
     });
   }
   return "done";
@@ -330,4 +332,12 @@ signOut() async {
   });
 
   clearVariables();
+}
+
+isDesktop(context) {
+  if (MediaQuery.of(context).size.width > 800) {
+    return true;
+  } else {
+    return false;
+  }
 }

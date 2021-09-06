@@ -119,7 +119,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               onTap: () {
                 showDialog(
                     context: context,
-                    builder: (BuildContext context) {
+                    builder: (BuildContext contextP) {
                       return AlertDialog(
                         title: Text("change_password".tr()),
                         content: Column(

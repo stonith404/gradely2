@@ -378,31 +378,18 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                     onPressed: () {
                                                       Navigator.of(context)
                                                           .pop();
-                                                      bool formatError = false;
-                                                      for (var e in gradeList) {
-                                                        try {
-                                                          if (e.date[2]
-                                                              .contains(".")) {
-                                                            formatError = true;
-                                                          }
-                                                        } catch (e) {
-                                                          formatError = true;
-                                                        }
-                                                      }
+
                                                       if (gradeList
-                                                          .contains("-")) {
+                                                          .where((element) =>
+                                                              element.date ==
+                                                              "")
+                                                          .toList()
+                                                          .isNotEmpty) {
                                                         gradelyDialog(
                                                             context: context,
                                                             title: "error".tr(),
                                                             text:
                                                                 "error_stats_contain_no_date"
-                                                                    .tr());
-                                                      } else if (formatError) {
-                                                        gradelyDialog(
-                                                            context: context,
-                                                            title: "error".tr(),
-                                                            text:
-                                                                "error_stats_date_badly_formatted"
                                                                     .tr());
                                                       } else {
                                                         statisticsScreen(

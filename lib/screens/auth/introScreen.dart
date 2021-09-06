@@ -171,6 +171,11 @@ class _IntroScreenState extends State<IntroScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 19),
               ),
+              Text(
+                "\n" + "check_email_spam".tr(),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 15),
+              ),
             ],
           ),
           footer: Column(
