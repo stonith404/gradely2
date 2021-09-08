@@ -1,4 +1,4 @@
-import 'package:appwrite/appwrite.dart' hide Locale;
+import 'package:appwrite/appwrite.dart' as appwrite;
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,12 +21,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await sharedPrefs();
-  client = Client();
-  account = Account(client);
-  database = Database(client);
+
+  client = appwrite.Client();
+  account = appwrite.Account(client);
+  database = appwrite.Database(client);
+  locale = appwrite.Locale(client);
   client
       .setEndpoint('https://aw.cloud.eliasschneider.com/v1')
       .setProject('60f40cb212896');
+
   runApp(EasyLocalization(
       supportedLocales: [Locale('de'), Locale('en')],
       useOnlyLangCode: true,
@@ -61,7 +64,8 @@ class MaterialWrapper extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: ThemeData(
-        splashColor: primaryColor,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         textButtonTheme: TextButtonThemeData(
             style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
@@ -77,7 +81,8 @@ class MaterialWrapper extends StatelessWidget {
         backgroundColor: Colors.grey[300],
       ),
       darkTheme: ThemeData(
-        splashColor: primaryColor,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         appBarTheme: AppBarTheme(
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.white),
@@ -108,6 +113,7 @@ class _State extends State<HomeWrapper> {
   @override
   void initState() {
     super.initState();
+  
     getUserData = getUserInfo();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   }

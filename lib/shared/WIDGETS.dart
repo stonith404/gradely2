@@ -208,7 +208,9 @@ Widget gradelyDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-            title: Text(title),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15))),
+            title: Text(title, style: TextStyle(fontWeight: FontWeight.w700),),
             content: Text(text),
             actions: actions ??
                 [

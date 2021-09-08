@@ -102,6 +102,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
     super.initState();
     getUserInfo();
     getLessons(true);
+    serverError(context);
   }
 
   void setState(fn) {

@@ -25,6 +25,7 @@ double screenwidth = 0;
 Client client;
 Account account;
 Database database;
+Locale locale;
 
 //colors
 Color primaryColor = Color(0xFF6C63FF);

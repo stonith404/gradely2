@@ -69,20 +69,46 @@ Future getUserInfo() async {
   return "done";
 }
 
-//checks if client is connected to the server
+//checks if client is connected to the server 
 
 Future internetConnection() async {
-  bool connected;
+  bool serverup;
+  Future result = locale.getContinents();
+
+  await result.then((response) {
+    if (response == null) {
+      serverup = false;
+    } else {
+      serverup = true;
+    }
+  }).catchError((error) {
+    serverup = false;
+  });
+  return serverup;
+}
+
+//checks if the server is offline but there is a network connection
+
+Future serverError(context) async {
+  bool connectionToServer = await internetConnection();
+  bool connectionToInternet;
+  bool isServerError;
   try {
-    final result = await InternetAddress.lookup('aw.cloud.eliasschneider.com');
-    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      connected = true;
+    final result = await InternetAddress.lookup('google.com');
+    if ((result.isNotEmpty && result[0].rawAddress.isNotEmpty)) {
+      connectionToInternet = true;
     }
   } on SocketException catch (_) {
-    connected = false;
+    connectionToInternet = false;
   }
 
-  return connected;
+  if (connectionToServer == false && connectionToInternet == true) {
+    errorSuccessDialog(context: context, error: true, title: "server_down".tr(), text: "error_server_down".tr());
+    isServerError = true;
+  } else {
+    isServerError = false;
+  }
+  return isServerError;
 }
 
 //get documents from the db or from the cache
