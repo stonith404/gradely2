@@ -128,7 +128,7 @@ class _State extends State<HomeWrapper> {
           if (snap.data == null) {
             return LoadingScreen();
           } else {
-            if (prefs.getBool("signedIn")) {
+            if (prefs.getBool("signedIn") ?? false) {
               return SemesterDetail();
             } else {
               return SignInPage();

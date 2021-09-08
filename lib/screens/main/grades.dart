@@ -382,7 +382,9 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                       if (gradeList
                                                           .where((element) =>
                                                               element.date ==
-                                                              "")
+                                                                  "" ||
+                                                              element.date ==
+                                                                  "-")
                                                           .toList()
                                                           .isNotEmpty) {
                                                         gradelyDialog(

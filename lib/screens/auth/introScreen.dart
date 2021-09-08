@@ -241,6 +241,7 @@ class _IntroScreenState extends State<IntroScreen> {
                       children: [
                         Expanded(
                           child: TextField(
+                              style: TextStyle(color: wbColor),
                               keyboardType: TextInputType.emailAddress,
                               controller: changeEmailController,
                               textAlign: TextAlign.left,

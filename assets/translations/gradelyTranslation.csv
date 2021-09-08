@@ -100,7 +100,7 @@ ice_coffee,Ice coffe,Eis Kaffee
 success,Success,Erfolgreich
 email_updated,Your email was updated,Deine Email wurde aktualisiert
 name_updated,Your name was updated,Dein Name wurde aktualisiert
-no_network_offline_loading,It looks like you don't have a connection to the server and your data isnt't stored offline. Try again later.,"Es sieht so aus, dass du keine Verbindung zum Server hast und deine Daten nicht offline gespeichert sind. Versuche es später erneut."
+no_network_offline_loading,It looks like you have a slow or no internet connection.,"Es sieht so aus, dass du keine oder eine langsame Internet Verbindung hast."
 network_needed_title,Network Connection,Internet Verbindung
 network_needed_text,To use this feature you need a network connection.,"Um diese Funktion zu nutzen, brauchst du eine Internet Verbindung."
 app_info,App Information,App Informationen
