@@ -1,4 +1,5 @@
-# Gradely 2
+ # <center><img src="./assets/images/macOSlogo.png" width="40"/> </br>Gradely 2</center>
+
 
 A Grade Calculator App, that syncs all your Grades across all your devices, built with Flutter and with the amazing backend [Appwrite](https://appwrite.io).
 
@@ -29,7 +30,7 @@ Gradely 2 is available on:
 - IOS
 - MacOS
 - Android
-- Windows
+- Windows (Beta)
 
 You can download Gradely 2 on https://gradelyapp.com.
 
