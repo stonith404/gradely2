@@ -60,7 +60,6 @@ Future getUserInfo() async {
           dbResponse["\$id"],
           Color(int.parse(dbResponse["color"].substring(1, 7), radix: 16) +
               0xFF000000));
-
       primaryColor = user.color;
     }).catchError((error) {
       print(error.response);
@@ -69,7 +68,7 @@ Future getUserInfo() async {
   return "done";
 }
 
-//checks if client is connected to the server 
+//checks if client is connected to the server
 
 Future internetConnection() async {
   bool serverup;
@@ -103,7 +102,11 @@ Future serverError(context) async {
   }
 
   if (connectionToServer == false && connectionToInternet == true) {
-    errorSuccessDialog(context: context, error: true, title: "server_down".tr(), text: "error_server_down".tr());
+    errorSuccessDialog(
+        context: context,
+        error: true,
+        title: "server_down".tr(),
+        text: "error_server_down".tr());
     isServerError = true;
   } else {
     isServerError = false;
@@ -157,16 +160,33 @@ Future<bool> reAuthenticate(
   return success;
 }
 
+frontColor() {
+  Color color;
+  if (primaryColor == Color(0xFFFFFFFF)) {
+    color = Colors.black;
+  } else {
+    color = color = Colors.white;
+  }
+  return color;
+}
+
 //checks if darkmode is activated and changes colors
 
 darkModeColorChanger(context) {
   if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
+    print(primaryColor);
+    if (primaryColor == Color(0xff000000)) {
+      primaryColor = Colors.white;
+    }
     darkmode = true;
     brightness = "dark";
     bwColor = Color(0xFF1d1c1e);
     wbColor = Colors.white;
     defaultBGColor = Color(0xFF010001);
   } else {
+    if (primaryColor == Color(0xffffffff)) {
+      primaryColor = Colors.black;
+    }
     darkmode = false;
     brightness = "light";
     bwColor = Colors.white;

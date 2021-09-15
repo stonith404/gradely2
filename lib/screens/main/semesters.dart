@@ -122,7 +122,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                 color: primaryColor,
                                 iconWidget: Icon(
                                   FontAwesome5Solid.pencil_alt,
-                                  color: Colors.white,
+                                  color: frontColor(),
                                 ),
                                 onTap: () {
                                   Navigator.push(
@@ -144,7 +144,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                 color: primaryColor,
                                 iconWidget: Icon(
                                   FontAwesome5.trash_alt,
-                                  color: Colors.white,
+                                  color: frontColor(),
                                 ),
                                 onTap: () {
                                   return gradelyDialog(

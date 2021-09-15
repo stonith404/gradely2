@@ -2,6 +2,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -90,7 +91,7 @@ errorSuccessDialog(
         blurRadius: 20,
       ),
     ],
-    backgroundColor: darkmode ? Colors.black : Colors.white,
+    backgroundColor: darkmode ? Colors.black : frontColor(),
     dismissDirection: FlushbarDismissDirection.VERTICAL,
     // The default curve is Curves.easeOut
     animationDuration: Duration(milliseconds: 500),
@@ -118,7 +119,9 @@ Widget gradelyButton({Function onPressed, String text}) {
             borderRadius: BorderRadius.circular(12), // <-- Radius
           ),
         ),
-        child: isLoading ? CupertinoActivityIndicator() : Text(text),
+        child: isLoading
+            ? CupertinoActivityIndicator()
+            : Text(text, style: TextStyle(color: frontColor())),
         onPressed: onPressed);
   });
 }
@@ -139,7 +142,7 @@ Widget gradelyIconButton({Function onPressed, Icon icon}) {
         radius: 22,
         backgroundColor: primaryColor,
         child: IconButton(
-            color: Colors.white,
+            color: frontColor(),
             icon: isLoading ? CupertinoActivityIndicator() : icon,
             onPressed: onPressed));
   });
@@ -210,7 +213,10 @@ Widget gradelyDialog(
         return AlertDialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15))),
-            title: Text(title, style: TextStyle(fontWeight: FontWeight.w700),),
+            title: Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.w700),
+            ),
             content: Text(text),
             actions: actions ??
                 [

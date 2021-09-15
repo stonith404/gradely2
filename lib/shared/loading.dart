@@ -27,9 +27,9 @@ class _LoadingScreenState extends State<LoadingScreen>
 
     controllerOne = AnimationController(
         duration: Duration(milliseconds: 2000), vsync: this);
-    animationOne = ColorTween(begin: Colors.white, end: Colors.grey[300])
+    animationOne = ColorTween(begin: frontColor(), end: Colors.grey[300])
         .animate(controllerOne);
-    animationTwo = ColorTween(begin: Colors.grey[300], end: Colors.white)
+    animationTwo = ColorTween(begin: Colors.grey[300], end: frontColor())
         .animate(controllerOne);
     controllerOne.forward();
     controllerOne.addListener(() {
@@ -158,7 +158,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                               padding: const EdgeInsets.fromLTRB(0, 0, 15, 10),
                               child: IconButton(
                                   icon: Icon(Icons.add),
-                                  color: Colors.white,
+                                  color: frontColor(),
                                   onPressed: () {}),
                             ),
                           ],

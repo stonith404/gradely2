@@ -28,7 +28,7 @@ Database database;
 Locale locale;
 
 //colors
-Color primaryColor = Color(0xFF6C63FF);
+Color primaryColor = Colors.white;
 Color wbColor;
 Color bwColor;
 Color defaultBGColor;

@@ -187,7 +187,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 28,
-                                        color: Colors.white),
+                                        color: frontColor()),
                                   ),
                                   Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -197,7 +197,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                           Text("Ø",
                                               style: TextStyle(
                                                 fontSize: 19,
-                                                color: Colors.white,
+                                                color: frontColor(),
                                               )),
                                           SizedBox(
                                             width: 5,
@@ -209,7 +209,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                                       .toStringAsFixed(2),
                                               style: TextStyle(
                                                 fontSize: 20,
-                                                color: Colors.white,
+                                                color: frontColor(),
                                               )),
                                           SizedBox(
                                             width: 20,
@@ -220,7 +220,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                                   Icons
                                                       .add_circle_outline_outlined,
                                                   size: 19,
-                                                  color: Colors.white,
+                                                  color: frontColor(),
                                                 ),
                                           SizedBox(
                                             width: 5,
@@ -234,7 +234,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                                           .toString(),
                                                   style: TextStyle(
                                                     fontSize: 20,
-                                                    color: Colors.white,
+                                                    color: frontColor(),
                                                   ))
                                         ],
                                       )),
@@ -243,7 +243,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                               Spacer(flex: 1),
                               IconButton(
                                   icon: Icon(Icons.add),
-                                  color: Colors.white,
+                                  color: frontColor(),
                                   onPressed: () {
                                     Navigator.push(
                                       context,
@@ -280,7 +280,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                     color: primaryColor,
                                     iconWidget: Icon(
                                       FontAwesome5Solid.pencil_alt,
-                                      color: Colors.white,
+                                      color: frontColor(),
                                     ),
                                     onTap: () {
                                       Navigator.push(
@@ -305,7 +305,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                     color: primaryColor,
                                     iconWidget: Icon(
                                       FontAwesome5.trash_alt,
-                                      color: Colors.white,
+                                      color: frontColor(),
                                     ),
                                     onTap: () {
                                       gradelyDialog(

@@ -73,7 +73,7 @@ class MaterialWrapper extends StatelessWidget {
         dialogBackgroundColor: Color(0xFFF2F2F7),
         appBarTheme: AppBarTheme(
           centerTitle: true,
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: frontColor()),
         ),
         brightness: Brightness.light,
         primaryColor: primaryColor,
@@ -85,7 +85,7 @@ class MaterialWrapper extends StatelessWidget {
         highlightColor: Colors.transparent,
         appBarTheme: AppBarTheme(
           centerTitle: true,
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: frontColor()),
         ),
         backgroundColor: Color(0xFF010001),
         textButtonTheme: TextButtonThemeData(
@@ -113,7 +113,7 @@ class _State extends State<HomeWrapper> {
   @override
   void initState() {
     super.initState();
-  
+
     getUserData = getUserInfo();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   }

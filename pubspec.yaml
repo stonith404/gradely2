@@ -6,8 +6,8 @@ publish_to: 'none'
 
 version: 1.0.4+7
 #Latest builds:
-#MacOS  10
-#android: 6
+#MacOS  11
+#android: 7
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

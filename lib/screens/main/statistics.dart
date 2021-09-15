@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradely2/shared/CLASSES.dart';
+import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -28,7 +29,7 @@ Future statisticsScreen(BuildContext context) {
                           radius: 22,
                           backgroundColor: primaryColor,
                           child: IconButton(
-                              color: Colors.white,
+                              color: frontColor(),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },

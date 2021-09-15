@@ -196,7 +196,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                             color: primaryColor,
                                             iconWidget: Icon(
                                               FontAwesome5.trash_alt,
-                                              color: Colors.white,
+                                              color: frontColor(),
                                             ),
                                             onTap: () {
                                               noNetworkDialog(context);
@@ -349,7 +349,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                     icon: Icon(
                                                       FontAwesome5Solid
                                                           .calculator,
-                                                      color: Colors.white,
+                                                      color: frontColor(),
                                                     ),
                                                     onPressed: () {
                                                       Navigator.of(context)
@@ -373,7 +373,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                 child: IconButton(
                                                     icon: Icon(
                                                       FontAwesome5.chart_bar,
-                                                      color: Colors.white,
+                                                      color: frontColor(),
                                                     ),
                                                     onPressed: () {
                                                       Navigator.of(context)
@@ -773,7 +773,7 @@ Future dreamGradeC(BuildContext context) {
                         radius: 22,
                         backgroundColor: primaryColor,
                         child: IconButton(
-                            color: Colors.white,
+                            color: frontColor(),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },

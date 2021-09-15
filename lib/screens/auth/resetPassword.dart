@@ -45,19 +45,8 @@ class _ResetPWState extends State<ResetPW> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset("assets/images/logo.svg",
-                                  color: Colors.white, height: 60),
-                              Text(" radely",
-                                  style: TextStyle(
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                  ))
-                            ],
-                          ),
+                          SvgPicture.asset("assets/images/logo.svg",
+                              color: frontColor(), height: 60),
                         ],
                       )),
                   //fix the small space
