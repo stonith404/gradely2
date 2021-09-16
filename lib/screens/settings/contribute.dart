@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gradely2/screens/settings/contact.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
@@ -24,7 +25,11 @@ class Contribute extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            Image.asset("assets/images/$brightness/love.png", height: 150),
+            SvgPicture.asset(
+              'assets/images/ZombieingDoodle.svg',
+              width: 150,
+              color: primaryColor,
+            ),
             SizedBox(
               height: 15,
             ),

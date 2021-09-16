@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -20,9 +21,10 @@ class PlatformList extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: ListView(
           children: [
-            Image.asset(
-              "assets/images/$brightness/sync.png",
-              height: 250,
+            SvgPicture.asset(
+              'assets/images/MeditatingDoodle.svg',
+              width: 250,
+              color: primaryColor,
             ),
             SizedBox(height: 50),
             Text(

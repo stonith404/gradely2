@@ -23,7 +23,11 @@ class _IntroScreenState extends State<IntroScreen> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   Widget _buildImage(String assetName, [double width = 350]) {
-    return Image.asset('assets/images/$brightness/$assetName', width: width);
+    return SvgPicture.asset(
+      'assets/images/$assetName',
+      width: width,
+      color: primaryColor,
+    );
   }
 
   @override
@@ -35,6 +39,7 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   Widget build(BuildContext context) {
+    darkModeColorChanger(context);
     const bodyStyle = TextStyle(fontSize: 19.0);
 
     const pageDecoration = const PageDecoration(
@@ -80,8 +85,10 @@ class _IntroScreenState extends State<IntroScreen> {
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
           body: "intro_gradely_helps_monitoring".tr(),
           image: Padding(
-            padding: const EdgeInsets.only(top: 80.0),
-            child: _buildImage('welcome.png'),
+            padding: const EdgeInsets.only(top: 120.0),
+            child: _buildImage(
+              "BalletDoodle.svg",
+            ),
           ),
           decoration: pageDecoration,
         ),
@@ -90,7 +97,7 @@ class _IntroScreenState extends State<IntroScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
           body: "intro_messaqge_sync".tr(),
-          image: _buildImage('sync.png'),
+          image: _buildImage('MeditatingDoodle.svg'),
           footer: Text("intro_more_in_settings".tr()),
           decoration: pageDecoration,
         ),
@@ -99,7 +106,7 @@ class _IntroScreenState extends State<IntroScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34)),
           body: "grade_result_change_in_settings".tr(),
-          image: _buildImage('choose.png'),
+          image: _buildImage('MessyDoodle.svg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
@@ -224,7 +231,8 @@ class _IntroScreenState extends State<IntroScreen> {
               Theme(
                 data: ThemeData().copyWith(
                     dividerColor: Colors.transparent,
-                    accentColor: primaryColor),
+                    colorScheme: ColorScheme.fromSwatch()
+                        .copyWith(secondary: primaryColor)),
                 child: ExpansionTile(
                   textColor: primaryColor,
                   collapsedTextColor: primaryColor,

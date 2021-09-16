@@ -134,9 +134,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
             color: primaryColor,
           ),
           backgroundColor: defaultBGColor,
-          title: Text(selectedLessonName,
-              style:
-                  TextStyle(color: primaryColor, fontWeight: FontWeight.w800)),
+          title: Text(selectedLessonName, style: title),
           elevation: 0),
       body: Column(
         children: [

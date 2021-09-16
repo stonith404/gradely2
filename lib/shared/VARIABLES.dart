@@ -28,7 +28,7 @@ Database database;
 Locale locale;
 
 //colors
-Color primaryColor = Colors.white;
+Color primaryColor = Colors.black;
 Color wbColor;
 Color bwColor;
 Color defaultBGColor;
@@ -41,11 +41,19 @@ final collectionLessons = "60f40d0ed5da4";
 final collectionGrades = "60f71651520e5";
 
 //vars for customize
-var appBarTextTheme =
-    TextStyle(color: primaryColor, fontWeight: FontWeight.w800);
+var appBarTextTheme = TextStyle(
+  color: primaryColor,
+  fontWeight: FontWeight.w900,
+  letterSpacing: 1.5,
+  fontFamily: "PlayfairDisplay",
+);
 
-var title =
-    TextStyle(color: primaryColor, fontWeight: FontWeight.w600, fontSize: 21);
+var title = TextStyle(
+    color: primaryColor,
+    fontWeight: FontWeight.w900,
+    letterSpacing: 1.5,
+    fontFamily: "PlayfairDisplay",
+    fontSize: 21);
 
 //text controllers
 

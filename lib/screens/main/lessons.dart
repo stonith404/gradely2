@@ -185,7 +185,8 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                   Text(
                                     choosenSemesterName,
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "PlayfairDisplay",
+                                        fontWeight: FontWeight.w900,
                                         fontSize: 28,
                                         color: frontColor()),
                                   ),
@@ -432,9 +433,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
           ),
           backgroundColor: defaultBGColor,
           elevation: 0,
-          title: Text("add_lesson".tr(),
-              style:
-                  TextStyle(color: primaryColor, fontWeight: FontWeight.w800)),
+          title: Text("add_lesson".tr(), style: appBarTextTheme),
           shape: defaultRoundedCorners(),
         ),
         body: Padding(
@@ -588,9 +587,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
           ),
           backgroundColor: defaultBGColor,
           elevation: 0,
-          title: Text("rename".tr(),
-              style:
-                  TextStyle(color: primaryColor, fontWeight: FontWeight.w800)),
+          title: Text("rename".tr(), style: appBarTextTheme),
           shape: defaultRoundedCorners(),
         ),
         body: Padding(

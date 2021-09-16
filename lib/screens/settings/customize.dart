@@ -5,22 +5,12 @@ import 'settings.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 List _colorList = [
+  Color(0xff000000),
   Color(0xFF6C63FF),
-  Color(0xFF4a47a3),
-  Color(0xFF709fb0),
-  Color(0xFFa7c5eb),
-  Color(0xFF440a67),
-  Color(0xFF93329e),
-  Color(0xFFFF69B4),
-  Color(0xFFb4aee8),
-  Color(0xFF693c72),
-  Color(0xFFc15050),
-  Color(0xFFd97642),
-  Color(0xFFd49d42),
-  Color(0xFF00af91),
-  Color(0xFF007965),
-  Color(0xFFd00587a),
-  Color(0xFF000000)
+  Color(0xFF5BC89E),
+  Color(0xFF308991),
+  Color(0xFF2B194D),
+  Color(0xFF5B2060),
 ];
 
 class CustomizeT extends StatefulWidget {
@@ -38,8 +28,7 @@ class _CustomizeTState extends State<CustomizeT> {
         ),
         backgroundColor: defaultBGColor,
         elevation: 0,
-        title: Text("customize".tr(),
-            style: TextStyle(color: primaryColor, fontWeight: FontWeight.w800)),
+        title: Text("customize".tr(), style: appBarTextTheme),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),

@@ -66,9 +66,7 @@ class _ContactScreenState extends State<ContactScreen> {
               ),
               backgroundColor: defaultBGColor,
               elevation: 0,
-              title: Text("contact_developer".tr(),
-                  style: TextStyle(
-                      color: primaryColor, fontWeight: FontWeight.w800))),
+              title: Text("contact_developer".tr(), style: appBarTextTheme)),
           body: Padding(
             padding: const EdgeInsets.all(24.0),
             child: ListView(

@@ -120,7 +120,14 @@ Widget gradelyButton({Function onPressed, String text}) {
           ),
         ),
         child: isLoading
-            ? CupertinoActivityIndicator()
+            ? Theme(
+                data: ThemeData(
+                    cupertinoOverrideTheme: CupertinoThemeData(
+                        brightness: MediaQuery.of(context).platformBrightness ==
+                                Brightness.dark
+                            ? Brightness.light
+                            : Brightness.dark)),
+                child: CupertinoActivityIndicator())
             : Text(text, style: TextStyle(color: frontColor())),
         onPressed: onPressed);
   });
