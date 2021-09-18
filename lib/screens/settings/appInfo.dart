@@ -22,7 +22,6 @@ class AppInfo extends StatefulWidget {
 
 class _AppInfoState extends State<AppInfo> {
   String _serverUp;
-  String appName = "";
   String packageName = "";
   String version = "";
   String buildNumber = "";
@@ -35,13 +34,11 @@ class _AppInfoState extends State<AppInfo> {
     }
 
     setState(() {
-      appName = packageInfo.appName;
       packageName = packageInfo.packageName;
       version = packageInfo.version;
       buildNumber = packageInfo.buildNumber;
     });
     _appInfoList = [
-      _AppInfo("app_name".tr(), appName),
       _AppInfo("version".tr(), version),
       _AppInfo("build".tr(), buildNumber),
       _AppInfo(

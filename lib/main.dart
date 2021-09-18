@@ -68,7 +68,7 @@ class MaterialWrapper extends StatelessWidget {
         highlightColor: Colors.transparent,
         textButtonTheme: TextButtonThemeData(
             style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
+          foregroundColor: MaterialStateProperty.all<Color>(frontColor()),
         )),
         dialogBackgroundColor: Color(0xFFF2F2F7),
         appBarTheme: AppBarTheme(
@@ -90,7 +90,7 @@ class MaterialWrapper extends StatelessWidget {
         backgroundColor: Color(0xFF010001),
         textButtonTheme: TextButtonThemeData(
             style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
+          foregroundColor: MaterialStateProperty.all<Color>(frontColor()),
         )),
         dialogBackgroundColor: Color(0xFF1a1a1a),
         scaffoldBackgroundColor: Color(0xFF010001),

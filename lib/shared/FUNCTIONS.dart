@@ -267,7 +267,7 @@ formatDateForDB(date) {
 }
 
 formatDateForClient(date) {
-  if (date == "-") {
+  if (date == "") {
     return "-";
   } else {
     try {
