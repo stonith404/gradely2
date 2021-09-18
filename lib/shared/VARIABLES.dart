@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:gradely2/shared/CLASSES.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-List<Lesson> lessonList = [];
-List<Grade> gradeList = [];
-List<Semester> semesterList = [];
+List lessonList = [];
+List gradeList = [];
+List semesterList = [];
 
 User user;
 SharedPreferences prefs;

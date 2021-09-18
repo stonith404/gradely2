@@ -38,32 +38,26 @@ Future getUserInfo() async {
   if (missingScope) {
     prefs.setBool("signedIn", false);
   } else {
-    Future dbResult = listDocuments(
+    var dbResponse = (await listDocuments(
         name: "userDB",
         collection: collectionUser,
-        filters: ["uid=${accountResponse['\$id']}"]);
+        filters: ["uid=${accountResponse['\$id']}"]))["documents"][0];
 
-    await dbResult.then((dbResponse) {
-      dbResponse = jsonDecode(dbResponse.toString())["documents"][0];
-
-      user = User(
-          accountResponse['\$id'],
-          accountResponse['name'],
-          accountResponse['registration'],
-          accountResponse['status'],
-          accountResponse['passwordUpdate'],
-          accountResponse['email'],
-          accountResponse['emailVerification'],
-          dbResponse["gradelyPlus"],
-          dbResponse["gradeType"],
-          dbResponse["choosenSemester"],
-          dbResponse["\$id"],
-          Color(int.parse(dbResponse["color"].substring(1, 7), radix: 16) +
-              0xFF000000));
-      primaryColor = user.color;
-    }).catchError((error) {
-      print(error.response);
-    });
+    user = User(
+        accountResponse['\$id'],
+        accountResponse['name'],
+        accountResponse['registration'],
+        accountResponse['status'],
+        accountResponse['passwordUpdate'],
+        accountResponse['email'],
+        accountResponse['emailVerification'],
+        dbResponse["gradelyPlus"],
+        dbResponse["gradeType"],
+        dbResponse["choosenSemester"],
+        dbResponse["\$id"],
+        Color(int.parse(dbResponse["color"].substring(1, 7), radix: 16) +
+            0xFF000000));
+    primaryColor = user.color;
   }
   return "done";
 }
@@ -116,13 +110,13 @@ Future serverError(context) async {
 
 //get documents from the db or from the cache
 
-Future listDocuments(
+Future<Map> listDocuments(
     {@required String collection,
     @required String name,
     List filters,
     String orderField}) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  var response;
+  Map response;
   if (await internetConnection()) {
     Future result = database.listDocuments(
       filters: filters ?? [],
@@ -130,12 +124,12 @@ Future listDocuments(
     );
 
     await result.then((r) async {
-      response = r.toString();
+      response = jsonDecode(r.toString());
 
-      await prefs.setString(name, response);
+      await prefs.setString(name, jsonEncode(response));
     }).catchError((error) {});
   } else {
-    response = prefs.getString(name);
+    response = jsonDecode(prefs.getString(name));
   }
 
   return response;

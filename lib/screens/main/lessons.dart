@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
@@ -41,43 +40,20 @@ class _SemesterDetailState extends State<SemesterDetail> {
         name: "semesterName",
         filters: ["\$id=${user.choosenSemester}"]);
     setState(() {
-      choosenSemesterName = jsonDecode(semesterResponse.toString())["documents"]
-              [0]["name"] ??
-          "noSemesterChoosed";
+      choosenSemesterName =
+          semesterResponse["documents"][0]["name"] ?? "noSemesterChoosed";
     });
 
-    var response;
+    lessonList = (await listDocuments(
+            collection: collectionLessons,
+            name: "lessonList_${user.choosenSemester}",
+            filters: ["parentId=${user.choosenSemester}"]))["documents"]
+        .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
+            double.parse(r["average"].toString())))
+        .toList();
 
-    response = await listDocuments(
-        collection: collectionLessons,
-        name: "lessonList_${user.choosenSemester}",
-        filters: ["parentId=${user.choosenSemester}"]);
-    response = jsonDecode(response.toString())["documents"];
-    lessonList = [];
-    bool _error = false;
-    int index = -1;
+    lessonList.sort((a, b) => b.average.compareTo(a.average));
 
-    while (_error == false) {
-      index++;
-      String id;
-
-      try {
-        id = response[index]["\$id"];
-      } catch (e) {
-        _error = true;
-        index = -1;
-      }
-      if (id != null) {
-        setState(() {
-          lessonList.add(Lesson(
-              response[index]["\$id"],
-              response[index]["name"],
-              response[index]["emoji"],
-              double.parse(response[index]["average"].toString())));
-        });
-      }
-      lessonList.sort((a, b) => b.average.compareTo(a.average));
-    }
     setState(() => isLoading = false);
     //getSemesteraverage
     double _sum = 0;

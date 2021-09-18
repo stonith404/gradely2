@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -25,35 +24,16 @@ class _ChooseSemesterState extends State<ChooseSemester> {
   getSemesters() async {
     setState(() => isLoading = true);
     semesterList = [];
-    var response;
 
-    response = await listDocuments(
-        collection: collectionSemester,
-        name: "semesterList",
-        filters: ["parentId=${user.dbID}"]);
-    response = jsonDecode(response.toString())["documents"];
-    bool _error = false;
-    int index = -1;
-
-    while (_error == false) {
-      index++;
-      String id;
-
-      try {
-        id = response[index]["\$id"];
-      } catch (e) {
-        _error = true;
-        index = -1;
-      }
-      if (id != null) {
-        setState(() {
-          semesterList.add(Semester(
-            response[index]["\$id"],
-            response[index]["name"],
-          ));
-        });
-      }
-    }
+    semesterList = (await listDocuments(
+            collection: collectionSemester,
+            name: "semesterList",
+            filters: ["parentId=${user.dbID}"]))["documents"]
+        .map((r) => Semester(
+              r["\$id"],
+              r["name"],
+            ))
+        .toList();
     setState(() => isLoading = false);
   }
 

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -51,7 +50,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
   getTests() async {
     setState(() => isLoading = true);
-    var response;
 
     if (user.choosenSemester == null) {
       return ChooseSemester();
@@ -59,55 +57,34 @@ class _LessonsDetailState extends State<LessonsDetail> {
 
     choosenSemester = user.choosenSemester;
 
-    response = await listDocuments(
+    gradeList = (await listDocuments(
       orderField: "date",
       collection: collectionGrades,
       name: "gradeList_$selectedLesson",
       filters: ["parentId=$selectedLesson"],
-    );
+    ))["documents"]
+        .map((r) => Grade(
+              r["\$id"],
+              r["name"],
+              double.parse(r["grade"].toString()),
+              double.parse(r["weight"].toString()),
+              r["date"] ?? "-",
+            ))
+        .toList();
 
-    response = jsonDecode(response.toString())["documents"];
+    gradeList.sort((a, b) => b.date.compareTo(a.date));
 
-    bool _error = false;
-    int index = -1;
-    gradeList = [];
-    while (_error == false) {
-      index++;
-      String id;
+    _sumW = 0;
+    _sum = 0;
 
-      try {
-        id = response[index]["\$id"];
-      } catch (e) {
-        _error = true;
-        index = -1;
-      }
-      if (id != null) {
-        setState(() {
-          gradeList.add(
-            Grade(
-              response[index]["\$id"],
-              response[index]["name"],
-              double.parse(response[index]["grade"].toString()),
-              double.parse(response[index]["weight"].toString()),
-              response[index]["date"] ?? "-",
-            ),
-          );
-        });
-      }
-      gradeList.sort((a, b) => b.date.compareTo(a.date));
+    await Future.forEach(gradeList, (e) async {
+      _sumW += e.weight;
+      _sum += e.grade * e.weight;
+    });
 
-      _sumW = 0;
-      _sum = 0;
-
-      await Future.forEach(gradeList, (e) async {
-        _sumW += e.weight;
-        _sum += e.grade * e.weight;
-      });
-
-      setState(() {
-        averageOfGrades = _sum / _sumW;
-      });
-    }
+    setState(() {
+      averageOfGrades = _sum / _sumW;
+    });
     updateAverage();
     setState(() => isLoading = false);
   }
