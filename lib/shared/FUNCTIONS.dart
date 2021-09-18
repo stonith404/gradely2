@@ -144,7 +144,6 @@ Future<bool> reAuthenticate(
   Future result = account.createSession(email: email, password: password);
 
   await result.then((response) {
-    print(response);
     success = true;
   }).catchError((error) {
     print(error.message);
@@ -168,7 +167,6 @@ frontColor() {
 
 darkModeColorChanger(context) {
   if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
-    print(primaryColor);
     if (primaryColor == Color(0xff000000)) {
       primaryColor = Colors.white;
     }
@@ -247,7 +245,6 @@ getPluspoints(num value) {
 formatDateForDB(date) {
   try {
     var _formatted = DateTime.parse(date.toString());
-    print(_formatted.month.toString().length);
     return "${_formatted.year}.${(() {
       if ((_formatted.month).toString().length == 1) {
         return NumberFormat("00").format(_formatted.month);
@@ -272,7 +269,6 @@ formatDateForClient(date) {
   } else {
     try {
       var _formatted = DateTime.parse(date.toString());
-      print(_formatted.month.toString().length);
       return "${(() {
         if ((_formatted.day).toString().length == 1) {
           return NumberFormat("00").format(_formatted.day);

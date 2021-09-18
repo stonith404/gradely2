@@ -150,7 +150,17 @@ Widget gradelyIconButton({Function onPressed, Icon icon}) {
         backgroundColor: primaryColor,
         child: IconButton(
             color: frontColor(),
-            icon: isLoading ? CupertinoActivityIndicator() : icon,
+            icon: isLoading
+                ? Theme(
+                    data: ThemeData(
+                        cupertinoOverrideTheme: CupertinoThemeData(
+                            brightness:
+                                MediaQuery.of(context).platformBrightness ==
+                                        Brightness.dark
+                                    ? Brightness.light
+                                    : Brightness.dark)),
+                    child: CupertinoActivityIndicator())
+                : icon,
             onPressed: onPressed));
   });
 }

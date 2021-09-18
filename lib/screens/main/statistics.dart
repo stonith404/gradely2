@@ -6,8 +6,14 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+List<Grade> statsList = [];
+
 Future statisticsScreen(BuildContext context) {
+  statsList = [];
   gradeList.sort((a, b) => a.date.compareTo(b.date));
+  for (var item in gradeList) {
+    statsList.add(Grade("", "", item.grade, item.weight, item.date));
+  }
   return showCupertinoModalBottomSheet(
     expand: true,
     context: context,
@@ -45,7 +51,7 @@ Future statisticsScreen(BuildContext context) {
                             primaryXAxis: CategoryAxis(),
                             series: <ChartSeries>[
                           LineSeries<Grade, String>(
-                              dataSource: gradeList,
+                              dataSource: statsList,
                               xValueMapper: (Grade stats, _) => stats.date
                                   .substring(
                                       0, stats.date.toString().length - 3),
