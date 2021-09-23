@@ -356,24 +356,45 @@ changeEmail(_email, context) async {
 }
 
 signOut() async {
-  Future result = account.getSession(
-    sessionId: 'current',
-  );
-
-  await result.then((response) {
-    response = jsonDecode(response.toString());
-
-    account.deleteSession(sessionId: response["\$id"]);
-    prefs.setBool("signedIn", false);
-  });
+  await account.deleteSession(sessionId: "current");
+  prefs.setBool("signedIn", false);
 
   clearVariables();
 }
 
-isDesktop(context) {
-  if (MediaQuery.of(context).size.width > 800) {
-    return true;
-  } else {
-    return false;
+completeOfflineTasks(context) {
+  List tasks = [
+    // {
+    //   "type": "create",
+    //   "documentId": "",
+    //   "collection": collectionGrades,
+    //   "data": {"name": "off", "grade": 3.3, "weight": 1.0}
+    // }
+  ];
+
+  if (tasks.isNotEmpty) {
+    try {
+      for (var item in tasks) {
+        if (item["type"] == "update") {
+          database.updateDocument(
+              collectionId: item["collection"],
+              documentId: item["documentId"],
+              data: item["data"]);
+        } else if (item["type"] == "create") {
+          database.createDocument(
+              collectionId: item["collection"], data: item["data"]);
+        } else if (item["type"] == "delete") {
+          database.deleteDocument(
+            collectionId: item["collection"],
+            documentId: item["documentId"],
+          );
+        }
+      }
+
+      errorSuccessDialog(context: context, error: false, text: "Uploaded");
+    } catch (e) {
+      print(e);
+    }
   }
+  print("no offline tasks");
 }

@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:appwrite/appwrite.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -10,15 +14,17 @@ import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:gradely2/shared/loading.dart';
 import 'package:gradely2/screens/main/statistics.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:native_pdf_view/native_pdf_view.dart';
 
 Grade selectedTest;
 String errorMessage = "";
 double averageOfGrades = 0;
-
+List attachmentArray;
 num _sumW = 0;
 num _sum = 0;
 
@@ -236,7 +242,15 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                   .toStringAsFixed(2)),
                                               onTap: () async {
                                                 selectedTest = gradeList[index];
-
+                                                attachmentArray = jsonDecode(
+                                                        (await database.getDocument(
+                                                                collectionId:
+                                                                    collectionGrades,
+                                                                documentId:
+                                                                    selectedTest
+                                                                        .id))
+                                                            .toString())["attachments"] ??
+                                                    [];
                                                 testDetail(context);
                                               }),
                                           listDivider()
@@ -398,7 +412,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
     editTestInfoGrade.text = selectedTest.grade.toString();
     editTestInfoName.text = selectedTest.name;
     editTestInfoWeight.text = selectedTest.weight.toString();
-
     editTestDateController.text =
         formatDateForClient(selectedTest.date.toString());
 
@@ -407,6 +420,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
       expand: true,
       context: context,
       builder: (context) => SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
           controller: ModalScrollController.of(context),
           child: Material(
             color: defaultBGColor,
@@ -494,11 +508,16 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             lastDate: DateTime(2025),
                             builder: (BuildContext context, Widget child) {
                               return Theme(
-                                data: Theme.of(context).copyWith(
+                                data: ThemeData().copyWith(
+                                  primaryColor: const Color(0xFF8CE7F1),
                                   colorScheme: ColorScheme.light(
-                                    onSurface: wbColor,
-                                    surface: primaryColor,
+                                    primary: frontColor(),
+                                    onPrimary: Colors.white,
+                                    surface: Colors.pink,
+                                    onSurface: Colors.yellow,
                                   ),
+                                  buttonTheme: ButtonThemeData(
+                                      textTheme: ButtonTextTheme.primary),
                                 ),
                                 child: child,
                               );
@@ -540,6 +559,221 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   SizedBox(
                     height: 10,
                   ),
+                  gradelyIconButton(
+                      onPressed: () {
+                        return gradelyModalSheet(
+                          context: context,
+                          children: [
+                            StatefulBuilder(builder:
+                                (BuildContext context, StateSetter setState) {
+                              return Column(children: [
+                                gradelyModalSheetHeader(context,
+                                    title: "Attachments"),
+                                Container(
+                                  child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: attachmentArray.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Container(
+                                            decoration: listContainerDecoration(
+                                                index: index,
+                                                list: attachmentArray),
+                                            child: ListTile(
+                                                trailing: IconButton(
+                                                    icon: Icon(FontAwesome5Solid
+                                                        .trash_alt),
+                                                    onPressed: () async {
+                                                      await storage.deleteFile(
+                                                          fileId:
+                                                              attachmentArray[
+                                                                  index]);
+                                                      setState(() {
+                                                        attachmentArray.remove(
+                                                            attachmentArray[
+                                                                index]);
+                                                      });
+                                                      database.updateDocument(
+                                                          collectionId:
+                                                              collectionGrades,
+                                                          documentId:
+                                                              selectedTest.id,
+                                                          data: {
+                                                            "attachments":
+                                                                attachmentArray
+                                                          });
+                                                    }),
+                                                onTap: () async {
+                                                  var fileType = jsonDecode(
+                                                      (await storage.getFile(
+                                                              fileId:
+                                                                  attachmentArray[
+                                                                      index]))
+                                                          .toString())["mimeType"];
+                                                  if (fileType ==
+                                                      "application/pdf") {
+                                                    return gradelyModalSheet(
+                                                        context: context,
+                                                        children: [
+                                                          Text("test"),
+                                                          SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                1,
+                                                            height: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.8,
+                                                            child:
+                                                                FutureBuilder(
+                                                              future: storage
+                                                                  .getFileView(
+                                                                fileId:
+                                                                    attachmentArray[
+                                                                        index],
+                                                              ), //works for both public file and private file, for private files you need to be logged in
+                                                              builder: (context,
+                                                                  snapshot) {
+                                                                return snapshot
+                                                                            .hasData &&
+                                                                        snapshot.data !=
+                                                                            null
+                                                                    ? (() {
+                                                                        final pdfController =
+                                                                            PdfController(document: PdfDocument.openData(snapshot.data.data));
+                                                                        print(
+                                                                            pdfController);
+                                                                        return PdfView(
+                                                                          controller:
+                                                                              pdfController,
+                                                                        );
+                                                                      }())
+                                                                    : CircularProgressIndicator();
+                                                              },
+                                                            ),
+                                                          )
+                                                        ]);
+                                                  } else {
+                                                    return gradelyModalSheet(
+                                                        context: context,
+                                                        children: [
+                                                          FutureBuilder(
+                                                              future: storage
+                                                                  .getFileView(
+                                                                fileId:
+                                                                    attachmentArray[
+                                                                        index],
+                                                              ), //works for both public file and private file, for private files you need to be logged in
+                                                              builder: (context,
+                                                                  snapshot) {
+                                                                return snapshot
+                                                                            .hasData &&
+                                                                        snapshot.data !=
+                                                                            null
+                                                                    ? Image
+                                                                        .memory(
+                                                                        snapshot
+                                                                            .data
+                                                                            .data,
+                                                                      )
+                                                                    : CircularProgressIndicator();
+                                                              })
+                                                        ]);
+                                                  }
+                                                },
+                                                leading: Text(
+                                                    attachmentArray[index])));
+                                      }),
+                                ),
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      gradelyButton(
+                                          onPressed: () async {
+                                            final ImagePicker _picker =
+                                                ImagePicker();
+                                            final List<XFile> images =
+                                                await _picker.pickMultiImage();
+                                            for (var image in images) {
+                                              Future result = storage.createFile(
+                                                  file: await MultipartFile
+                                                      .fromPath(
+                                                          "file", image.path,
+                                                          filename:
+                                                              "u_${user.id}g_${selectedTest.id}"));
+                                              result.then((response) async {
+                                                setState(() {
+                                                  attachmentArray.add(
+                                                      jsonDecode(response
+                                                          .toString())["\$id"]);
+                                                });
+                                                await database.updateDocument(
+                                                    collectionId:
+                                                        collectionGrades,
+                                                    documentId: selectedTest.id,
+                                                    data: {
+                                                      "attachments":
+                                                          attachmentArray
+                                                    });
+                                              }).catchError((error) {
+                                                print(error.response);
+                                              });
+                                            }
+
+                                            // User canceled the picker
+                                          },
+                                          text: "Add Photos"),
+                                      gradelyButton(
+                                          onPressed: () async {
+                                            FilePickerResult fileresult =
+                                                await FilePicker.platform
+                                                    .pickFiles();
+                                            if (fileresult != null) {
+                                              PlatformFile file =
+                                                  fileresult.files.first;
+                                              Future result =
+                                                  storage.createFile(
+                                                      file: await MultipartFile
+                                                          .fromPath(
+                                                "file",
+                                                file.path,
+                                                filename:
+                                                    file.path.split('/').last,
+                                              ));
+
+                                              result.then((response) async {
+                                                setState(() {
+                                                  attachmentArray.add(
+                                                      jsonDecode(response
+                                                          .toString())["\$id"]);
+                                                });
+                                                await database.updateDocument(
+                                                    collectionId:
+                                                        collectionGrades,
+                                                    documentId: selectedTest.id,
+                                                    data: {
+                                                      "attachments":
+                                                          attachmentArray
+                                                    });
+                                              }).catchError((error) {
+                                                print(error.response);
+                                              });
+                                            } else {
+                                              // User canceled the picker
+                                            }
+                                          },
+                                          text: "Add PDF"),
+                                    ])
+                              ]);
+                            })
+                          ],
+                        );
+                      },
+                      icon: Icon(Icons.attach_file))
                 ],
               ),
             ),
@@ -553,151 +787,130 @@ class _LessonsDetailState extends State<LessonsDetail> {
     addTestDateController.text = "";
     addTestWeightController.text = "1";
 
-    return showCupertinoModalBottomSheet(
-      expand: true,
+    return gradelyModalSheet(
       context: context,
-      builder: (context) => StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-        return SingleChildScrollView(
-            controller: ModalScrollController.of(context),
-            child: Material(
-              color: defaultBGColor,
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          gradelyIconButton(
-                              onPressed: () async {
-                                isLoadingController.add(true);
-                                noNetworkDialog(context);
-                                try {
-                                  await database.createDocument(
-                                    collectionId: collectionGrades,
-                                    data: {
-                                      "parentId": selectedLesson,
-                                      "name": addTestNameController.text,
-                                      "grade": double.parse(
-                                          addTestGradeController.text
-                                              .replaceAll(",", ".")),
-                                      "weight": double.parse(
-                                          addTestWeightController.text
-                                              .replaceAll(",", ".")),
-                                      "date": (() {
-                                        try {
-                                          return formatDateForDB(
-                                              addTestDateController.text);
-                                        } catch (_) {
-                                          return null;
-                                        }
-                                      }())
-                                    },
-                                  );
+      children: [
+        SizedBox(
+          height: 15,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            gradelyIconButton(
+                onPressed: () async {
+                  isLoadingController.add(true);
+                  noNetworkDialog(context);
+                  try {
+                    await database.createDocument(
+                      collectionId: collectionGrades,
+                      data: {
+                        "parentId": selectedLesson,
+                        "name": addTestNameController.text,
+                        "grade": double.parse(
+                            addTestGradeController.text.replaceAll(",", ".")),
+                        "weight": double.parse(
+                            addTestWeightController.text.replaceAll(",", ".")),
+                        "date": (() {
+                          try {
+                            return formatDateForDB(addTestDateController.text);
+                          } catch (_) {
+                            return null;
+                          }
+                        }())
+                      },
+                    );
 
-                                  await getTests();
-                                  addLessonController.text = "";
+                    await getTests();
+                    addLessonController.text = "";
 
-                                  Navigator.of(context).pop();
-                                  isLoadingController.add(false);
-                                } catch (_) {
-                                  isLoadingController.add(false);
-                                  errorSuccessDialog(
-                                      context: context,
-                                      error: true,
-                                      text: "error_grade_badly_formatted".tr());
-                                }
-                              },
-                              icon: Icon(Icons.add)),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                        child: Text(
-                          "add_exam".tr(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 30),
+                    Navigator.of(context).pop();
+                    isLoadingController.add(false);
+                  } catch (_) {
+                    isLoadingController.add(false);
+                    errorSuccessDialog(
+                        context: context,
+                        error: true,
+                        text: "error_grade_badly_formatted".tr());
+                  }
+                },
+                icon: Icon(Icons.add)),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+          child: Text(
+            "add_exam".tr(),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Divider(
+            thickness: 2,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            controller: addTestNameController,
+            textAlign: TextAlign.left,
+            decoration: inputDec(label: "exam_name".tr()),
+            inputFormatters: [emojiRegex()],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () async {
+              final DateTime picked = await showDatePicker(
+                  context: context,
+                  initialDate: selectedDate,
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2025),
+                  builder: (BuildContext context, Widget child) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        colorScheme: ColorScheme.light(
+                          onSurface: wbColor,
+                          surface: primaryColor,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Divider(
-                          thickness: 2,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: addTestNameController,
-                          textAlign: TextAlign.left,
-                          decoration: inputDec(label: "exam_name".tr()),
-                          inputFormatters: [emojiRegex()],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: () async {
-                            final DateTime picked = await showDatePicker(
-                                context: context,
-                                initialDate: selectedDate,
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2025),
-                                builder: (BuildContext context, Widget child) {
-                                  return Theme(
-                                    data: Theme.of(context).copyWith(
-                                      colorScheme: ColorScheme.light(
-                                        onSurface: wbColor,
-                                        surface: primaryColor,
-                                      ),
-                                    ),
-                                    child: child,
-                                  );
-                                });
+                      child: child,
+                    );
+                  });
 
-                            if (picked != null && picked != selectedDate)
-                              setState(() {
-                                DateTime.parse(picked.toString());
-                                addTestDateController.text =
-                                    formatDateForClient(picked);
-                              });
-                          },
-                          child: AbsorbPointer(
-                            child: TextField(
-                                controller: addTestDateController,
-                                textAlign: TextAlign.left,
-                                decoration: inputDec(label: "date".tr())),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                            controller: addTestGradeController,
-                            keyboardType:
-                                TextInputType.numberWithOptions(decimal: true),
-                            textAlign: TextAlign.left,
-                            decoration: inputDec(label: "grade".tr())),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                            controller: addTestWeightController,
-                            keyboardType:
-                                TextInputType.numberWithOptions(decimal: true),
-                            textAlign: TextAlign.left,
-                            decoration: inputDec(label: "weight".tr())),
-                      ),
-                      Text(errorMessage)
-                    ],
-                  )),
-            ));
-      }),
+              if (picked != null && picked != selectedDate)
+                setState(() {
+                  DateTime.parse(picked.toString());
+                  addTestDateController.text = formatDateForClient(picked);
+                });
+            },
+            child: AbsorbPointer(
+              child: TextField(
+                  controller: addTestDateController,
+                  textAlign: TextAlign.left,
+                  decoration: inputDec(label: "date".tr())),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+              controller: addTestGradeController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              textAlign: TextAlign.left,
+              decoration: inputDec(label: "grade".tr())),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+              controller: addTestWeightController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              textAlign: TextAlign.left,
+              decoration: inputDec(label: "weight".tr())),
+        ),
+        Text(errorMessage)
+      ],
     );
   }
 }

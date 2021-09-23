@@ -47,3 +47,5 @@ app.*.map.json
 
 #custom
 .vscode/
+ENV.dart
+ios/build/

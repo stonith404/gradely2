@@ -26,6 +26,7 @@ Client client;
 Account account;
 Database database;
 Locale locale;
+Storage storage;
 
 //colors
 Color primaryColor = Colors.black;

@@ -151,6 +151,7 @@ Future settingsScreen(BuildContext context) {
                                         : "Gradely Plus"),
                                   ],
                                   onTap: () {
+                                    
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

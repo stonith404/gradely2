@@ -2,7 +2,7 @@ import 'package:appwrite/appwrite.dart' as appwrite;
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gradely2/screens/auth/sign_in.dart';
+import 'package:gradely2/screens/auth/signIn.dart';
 import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
@@ -26,6 +26,7 @@ void main() async {
   account = appwrite.Account(client);
   database = appwrite.Database(client);
   locale = appwrite.Locale(client);
+  storage = appwrite.Storage(client);
   client
       .setEndpoint('https://aw.cloud.eliasschneider.com/v1')
       .setProject('60f40cb212896');

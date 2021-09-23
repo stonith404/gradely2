@@ -4,6 +4,8 @@ PODS:
   - flutter_web_auth (0.3.0):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
+  - native_pdf_renderer (1.1.0):
+    - FlutterMacOS
   - package_info_plus_macos (0.0.1):
     - FlutterMacOS
   - path_provider_macos (0.0.1):
@@ -17,6 +19,7 @@ DEPENDENCIES:
   - device_info_plus_macos (from `Flutter/ephemeral/.symlinks/plugins/device_info_plus_macos/macos`)
   - flutter_web_auth (from `Flutter/ephemeral/.symlinks/plugins/flutter_web_auth/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
+  - native_pdf_renderer (from `Flutter/ephemeral/.symlinks/plugins/native_pdf_renderer/macos`)
   - package_info_plus_macos (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus_macos/macos`)
   - path_provider_macos (from `Flutter/ephemeral/.symlinks/plugins/path_provider_macos/macos`)
   - shared_preferences_macos (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_macos/macos`)
@@ -29,6 +32,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_web_auth/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
+  native_pdf_renderer:
+    :path: Flutter/ephemeral/.symlinks/plugins/native_pdf_renderer/macos
   package_info_plus_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/package_info_plus_macos/macos
   path_provider_macos:
@@ -42,6 +47,7 @@ SPEC CHECKSUMS:
   device_info_plus_macos: 1ad388a1ef433505c4038e7dd9605aadd1e2e9c7
   flutter_web_auth: 9313580ed4eda5bfc281171cab902253aa1712da
   FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
+  native_pdf_renderer: c6423a3d7c31b60f5b647fb0f901b25e7b6854a6
   package_info_plus_macos: 0337c8ab321e8fc54d1e57cea8f5d79eef3f40fb
   path_provider_macos: 29b4038018dbbcf180ebb4e6fb1d0a405d282a2e
   shared_preferences_macos: c1b23fec72a537b6c2a4954fad98ae40c1c05c10

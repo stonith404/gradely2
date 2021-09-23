@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely2/screens/auth/introScreen.dart';
 import 'package:gradely2/screens/settings/gradelyPlus.dart';
@@ -78,7 +79,10 @@ class _SemesterDetailState extends State<SemesterDetail> {
     super.initState();
     getUserInfo();
     getLessons(true);
-    serverError(context);
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      completeOfflineTasks(context);
+      serverError(context);
+    });
   }
 
   void setState(fn) {
