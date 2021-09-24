@@ -36,7 +36,6 @@ dependencies:
   flutter_svg: ^0.22.0
   package_info_plus: ^1.0.4
   file_picker: ^4.1.1
-  image_picker: ^0.8.4+2
   native_pdf_view: ^4.2.0
 
 dev_dependencies:
