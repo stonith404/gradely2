@@ -45,7 +45,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeWrapper()),
+                  GradelyPageRoute(builder: (context) => HomeWrapper()),
                 );
               })
         ],
@@ -210,7 +210,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       passwordController.text = "";
                                       Navigator.pushReplacement(
                                         context,
-                                        MaterialPageRoute(
+                                        GradelyPageRoute(
                                             builder: (context) => SignInPage()),
                                       );
                                       prefs.setBool("signedIn", false);

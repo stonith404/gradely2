@@ -26,7 +26,6 @@ dependencies:
   easy_localization: ^3.0.0
   easy_localization_loader: ^1.0.0
   url_launcher:
-  mailer: ^5.0.1 
   flutter_icons:
   shared_preferences: ^2.0.6
   emoji_chooser:

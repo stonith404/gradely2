@@ -93,7 +93,7 @@ Future settingsScreen(BuildContext context) {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
+                                GradelyPageRoute(
                                     builder: (context) => UserInfoScreen()),
                               );
                             },
@@ -129,7 +129,7 @@ Future settingsScreen(BuildContext context) {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
+                                    GradelyPageRoute(
                                         builder: (context) => PlatformList()),
                                   );
                                 }),
@@ -151,10 +151,9 @@ Future settingsScreen(BuildContext context) {
                                         : "Gradely Plus"),
                                   ],
                                   onTap: () {
-                                    
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(
+                                      GradelyPageRoute(
                                           builder: (context) => user.gradelyPlus
                                               ? CustomizeT()
                                               : GradelyPlus()),
@@ -232,7 +231,7 @@ Future settingsScreen(BuildContext context) {
                                   } else {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(
+                                      GradelyPageRoute(
                                           builder: (context) =>
                                               ContactScreen()),
                                     );
@@ -252,7 +251,7 @@ Future settingsScreen(BuildContext context) {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
+                                    GradelyPageRoute(
                                         builder: (context) => Contribute()),
                                   );
                                 },
@@ -270,7 +269,7 @@ Future settingsScreen(BuildContext context) {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
+                                    GradelyPageRoute(
                                         builder: (context) => AppInfo()),
                                   );
                                 },

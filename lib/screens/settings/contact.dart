@@ -1,10 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gradely2/screens/main/lessons.dart';
+import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:gradely2/shared/ENV.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ContactScreen extends StatefulWidget {
@@ -14,42 +14,27 @@ class ContactScreen extends StatefulWidget {
 
 class _ContactScreenState extends State<ContactScreen> {
   sendMail(String _message) async {
-   
-
-    final smtpServer = hotmail(env.smtpEmail, env.smtpPassword);
-
-    // Create our email message.
-    final message = Message()
-      ..from = Address(env.smtpEmail)
-      ..recipients.add('elias@eliasschneider.com') //recipent email
-      ..subject = 'New Message for Gradely' //subject of the email
-      ..text =
-          '$_message\n ________________\n Email: ${user.email}'; //body of the email
-
-    try {
-      await send(message, smtpServer);
-
-      contactMessage.text = "";
-
+    var maildata = jsonEncode({"sender": user.email, "message": _message});
+    Future result = functions.createExecution(
+        functionId: '614d8f3961a9b', data: maildata.toString());
+    await result.then((response) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SemesterDetail()),
+        GradelyPageRoute(builder: (context) => SemesterDetail()),
       );
-
       errorSuccessDialog(
           context: context,
           error: false,
           text: "${"contact_success_text".tr()} ${user.email}.",
           title: "sent".tr());
-    } on MailerException catch (_) {
+    }).catchError((error) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SemesterDetail()),
+        GradelyPageRoute(builder: (context) => SemesterDetail()),
       );
-
       errorSuccessDialog(
           context: context, error: true, text: "error_contact".tr());
-    }
+    });
   }
 
   @override

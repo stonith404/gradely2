@@ -40,7 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       passwordController.text = "";
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => IntroScreen()),
+        GradelyPageRoute(builder: (context) => IntroScreen()),
         (Route<dynamic> route) => false,
       );
     }).catchError((error) {
@@ -71,16 +71,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                     
-                              SvgPicture.asset("assets/images/logo.svg",
-                                  color: frontColor(), height: 60),
-                              Text(" radely",
-                                  style: TextStyle(
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w700,
-                                    color: frontColor(),
-                                  ))
-                          
+                          SvgPicture.asset("assets/images/logo.svg",
+                              color: frontColor(), height: 60),
+                          Text(" radely",
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w700,
+                                color: frontColor(),
+                              ))
                         ],
                       )),
                   //fix the small space

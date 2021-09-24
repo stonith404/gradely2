@@ -99,7 +99,7 @@ class _ResetPWState extends State<ResetPW> {
 
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => SignInPage()),
+                          GradelyPageRoute(builder: (context) => SignInPage()),
                         );
                         errorSuccessDialog(
                             context: context,

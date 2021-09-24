@@ -385,20 +385,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
-  logging:
-    dependency: transitive
-    description:
-      name: logging
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
-  mailer:
-    dependency: "direct main"
-    description:
-      name: mailer
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.0.1"
   matcher:
     dependency: transitive
     description:
@@ -413,13 +399,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
-  mime:
-    dependency: transitive
-    description:
-      name: mime
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   modal_bottom_sheet:
     dependency: "direct main"
     description:

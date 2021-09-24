@@ -6,6 +6,7 @@ import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -338,7 +339,7 @@ changeEmail(_email, context) async {
                   Future.delayed(Duration(seconds: 2));
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => SemesterDetail()),
+                    GradelyPageRoute(builder: (context) => SemesterDetail()),
                     (Route<dynamic> route) => false,
                   );
                 } catch (e) {
@@ -397,4 +398,13 @@ completeOfflineTasks(context) {
     }
   }
   print("no offline tasks");
+}
+
+// ignore: non_constant_identifier_names
+GradelyPageRoute({builder}) {
+  if (Platform.isIOS) {
+    return MaterialWithModalsPageRoute(builder: builder);
+  } else {
+    return MaterialPageRoute(builder: builder);
+  }
 }

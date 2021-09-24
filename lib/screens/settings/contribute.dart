@@ -76,8 +76,7 @@ class Contribute extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => ContactScreen()),
+                        GradelyPageRoute(builder: (context) => ContactScreen()),
                       );
                     }),
                 gradelyButton(

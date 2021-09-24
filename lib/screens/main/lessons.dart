@@ -136,7 +136,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                               onPressed: () async {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(
+                                  GradelyPageRoute(
                                       builder: (context) => ChooseSemester()),
                                 );
                               }),
@@ -228,7 +228,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(
+                                      GradelyPageRoute(
                                           builder: (context) => addLesson()),
                                     );
                                   }),
@@ -266,7 +266,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                     onTap: () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(
+                                        GradelyPageRoute(
                                             builder: (context) =>
                                                 updateLesson()),
                                       );
@@ -376,7 +376,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                       onTap: () {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(
+                                          GradelyPageRoute(
                                               builder: (context) =>
                                                   LessonsDetail()),
                                         ).then((value) {
@@ -492,7 +492,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                 Navigator.of(context).pop();
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(
+                                  GradelyPageRoute(
                                       builder: (context) => GradelyPlus()),
                                 );
                               },
@@ -646,7 +646,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                 Navigator.of(context).pop();
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(
+                                  GradelyPageRoute(
                                       builder: (context) => GradelyPlus()),
                                 );
                               },

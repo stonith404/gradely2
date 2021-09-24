@@ -73,7 +73,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => addSemester()),
+              GradelyPageRoute(builder: (context) => addSemester()),
             );
           }),
       body: Column(
@@ -107,7 +107,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
+                                    GradelyPageRoute(
                                         builder: (context) => updateSemester()),
                                   );
 
@@ -190,7 +190,7 @@ class _ChooseSemesterState extends State<ChooseSemester> {
 
                                         Navigator.pushAndRemoveUntil(
                                           context,
-                                          MaterialPageRoute(
+                                          GradelyPageRoute(
                                               builder: (context) =>
                                                   HomeWrapper()),
                                           (Route<dynamic> route) => false,

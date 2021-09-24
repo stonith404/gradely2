@@ -30,7 +30,7 @@ class _SignInPageState extends State<SignInPage> {
       await getUserInfo();
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeWrapper()),
+        GradelyPageRoute(builder: (context) => HomeWrapper()),
       );
 
       passwordController.text = "";
@@ -131,7 +131,7 @@ class _SignInPageState extends State<SignInPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          GradelyPageRoute(
                               builder: (context) => RegisterScreen()),
                         );
                       },
@@ -143,7 +143,7 @@ class _SignInPageState extends State<SignInPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ResetPW()),
+                          GradelyPageRoute(builder: (context) => ResetPW()),
                         );
                       },
                       child: Text(

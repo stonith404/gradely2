@@ -67,7 +67,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     await signOut();
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => SignInPage()),
+                      GradelyPageRoute(builder: (context) => SignInPage()),
                       (Route<dynamic> route) => false,
                     );
                   },
@@ -195,7 +195,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   if (user.emailVerification) {
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => SemesterDetail()),
+                      GradelyPageRoute(builder: (context) => SemesterDetail()),
                       (Route<dynamic> route) => false,
                     );
                     errorSuccessDialog(

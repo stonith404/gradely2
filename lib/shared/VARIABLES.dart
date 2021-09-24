@@ -27,6 +27,7 @@ Account account;
 Database database;
 Locale locale;
 Storage storage;
+Functions functions;
 
 //colors
 Color primaryColor = Colors.black;
