@@ -19,7 +19,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:native_pdf_view/native_pdf_view.dart';
 
 Grade selectedTest;
 String errorMessage = "";
@@ -838,8 +837,7 @@ Future dreamGradeC(BuildContext context) {
 }
 
 Widget gradeAttachment(context) {
-  //TODO: Change
-  if (user.gradelyPlus) {
+  if (!user.gradelyPlus) {
     return gradelyPlusDialog(context);
   } else {
     return gradelyModalSheet(

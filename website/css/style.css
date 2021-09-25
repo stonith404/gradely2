@@ -1,0 +1,213 @@
+
+
+
+@font-face{
+  font-family: "SF";
+  src: url("../fonts/SF-Pro.ttf") format("truetype");
+}
+@font-face{
+  font-family: "SFB";
+  src: url("../fonts/SF-Pro-Text-Bold.otf") format("truetype");
+}
+
+body, nav{
+  font-family: "SF";
+}
+h1{
+  font-family: "SFB";
+  font-size: 5rem;
+}
+
+
+div#container {
+    height: 200px;
+    width: 300px;
+    overflow: scroll;
+    margin: 10px;
+    border: 1px solid #000
+}
+div#content {
+    height: 1000px;
+}
+
+nav{
+  backdrop-filter: blur(10px);
+  background-color:rgba(255, 255, 255, 0.7) ;
+}
+
+a{
+  color: black;
+}
+
+
+
+
+
+
+
+.btn-primary {
+  background-color: #6C63FF;
+    border-radius: 20px;
+    border-color: none;
+
+}
+
+.btn-primary:hover{
+  background-color: #3d518c;
+}
+
+
+.btn-default {
+  background-color: red;
+  color: white;
+  border-radius: 20px;
+}
+
+.btn-default:hover{
+  background-color: #abd2fa;
+}
+
+
+.padding {
+  padding-bottom: 2rem;
+}
+
+.padding-top {
+  padding-top: 2rem;
+}
+.padding-left {
+  padding-left: 8rem;
+}
+
+.padding-right {
+  padding-right: 8rem;
+}
+
+
+.padding2 {
+  padding-bottom: 4rem;
+}
+
+.padding-top2 {
+  padding-top: 4rem;
+}
+.padding-left2 {
+  padding-left: 16rem;
+}
+
+.padding3 {
+  padding-bottom: 10rem;
+}
+
+.padding-right3 {
+  padding-right: 25rem;
+}
+.padding-top3 {
+  padding-top: 7rem;
+}
+.padding-left3 {
+  padding-left: 25rem;
+}
+
+.padding-right3 {
+  padding-right: 25rem;
+}
+
+
+
+footer{
+  background-color: #3f3f3f;
+  color: #d5d5d5;
+  padding: 20px;
+}
+hr.light {
+  border-top: 1px solid #d5d5d5;
+  width: 75%;
+  margin-top: .8rem;
+  margin-bottom: 1rem;
+}
+footer a{
+  color: #d5d5d5;
+  border-bottom: 2px solid #6648b1;
+  display: inline;
+}
+
+footer a:hover{
+  color: #d5d5d5;
+  text-decoration: none;
+  border-bottom: 1px solid #6648b1;
+
+}
+
+
+hr.light-100 {
+  border-top: 1px solid #d5d5d5;
+  width: 100%;
+  margin-top: .8rem;
+  margin-bottom: 1rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*---Media Queries --*/
+@media (max-width: 992px) {
+  .padding-left2, .padding-left{
+    padding-left: 4rem;
+  }
+
+  .padding-right2, .padding-right{
+    padding-right:4rem;
+  }
+
+  body{
+    background-image: url("../img/background-992.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative
+
+  }
+
+  }
+@media (max-width: 768px) {
+
+
+  .padding-left2, .padding-left{
+    padding-left: 2rem;
+  }
+
+  .padding-right2, .padding-right{
+    padding-right:2rem;
+  }
+
+
+}
+@media (max-width: 576px) {
+
+  .padding-left2, .padding-left{
+    padding-left:.3rem;
+  }
+
+  .padding-right2, .padding-right{
+    padding-right:.3rem;
+  }
+
+
+
+
+
+
+}
+
+
+
