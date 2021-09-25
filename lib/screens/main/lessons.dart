@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely2/screens/auth/introScreen.dart';
-import 'package:gradely2/screens/settings/gradelyPlus.dart';
 import 'package:gradely2/screens/settings/settings.dart';
 import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
@@ -266,7 +265,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                     onTap: () {
                                       Navigator.push(
                                         context,
-                                        GradelyPageRoute(
+                                        MaterialPageRoute(
                                             builder: (context) =>
                                                 updateLesson()),
                                       );
@@ -474,33 +473,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                       },
                     );
                   } else {
-                    gradelyDialog(
-                        context: context,
-                        title: "Gradely Plus",
-                        text: "gradely_plus_required".tr() + "❤️",
-                        actions: [
-                          CupertinoButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(
-                                "Ok",
-                                style: TextStyle(color: primaryColor),
-                              )),
-                          CupertinoButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                Navigator.push(
-                                  context,
-                                  GradelyPageRoute(
-                                      builder: (context) => GradelyPlus()),
-                                );
-                              },
-                              child: Text(
-                                "learn_more".tr(),
-                                style: TextStyle(color: primaryColor),
-                              )),
-                        ]);
+                    gradelyPlusDialog(context);
                   }
                 },
                 child: ((() {
@@ -628,33 +601,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                       },
                     );
                   } else {
-                    gradelyDialog(
-                        context: context,
-                        title: "Gradely Plus",
-                        text: "gradely_plus_required".tr() + "❤️",
-                        actions: [
-                          CupertinoButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(
-                                "Ok",
-                                style: TextStyle(color: primaryColor),
-                              )),
-                          CupertinoButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                Navigator.push(
-                                  context,
-                                  GradelyPageRoute(
-                                      builder: (context) => GradelyPlus()),
-                                );
-                              },
-                              child: Text(
-                                "learn_more".tr(),
-                                style: TextStyle(color: primaryColor),
-                              )),
-                        ]);
+                    gradelyPlusDialog(context);
                   }
                 },
                 child: ((() {

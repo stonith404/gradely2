@@ -34,7 +34,7 @@
 			<string>com.eliasschneider.gradely2</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>gradely</string>
+				<string>gradely2</string>
 			</array>
 		</dict>
 	</array>

@@ -10,10 +10,6 @@
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Is used to upload grade attachments.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Is used to upload grade attachments.</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleLocalizations</key>
@@ -38,7 +34,7 @@
 			<string>gradelyapp.com</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>gradely</string>
+				<string>gradely2</string>
 			</array>
 		</dict>
 	</array>
@@ -50,6 +46,10 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Is used to upload grade attachments.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Is used to upload grade attachments.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

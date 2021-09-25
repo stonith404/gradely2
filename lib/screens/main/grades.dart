@@ -26,6 +26,18 @@ double averageOfGrades = 0;
 List attachmentArray;
 num _sumW = 0;
 num _sum = 0;
+_getAttachments() async {
+  var _attachmentArray = jsonDecode((await database.getDocument(
+              collectionId: collectionGrades, documentId: selectedTest.id))
+          .toString())["attachments"] ??
+      [];
+  if (_attachmentArray == "") {
+    attachmentArray = [];
+  } else {
+    attachmentArray = _attachmentArray;
+  }
+}
+
 Future<String> getFileName(fileid) async {
   return jsonDecode((await storage.getFile(fileId: fileid)).toString())["name"];
 }
@@ -57,7 +69,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
   }
 
   getTests() async {
-    setState(() => isLoading = true);
+    if (mounted) setState(() => isLoading = true);
 
     if (user.choosenSemester == null) {
       return ChooseSemester();
@@ -94,7 +106,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
       averageOfGrades = _sum / _sumW;
     });
     updateAverage();
-    setState(() => isLoading = false);
+    if (mounted) setState(() => isLoading = false);
   }
 
   void initState() {
@@ -244,15 +256,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                   .toStringAsFixed(2)),
                                               onTap: () async {
                                                 selectedTest = gradeList[index];
-                                                attachmentArray = jsonDecode(
-                                                        (await database.getDocument(
-                                                                collectionId:
-                                                                    collectionGrades,
-                                                                documentId:
-                                                                    selectedTest
-                                                                        .id))
-                                                            .toString())["attachments"] ??
-                                                    [];
+                                                _getAttachments();
                                                 testDetail(context);
                                               }),
                                           listDivider()
@@ -546,153 +550,65 @@ class _LessonsDetailState extends State<LessonsDetail> {
           height: 10,
         ),
         gradelyIconButton(
-            onPressed: () {
-              return gradelyModalSheet(
-                context: context,
-                children: [
-                  StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState) {
-                    return Column(children: [
-                      gradelyModalSheetHeader(context, title: "Attachments"),
-                      Container(
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: attachmentArray.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                  decoration: listContainerDecoration(
-                                      index: index, list: attachmentArray),
-                                  child: ListTile(
-                                      trailing: IconButton(
-                                          icon:
-                                              Icon(FontAwesome5Solid.trash_alt),
-                                          onPressed: () async {
-                                            await storage.deleteFile(
-                                                fileId: attachmentArray[index]);
-                                            setState(() {
-                                              attachmentArray.remove(
-                                                  attachmentArray[index]);
-                                            });
-                                            database.updateDocument(
-                                                collectionId: collectionGrades,
-                                                documentId: selectedTest.id,
-                                                data: {
-                                                  "attachments": attachmentArray
-                                                });
-                                          }),
-                                      onTap: () async {
-                                        return gradelyModalSheet(
-                                            context: context,
-                                            children: [
-                                              gradelyModalSheetHeader(context,
-                                                  title: await getFileName(
-                                                      attachmentArray[index])),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    1,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.8,
-                                                child: FutureBuilder(
-                                                  future: storage.getFileView(
-                                                    fileId:
-                                                        attachmentArray[index],
-                                                  ), //works for both public file and private file, for private files you need to be logged in
-                                                  builder: (context, snapshot) {
-                                                    return snapshot.hasData &&
-                                                            snapshot.data !=
-                                                                null
-                                                        ? (() {
-                                                            final pdfController =
-                                                                PdfController(
-                                                                    document: PdfDocument.openData(
-                                                                        snapshot
-                                                                            .data
-                                                                            .data));
-                                                            print(
-                                                                pdfController);
-                                                            return PdfView(
-                                                              controller:
-                                                                  pdfController,
-                                                            );
-                                                          }())
-                                                        : CircularProgressIndicator();
-                                                  },
-                                                ),
-                                              )
-                                            ]);
-                                      },
-                                      leading: FutureBuilder<String>(
-                                          future: getFileName(attachmentArray[
-                                              index]), // a Future<String> or null
-                                          builder: (BuildContext context,
-                                              AsyncSnapshot<String> snapshot) {
-                                            switch (snapshot.connectionState) {
-                                              case ConnectionState.waiting:
-                                                return Text('Loading...');
-                                              default:
-                                                if (snapshot.hasError)
-                                                  return Text('File not found');
-                                                else
-                                                  return Text(snapshot.data);
-                                            }
-                                          })));
-                            }),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      gradelyButton(
-                          onPressed: () async {
-                            if (attachmentArray.length >= 5) {
-                              errorSuccessDialog(
-                                  context: context,
-                                  error: true,
-                                  text: "You can't upload more then 5 Files.");
-                            } else {
-                              FilePickerResult fileresult =
-                                  await FilePicker.platform.pickFiles();
-                              if (fileresult != null) {
-                                PlatformFile file = fileresult.files.first;
-                                Future result = storage.createFile(
-                                    file: await MultipartFile.fromPath(
-                                  "file",
-                                  file.path,
-                                  filename: file.name,
-                                ));
-
-                                result.then((response) async {
-                                  setState(() {
-                                    attachmentArray.add(jsonDecode(
-                                        response.toString())["\$id"]);
-                                  });
-                                  await database.updateDocument(
-                                      collectionId: collectionGrades,
-                                      documentId: selectedTest.id,
-                                      data: {"attachments": attachmentArray});
-                                }).catchError((error) {
-                                  print(error.response);
-                                });
-                              } else {
-                                // User canceled the picker
-                              }
-                            }
-                          },
-                          text: "Add PDF"),
-                    ]);
-                  })
-                ],
-              );
-            },
+            onPressed: () => gradeAttachment(context),
             icon: Icon(Icons.attach_file))
       ],
     );
   }
 
   Future addTest(BuildContext context) {
+    uploadGrade() async {
+      bool succeded = false;
+      isLoadingController.add(true);
+      noNetworkDialog(context);
+      try {
+        Future result = database.createDocument(
+          collectionId: collectionGrades,
+          data: {
+            "parentId": selectedLesson,
+            "name": addTestNameController.text,
+            "grade":
+                double.parse(addTestGradeController.text.replaceAll(",", ".")),
+            "weight":
+                double.parse(addTestWeightController.text.replaceAll(",", ".")),
+            "date": (() {
+              try {
+                return formatDateForDB(addTestDateController.text);
+              } catch (_) {
+                return null;
+              }
+            }())
+          },
+        );
+        await result.then((r) {
+          r = jsonDecode(r.toString());
+          selectedTest = Grade(
+              r["\$id"],
+              r["name"],
+              double.parse(r["grade"].toString()),
+              double.parse(r["weight"].toString()),
+              r["date"]);
+        }).catchError((error) {
+          print(error);
+        });
+        await getTests();
+        addLessonController.text = "";
+        succeded = true;
+        Navigator.of(context).pop();
+        isLoadingController.add(false);
+      } catch (_) {
+        print(_);
+        print(_.response);
+        succeded = false;
+        isLoadingController.add(false);
+        errorSuccessDialog(
+            context: context,
+            error: true,
+            text: "error_grade_badly_formatted".tr());
+      }
+      return succeded;
+    }
+
     addTestNameController.text = "";
     addTestGradeController.text = "";
     addTestDateController.text = "";
@@ -708,43 +624,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             gradelyIconButton(
-                onPressed: () async {
-                  isLoadingController.add(true);
-                  noNetworkDialog(context);
-                  try {
-                    await database.createDocument(
-                      collectionId: collectionGrades,
-                      data: {
-                        "parentId": selectedLesson,
-                        "name": addTestNameController.text,
-                        "grade": double.parse(
-                            addTestGradeController.text.replaceAll(",", ".")),
-                        "weight": double.parse(
-                            addTestWeightController.text.replaceAll(",", ".")),
-                        "date": (() {
-                          try {
-                            return formatDateForDB(addTestDateController.text);
-                          } catch (_) {
-                            return null;
-                          }
-                        }())
-                      },
-                    );
-
-                    await getTests();
-                    addLessonController.text = "";
-
-                    Navigator.of(context).pop();
-                    isLoadingController.add(false);
-                  } catch (_) {
-                    isLoadingController.add(false);
-                    errorSuccessDialog(
-                        context: context,
-                        error: true,
-                        text: "error_grade_badly_formatted".tr());
-                  }
-                },
-                icon: Icon(Icons.add)),
+                onPressed: () => uploadGrade(), icon: Icon(Icons.add)),
           ],
         ),
         Padding(
@@ -820,7 +700,18 @@ class _LessonsDetailState extends State<LessonsDetail> {
               textAlign: TextAlign.left,
               decoration: inputDec(label: "weight".tr())),
         ),
-        Text(errorMessage)
+        SizedBox(
+          height: 10,
+        ),
+        gradelyIconButton(
+            onPressed: () async {
+              if (await uploadGrade()) {
+                print("testid" + selectedTest.id);
+                await _getAttachments();
+                gradeAttachment(context);
+              }
+            },
+            icon: Icon(Icons.attach_file))
       ],
     );
   }
@@ -934,4 +825,139 @@ Future dreamGradeC(BuildContext context) {
           ));
     }),
   );
+}
+
+Widget gradeAttachment(context) {
+  //TODO: Change
+  if (user.gradelyPlus) {
+    return gradelyPlusDialog(context);
+  } else {
+    return gradelyModalSheet(
+      context: context,
+      children: [
+        StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+          return Column(children: [
+            gradelyModalSheetHeader(context, title: "Attachments"),
+            Container(
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: attachmentArray.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                        decoration: listContainerDecoration(
+                            index: index, list: attachmentArray),
+                        child: ListTile(
+                            trailing: IconButton(
+                                icon: Icon(FontAwesome5Solid.trash_alt),
+                                onPressed: () async {
+                                  await storage.deleteFile(
+                                      fileId: attachmentArray[index]);
+                                  setState(() {
+                                    attachmentArray
+                                        .remove(attachmentArray[index]);
+                                  });
+                                  database.updateDocument(
+                                      collectionId: collectionGrades,
+                                      documentId: selectedTest.id,
+                                      data: {"attachments": attachmentArray});
+                                }),
+                            onTap: () async {
+                              return gradelyModalSheet(
+                                  context: context,
+                                  children: [
+                                    gradelyModalSheetHeader(context,
+                                        title: await getFileName(
+                                            attachmentArray[index])),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width * 1,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.8,
+                                      child: FutureBuilder(
+                                        future: storage.getFileView(
+                                          fileId: attachmentArray[index],
+                                        ), //works for both public file and private file, for private files you need to be logged in
+                                        builder: (context, snapshot) {
+                                          return snapshot.hasData &&
+                                                  snapshot.data != null
+                                              ? (() {
+                                                  final pdfController =
+                                                      PdfController(
+                                                          document: PdfDocument
+                                                              .openData(snapshot
+                                                                  .data.data));
+                                                  print(pdfController);
+                                                  return PdfView(
+                                                    controller: pdfController,
+                                                  );
+                                                }())
+                                              : CircularProgressIndicator();
+                                        },
+                                      ),
+                                    )
+                                  ]);
+                            },
+                            leading: FutureBuilder<String>(
+                                future: getFileName(attachmentArray[
+                                    index]), // a Future<String> or null
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<String> snapshot) {
+                                  switch (snapshot.connectionState) {
+                                    case ConnectionState.waiting:
+                                      return Text('Loading...');
+                                    default:
+                                      if (snapshot.hasError)
+                                        return Text('File not found');
+                                      else
+                                        return Text(snapshot.data);
+                                  }
+                                })));
+                  }),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            gradelyButton(
+                onPressed: () async {
+                  if (attachmentArray.length >= 5) {
+                    errorSuccessDialog(
+                        context: context,
+                        error: true,
+                        text: "You can't upload more then 5 Files.");
+                  } else {
+                    FilePickerResult fileresult =
+                        await FilePicker.platform.pickFiles();
+                    if (fileresult != null) {
+                      PlatformFile file = fileresult.files.first;
+                      Future result = storage.createFile(
+                          file: await MultipartFile.fromPath(
+                        "file",
+                        file.path,
+                        filename: file.name,
+                      ));
+
+                      result.then((response) async {
+                        setState(() {
+                          attachmentArray
+                              .add(jsonDecode(response.toString())["\$id"]);
+                        });
+                        await database.updateDocument(
+                            collectionId: collectionGrades,
+                            documentId: selectedTest.id,
+                            data: {"attachments": attachmentArray});
+                      }).catchError((error) {
+                        print(error.response);
+                      });
+                    } else {
+                      // User canceled the picker
+                    }
+                  }
+                },
+                text: "Add PDF"),
+          ]);
+        })
+      ],
+    );
+  }
 }

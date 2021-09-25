@@ -217,6 +217,21 @@ class _GradelyPlusState extends State<GradelyPlus> {
                             ),
                           ),
                         ),
+                        Container(
+                          decoration: boxDec(),
+                          child: ListTile(
+                            title: Row(
+                              children: [
+                                Icon(
+                                  FontAwesome5.file_pdf,
+                                  color: primaryColor,
+                                ),
+                                SizedBox(width: 20),
+                                Text("benefit_pdf_attachments".tr())
+                              ],
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           height: 5,
                         ),
