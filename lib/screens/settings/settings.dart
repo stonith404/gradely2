@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -5,14 +6,13 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/screens/settings/appInfo.dart';
 import 'package:gradely2/screens/settings/contribute.dart';
-import 'package:gradely2/screens/settings/customize.dart';
 import 'package:gradely2/screens/settings/userInfo.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'platformList.dart';
+import 'platforms.dart';
 import 'contact.dart';
 import 'gradelyPlus.dart';
 
@@ -140,7 +140,7 @@ Future settingsScreen(BuildContext context) {
                                     Icon(
                                         user.gradelyPlus
                                             ? FontAwesome5Solid.palette
-                                            : FontAwesome5Solid.star,
+                                            : FontAwesome5Solid.hand_peace,
                                         size: 17,
                                         color: primaryColor),
                                     SizedBox(
@@ -154,9 +154,7 @@ Future settingsScreen(BuildContext context) {
                                     Navigator.push(
                                       context,
                                       GradelyPageRoute(
-                                          builder: (context) => user.gradelyPlus
-                                              ? CustomizeT()
-                                              : GradelyPlus()),
+                                          builder: (context) => GradelyPlus()),
                                     );
                                   }),
                             ),
@@ -256,6 +254,28 @@ Future settingsScreen(BuildContext context) {
                                   );
                                 },
                               ),
+                              settingsListTile(
+                                  context: context,
+                                  items: [
+                                    Icon(FontAwesome5Solid.star,
+                                        size: 15, color: primaryColor),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("rate_app".tr()),
+                                  ],
+                                  onTap: () => launchURL((() {
+                                        if (Platform.isIOS ||
+                                            Platform.isMacOS) {
+                                          return "https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974";
+                                        } else if (Platform.isAndroid) {
+                                          return "https://play.google.com/store/apps/details?id=com.eliasschneider.gradely2";
+                                        } else if (Platform.isWindows) {
+                                          return "https://www.microsoft.com/store/apps/9MW4FPN80D7D";
+                                        } else {
+                                          return "https://gradelyapp.com";
+                                        }
+                                      }()))),
                               settingsListTile(
                                 context: context,
                                 items: [

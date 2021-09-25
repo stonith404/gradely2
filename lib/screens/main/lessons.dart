@@ -11,7 +11,7 @@ import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:gradely2/shared/loading.dart';
-import 'grades.dart';
+import 'grades/grades.dart';
 import 'semesters.dart';
 import 'dart:math' as math;
 import 'package:easy_localization/easy_localization.dart';

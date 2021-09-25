@@ -58,7 +58,6 @@ Future getUserInfo() async {
         dbResponse["\$id"],
         Color(int.parse(dbResponse["color"].substring(1, 7), radix: 16) +
             0xFF000000));
-    primaryColor = user.color;
   }
   return "done";
 }
@@ -186,6 +185,18 @@ darkModeColorChanger(context) {
     wbColor = Colors.grey[850];
     defaultBGColor = Color(0xFFF2F2F7);
   }
+  appBarTextTheme = TextStyle(
+    color: primaryColor,
+    fontWeight: FontWeight.w900,
+    letterSpacing: 1.5,
+    fontFamily: "PlayfairDisplay",
+  );
+  title = TextStyle(
+      color: primaryColor,
+      fontWeight: FontWeight.w900,
+      letterSpacing: 1.5,
+      fontFamily: "PlayfairDisplay",
+      fontSize: 21);
 }
 
 //if there is no connection, show a dialog

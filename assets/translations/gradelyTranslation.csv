@@ -63,14 +63,11 @@ dream _grade_weight,Dream grade weight,Wunschnoten Gewichtung
 date,date,Datum
 benefit_support,Support developer,Entwickler unterstützen
 gradely_plus_description,I invested a lot of time and money in this app. Of course I want that this app is free. With Gradely plus you can help me so i can make this app better.,Ich habe viele Stunden und Geld in diese App investiert. Ich möchte das diese App gratis ist. Mit Gradely Plus kann du mithelfen dass ich die App immer weiterentwickeln kann.
-benefit_customize_color,Customize theme color,App Farben ändern
 benefit_more_coming_soon,More benefits coming soon,Mehr Vorteile kommen bald
 benefit_pdf_attachments,PDF Attachments,PDF Anhänge
 benefit_emojis,Emojis in names,Emojis in Namen
 gradely_plus_mobile_only,Gradely plus can only be bought on a mobile device. After the purchase you have gradely on any of your devices.,Gradely Plus kann nur auf an einem Handy gekauft werden. Nach dem Kauf hast du Gradely Plus auf allen Geräten.
 gradely_pluss_success_text,Thank you so much for being a gradely plus user. Enjoy it!,"Danke viel mals, dass du ein Gradely Plus Nutzer bist. Viel Spass!"
-customize,Customize,Personalisieren
-change_app_colors,Change app colors,Theme Farben ändern
 loading,loading,Lädt...
 email,Email,Email
 action_required,Action required,Handlung erforderlich
@@ -96,8 +93,7 @@ your_name,Your name,Dein Name
 features,Features,Features
 description,Description,Beschreibung
 gradely_plus_explain_products,No matter what you buy you get the exact same features:,"Egal was du kaufst, du erhälst genau die gleichen Features."
-coffee,Coffee,Kaffee
-ice_coffee,Ice coffe,Eis Kaffee
+beer,Beer,Bier
 success,Success,Erfolgreich
 email_updated,Your email was updated,Deine Email wurde aktualisiert
 name_updated,Your name was updated,Dein Name wurde aktualisiert
@@ -139,3 +135,5 @@ gradely_plus_required,"To use this feature you have to be a Gradely Plus member,
 learn_more,Learn more,Mehr erfahren
 error_server_down,"The Gradely 2 server is down, try again in a few minutes","Der Gradely 2 Server ist im Moment offline, versuche es in ein paar Minuten erneut."
 server_down,Server offline,Server offline
+attach_pdf,Attach PDF,PDF anhängen
+rate_app,Rate app,App bewerten

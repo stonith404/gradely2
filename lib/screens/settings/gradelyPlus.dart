@@ -190,24 +190,6 @@ class _GradelyPlusState extends State<GradelyPlus> {
                             title: Row(
                               children: [
                                 Icon(
-                                  CupertinoIcons.color_filter,
-                                  color: primaryColor,
-                                ),
-                                SizedBox(width: 20),
-                                Text("benefit_customize_color".tr())
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          decoration: boxDec(),
-                          child: ListTile(
-                            title: Row(
-                              children: [
-                                Icon(
                                   FontAwesome5.laugh,
                                   color: primaryColor,
                                 ),
@@ -265,23 +247,38 @@ class _GradelyPlusState extends State<GradelyPlus> {
                           SizedBox(
                             height: 15,
                           ),
-                          gradelyButton(
-                              onPressed: () async {
-                                buyProduct(
-                                    "com.eliasschneider.gradely2.iap.gradelyplus");
-                              },
-                              text:
-                                  "☕️ Espresso ${iapList[0].localizedPrice ?? "-"}"),
-                          gradelyButton(
-                              onPressed: () async => buyProduct(
-                                  "com.eliasschneider.gradely2.iap.gradelyplus2"),
-                              text:
-                                  "🧋 ${'coffee'.tr()} ${iapList[1].localizedPrice ?? "-"}"),
-                          gradelyButton(
-                              onPressed: () async => buyProduct(
-                                  "com.eliasschneider.gradely2.iap.gradelyplus5"),
-                              text:
-                                  "🧊 ${'ice_coffee'.tr()} ${iapList[2].localizedPrice ?? "-"}"),
+                          Container(
+                            width: 150,
+                            child: gradelyButton(
+                                onPressed: () async {
+                                  buyProduct(
+                                      "com.eliasschneider.gradely2.iap.gradelyplus");
+                                },
+                                text:
+                                    "☕️ Espresso ${iapList[0].localizedPrice ?? "-"}"),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            width: 150,
+                            child: gradelyButton(
+                                onPressed: () async => buyProduct(
+                                    "com.eliasschneider.gradely2.iap.gradelyplus2"),
+                                text:
+                                    "🍺 ${'beer'.tr()} ${iapList[1].localizedPrice ?? "-"}"),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            width: 150,
+                            child: gradelyButton(
+                                onPressed: () async => buyProduct(
+                                    "com.eliasschneider.gradely2.iap.gradelyplus5"),
+                                text:
+                                    "🥃 Whiskey ${iapList[2].localizedPrice ?? "-"}"),
+                          ),
                         ])
                       : Text("gradely_plus_mobile_only".tr(),
                           style: TextStyle(fontStyle: FontStyle.italic))

@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gradely2/screens/main/grades/pdfView.dart';
 import 'package:gradely2/screens/main/semesters.dart';
 import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/CLASSES.dart';
@@ -12,7 +13,7 @@ import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:gradely2/shared/loading.dart';
-import 'package:gradely2/screens/main/statistics.dart';
+import 'package:gradely2/screens/main/grades/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'dart:async';
@@ -193,8 +194,16 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                               FontAwesome5.trash_alt,
                                               color: frontColor(),
                                             ),
-                                            onTap: () {
+                                            onTap: () async {
                                               noNetworkDialog(context);
+                                              selectedTest = gradeList[index];
+                                              await _getAttachments();
+                                              for (var file
+                                                  in attachmentArray) {
+                                                print(file);
+                                                await storage.deleteFile(
+                                                    fileId: file);
+                                              }
                                               database.deleteDocument(
                                                   collectionId:
                                                       collectionGrades,
@@ -498,19 +507,18 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   context: context,
                   initialDate: selectedDate,
                   firstDate: DateTime(2000),
-                  lastDate: DateTime(2025),
+                  lastDate: DateTime(2035),
                   builder: (BuildContext context, Widget child) {
                     return Theme(
-                      data: ThemeData().copyWith(
-                        primaryColor: const Color(0xFF8CE7F1),
+                      data: Theme.of(context).copyWith(
                         colorScheme: ColorScheme.light(
-                          primary: frontColor(),
-                          onPrimary: Colors.white,
-                          surface: Colors.pink,
-                          onSurface: Colors.yellow,
-                        ),
-                        buttonTheme:
-                            ButtonThemeData(textTheme: ButtonTextTheme.primary),
+                            primary: Colors.black, onSurface: wbColor),
+                        dialogBackgroundColor: bwColor,
+                        textButtonTheme: TextButtonThemeData(
+                            style: ButtonStyle(
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(primaryColor),
+                        )),
                       ),
                       child: child,
                     );
@@ -597,8 +605,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
         Navigator.of(context).pop();
         isLoadingController.add(false);
       } catch (_) {
-        print(_);
-        print(_.response);
         succeded = false;
         isLoadingController.add(false);
         errorSuccessDialog(
@@ -657,14 +663,18 @@ class _LessonsDetailState extends State<LessonsDetail> {
                   context: context,
                   initialDate: selectedDate,
                   firstDate: DateTime(2000),
-                  lastDate: DateTime(2025),
+                  lastDate: DateTime(2035),
                   builder: (BuildContext context, Widget child) {
                     return Theme(
                       data: Theme.of(context).copyWith(
                         colorScheme: ColorScheme.light(
-                          onSurface: wbColor,
-                          surface: primaryColor,
-                        ),
+                            primary: Colors.black, onSurface: wbColor),
+                        dialogBackgroundColor: bwColor,
+                        textButtonTheme: TextButtonThemeData(
+                            style: ButtonStyle(
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(primaryColor),
+                        )),
                       ),
                       child: child,
                     );
@@ -837,7 +847,23 @@ Widget gradeAttachment(context) {
       children: [
         StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
           return Column(children: [
-            gradelyModalSheetHeader(context, title: "Attachments"),
+            gradelyModalSheetHeader(context,
+                customHeader: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.attach_file,
+                      size: 30,
+                    ),
+                    Text(
+                      selectedTest.name,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                    ),
+                    Text(" Beta")
+                  ],
+                )),
             Container(
               child: ListView.builder(
                   shrinkWrap: true,
@@ -862,41 +888,13 @@ Widget gradeAttachment(context) {
                                       data: {"attachments": attachmentArray});
                                 }),
                             onTap: () async {
-                              return gradelyModalSheet(
-                                  context: context,
-                                  children: [
-                                    gradelyModalSheetHeader(context,
-                                        title: await getFileName(
-                                            attachmentArray[index])),
-                                    SizedBox(
-                                      width:
-                                          MediaQuery.of(context).size.width * 1,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.8,
-                                      child: FutureBuilder(
-                                        future: storage.getFileView(
-                                          fileId: attachmentArray[index],
-                                        ), //works for both public file and private file, for private files you need to be logged in
-                                        builder: (context, snapshot) {
-                                          return snapshot.hasData &&
-                                                  snapshot.data != null
-                                              ? (() {
-                                                  final pdfController =
-                                                      PdfController(
-                                                          document: PdfDocument
-                                                              .openData(snapshot
-                                                                  .data.data));
-                                                  print(pdfController);
-                                                  return PdfView(
-                                                    controller: pdfController,
-                                                  );
-                                                }())
-                                              : CircularProgressIndicator();
-                                        },
-                                      ),
-                                    )
-                                  ]);
+                              String fileName =
+                                  await getFileName(attachmentArray[index]);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PdfViewPage(attachmentArray[index], fileName)),
+                              );
                             },
                             leading: FutureBuilder<String>(
                                 future: getFileName(attachmentArray[
@@ -954,7 +952,7 @@ Widget gradeAttachment(context) {
                     }
                   }
                 },
-                text: "Add PDF"),
+                text: "attach_pdf".tr()),
           ]);
         })
       ],

@@ -271,7 +271,9 @@ gradelyModalSheet(
 }
 
 Widget gradelyModalSheetHeader(BuildContext context,
-    {String title, Icon icon = const Icon(CupertinoIcons.xmark)}) {
+    {String title,
+    Icon icon = const Icon(CupertinoIcons.xmark),
+    Widget customHeader}) {
   return Column(
     children: [
       SizedBox(
@@ -288,12 +290,17 @@ Widget gradelyModalSheetHeader(BuildContext context,
         ],
       ),
       Padding(
-        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-        child: Text(
-          title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-        ),
-      ),
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+          child: (() {
+            if (title == null) {
+              return customHeader;
+            } else {
+              return Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+              );
+            }
+          }())),
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: Divider(
@@ -304,33 +311,31 @@ Widget gradelyModalSheetHeader(BuildContext context,
   );
 }
 
-gradelyPlusDialog(context){
-   gradelyDialog(
-                        context: context,
-                        title: "Gradely Plus",
-                        text: "gradely_plus_required".tr() + "❤️",
-                        actions: [
-                          CupertinoButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(
-                                "Ok",
-                                style: TextStyle(color: primaryColor),
-                              )),
-                          CupertinoButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                Navigator.push(
-                                  context,
-                                  GradelyPageRoute(
-                                      builder: (context) => GradelyPlus()),
-                                );
-                              },
-                              child: Text(
-                                "learn_more".tr(),
-                                style: TextStyle(color: primaryColor),
-                              )),
-                        ]);
-                  
+gradelyPlusDialog(context) {
+  gradelyDialog(
+      context: context,
+      title: "Gradely Plus",
+      text: "gradely_plus_required".tr() + "❤️",
+      actions: [
+        CupertinoButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              "Ok",
+              style: TextStyle(color: primaryColor),
+            )),
+        CupertinoButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                GradelyPageRoute(builder: (context) => GradelyPlus()),
+              );
+            },
+            child: Text(
+              "learn_more".tr(),
+              style: TextStyle(color: primaryColor),
+            )),
+      ]);
 }
