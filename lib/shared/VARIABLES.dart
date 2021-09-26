@@ -50,6 +50,13 @@ var appBarTextTheme = TextStyle(
   fontFamily: "PlayfairDisplay",
 );
 
+var bigTitle = TextStyle(
+    color: primaryColor,
+    fontWeight: FontWeight.w900,
+    letterSpacing: 1.5,
+    fontFamily: "PlayfairDisplay",
+    fontSize: 30);
+
 var title = TextStyle(
     color: primaryColor,
     fontWeight: FontWeight.w900,

@@ -480,7 +480,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: Text(
             selectedTest.name,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            style: bigTitle,
           ),
         ),
         Padding(
@@ -766,8 +766,7 @@ Future dreamGradeC(BuildContext context) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("dream_grade_calulator".tr(),
-                          style: TextStyle(fontSize: 25)),
+                      Text("dream_grade_calulator".tr(), style: title),
                       CircleAvatar(
                         radius: 22,
                         backgroundColor: primaryColor,
@@ -856,14 +855,17 @@ Widget gradeAttachment(context) {
                     ),
                     Text(
                       selectedTest.name,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                      style: bigTitle,
                     ),
                     // Text(" Beta")
                   ],
                 )),
+            SizedBox(
+              height: 10,
+            ),
             Container(
               child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: attachmentArray.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -872,7 +874,8 @@ Widget gradeAttachment(context) {
                             index: index, list: attachmentArray),
                         child: ListTile(
                             trailing: IconButton(
-                                icon: Icon(FontAwesome5Solid.trash_alt),
+                                icon: Icon(FontAwesome5.trash_alt,
+                                    size: 16, color: primaryColor),
                                 onPressed: () async {
                                   await storage.deleteFile(
                                       fileId: attachmentArray[index]);
@@ -907,13 +910,13 @@ Widget gradeAttachment(context) {
                                       if (snapshot.hasError)
                                         return Text('File not found');
                                       else
-                                        return Text(snapshot.data);
+                                        return Text(
+                                          snapshot.data,
+                                          style: TextStyle(fontSize: 16),
+                                        );
                                   }
                                 })));
                   }),
-            ),
-            SizedBox(
-              height: 20,
             ),
             gradelyButton(
                 onPressed: () async {

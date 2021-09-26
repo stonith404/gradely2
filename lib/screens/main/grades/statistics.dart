@@ -30,7 +30,7 @@ Future statisticsScreen(BuildContext context) {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("statistics".tr(), style: TextStyle(fontSize: 25)),
+                        Text("statistics".tr(), style: title),
                         CircleAvatar(
                           radius: 22,
                           backgroundColor: primaryColor,

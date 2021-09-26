@@ -197,6 +197,12 @@ darkModeColorChanger(context) {
       letterSpacing: 1.5,
       fontFamily: "PlayfairDisplay",
       fontSize: 21);
+  bigTitle = TextStyle(
+      color: primaryColor,
+      fontWeight: FontWeight.w900,
+      letterSpacing: 1.5,
+      fontFamily: "PlayfairDisplay",
+      fontSize: 30);
 }
 
 //if there is no connection, show a dialog
