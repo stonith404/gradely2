@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -43,6 +45,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     darkModeColorChanger(context);
+    print(MediaQuery.of(context).viewInsets.bottom);
     return Scaffold(
       backgroundColor: defaultBGColor,
       body: Column(
@@ -56,7 +59,10 @@ class _SignInPageState extends State<SignInPage> {
                   Container(
                       alignment: AlignmentDirectional.center,
                       color: primaryColor,
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).viewInsets.bottom == 0 &&
+                              (Platform.isIOS || Platform.isAndroid)
+                          ? MediaQuery.of(context).size.height * 0.4
+                          : MediaQuery.of(context).size.height * 0.25,
                       width: MediaQuery.of(context).size.width * 1,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -99,13 +105,13 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ],
                   ),
-                  Spacer(flex: 10),
+                  SizedBox(height: 20),
                   TextField(
                       keyboardType: TextInputType.emailAddress,
                       controller: emailController,
                       textAlign: TextAlign.left,
                       decoration: inputDec(label: "your_email".tr())),
-                  Spacer(flex: 5),
+                  SizedBox(height: 10),
                   TextField(
                       controller: passwordController,
                       textAlign: TextAlign.left,
@@ -123,7 +129,7 @@ class _SignInPageState extends State<SignInPage> {
                                   _obsecuredText ? Colors.grey : primaryColor),
                         ),
                       )),
-                  Spacer(flex: 10),
+                  SizedBox(height: 20),
                   gradelyButton(
                       text: "sign_in".tr(), onPressed: () => signInUser()),
                   Spacer(flex: 35),

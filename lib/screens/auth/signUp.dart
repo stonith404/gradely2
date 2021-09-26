@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -66,19 +67,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Container(
                       alignment: AlignmentDirectional.center,
                       color: primaryColor,
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).viewInsets.bottom == 0 &&
+                              (Platform.isIOS || Platform.isAndroid)
+                          ? MediaQuery.of(context).size.height * 0.4
+                          : MediaQuery.of(context).size.height * 0.25,
                       width: MediaQuery.of(context).size.width * 1,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset("assets/images/logo.svg",
                               color: frontColor(), height: 60),
-                          Text(" radely",
-                              style: TextStyle(
-                                fontSize: 19,
-                                fontWeight: FontWeight.w700,
-                                color: frontColor(),
-                              ))
                         ],
                       )),
                   //fix the small space
@@ -115,13 +113,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ],
                   ),
-                  Spacer(flex: 10),
+                  SizedBox(height: 20),
                   TextField(
                       keyboardType: TextInputType.emailAddress,
                       controller: emailController,
                       textAlign: TextAlign.left,
                       decoration: inputDec(label: "your_email".tr())),
-                  Spacer(flex: 5),
+                  SizedBox(height: 10),
                   TextField(
                       controller: passwordController,
                       textAlign: TextAlign.left,
@@ -139,7 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   _obsecuredText ? Colors.grey : primaryColor),
                         ),
                       )),
-                  Spacer(flex: 10),
+                  SizedBox(height: 20),
                   gradelyButton(
                       text: "sign_up".tr(),
                       onPressed: () async {
