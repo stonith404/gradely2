@@ -15,10 +15,10 @@ A Grade Calculator App, that syncs all your Grades across all your devices, buil
      <td>Semester detail  🌙</td>
   </tr>
   <tr>
-    <td><img src="https://gradelyapp.com/img/screenshots/iPhone.png" width="175"/></td>
-    <td><img src="https://gradelyapp.com/img/screenshots/iPhone2.png" width="175"/></td>
-    <td><img src="https://gradelyapp.com/img/screenshots/iPhone3.png" width="175"/></td>
-    <td><img src="https://gradelyapp.com/img/screenshots/iPhone4.png" width="175"/></td>
+    <td><img src="https://cloud.eliasschneider.com/apps/files_sharing/publicpreview/SGnBP9nw7deaqGC?file=/home.png&fileId=575563&x=2880&y=1800&a=true" width="175"/></td>
+    <td><img src="https://cloud.eliasschneider.com/apps/files_sharing/publicpreview/SGnBP9nw7deaqGC?file=/grades.png&fileId=575571&x=2880&y=1800&a=true" width="175"/></td>
+    <td><img src="https://cloud.eliasschneider.com/apps/files_sharing/publicpreview/SGnBP9nw7deaqGC?file=/grade.png&fileId=575621&x=2880&y=1800&a=true" width="175"/></td>
+    <td><img src="https://cloud.eliasschneider.com/apps/files_sharing/publicpreview/SGnBP9nw7deaqGC?file=/home-dark.png&fileId=575568&x=2880&y=1800&a=true" width="175"/></td>
   </tr>
  </table>
  
@@ -33,6 +33,16 @@ Gradely 2 is available on:
 - Windows (Beta)
 
 You can download Gradely 2 on https://gradelyapp.com.
+
+## Features
+- Semesters
+- Subjects
+- Grades
+  - Weight
+  - Dream grade calculator
+  - Statistics
+  - PDF attachments
+- Pluspoints or average
 
 <br>
 

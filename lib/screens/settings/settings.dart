@@ -137,18 +137,12 @@ Future settingsScreen(BuildContext context) {
                             SizedBox(
                               child: settingsListTile(
                                   items: [
-                                    Icon(
-                                        user.gradelyPlus
-                                            ? FontAwesome5Solid.palette
-                                            : FontAwesome5Solid.hand_peace,
-                                        size: 17,
-                                        color: primaryColor),
+                                    Icon(FontAwesome5Solid.hand_peace,
+                                        size: 17, color: primaryColor),
                                     SizedBox(
                                       width: 10,
                                     ),
-                                    Text(user.gradelyPlus
-                                        ? "customize".tr()
-                                        : "Gradely Plus"),
+                                    Text("Gradely Plus"),
                                   ],
                                   onTap: () {
                                     Navigator.push(

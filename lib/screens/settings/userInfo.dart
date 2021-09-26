@@ -183,7 +183,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                               child: Column(
                                 children: [
                                   Text("delete_account_text".tr()),
-                                  SizedBox(height: 10),
+                                  SizedBox(height: 30),
                                   TextField(
                                       controller: passwordController,
                                       textAlign: TextAlign.left,

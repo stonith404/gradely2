@@ -102,7 +102,11 @@ errorSuccessDialog(
 
 //default gradely button
 
-Widget gradelyButton({Function onPressed, String text}) {
+Widget gradelyButton(
+    {@required Function onPressed,
+    @required String text,
+    Color color,
+    Color textColor}) {
   return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
     isLoadingStream.listen((value) {
       setState(() {
@@ -114,7 +118,7 @@ Widget gradelyButton({Function onPressed, String text}) {
     });
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: primaryColor, // background
+          primary: color ?? primaryColor, // background
           elevation: 0,
           padding: EdgeInsets.all(12),
           shape: RoundedRectangleBorder(
@@ -130,7 +134,7 @@ Widget gradelyButton({Function onPressed, String text}) {
                             ? Brightness.light
                             : Brightness.dark)),
                 child: CupertinoActivityIndicator())
-            : Text(text, style: TextStyle(color: frontColor())),
+            : Text(text, style: TextStyle(color: textColor ?? frontColor())),
         onPressed: onPressed);
   });
 }
@@ -190,11 +194,7 @@ BoxDecoration boxDec() {
 
 InputDecoration inputDec({String label, var suffixIcon}) {
   return InputDecoration(
-    suffixIcon: suffixIcon ??
-        Icon(
-          Icons.ac_unit,
-          color: bwColor,
-        ),
+    suffixIcon: suffixIcon ?? Container(height: 1, width: 1),
     disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         borderSide: BorderSide.none),

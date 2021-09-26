@@ -859,7 +859,7 @@ Widget gradeAttachment(context) {
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                     ),
-                    Text(" Beta")
+                    // Text(" Beta")
                   ],
                 )),
             Container(
@@ -891,7 +891,8 @@ Widget gradeAttachment(context) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => PdfViewPage(attachmentArray[index], fileName)),
+                                    builder: (context) => PdfViewPage(
+                                        attachmentArray[index], fileName)),
                               );
                             },
                             leading: FutureBuilder<String>(

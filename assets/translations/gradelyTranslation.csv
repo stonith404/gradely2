@@ -62,7 +62,8 @@ dream_grade_result_text,Your grade for the next exam should be:,Deine Note für 
 dream _grade_weight,Dream grade weight,Wunschnoten Gewichtung
 date,date,Datum
 benefit_support,Support developer,Entwickler unterstützen
-gradely_plus_description,I invested a lot of time and money in this app. Of course I want that this app is free. With Gradely plus you can help me so i can make this app better.,Ich habe viele Stunden und Geld in diese App investiert. Ich möchte das diese App gratis ist. Mit Gradely Plus kann du mithelfen dass ich die App immer weiterentwickeln kann.
+why_gradely_plus,Why Gradely plus?,Wieso Gradely plus?
+gradely_plus_description,"I invested a lot of time and money in this app. Of course I want that this app is free, but servers aren't free... With Gradely plus you can help me so I can make this app better and pay the servers 🖤","Ich habe viele Stunden und Geld in diese App investiert, leider sind Server nicht gratis... Ich möchte das diese App gratis ist. Mit Gradely Plus kann du mithelfen dass ich die App immer weiterentwickeln und die Server bezahlen kann 🖤"
 benefit_more_coming_soon,More benefits coming soon,Mehr Vorteile kommen bald
 benefit_pdf_attachments,PDF Attachments,PDF Anhänge
 benefit_emojis,Emojis in names,Emojis in Namen
@@ -90,7 +91,10 @@ error_stats_contain_no_date,Some of your grades don't have dates. Please add a d
 statistics,Statistics,Statistiken
 stats_description,This shows your grades along the date time period.,Diese Statistik zeigt dir deine Noten während der Datum Zeitperiode.
 your_name,Your name,Dein Name
-features,Features,Features
+benefits,Benefits,Vorteile
+gradely_plus_add_tip,Do you want to spend me one more drink?,Willst du mir noch ein Drink ausgeben?
+gradely_plus_active_thanks,Thank you soo much for supporting Gradely 2 🖤. Enjoy it!,Danke viel mals das du Gradely 2 unterstützt 🖤. Geniess es!
+gradely_plus_active_title,Wohoo you're a Gradely Plus Member 🎉,Wohoo du bist ein Gradely Plus Mitglied 🎉
 description,Description,Beschreibung
 gradely_plus_explain_products,No matter what you buy you get the exact same features:,"Egal was du kaufst, du erhälst genau die gleichen Features."
 beer,Beer,Bier
@@ -111,7 +115,7 @@ licenses,Licenses,Lizensen
 contribute,Contribute,Mithelfen
 error_server_not_reachable_title,Server not reachable,Server nicht verfügbar
 error_server_not_reachable_text,"Currently the server is not reachable, please try again in a few minutes","Im Moment ist der Server nicht erreichbar, bitte versuche es in einpaar Minuten erneut."
-contribute_leading_text,"If you want to contribute to make gradely better, here are you right ❤️.","Falls du mithelfen willst, Gradely besser zu machen bist du hier richtig ❤️."
+contribute_leading_text,"Gradely 2 is opensource, this means that everybody can help make this app better. If you want to contribute to make gradely better, here are you right ❤️.","Gradely 2 ist Open Source, das heisst jeder kann helfen die App zu verbessern. die aFalls du mithelfen willst, Gradely besser zu machen bist du hier richtig ❤️."
 languages,Languages,Sprachen
 bug_or_improvement,Bug or improvement,Bug oder Vorschläge
 contribute_translate_p1,"To give every user an awesome experience, Gradely should be translated in many languages.","Um jedem Nutzer ein super Erlebnis zu geben, sollte Gradely in vielen Sprachen verfügbar sein"

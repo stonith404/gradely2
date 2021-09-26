@@ -412,7 +412,7 @@ completeOfflineTasks(context) {
 }
 
 // ignore: non_constant_identifier_names
-GradelyPageRoute({builder}) {
+GradelyPageRoute({Widget Function(BuildContext) builder}) {
   if (Platform.isIOS) {
     return MaterialWithModalsPageRoute(builder: builder);
   } else {
