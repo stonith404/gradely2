@@ -65,6 +65,8 @@ class _GradelyPlusState extends State<GradelyPlus> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15))),
             title: Text("🎉 Wohooo"),
             content: Text("gradely_pluss_success_text".tr()),
             actions: <Widget>[

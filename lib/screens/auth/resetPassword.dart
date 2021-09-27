@@ -17,7 +17,7 @@ class _ResetPWState extends State<ResetPW> {
   sendPasswordResetEmail(String email) async {
     Future result = account.createRecovery(
       email: email,
-      url: 'https://user.gradelyapp.com?mode=passwordReset',
+      url: 'https://user.gradelyapp.com/#/changePassword',
     );
     result.then((response) {
       print(response);
@@ -42,7 +42,7 @@ class _ResetPWState extends State<ResetPW> {
                   Container(
                       alignment: AlignmentDirectional.center,
                       color: primaryColor,
-                      height:  MediaQuery.of(context).viewInsets.bottom == 0 &&
+                      height: MediaQuery.of(context).viewInsets.bottom == 0 &&
                               (Platform.isIOS || Platform.isAndroid)
                           ? MediaQuery.of(context).size.height * 0.4
                           : MediaQuery.of(context).size.height * 0.25,

@@ -80,6 +80,7 @@ warning,Warning,Achtung
 change_password_text,To change your password click the button below. you get an email there you can change your password.,Um dein Passwort zu ändern drücke den Knopf unten. Du bekommst eine Email dort kannst du dein Passwort ändern.
 delete_account_text,Warning! Do you really want to delete your account and your grades? this can't be undone.,Achtung! Willst du wirklich all deine Noten und dein Account löschen? Dies kann nicht Rückgängig gemacht werden.
 reset,Reset,Zurücksetzen
+done,Done,Fertig
 create,Create,Erstellen
 account,Account,Account
 no_emoji_choosed,Add emoji,Emoji hinzuzufügen

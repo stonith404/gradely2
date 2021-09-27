@@ -325,12 +325,16 @@ changeEmail(_email, context) async {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15))),
           title: Text("action_required".tr()),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text("re_enter_password_save_changes".tr()),
-              SizedBox(height: 10),
+              SizedBox(
+                height: 20,
+              ),
               TextField(
                   controller: passwordController,
                   textAlign: TextAlign.left,
@@ -340,7 +344,7 @@ changeEmail(_email, context) async {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text("ok"),
+              child: Text("done".tr()),
               onPressed: () async {
                 try {
                   await account.updateEmail(

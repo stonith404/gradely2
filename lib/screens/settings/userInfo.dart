@@ -121,6 +121,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     context: context,
                     builder: (BuildContext contextP) {
                       return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15))),
                         title: Text("change_password".tr()),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -133,7 +135,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                   Future result = account.createRecovery(
                                     email: user.email,
                                     url:
-                                        'https://user.gradelyapp.com?mode=passwordReset',
+                                        'https://user.gradelyapp.com/#/changePassword',
                                   );
                                   result.then((response) {
                                     errorSuccessDialog(
@@ -177,6 +179,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         context: context,
                         builder: (BuildContext contextP) {
                           return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15))),
                             title: Text("delete_account".tr()),
                             content: Container(
                               height: 150,

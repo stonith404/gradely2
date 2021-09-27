@@ -34,7 +34,7 @@ class _IntroScreenState extends State<IntroScreen> {
   void initState() {
     super.initState();
     account.createVerification(
-        url: "https://user.gradelyapp.com?mode=verifyEmail");
+        url: "https://user.gradelyapp.com/#/verifyEmail");
   }
 
   @override
@@ -215,7 +215,7 @@ class _IntroScreenState extends State<IntroScreen> {
               TextButton(
                   onPressed: () {
                     Future result = account.createVerification(
-                        url: "https://user.gradelyapp.com?mode=verifyEmail");
+                        url: "https://user.gradelyapp.com/#/verifyEmail");
 
                     result.then((response) {
                       errorSuccessDialog(
