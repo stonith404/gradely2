@@ -6,7 +6,6 @@ A Grade Calculator App, that syncs all your Grades across all your devices, buil
 <br>
 
 ## Screenshots
-
 <table>
   <tr>
     <td>Semester detail</td>
@@ -15,10 +14,10 @@ A Grade Calculator App, that syncs all your Grades across all your devices, buil
      <td>Semester detail  🌙</td>
   </tr>
   <tr>
-    <td><img src="https://cloud.eliasschneider.com/apps/files_sharing/publicpreview/SGnBP9nw7deaqGC?file=/home.png&fileId=575563&x=2880&y=1800&a=true" width="175"/></td>
-    <td><img src="https://cloud.eliasschneider.com/apps/files_sharing/publicpreview/SGnBP9nw7deaqGC?file=/grades.png&fileId=575571&x=2880&y=1800&a=true" width="175"/></td>
-    <td><img src="https://cloud.eliasschneider.com/apps/files_sharing/publicpreview/SGnBP9nw7deaqGC?file=/grade.png&fileId=575621&x=2880&y=1800&a=true" width="175"/></td>
-    <td><img src="https://cloud.eliasschneider.com/apps/files_sharing/publicpreview/SGnBP9nw7deaqGC?file=/home-dark.png&fileId=575568&x=2880&y=1800&a=true" width="175"/></td>
+    <td><img src="https://user-images.githubusercontent.com/58886915/134825100-5a1ade0a-2748-45ae-a0e0-206211b4651c.png" width="175"/></td>
+    <td><img src="https://user-images.githubusercontent.com/58886915/134825121-1931930e-00bd-41ad-8264-cae8b7b46cf0.png" width="175"/></td>
+    <td><img src="https://user-images.githubusercontent.com/58886915/134825115-b8075c8d-2495-4258-adc3-b8cb8c5de64c.png" width="175"/></td>
+    <td><img src="https://user-images.githubusercontent.com/58886915/134825113-190d1702-4de9-448c-993a-55aba672a89a.png" width="175"/></td>
   </tr>
  </table>
  
