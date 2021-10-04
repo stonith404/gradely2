@@ -209,28 +209,6 @@ Future settingsScreen(BuildContext context) {
                           child: Column(
                             children: [
                               settingsListTile(
-                                items: [
-                                  Icon(FontAwesome5Solid.envelope,
-                                      size: 15, color: primaryColor),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("contact_developer".tr()),
-                                ],
-                                onTap: () {
-                                  if (kIsWeb) {
-                                    launchURL("https://gradelyapp.com");
-                                  } else {
-                                    Navigator.push(
-                                      context,
-                                      GradelyPageRoute(
-                                          builder: (context) =>
-                                              ContactScreen()),
-                                    );
-                                  }
-                                },
-                              ),
-                              settingsListTile(
                                 context: context,
                                 items: [
                                   Icon(FontAwesome5Solid.heart,

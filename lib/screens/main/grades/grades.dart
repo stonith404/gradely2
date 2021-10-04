@@ -636,7 +636,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: Text(
             "add_exam".tr(),
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            style: bigTitle,
           ),
         ),
         Padding(

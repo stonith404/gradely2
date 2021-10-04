@@ -21,18 +21,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
-                                <rect key="frame" x="157" y="308.33333333333331" width="100" height="100"/>
+                                <rect key="frame" x="157" y="398" width="100" height="100"/>
                             </imageView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="YDi-Fd-3j1">
-                                <rect key="frame" x="197" y="437" width="20" height="20"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.8" id="1c1-cD-kdA"/>
-                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="IBM-c4-VPj"/>
-                            <constraint firstItem="YDi-Fd-3j1" firstAttribute="top" secondItem="YRO-k0-Ey4" secondAttribute="bottom" constant="28.5" id="IF6-21-dtX"/>
-                            <constraint firstItem="YDi-Fd-3j1" firstAttribute="centerX" secondItem="YRO-k0-Ey4" secondAttribute="centerX" id="r59-yD-o35"/>
+                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="2bO-Nz-7Gp"/>
+                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="se3-ln-JZw"/>
                         </constraints>
                     </view>
                 </viewController>

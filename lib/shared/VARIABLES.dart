@@ -46,21 +46,18 @@ final collectionGrades = "60f71651520e5";
 var appBarTextTheme = TextStyle(
   color: primaryColor,
   fontWeight: FontWeight.w900,
-  letterSpacing: 1.5,
   fontFamily: "PlayfairDisplay",
 );
 
 var bigTitle = TextStyle(
     color: primaryColor,
     fontWeight: FontWeight.w900,
-    letterSpacing: 1.5,
     fontFamily: "PlayfairDisplay",
     fontSize: 30);
 
 var title = TextStyle(
     color: primaryColor,
     fontWeight: FontWeight.w900,
-    letterSpacing: 1.5,
     fontFamily: "PlayfairDisplay",
     fontSize: 21);
 

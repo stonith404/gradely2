@@ -155,7 +155,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                             height: 50,
                           ),
                           Text(
-                            "Your benefits".tr(),
+                            "your_benefits".tr(),
                             style: TextStyle(fontWeight: FontWeight.w800),
                           ),
                           SizedBox(

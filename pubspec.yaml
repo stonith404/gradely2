@@ -6,8 +6,8 @@ publish_to: 'none'
 
 version: 1.1.0+8
 #Latest builds:
-#MacOS  11
-#android: 7
+#MacOS  12
+#android: 8
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -63,8 +63,6 @@ flutter:
         - asset: assets/fonts/PlayfairDisplay-ExtraBold.ttf
         - asset: assets/fonts/PlayfairDisplay-Bold.ttf     
         - asset: assets/fonts/PlayfairDisplay-Black.ttf      
-        - asset: assets/fonts/PlayfairDisplay-Medium.ttf 
-        - asset: assets/fonts/PlayfairDisplay-SemiBold.ttf
 
 
 #package to create a msix for windows
