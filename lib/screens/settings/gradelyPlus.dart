@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'package:gradely2/main.dart';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -33,8 +33,6 @@ class _GradelyPlusState extends State<GradelyPlus> {
 
   getProducts() async {
     if (Platform.isIOS || Platform.isAndroid) {
-      var result = await FlutterInappPurchase.instance.initConnection;
-      print('result: $result');
       await FlutterInappPurchase.instance.clearTransactionIOS();
       iapList = (await FlutterInappPurchase.instance.getProducts([
         "com.eliasschneider.gradely2.iap.gradelyplus",
@@ -44,7 +42,6 @@ class _GradelyPlusState extends State<GradelyPlus> {
       setState(() {
         iapList = iapList;
       });
-      print(iapList);
     }
   }
 
@@ -113,7 +110,6 @@ class _GradelyPlusState extends State<GradelyPlus> {
 
     purchaseUpdatedSubscription =
         FlutterInappPurchase.purchaseUpdated.listen((productItem) {
-      print('puelias: $productItem');
       finishPurchase();
     });
 
@@ -276,8 +272,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                     ],
                                   )
                                 ])
-                              : Text("gradely_plus_mobile_only".tr(),
-                                  style: TextStyle(fontStyle: FontStyle.italic))
+                              : Container()
                         ],
                       );
                     } else {

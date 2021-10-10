@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:universal_io/io.dart';
 
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -45,7 +45,6 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     darkModeColorChanger(context);
-    print(MediaQuery.of(context).viewInsets.bottom);
     return Scaffold(
       backgroundColor: defaultBGColor,
       body: Column(

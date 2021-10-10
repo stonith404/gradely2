@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +5,7 @@ import 'package:gradely2/screens/auth/signIn.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
+import 'package:universal_io/io.dart';
 
 class ResetPW extends StatefulWidget {
   @override
@@ -20,7 +19,6 @@ class _ResetPWState extends State<ResetPW> {
       url: 'https://user.gradelyapp.com/#/changePassword',
     );
     result.then((response) {
-      print(response);
     }).catchError((error) {
       print(error.response);
     });

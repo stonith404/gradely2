@@ -199,7 +199,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                               await _getAttachments();
                                               for (var file
                                                   in attachmentArray) {
-                                                print(file);
                                                 await storage.deleteFile(
                                                     fileId: file);
                                               }
@@ -715,7 +714,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
         gradelyIconButton(
             onPressed: () async {
               if (await uploadGrade()) {
-                print("testid" + selectedTest.id);
                 await _getAttachments();
                 gradeAttachment(context);
               }
