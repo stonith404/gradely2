@@ -29,6 +29,7 @@ Gradely 2 is available on:
 - IOS
 - MacOS
 - Android
+- Web (Beta)
 - Windows (Beta)
 
 You can download Gradely 2 on https://gradelyapp.com.
