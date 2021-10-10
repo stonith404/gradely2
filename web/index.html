@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+  <title>loading...</title>
   <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
@@ -20,16 +22,42 @@
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="The Gradely 2 web app.">
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png" />
+
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="gradely2">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <title>gradely2</title>
   <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
+  <svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+    y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+    <circle fill="#000000" stroke="none" cx="6" cy="50" r="6">
+      <animateTransform attributeName="transform" dur="1s" type="translate" values="0 15 ; 0 -15; 0 15"
+        repeatCount="indefinite" begin="0.1" />
+    </circle>
+    <circle fill="#000000" stroke="none" cx="30" cy="50" r="6">
+      <animateTransform attributeName="transform" dur="1s" type="translate" values="0 10 ; 0 -10; 0 10"
+        repeatCount="indefinite" begin="0.2" />
+    </circle>
+    <circle fill="#000000" stroke="none" cx="54" cy="50" r="6">
+      <animateTransform attributeName="transform" dur="1s" type="translate" values="0 5 ; 0 -5; 0 5"
+        repeatCount="indefinite" begin="0.3" />
+    </circle>
+  </svg>
+
+  <style>
+    svg {
+      width: 100%;
+      max-height: 100px;
+    }
+  </style>
+
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
@@ -98,4 +126,5 @@
     }
   </script>
 </body>
+
 </html>

@@ -55,6 +55,7 @@ class MaterialWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+       title: "Gradely 2", 
       initialRoute: '/',
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
