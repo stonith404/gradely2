@@ -133,26 +133,27 @@ Future settingsScreen(BuildContext context) {
                                         builder: (context) => PlatformList()),
                                   );
                                 }),
-                            listDivider(),
-                            SizedBox(
-                              child: settingsListTile(
-                                  items: [
-                                    Icon(FontAwesome5Solid.hand_peace,
-                                        size: 17, color: primaryColor),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("Gradely Plus"),
-                                  ],
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      GradelyPageRoute(
-                                          builder: (context) => GradelyPlus()),
-                                    );
-                                  }),
-                            ),
-                            listDivider(),
+                            !user.gradelyPlus
+                                ? SizedBox(
+                                    child: settingsListTile(
+                                        items: [
+                                          Icon(FontAwesome5Solid.hand_peace,
+                                              size: 17, color: primaryColor),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text("Gradely Plus"),
+                                        ],
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            GradelyPageRoute(
+                                                builder: (context) =>
+                                                    GradelyPlus()),
+                                          );
+                                        }),
+                                  )
+                                : Container(),
                             settingsListTile(
                               arrow: false,
                               items: [
@@ -248,6 +249,27 @@ Future settingsScreen(BuildContext context) {
                                           return "https://gradelyapp.com";
                                         }
                                       }()))),
+                              user.gradelyPlus
+                                  ? SizedBox(
+                                      child: settingsListTile(
+                                          items: [
+                                            Icon(FontAwesome5Solid.hand_peace,
+                                                size: 17, color: primaryColor),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text("Gradely Plus"),
+                                          ],
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              GradelyPageRoute(
+                                                  builder: (context) =>
+                                                      GradelyPlus()),
+                                            );
+                                          }),
+                                    )
+                                  : Container(),
                               settingsListTile(
                                 context: context,
                                 items: [
