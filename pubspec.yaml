@@ -1,8 +1,8 @@
 name: gradely2
 description: Your grades on every device.
 
-# The following line prevents the package from being accidentally published to pub.dev using `pub publish`. 
-publish_to: 'none'
+# The following line prevents the package from being accidentally published to pub.dev using `pub publish`.
+publish_to: "none"
 
 version: 1.1.0+8
 #Latest builds:
@@ -30,7 +30,7 @@ dependencies:
   shared_preferences: ^2.0.6
   emoji_chooser:
   syncfusion_flutter_charts: ^19.1.66+1
-  flutter_inapp_purchase: ^5.0.2
+  flutter_inapp_purchase: ^5.0.3
   flutter_spinkit: ^5.0.0
   another_flushbar: ^1.10.24
   flutter_svg: ^0.22.0
@@ -42,11 +42,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -62,9 +60,8 @@ flutter:
     - family: PlayfairDisplay
       fonts:
         - asset: assets/fonts/PlayfairDisplay-ExtraBold.ttf
-        - asset: assets/fonts/PlayfairDisplay-Bold.ttf     
-        - asset: assets/fonts/PlayfairDisplay-Black.ttf      
-
+        - asset: assets/fonts/PlayfairDisplay-Bold.ttf
+        - asset: assets/fonts/PlayfairDisplay-Black.ttf
 
 #package to create a msix for windows
 #1. flutter build windows
@@ -77,7 +74,7 @@ msix_config:
   msix_version: 1.1.0.0
   publisher: CN=26AFB924-E2D8-4326-B33D-B268D9E4FB49
   architecture: x64
-  capabilities: 'internetClient'
+  capabilities: "internetClient"
   logo_path: assets\images\gradely2Icon.png
   start_menu_icon_path: assets\images\gradely2Icon.png
   tile_icon_path: assets\images\gradely2Icon.png

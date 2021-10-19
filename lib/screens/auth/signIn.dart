@@ -27,6 +27,7 @@ class _SignInPageState extends State<SignInPage> {
       password: passwordController.text,
     );
     await result.then((response) async {
+      print(response);
       prefs.remove("newGradely");
       prefs.setBool("signedIn", true);
       await getUserInfo();
@@ -37,6 +38,7 @@ class _SignInPageState extends State<SignInPage> {
 
       passwordController.text = "";
     }).catchError((error) {
+      print(error);
       errorSuccessDialog(context: context, error: true, text: error.message);
     });
     isLoadingController.add(false);

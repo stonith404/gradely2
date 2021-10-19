@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gradely2/screens/auth/introScreen.dart';
+import 'package:gradely2/screens/auth/introScreenV1.dart';
 import 'package:gradely2/screens/settings/settings.dart';
 import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';

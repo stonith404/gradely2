@@ -2,6 +2,7 @@ import 'package:appwrite/appwrite.dart' as appwrite;
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gradely2/screens/auth/authHome.dart';
 import 'package:gradely2/screens/auth/signIn.dart';
 import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
@@ -134,7 +135,7 @@ class _State extends State<HomeWrapper> {
             if (prefs.getBool("signedIn") ?? false) {
               return SemesterDetail();
             } else {
-              return SignInPage();
+              return AuthHome();
             }
           }
         });
