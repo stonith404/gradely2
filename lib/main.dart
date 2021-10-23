@@ -3,13 +3,14 @@ import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely2/screens/auth/authHome.dart';
-import 'package:gradely2/screens/auth/signIn.dart';
 import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely2/shared/loading.dart';
+import 'package:gradely2/shared/maintenance.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 bool isLoggedIn = false;
 
@@ -56,7 +57,7 @@ class MaterialWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-       title: "Gradely 2", 
+      title: "Gradely 2",
       initialRoute: '/',
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
@@ -113,11 +114,12 @@ class HomeWrapper extends StatefulWidget {
 }
 
 class _State extends State<HomeWrapper> {
+
+
   Future getUserData;
   @override
   void initState() {
     super.initState();
-
     getUserData = getUserInfo();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   }
@@ -127,17 +129,29 @@ class _State extends State<HomeWrapper> {
     client.setLocale(Localizations.localeOf(context).toString());
 //this future builder gets the user data and returns the semester detail page when done.
     return FutureBuilder(
-        future: getUserData,
-        builder: (BuildContext context, AsyncSnapshot snap) {
-          if (snap.data == null) {
-            return LoadingScreen();
-          } else {
-            if (prefs.getBool("signedIn") ?? false) {
-              return SemesterDetail();
-            } else {
-              return AuthHome();
-            }
-          }
-        });
+      future: isMaintenance(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return LoadingScreen();
+        } else if (snapshot.data == true) {
+          return Maintenance();
+        } else {
+          print(snapshot.data);
+          return FutureBuilder(
+              future: getUserData,
+              builder: (BuildContext context, AsyncSnapshot snap) {
+                if (snap.data == null) {
+                  return LoadingScreen();
+                } else {
+                  if (prefs.getBool("signedIn") ?? false) {
+                    return SemesterDetail();
+                  } else {
+                    return AuthHome();
+                  }
+                }
+              });
+        }
+      },
+    );
   }
 }

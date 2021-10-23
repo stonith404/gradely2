@@ -144,3 +144,9 @@ error_server_down,"The Gradely 2 server is down, try again in a few minutes","De
 server_down,Server offline,Server offline
 attach_pdf,Attach PDF,PDF anhängen
 rate_app,Rate app,App bewerten
+maintenance_hurry,"If you're in hurry open the app without a network connection.","Falls du nicht warten kannst, öffne die App ohne Internetverbindung."
+maintenance_description,"We are improving your Gradely 2 experience. Try again in a few minutes.","Wir verbessern gerade Gradely 2. Bitte versuche es in ein paar Minuten erneut."
+maintenance,Maintenance,Wartung
+sorry,Sorry,Entschuldigung
+still_maintenance,Gradely 2 is still in maintenance.,Gradely 2 ist immer noch in Wartung.
+try_again,Try again,Erneut versuchen
