@@ -36,8 +36,6 @@ dependencies:
   another_flushbar: ^1.10.24
   flutter_svg: ^0.22.0
   package_info_plus: ^1.0.4
-  file_picker: ^4.1.1
-  native_pdf_view: ^4.2.0
   universal_io: ^2.0.4
 
 dev_dependencies:
