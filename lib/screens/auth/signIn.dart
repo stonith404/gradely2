@@ -1,10 +1,9 @@
+import 'package:gradely2/screens/auth/authHome.dart';
 import 'package:universal_io/io.dart';
-
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely2/main.dart';
-import 'package:gradely2/screens/auth/signUp.dart';
 import 'package:gradely2/screens/auth/resetPassword.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
@@ -139,7 +138,7 @@ class _SignInPageState extends State<SignInPage> {
                         Navigator.push(
                           context,
                           GradelyPageRoute(
-                              builder: (context) => RegisterScreen()),
+                              builder: (context) => AuthHome()),
                         );
                       },
                       child: Text(

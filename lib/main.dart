@@ -11,7 +11,6 @@ import 'package:gradely2/shared/loading.dart';
 import 'package:gradely2/shared/maintenance.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 bool isLoggedIn = false;
 
 List<String> testList = [];
@@ -69,6 +68,7 @@ class MaterialWrapper extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.black),
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         textButtonTheme: TextButtonThemeData(
@@ -86,6 +86,7 @@ class MaterialWrapper extends StatelessWidget {
         backgroundColor: Colors.grey[300],
       ),
       darkTheme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.white),
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         appBarTheme: AppBarTheme(
@@ -114,8 +115,6 @@ class HomeWrapper extends StatefulWidget {
 }
 
 class _State extends State<HomeWrapper> {
-
-
   Future getUserData;
   @override
   void initState() {

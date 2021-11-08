@@ -1,10 +1,10 @@
+import 'package:gradely2/screens/auth/introScreen.dart';
 import 'package:universal_io/io.dart';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gradely2/screens/auth/introScreenV1.dart';
 import 'package:gradely2/screens/settings/settings.dart';
 import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
@@ -98,9 +98,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
     if (user.choosenSemester == "noSemesterChoosed") {
       return ChooseSemester();
     } else if (!user.emailVerification) {
-      return IntroScreen(
-        initPage: 4,
-      );
+      return IntroScreenWrapper(6);
     } else if (isLoading) {
       return LoadingScreen();
     } else {

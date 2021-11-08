@@ -1,6 +1,5 @@
 import 'package:universal_io/io.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely2/screens/main/lessons.dart';
@@ -13,7 +12,6 @@ import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'platforms.dart';
-import 'contact.dart';
 import 'gradelyPlus.dart';
 
 Future settingsScreen(BuildContext context) {

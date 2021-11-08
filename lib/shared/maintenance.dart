@@ -1,10 +1,7 @@
-import 'dart:io';
-
-import 'package:easy_localization/src/public_ext.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gradely2/main.dart';
-import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -61,7 +58,7 @@ class Maintenance extends StatelessWidget {
                             title: "sorry".tr(),
                             text: "still_maintenance".tr());
                       } else {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           GradelyPageRoute(builder: (context) => HomeWrapper()),
                         );

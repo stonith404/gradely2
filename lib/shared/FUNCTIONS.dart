@@ -9,7 +9,6 @@ import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
 //get info of current logged in user
 
 Future getUserInfo() async {
@@ -81,9 +80,11 @@ Future internetConnection() async {
 }
 
 isMaintenance() async {
-  var r = await http.get(Uri.parse("https://gradelyapp.com/staticApi"));
+  // var r = await http.get(Uri.parse("https://gradelyapp.com/staticApi"));
 
-  return jsonDecode(r.body)["maintenance"];
+  // return jsonDecode(r.body)["maintenance"];
+
+  return false;
 }
 
 //checks if the server is offline but there is a network connection
