@@ -43,7 +43,7 @@ class _AppInfoState extends State<AppInfo> {
       _AppInfo("build".tr(), buildNumber),
       _AppInfo(
         "server_location".tr(),
-        "Bern, Switzerland",
+        "Nuremberg, Germany",
       ),
       _AppInfo("app_language".tr(), Localizations.localeOf(context).toString()),
       _AppInfo(

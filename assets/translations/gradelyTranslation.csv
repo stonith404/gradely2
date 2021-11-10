@@ -4,13 +4,11 @@ pluspoints,Pluspoints,Pluspunkte
 pp,Pluspoints,Pluspunkte
 av,Average,Durchschnitt
 settings,Settings,Einstellungen
-platforms,Platforms,Plattformen
 grade_result,Grades results,Noten Resultate
 weight,weight,Gewichtung
 add_exam,Add exam,Test hinzufügen
 grade,grade,Note
 exam_name,exam name,Test Name
-settings_platforms_description,The platforms and synchronization make gradely unique. You can save your grades here and at the same time your grades are on your other device!,"Die verfügbarkeit und Synchronisation macht Gradely einzigartig. Du kannst deine Noten hier hinzufügen und zur selben Zeit, sind deine Noten auf all deinen anderen Geräten!"
 delete,Delete,löschen
 no,No,Nein
 back,Back,zurück
@@ -26,7 +24,7 @@ password_remembered,Remember your password?,Weisst du dein Passwort?
 your_email,Your email,Deine Email
 your_password,Your password,Dein Passwort
 password,Password,Passwort
-question_forgot_password,forgot password?,Passwort vergessen?
+question_forgot_password,Forgot password?,Passwort vergessen?
 reset_password,Reset Password,Passwort zurücksetzen
 request_link,Request Link,Link anfordern
 sign_up,sign up,Registrieren
@@ -54,7 +52,6 @@ contact_success_text,Thanks for your message. I will contact you with this email
 password_reset_success_text,An email to reset your password was sent. Please check also your spam folder.,Eine Email um dein Passwort zurückzusetzen wurde erfolgreich gesendet. Bitte beachte auch dein Spam Fach.
 error,error,Fehler
 error_unknown,There was an unknown error,Ein unbekannter Fehler ist aufgetreten
-error_contact,Unfortunately there is an error. You can try it later or you can contact me under elias@eliasschneider.com,Leider ist ein Fehler aufgetreten. Versuche es später nochmals oder konatkiere mich unter elias@eliasschneider.com
 settings_contact_description,"Any question, contact me! 🙂","fragen, kontaktiere mich! 🙂"
 dream_grade,Dream grade,Wunschnote
 dream_grade_calulator,Dream grade calulator,Wunschnoten rechner

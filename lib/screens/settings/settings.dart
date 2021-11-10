@@ -11,7 +11,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'platforms.dart';
 import 'gradelyPlus.dart';
 
 Future settingsScreen(BuildContext context) {
@@ -115,22 +114,6 @@ Future settingsScreen(BuildContext context) {
                         decoration: boxDec(),
                         child: Column(
                           children: [
-                            settingsListTile(
-                                items: [
-                                  Icon(FontAwesome5Solid.laptop,
-                                      size: 15, color: primaryColor),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("platforms".tr()),
-                                ],
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    GradelyPageRoute(
-                                        builder: (context) => PlatformList()),
-                                  );
-                                }),
                             !user.gradelyPlus
                                 ? SizedBox(
                                     child: settingsListTile(
@@ -197,6 +180,17 @@ Future settingsScreen(BuildContext context) {
                                 ),
                               ],
                             ),
+                            settingsListTile(
+                                items: [
+                                  Icon(FontAwesome5Solid.laptop,
+                                      size: 15, color: primaryColor),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Download on other devices".tr()),
+                                ],
+                                onTap: () => launchURL(
+                                    "https://gradelyapp.com#download")),
                           ],
                         ),
                       ),
@@ -247,27 +241,6 @@ Future settingsScreen(BuildContext context) {
                                           return "https://gradelyapp.com";
                                         }
                                       }()))),
-                              user.gradelyPlus
-                                  ? SizedBox(
-                                      child: settingsListTile(
-                                          items: [
-                                            Icon(FontAwesome5Solid.hand_peace,
-                                                size: 17, color: primaryColor),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text("Gradely Plus"),
-                                          ],
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              GradelyPageRoute(
-                                                  builder: (context) =>
-                                                      GradelyPlus()),
-                                            );
-                                          }),
-                                    )
-                                  : Container(),
                               settingsListTile(
                                 context: context,
                                 items: [

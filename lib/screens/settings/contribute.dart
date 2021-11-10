@@ -85,7 +85,10 @@ class Contribute extends StatelessWidget {
                       launchURL("https://github.com/generalxhd/Gradely2");
                     }),
               ],
-            )
+            ),
+            SizedBox(
+              height: 30,
+            ),
           ],
         ),
       ),
