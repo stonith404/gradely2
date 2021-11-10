@@ -370,7 +370,7 @@ class _Intro5 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Spacer(
-          flex: 6,
+          flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 6 : 1,
         ),
         Spacer(
           flex: 1,
@@ -386,7 +386,7 @@ class _Intro5 extends StatelessWidget {
           style: TextStyle(fontSize: 17),
         ),
         Spacer(
-          flex: 3,
+          flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 3 : 1,
         ),
         TextField(
             controller: addSemesterController,

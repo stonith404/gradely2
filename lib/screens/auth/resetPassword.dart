@@ -34,11 +34,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Spacer(
-              flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 4 : 2,
+              flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 8 : 6,
             ),
             SvgPicture.asset("assets/images/logo.svg",
                 color: primaryColor, height: 60),
-            Spacer(flex: 3),
+            Spacer(
+              flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 6 : 2,
+            ),
             Row(
               children: [
                 Text(
@@ -48,7 +50,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               ],
             ),
             Spacer(
-              flex: 1,
+              flex: 2,
             ),
             TextField(
               decoration: inputDec(label: "your_email".tr()),
@@ -56,7 +58,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               controller: emailController,
               textAlign: TextAlign.left,
             ),
-            Spacer(flex: 2),
+            Spacer(flex: 4),
             gradelyButton(
                 onPressed: () {
                   sendPasswordResetEmail(emailController.text);
@@ -72,7 +74,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       title: "sent".tr());
                 },
                 text: "request_link".tr()),
-            Spacer(flex: 8),
+            Spacer(flex: 16),
             TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -81,7 +83,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   "password_remembered".tr(),
                   style: TextStyle(color: primaryColor),
                 )),
-            Spacer(flex: 2),
+            Spacer(flex: 4),
           ],
         ),
       ),

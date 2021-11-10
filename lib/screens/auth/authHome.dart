@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AuthHome extends StatefulWidget {
   @override
@@ -32,13 +33,13 @@ class _AuthHomeState extends State<AuthHome> {
             flex: 4,
           ),
           Text(
-            "Welcome to Gradely 2",
+            "welcome_to_gradely".tr(),
             style: bigTitle,
           ),
           Spacer(
             flex: 1,
           ),
-          Text("Your grades across all your devices"),
+          Text("grades_across".tr()),
           Spacer(
             flex: 20,
           ),
@@ -52,7 +53,7 @@ class _AuthHomeState extends State<AuthHome> {
                           builder: (context) => IntroScreenWrapper(1)),
                     );
                   },
-                  text: "Get started")),
+                  text: "get_started".tr())),
           Spacer(
             flex: 1,
           ),
@@ -65,7 +66,7 @@ class _AuthHomeState extends State<AuthHome> {
                     GradelyPageRoute(builder: (context) => SignInPage()),
                   );
                 },
-                text: "Sign In",
+                text: "sign_in".tr(),
                 color: frontColor(),
                 textColor: primaryColor),
           ),

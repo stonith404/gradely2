@@ -30,10 +30,13 @@ request_link,Request Link,Link anfordern
 sign_up,sign up,Registrieren
 question_have_account,Do you have an account already?,Hast du bereits ein Account?
 question_no_account,You don't have an account?,Hast du noch kein Account?
-welcome,Welcome,Willkommen
-intro_gradely_helps_monitoring,"Welcome to gradely. gradely helps you to monitor your grades. ",Willkommen bei Gradely. Gradely hilft dir deine Noten zu überwachen.
+welcome,"Welcome!","Willkommen!"
+welcome_to_gradely,Welcome to Gradely 2!,Willkommen bei Gradely 2!
+grades_across,Your grades across all your devices.,Deine Noten auf all deinen Geräten.
+get_started,Get started,Los geht's!
+intro_gradely_helps_monitoring,"Gradely helps to relieve your brain, because Gradely 2 can remember and monitor your grades.","Gradely 2 entlastet dein Gehirn, denn Gradely 2 kann sich deine Noten merken und überwachen."
 everywhere_available,Everywhere available,überall verfügbar
-intro_messaqge_sync,Your grades are stored in the cloud. so you can add or view your grades on your laptop handy or ipad.,"Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf deinem Laptop, Handy oder iPad Noten hinzufügen und anschauen."
+intro_messaqge_sync,"Your grades are stored in the cloud. Because of that, you can edit and view your grades on every of your devices.","Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf all deinen Geräten bearbeiten und anschauen."
 intro_more_in_settings,More Informations can you find in the settings.,Mehr Infos findest du in den Einstellungen.
 pluspoints_or_average,Pluspoints or average?,Pluspunkte oder Durchschnitt?
 grade_result_change_in_settings,In the settings you can manage if your grades should display as an average or pluspoints.,In den Einstellungen kannst du einstellen ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.
@@ -52,7 +55,6 @@ contact_success_text,Thanks for your message. I will contact you with this email
 password_reset_success_text,An email to reset your password was sent. Please check also your spam folder.,Eine Email um dein Passwort zurückzusetzen wurde erfolgreich gesendet. Bitte beachte auch dein Spam Fach.
 error,error,Fehler
 error_unknown,There was an unknown error,Ein unbekannter Fehler ist aufgetreten
-settings_contact_description,"Any question, contact me! 🙂","fragen, kontaktiere mich! 🙂"
 dream_grade,Dream grade,Wunschnote
 dream_grade_calulator,Dream grade calulator,Wunschnoten rechner
 dream_grade_result_text,Your grade for the next exam should be:,Deine Note für den nächsten test:
@@ -141,7 +143,7 @@ error_server_down,"The Gradely 2 server is down, try again in a few minutes","De
 server_down,Server offline,Server offline
 rate_app,Rate app,App bewerten
 maintenance_hurry,"If you're in hurry open the app without a network connection.","Falls du nicht warten kannst, öffne die App ohne Internetverbindung."
-maintenance_description,"We are improving your Gradely 2 experience. Try again in a few minutes.","Wir verbessern gerade Gradely 2. Bitte versuche es in ein paar Minuten erneut."
+maintenance_description,"We're improving your Gradely 2 experience. Try again in a few minutes.","Wir verbessern gerade Gradely 2. Bitte versuche es in ein paar Minuten erneut."
 maintenance,Maintenance,Wartung
 sorry,Sorry,Entschuldigung
 still_maintenance,Gradely 2 is still in maintenance.,Gradely 2 ist immer noch in Wartung.

@@ -180,17 +180,6 @@ Future settingsScreen(BuildContext context) {
                                 ),
                               ],
                             ),
-                            settingsListTile(
-                                items: [
-                                  Icon(FontAwesome5Solid.laptop,
-                                      size: 15, color: primaryColor),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("Download on other devices".tr()),
-                                ],
-                                onTap: () => launchURL(
-                                    "https://gradelyapp.com#download")),
                           ],
                         ),
                       ),
@@ -201,6 +190,17 @@ Future settingsScreen(BuildContext context) {
                           decoration: boxDec(),
                           child: Column(
                             children: [
+                              settingsListTile(
+                                  items: [
+                                    Icon(FontAwesome5Solid.laptop,
+                                        size: 15, color: primaryColor),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("Download on other devices".tr()),
+                                  ],
+                                  onTap: () => launchURL(
+                                      "https://gradelyapp.com#download")),
                               settingsListTile(
                                 context: context,
                                 items: [

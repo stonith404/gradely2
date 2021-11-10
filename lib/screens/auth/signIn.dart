@@ -54,11 +54,13 @@ class _SignInPageState extends State<SignInPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Spacer(
-              flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 4 : 2,
+              flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 8 : 6,
             ),
             SvgPicture.asset("assets/images/logo.svg",
                 color: primaryColor, height: 60),
-            Spacer(flex: 2),
+            Spacer(
+              flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 4 : 1,
+            ),
             Row(
               children: [
                 Text(
@@ -68,7 +70,7 @@ class _SignInPageState extends State<SignInPage> {
               ],
             ),
             Spacer(
-              flex: 1,
+              flex: 2,
             ),
             TextField(
                 keyboardType: TextInputType.emailAddress,
@@ -94,9 +96,9 @@ class _SignInPageState extends State<SignInPage> {
                         color: _obsecuredText ? Colors.grey : primaryColor),
                   ),
                 )),
-            Spacer(flex: 2),
+            Spacer(flex: 4),
             gradelyButton(text: "sign_in".tr(), onPressed: () => signInUser()),
-            Spacer(flex: 6),
+            Spacer(flex: 12),
             TextButton(
                 onPressed: () {
                   Navigator.push(
@@ -119,7 +121,7 @@ class _SignInPageState extends State<SignInPage> {
                   "question_forgot_password".tr(),
                   style: TextStyle(color: primaryColor),
                 )),
-            Spacer(flex: 2),
+            Spacer(flex: 4),
           ],
         ),
       ),
