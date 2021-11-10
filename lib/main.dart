@@ -125,17 +125,17 @@ class _State extends State<HomeWrapper> {
 
   @override
   Widget build(BuildContext context) {
+    internetConnection(context: context);
     client.setLocale(Localizations.localeOf(context).toString());
 //this future builder gets the user data and returns the semester detail page when done.
     return FutureBuilder(
       future: isMaintenance(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.data == null) {
           return LoadingScreen();
         } else if (snapshot.data == true) {
           return Maintenance();
         } else {
-          print(snapshot.data);
           return FutureBuilder(
               future: getUserData,
               builder: (BuildContext context, AsyncSnapshot snap) {
@@ -145,6 +145,7 @@ class _State extends State<HomeWrapper> {
                   if (prefs.getBool("signedIn") ?? false) {
                     return SemesterDetail();
                   } else {
+                    print(prefs.getBool("signedIn") ?? false);
                     return AuthHome();
                   }
                 }

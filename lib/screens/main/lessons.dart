@@ -80,7 +80,6 @@ class _SemesterDetailState extends State<SemesterDetail> {
     getLessons(true);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       completeOfflineTasks(context);
-      serverError(context);
     });
   }
 

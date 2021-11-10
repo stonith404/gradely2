@@ -106,6 +106,7 @@ name_updated,Your name was updated,Dein Name wurde aktualisiert
 no_network_offline_loading,It looks like you have a slow or no internet connection.,"Es sieht so aus, dass du keine oder eine langsame Internet Verbindung hast."
 network_needed_title,Network Connection,Internet Verbindung
 network_needed_text,To use this feature you need a network connection.,"Um diese Funktion zu nutzen, brauchst du eine Internet Verbindung."
+no_network,"You're not connected to the internet.","Du bist nicht mit dem Internet verbunden."
 app_info,App Information,App Informationen
 server_location,Server Location,Server Standort
 app_language,App Language,App Sprache

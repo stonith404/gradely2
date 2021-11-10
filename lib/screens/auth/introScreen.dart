@@ -21,6 +21,7 @@ class IntroScreenWrapper extends StatelessWidget {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          iconTheme: IconThemeData(color: primaryColor),
           title: SvgPicture.asset("assets/images/logo.svg",
               color: primaryColor, height: 30),
           backgroundColor: defaultBGColor,
@@ -58,6 +59,16 @@ class IntroScreenWrapper extends StatelessWidget {
               }
             }())));
   }
+}
+
+Widget progressIndicator() {
+  return ClipRRect(
+    borderRadius: BorderRadius.all(Radius.circular(10)),
+    child: LinearProgressIndicator(
+      value: progress,
+      color: primaryColor,
+    ),
+  );
 }
 
 class _Intro1 extends StatelessWidget {
@@ -108,10 +119,7 @@ class _Intro1 extends StatelessWidget {
         Spacer(
           flex: 1,
         ),
-        LinearProgressIndicator(
-          value: progress,
-          color: primaryColor,
-        ),
+        progressIndicator(),
         Spacer(
           flex: 1,
         ),
@@ -168,10 +176,7 @@ class _Intro2 extends StatelessWidget {
         Spacer(
           flex: 1,
         ),
-        LinearProgressIndicator(
-          value: progress,
-          color: primaryColor,
-        ),
+        progressIndicator(),
         Spacer(
           flex: 1,
         ),
@@ -230,10 +235,7 @@ class _Intro3 extends StatelessWidget {
         Spacer(
           flex: 1,
         ),
-        LinearProgressIndicator(
-          value: progress,
-          color: primaryColor,
-        ),
+        progressIndicator(),
         Spacer(
           flex: 1,
         ),
@@ -289,26 +291,22 @@ class _Intro4State extends State<_Intro4> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Spacer(
-          flex: 1,
-        ),
-        Spacer(
-          flex: 1,
-        ),
         Text("lets_get_started".tr(),
             textAlign: TextAlign.center, style: bigTitle),
         Spacer(
           flex: 1,
         ),
-        Text(
-          "intro_get_started_description".tr(),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
-          ),
-        ),
+        MediaQuery.of(context).viewInsets.bottom == 0
+            ? Text(
+                "intro_get_started_description".tr(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              )
+            : Container(),
         Spacer(
-          flex: 2,
+          flex: 1,
         ),
         TextField(
             controller: nameController,
@@ -355,10 +353,7 @@ class _Intro4State extends State<_Intro4> {
         Spacer(
           flex: 1,
         ),
-        LinearProgressIndicator(
-          value: progress,
-          color: primaryColor,
-        ),
+        progressIndicator(),
         Spacer(
           flex: 1,
         ),
@@ -391,7 +386,7 @@ class _Intro5 extends StatelessWidget {
           style: TextStyle(fontSize: 17),
         ),
         Spacer(
-          flex: 1,
+          flex: 3,
         ),
         TextField(
             controller: addSemesterController,
@@ -445,10 +440,7 @@ class _Intro5 extends StatelessWidget {
         Spacer(
           flex: 1,
         ),
-        LinearProgressIndicator(
-          value: progress,
-          color: primaryColor,
-        ),
+        progressIndicator(),
         Spacer(
           flex: 1,
         ),
@@ -457,7 +449,19 @@ class _Intro5 extends StatelessWidget {
   }
 }
 
-class _Intro6 extends StatelessWidget {
+class _Intro6 extends StatefulWidget {
+  @override
+  State<_Intro6> createState() => _Intro6State();
+}
+
+class _Intro6State extends State<_Intro6> {
+  @override
+  void initState() {
+    super.initState();
+    account.createVerification(
+        url: "https://user.gradelyapp.com/#/verifyEmail");
+  }
+
   @override
   Widget build(BuildContext context) {
     progress = 1;
@@ -487,7 +491,7 @@ class _Intro6 extends StatelessWidget {
           style: TextStyle(fontSize: 15),
         ),
         Spacer(
-          flex: 1,
+          flex: 6,
         ),
         TextButton(
             onPressed: () {
@@ -518,7 +522,10 @@ class _Intro6 extends StatelessWidget {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("      " + "change_email".tr()),
+                Text("        " + "change_email".tr(),
+                    style: TextStyle(
+                      fontSize: 14,
+                    )),
               ],
             ),
             children: [
@@ -583,10 +590,7 @@ class _Intro6 extends StatelessWidget {
         Spacer(
           flex: 1,
         ),
-        LinearProgressIndicator(
-          value: progress,
-          color: primaryColor,
-        ),
+        progressIndicator(),
         Spacer(
           flex: 1,
         ),
