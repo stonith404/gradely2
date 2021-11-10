@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
@@ -9,15 +10,13 @@ import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:http/http.dart' as http;
 //get info of current logged in user
 
 Future getUserInfo() async {
   var accountResponse;
   bool missingScope = false;
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
-
   if (await internetConnection()) {
     Future accountResult = account.get();
 
@@ -35,10 +34,9 @@ Future getUserInfo() async {
   }
 
   accountResponse = jsonDecode(accountResponse.toString());
-
   if (missingScope) {
     prefs.setBool("signedIn", false);
-  } else {
+  } else if (accountResponse != null) {
     var dbResponse = (await listDocuments(
         name: "userDB",
         collection: collectionUser,
@@ -59,53 +57,35 @@ Future getUserInfo() async {
         Color(int.parse(dbResponse["color"].substring(1, 7), radix: 16) +
             0xFF000000));
   }
+
   return "done";
 }
 
 //checks if client is connected to the server
 
-Future internetConnection() async {
-  bool serverup;
-  Future result = locale.getContinents();
-
-  await result.then((response) {
-    if (response == null) {
-      serverup = false;
-    } else {
-      serverup = true;
-    }
-  }).catchError((error) {
-    serverup = false;
-  });
-  return serverup;
-}
-
-//checks if the server is offline but there is a network connection
-
-Future serverError(context) async {
-  bool connectionToServer = await internetConnection();
-  bool connectionToInternet;
-  bool isServerError;
+Future internetConnection({BuildContext context}) async {
   try {
-    final result = await InternetAddress.lookup('google.com');
-    if ((result.isNotEmpty && result[0].rawAddress.isNotEmpty)) {
-      connectionToInternet = true;
+    final result = await InternetAddress.lookup('example.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      return true;
     }
   } on SocketException catch (_) {
-    connectionToInternet = false;
+    errorSuccessDialog(context: context, error: true, text: "no_network".tr(), title: "network_needed_title".tr());
+    return false;
   }
+}
 
-  if (connectionToServer == false && connectionToInternet == true) {
-    errorSuccessDialog(
-        context: context,
-        error: true,
-        title: "server_down".tr(),
-        text: "error_server_down".tr());
-    isServerError = true;
-  } else {
-    isServerError = false;
+isMaintenance() async {
+  try {
+    var request = await http
+        .get(Uri.parse("https://gradelyapp.com/static-api"))
+        .timeout(const Duration(seconds: 2));
+    return jsonDecode(request.body)["maintenance"];
+  } on TimeoutException catch (_) {
+    return false;
+  } on SocketException catch (_) {
+    return false;
   }
-  return isServerError;
 }
 
 //get documents from the db or from the cache

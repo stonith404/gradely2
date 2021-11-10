@@ -1,6 +1,5 @@
 import 'package:universal_io/io.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely2/screens/main/lessons.dart';
@@ -13,7 +12,6 @@ import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'platforms.dart';
-import 'contact.dart';
 import 'gradelyPlus.dart';
 
 Future settingsScreen(BuildContext context) {
@@ -133,26 +131,27 @@ Future settingsScreen(BuildContext context) {
                                         builder: (context) => PlatformList()),
                                   );
                                 }),
-                            listDivider(),
-                            SizedBox(
-                              child: settingsListTile(
-                                  items: [
-                                    Icon(FontAwesome5Solid.hand_peace,
-                                        size: 17, color: primaryColor),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("Gradely Plus"),
-                                  ],
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      GradelyPageRoute(
-                                          builder: (context) => GradelyPlus()),
-                                    );
-                                  }),
-                            ),
-                            listDivider(),
+                            !user.gradelyPlus
+                                ? SizedBox(
+                                    child: settingsListTile(
+                                        items: [
+                                          Icon(FontAwesome5Solid.hand_peace,
+                                              size: 17, color: primaryColor),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text("Gradely Plus"),
+                                        ],
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            GradelyPageRoute(
+                                                builder: (context) =>
+                                                    GradelyPlus()),
+                                          );
+                                        }),
+                                  )
+                                : Container(),
                             settingsListTile(
                               arrow: false,
                               items: [
@@ -248,6 +247,27 @@ Future settingsScreen(BuildContext context) {
                                           return "https://gradelyapp.com";
                                         }
                                       }()))),
+                              user.gradelyPlus
+                                  ? SizedBox(
+                                      child: settingsListTile(
+                                          items: [
+                                            Icon(FontAwesome5Solid.hand_peace,
+                                                size: 17, color: primaryColor),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text("Gradely Plus"),
+                                          ],
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              GradelyPageRoute(
+                                                  builder: (context) =>
+                                                      GradelyPlus()),
+                                            );
+                                          }),
+                                    )
+                                  : Container(),
                               settingsListTile(
                                 context: context,
                                 items: [

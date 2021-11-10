@@ -16,7 +16,7 @@ class _ContactScreenState extends State<ContactScreen> {
   sendMail(String _message) async {
     var maildata = jsonEncode({"sender": user.email, "message": _message});
     Future result = functions.createExecution(
-        functionId: '614d8f3961a9b', data: maildata.toString());
+        functionId: '61883453b0a37', data: maildata.toString());
     await result.then((response) {
       Navigator.push(
         context,

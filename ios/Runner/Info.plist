@@ -46,10 +46,6 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>Is used to upload grade attachments.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Is used to upload grade attachments.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

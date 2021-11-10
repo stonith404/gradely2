@@ -1,5 +1,5 @@
 #Docker file to deploy the web app
-#To publish run `buildx ghcr.io/generalxhd/gradely2-app-web`
+#To publish run `flutter build web --release && buildx ghcr.io/generalxhd/gradely2-app-web`
 FROM alpine
 RUN apk update
 RUN apk add --no-cache php

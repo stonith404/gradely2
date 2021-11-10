@@ -1,11 +1,7 @@
 import 'dart:convert';
-
-import 'package:appwrite/appwrite.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gradely2/screens/main/grades/pdfView.dart';
 import 'package:gradely2/screens/main/semesters.dart';
 import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/CLASSES.dart';
@@ -23,20 +19,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 Grade selectedTest;
 String errorMessage = "";
 double averageOfGrades = 0;
-List attachmentArray;
 num _sumW = 0;
 num _sum = 0;
-_getAttachments() async {
-  var _attachmentArray = jsonDecode((await database.getDocument(
-              collectionId: collectionGrades, documentId: selectedTest.id))
-          .toString())["attachments"] ??
-      [];
-  if (_attachmentArray == "") {
-    attachmentArray = [];
-  } else {
-    attachmentArray = _attachmentArray;
-  }
-}
 
 Future<String> getFileName(fileid) async {
   return jsonDecode((await storage.getFile(fileId: fileid)).toString())["name"];
@@ -196,12 +180,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                             onTap: () async {
                                               noNetworkDialog(context);
                                               selectedTest = gradeList[index];
-                                              await _getAttachments();
-                                              for (var file
-                                                  in attachmentArray) {
-                                                await storage.deleteFile(
-                                                    fileId: file);
-                                              }
                                               database.deleteDocument(
                                                   collectionId:
                                                       collectionGrades,
@@ -263,7 +241,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
                                                   .toStringAsFixed(2)),
                                               onTap: () async {
                                                 selectedTest = gradeList[index];
-                                                _getAttachments();
                                                 testDetail(context);
                                               }),
                                           listDivider()
@@ -552,12 +529,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
             decoration: inputDec(label: "weight".tr()),
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
-        gradelyIconButton(
-            onPressed: () => gradeAttachment(context),
-            icon: Icon(Icons.attach_file))
       ],
     );
   }
@@ -711,14 +682,6 @@ class _LessonsDetailState extends State<LessonsDetail> {
         SizedBox(
           height: 10,
         ),
-        gradelyIconButton(
-            onPressed: () async {
-              if (await uploadGrade()) {
-                await _getAttachments();
-                gradeAttachment(context);
-              }
-            },
-            icon: Icon(Icons.attach_file))
       ],
     );
   }
@@ -831,131 +794,4 @@ Future dreamGradeC(BuildContext context) {
           ));
     }),
   );
-}
-
-Widget gradeAttachment(context) {
-  if (!user.gradelyPlus) {
-    return gradelyPlusDialog(context);
-  } else {
-    return gradelyModalSheet(
-      context: context,
-      children: [
-        StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
-          return Column(children: [
-            gradelyModalSheetHeader(context,
-                customHeader: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.attach_file,
-                      size: 30,
-                    ),
-                    Text(
-                      selectedTest.name,
-                      style: bigTitle,
-                    ),
-                    // Text(" Beta")
-                  ],
-                )),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: attachmentArray.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                        decoration: listContainerDecoration(
-                            index: index, list: attachmentArray),
-                        child: ListTile(
-                            trailing: IconButton(
-                                icon: Icon(FontAwesome5.trash_alt,
-                                    size: 16, color: primaryColor),
-                                onPressed: () async {
-                                  await storage.deleteFile(
-                                      fileId: attachmentArray[index]);
-                                  setState(() {
-                                    attachmentArray
-                                        .remove(attachmentArray[index]);
-                                  });
-                                  database.updateDocument(
-                                      collectionId: collectionGrades,
-                                      documentId: selectedTest.id,
-                                      data: {"attachments": attachmentArray});
-                                }),
-                            onTap: () async {
-                              String fileName =
-                                  await getFileName(attachmentArray[index]);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PdfViewPage(
-                                        attachmentArray[index], fileName)),
-                              );
-                            },
-                            leading: FutureBuilder<String>(
-                                future: getFileName(attachmentArray[
-                                    index]), // a Future<String> or null
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<String> snapshot) {
-                                  switch (snapshot.connectionState) {
-                                    case ConnectionState.waiting:
-                                      return Text('Loading...');
-                                    default:
-                                      if (snapshot.hasError)
-                                        return Text('File not found');
-                                      else
-                                        return Text(
-                                          snapshot.data,
-                                          style: TextStyle(fontSize: 16),
-                                        );
-                                  }
-                                })));
-                  }),
-            ),
-            gradelyButton(
-                onPressed: () async {
-                  if (attachmentArray.length >= 5) {
-                    errorSuccessDialog(
-                        context: context,
-                        error: true,
-                        text: "You can't upload more then 5 Files.");
-                  } else {
-                    FilePickerResult fileresult =
-                        await FilePicker.platform.pickFiles();
-                    if (fileresult != null) {
-                      PlatformFile file = fileresult.files.first;
-                      Future result = storage.createFile(
-                          file: await MultipartFile.fromPath(
-                        "file",
-                        file.path,
-                        filename: file.name,
-                      ));
-
-                      result.then((response) async {
-                        setState(() {
-                          attachmentArray
-                              .add(jsonDecode(response.toString())["\$id"]);
-                        });
-                        await database.updateDocument(
-                            collectionId: collectionGrades,
-                            documentId: selectedTest.id,
-                            data: {"attachments": attachmentArray});
-                      }).catchError((error) {
-                        print(error.response);
-                      });
-                    } else {
-                      // User canceled the picker
-                    }
-                  }
-                },
-                text: "attach_pdf".tr()),
-          ]);
-        })
-      ],
-    );
-  }
 }

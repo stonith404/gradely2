@@ -83,7 +83,7 @@ errorSuccessDialog(
       ),
     ),
     shouldIconPulse: false,
-    margin: EdgeInsets.symmetric(horizontal: 15),
+    margin: EdgeInsets.only(bottom: 13),
     borderRadius: BorderRadius.circular(15),
     duration: Duration(seconds: 5),
     boxShadows: [
@@ -93,7 +93,7 @@ errorSuccessDialog(
         blurRadius: 20,
       ),
     ],
-    backgroundColor: darkmode ? Colors.black : frontColor(),
+    backgroundColor: darkmode ? bwColor : frontColor(),
     dismissDirection: FlushbarDismissDirection.VERTICAL,
     // The default curve is Curves.easeOut
     animationDuration: Duration(milliseconds: 500),

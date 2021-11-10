@@ -2,12 +2,13 @@ import 'package:appwrite/appwrite.dart' as appwrite;
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gradely2/screens/auth/signIn.dart';
+import 'package:gradely2/screens/auth/authHome.dart';
 import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely2/shared/loading.dart';
+import 'package:gradely2/shared/maintenance.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool isLoggedIn = false;
@@ -55,7 +56,7 @@ class MaterialWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-       title: "Gradely 2", 
+      title: "Gradely 2",
       initialRoute: '/',
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
@@ -67,6 +68,7 @@ class MaterialWrapper extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.black),
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         textButtonTheme: TextButtonThemeData(
@@ -84,6 +86,7 @@ class MaterialWrapper extends StatelessWidget {
         backgroundColor: Colors.grey[300],
       ),
       darkTheme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.white),
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         appBarTheme: AppBarTheme(
@@ -116,27 +119,39 @@ class _State extends State<HomeWrapper> {
   @override
   void initState() {
     super.initState();
-
     getUserData = getUserInfo();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   }
 
   @override
   Widget build(BuildContext context) {
+    internetConnection(context: context);
     client.setLocale(Localizations.localeOf(context).toString());
 //this future builder gets the user data and returns the semester detail page when done.
     return FutureBuilder(
-        future: getUserData,
-        builder: (BuildContext context, AsyncSnapshot snap) {
-          if (snap.data == null) {
-            return LoadingScreen();
-          } else {
-            if (prefs.getBool("signedIn") ?? false) {
-              return SemesterDetail();
-            } else {
-              return SignInPage();
-            }
-          }
-        });
+      future: isMaintenance(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.data == null) {
+          return LoadingScreen();
+        } else if (snapshot.data == true) {
+          return Maintenance();
+        } else {
+          return FutureBuilder(
+              future: getUserData,
+              builder: (BuildContext context, AsyncSnapshot snap) {
+                if (snap.data == null) {
+                  return LoadingScreen();
+                } else {
+                  if (prefs.getBool("signedIn") ?? false) {
+                    return SemesterDetail();
+                  } else {
+                    print(prefs.getBool("signedIn") ?? false);
+                    return AuthHome();
+                  }
+                }
+              });
+        }
+      },
+    );
   }
 }

@@ -80,6 +80,7 @@ TextEditingController contactMessage = new TextEditingController();
 TextEditingController dreamGradeGrade = new TextEditingController();
 TextEditingController dreamGradeWeight = new TextEditingController();
 TextEditingController emailController = new TextEditingController();
+TextEditingController nameController = new TextEditingController();
 TextEditingController passwordController = new TextEditingController();
 TextEditingController passwordPlaceholder = new TextEditingController();
 TextEditingController editTestInfoName = new TextEditingController();

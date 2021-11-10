@@ -32,6 +32,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
   }
 
   getProducts() async {
+    await FlutterInappPurchase.instance.initConnection;
     if (Platform.isIOS || Platform.isAndroid) {
       await FlutterInappPurchase.instance.clearTransactionIOS();
       iapList = (await FlutterInappPurchase.instance.getProducts([
@@ -45,7 +46,8 @@ class _GradelyPlusState extends State<GradelyPlus> {
     }
   }
 
-  finishPurchase() async {
+  finishPurchase(token) async {
+    FlutterInappPurchase.instance.consumePurchaseAndroid(token);
     isLoadingController.add(false);
 
     database.updateDocument(
@@ -53,29 +55,22 @@ class _GradelyPlusState extends State<GradelyPlus> {
         documentId: user.dbID,
         data: {'gradelyPlus': true});
 
-    Navigator.push(
-      context,
-      GradelyPageRoute(builder: (context) => HomeWrapper()),
-    );
+    if (user.gradelyPlus) {
+      gradelyDialog(
+          context: context,
+          title: "thank_you".tr(),
+          text: "gradely_plus_active_thanks".tr());
+    } else {
+      Navigator.push(
+        context,
+        GradelyPageRoute(builder: (context) => HomeWrapper()),
+      );
 
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15))),
-            title: Text("🎉 Wohooo"),
-            content: Text("gradely_pluss_success_text".tr()),
-            actions: <Widget>[
-              gradelyButton(
-                text: "ok",
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        });
+      gradelyDialog(
+          context: context,
+          title: "🎉 Wohooo",
+          text: "gradely_pluss_success_text".tr());
+    }
   }
 
   @override
@@ -101,7 +96,6 @@ class _GradelyPlusState extends State<GradelyPlus> {
     }
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     // prepare
     await FlutterInappPurchase.instance.initConnection;
@@ -110,7 +104,7 @@ class _GradelyPlusState extends State<GradelyPlus> {
 
     purchaseUpdatedSubscription =
         FlutterInappPurchase.purchaseUpdated.listen((productItem) {
-      finishPurchase();
+      finishPurchase(productItem.purchaseToken);
     });
 
     purchaseErrorSubscription =
@@ -190,21 +184,6 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                         ),
                                         SizedBox(width: 20),
                                         Text("benefit_emojis".tr())
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  decoration: boxDec(),
-                                  child: ListTile(
-                                    title: Row(
-                                      children: [
-                                        Icon(
-                                          FontAwesome5.file_pdf,
-                                          color: primaryColor,
-                                        ),
-                                        SizedBox(width: 20),
-                                        Text("benefit_pdf_attachments".tr())
                                       ],
                                     ),
                                   ),
@@ -329,21 +308,6 @@ class _GradelyPlusState extends State<GradelyPlus> {
                                       ),
                                       SizedBox(width: 20),
                                       Text("benefit_emojis".tr())
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                decoration: boxDec(),
-                                child: ListTile(
-                                  title: Row(
-                                    children: [
-                                      Icon(
-                                        FontAwesome5.file_pdf,
-                                        color: primaryColor,
-                                      ),
-                                      SizedBox(width: 20),
-                                      Text("benefit_pdf_attachments".tr())
                                     ],
                                   ),
                                 ),
