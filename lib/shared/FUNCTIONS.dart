@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -64,15 +65,25 @@ Future getUserInfo() async {
 //checks if client is connected to the server
 
 Future internetConnection({BuildContext context}) async {
-  try {
+  if (kIsWeb) {
+    return true;
+  } else {
+    try {
     final result = await InternetAddress.lookup('example.com');
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
       return true;
     }
   } on SocketException catch (_) {
-    errorSuccessDialog(context: context, error: true, text: "no_network".tr(), title: "network_needed_title".tr());
+    errorSuccessDialog(
+        context: context,
+        error: true,
+        text: "no_network".tr(),
+        title: "network_needed_title".tr());
     return false;
   }
+  }
+
+  
 }
 
 isMaintenance() async {
@@ -83,7 +94,7 @@ isMaintenance() async {
     return jsonDecode(request.body)["maintenance"];
   } on TimeoutException catch (_) {
     return false;
-  } on SocketException catch (_) {
+  } catch (_) {
     return false;
   }
 }

@@ -25,7 +25,6 @@ class _SignInPageState extends State<SignInPage> {
       password: passwordController.text,
     );
     await result.then((response) async {
-      print(response);
       prefs.setBool("signedIn", true);
       await getUserInfo();
       Navigator.pushReplacement(
