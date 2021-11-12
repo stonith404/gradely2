@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely2/screens/auth/signIn.dart';
+import 'package:gradely2/screens/auth/authHome.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -215,7 +215,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       Navigator.pushReplacement(
                                         context,
                                         GradelyPageRoute(
-                                            builder: (context) => SignInPage()),
+                                            builder: (context) => AuthHome()),
                                       );
                                       prefs.setBool("signedIn", false);
                                     } else {

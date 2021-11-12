@@ -27,18 +27,20 @@ class IntroScreenWrapper extends StatelessWidget {
           backgroundColor: defaultBGColor,
           elevation: 0,
           actions: [
-            IconButton(
-              color: primaryColor,
-              icon: Icon(FontAwesome5Solid.sign_out_alt),
-              onPressed: () async {
-                await signOut();
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  GradelyPageRoute(builder: (context) => AuthHome()),
-                  (Route<dynamic> route) => false,
-                );
-              },
-            ),
+            progress >= 0.64
+                ? IconButton(
+                    color: primaryColor,
+                    icon: Icon(FontAwesome5Solid.sign_out_alt),
+                    onPressed: () async {
+                      await signOut();
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        GradelyPageRoute(builder: (context) => AuthHome()),
+                        (Route<dynamic> route) => false,
+                      );
+                    },
+                  )
+                : Container(),
           ],
         ),
         body: Padding(
