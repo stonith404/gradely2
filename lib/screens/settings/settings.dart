@@ -197,7 +197,7 @@ Future settingsScreen(BuildContext context) {
                                     SizedBox(
                                       width: 10,
                                     ),
-                                    Text("Download on other devices".tr()),
+                                    Text("downloads".tr()),
                                   ],
                                   onTap: () => launchURL(
                                       "https://gradelyapp.com#download")),

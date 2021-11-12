@@ -1,7 +1,4 @@
 PODS:
-  - connectivity_macos (0.0.1):
-    - FlutterMacOS
-    - Reachability
   - device_info_plus_macos (0.0.1):
     - FlutterMacOS
   - flutter_web_auth (0.3.1):
@@ -11,14 +8,12 @@ PODS:
     - FlutterMacOS
   - path_provider_macos (0.0.1):
     - FlutterMacOS
-  - Reachability (3.2)
   - shared_preferences_macos (0.0.1):
     - FlutterMacOS
   - url_launcher_macos (0.0.1):
     - FlutterMacOS
 
 DEPENDENCIES:
-  - connectivity_macos (from `Flutter/ephemeral/.symlinks/plugins/connectivity_macos/macos`)
   - device_info_plus_macos (from `Flutter/ephemeral/.symlinks/plugins/device_info_plus_macos/macos`)
   - flutter_web_auth (from `Flutter/ephemeral/.symlinks/plugins/flutter_web_auth/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
@@ -27,13 +22,7 @@ DEPENDENCIES:
   - shared_preferences_macos (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_macos/macos`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
 
-SPEC REPOS:
-  trunk:
-    - Reachability
-
 EXTERNAL SOURCES:
-  connectivity_macos:
-    :path: Flutter/ephemeral/.symlinks/plugins/connectivity_macos/macos
   device_info_plus_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/device_info_plus_macos/macos
   flutter_web_auth:
@@ -50,13 +39,11 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos
 
 SPEC CHECKSUMS:
-  connectivity_macos: 5dae6ee11d320fac7c05f0d08bd08fc32b5514d9
   device_info_plus_macos: 1ad388a1ef433505c4038e7dd9605aadd1e2e9c7
   flutter_web_auth: 1d40e4d0058da11c04a279ca27632bd448865f57
   FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
   package_info_plus_macos: f010621b07802a241d96d01876d6705f15e77c1c
   path_provider_macos: 29b4038018dbbcf180ebb4e6fb1d0a405d282a2e
-  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   shared_preferences_macos: c1b23fec72a537b6c2a4954fad98ae40c1c05c10
   url_launcher_macos: 45af3d61de06997666568a7149c1be98b41c95d4
 

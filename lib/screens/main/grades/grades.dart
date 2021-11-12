@@ -438,8 +438,8 @@ class _LessonsDetailState extends State<LessonsDetail> {
                             }
                           }())
                         });
-                    await getTests();
                     Navigator.of(context).pop();
+                    await getTests();
                     isLoadingController.add(false);
                   } catch (_) {
                     isLoadingController.add(false);
