@@ -74,9 +74,9 @@ msix_config:
   publisher: CN=26AFB924-E2D8-4326-B33D-B268D9E4FB49
   architecture: x64
   capabilities: "internetClient"
-  logo_path: assets\images\gradely2Icon.png
-  start_menu_icon_path: assets\images\gradely2Icon.png
-  tile_icon_path: assets\images\gradely2Icon.png
+  logo_path: assets\images\macOSlogo.png
+  start_menu_icon_path: assets\images\macOSlogo.png
+  tile_icon_path: assets\images\macOSlogo.png
   icons_background_color: transparent
 
 #this package generates the app icons for android & ios
