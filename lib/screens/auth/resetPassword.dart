@@ -15,7 +15,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   sendPasswordResetEmail(String email) async {
     Future result = account.createRecovery(
       email: email,
-      url: 'https://user.gradelyapp.com/#/changePassword',
+      url: 'https://gradelyapp.com/user/changePassword',
     );
     result.then((response) {}).catchError((error) {
       print(error.response);

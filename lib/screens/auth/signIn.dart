@@ -26,7 +26,6 @@ class _SignInPageState extends State<SignInPage> {
     );
     await result.then((response) async {
       print(response);
-      prefs.remove("newGradely");
       prefs.setBool("signedIn", true);
       await getUserInfo();
       Navigator.pushReplacement(

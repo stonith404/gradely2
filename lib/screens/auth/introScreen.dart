@@ -460,8 +460,7 @@ class _Intro6State extends State<_Intro6> {
   @override
   void initState() {
     super.initState();
-    account.createVerification(
-        url: "https://user.gradelyapp.com/#/verifyEmail");
+    account.createVerification(url: "https://gradelyapp.com/user/verifyEmail");
   }
 
   @override
@@ -498,7 +497,7 @@ class _Intro6State extends State<_Intro6> {
         TextButton(
             onPressed: () {
               Future result = account.createVerification(
-                  url: "https://user.gradelyapp.com/#/verifyEmail");
+                  url: "https://gradelyapp.com/user/verifyEmail");
 
               result.then((response) {
                 errorSuccessDialog(

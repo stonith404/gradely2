@@ -43,10 +43,6 @@ void main() async {
       child: MaterialWrapper()));
 }
 
-Future<bool> isGradelyNewVersion() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getBool("newGradely") ?? true;
-}
 
 class MaterialWrapper extends StatelessWidget {
   const MaterialWrapper({
@@ -145,7 +141,6 @@ class _State extends State<HomeWrapper> {
                   if (prefs.getBool("signedIn") ?? false) {
                     return SemesterDetail();
                   } else {
-                    print(prefs.getBool("signedIn") ?? false);
                     return AuthHome();
                   }
                 }
