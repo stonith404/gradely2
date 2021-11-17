@@ -476,6 +476,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
+  plausible_analytics:
+    dependency: "direct main"
+    description:
+      name: plausible_analytics
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
   plugin_platform_interface:
     dependency: transitive
     description:

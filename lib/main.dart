@@ -9,6 +9,7 @@ import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely2/shared/loading.dart';
 import 'package:gradely2/shared/maintenance.dart';
+import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool isLoggedIn = false;
@@ -22,6 +23,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await sharedPrefs();
+
+  const String serverUrl = "https://analytics.eliasschneider.com";
+  const String domain = "app.gradelyapp.com";
+
+  final plausible = Plausible(serverUrl, domain);
+  final event = plausible.event();
 
   client = appwrite.Client();
   account = appwrite.Account(client);
@@ -42,7 +49,6 @@ void main() async {
       saveLocale: true,
       child: MaterialWrapper()));
 }
-
 
 class MaterialWrapper extends StatelessWidget {
   const MaterialWrapper({
