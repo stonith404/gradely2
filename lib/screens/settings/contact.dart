@@ -18,9 +18,9 @@ class _ContactScreenState extends State<ContactScreen> {
     Future result = functions.createExecution(
         functionId: '61883453b0a37', data: maildata.toString());
     await result.then((response) {
-      Navigator.push(
+      Navigator.pushNamed(
         context,
-        GradelyPageRoute(builder: (context) => SemesterDetail()),
+       "subjects"
       );
       errorSuccessDialog(
           context: context,
@@ -28,9 +28,9 @@ class _ContactScreenState extends State<ContactScreen> {
           text: "${"contact_success_text".tr()} ${user.email}.",
           title: "sent".tr());
     }).catchError((error) {
-      Navigator.push(
+      Navigator.pushNamed(
         context,
-        GradelyPageRoute(builder: (context) => SemesterDetail()),
+       "subjects"
       );
       errorSuccessDialog(
           context: context, error: true, text: "error_contact".tr());

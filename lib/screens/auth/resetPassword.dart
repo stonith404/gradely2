@@ -63,10 +63,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 onPressed: () {
                   sendPasswordResetEmail(emailController.text);
 
-                  Navigator.pushReplacement(
-                    context,
-                    GradelyPageRoute(builder: (context) => SignInPage()),
-                  );
+                  Navigator.pushNamed(context, "auth/signIn");
                   errorSuccessDialog(
                       context: context,
                       error: false,

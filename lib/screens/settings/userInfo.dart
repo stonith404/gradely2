@@ -214,11 +214,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       await account.delete();
                                       clearVariables();
                                       passwordController.text = "";
-                                      Navigator.pushReplacement(
-                                        context,
-                                        GradelyPageRoute(
-                                            builder: (context) => AuthHome()),
-                                      );
+                                      Navigator.pushReplacementNamed(
+                                          context, "auth/home");
                                       prefs.setBool("signedIn", false);
                                     } else {
                                       errorSuccessDialog(

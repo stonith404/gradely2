@@ -3,8 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gradely2/screens/auth/authHome.dart';
-import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -12,9 +10,10 @@ import 'package:gradely2/shared/WIDGETS.dart';
 double progress = 0;
 
 // ignore: must_be_immutable
-class IntroScreenWrapper extends StatelessWidget {
-  int index = 0;
-  IntroScreenWrapper(this.index);
+class _IntroScreenWrapper extends StatelessWidget {
+  Widget child;
+
+  _IntroScreenWrapper({this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +32,9 @@ class IntroScreenWrapper extends StatelessWidget {
                     icon: Icon(FontAwesome5Solid.sign_out_alt),
                     onPressed: () async {
                       await signOut();
-                      Navigator.pushAndRemoveUntil(
+                      Navigator.pushNamedAndRemoveUntil(
                         context,
-                        GradelyPageRoute(builder: (context) => AuthHome()),
+                        "auth/home",
                         (Route<dynamic> route) => false,
                       );
                     },
@@ -43,23 +42,7 @@ class IntroScreenWrapper extends StatelessWidget {
                 : Container(),
           ],
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: (() {
-              if (index == 2) {
-                return _Intro2();
-              } else if (index == 3) {
-                return _Intro3();
-              } else if (index == 4) {
-                return _Intro4();
-              } else if (index == 5) {
-                return _Intro5();
-              } else if (index == 6) {
-                return _Intro6();
-              } else {
-                return _Intro1();
-              }
-            }())));
+        body: Padding(padding: const EdgeInsets.all(24.0), child: child));
   }
 }
 
@@ -73,59 +56,60 @@ Widget progressIndicator() {
   );
 }
 
-class _Intro1 extends StatelessWidget {
+class Intro1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     progress = 0.16;
-    return Column(
-      children: [
-        Spacer(
-          flex: 6,
-        ),
-        SvgPicture.asset(
-          'assets/images/BalletDoodle.svg',
-          width: 300,
-          color: primaryColor,
-        ),
-        Spacer(
-          flex: 1,
-        ),
-        Text("welcome".tr(), style: bigTitle),
-        Spacer(
-          flex: 1,
-        ),
-        Text(
-          "intro_gradely_helps_monitoring".tr(),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 17,
+    return _IntroScreenWrapper(
+      child: Column(
+        children: [
+          Spacer(
+            flex: 6,
           ),
-        ),
-        Spacer(
-          flex: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            gradelyIconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => IntroScreenWrapper(2)),
-                  );
-                },
-                icon: Icon(Icons.arrow_forward_ios)),
-          ],
-        ),
-        Spacer(
-          flex: 1,
-        ),
-        progressIndicator(),
-        Spacer(
-          flex: 1,
-        ),
-      ],
+          SvgPicture.asset(
+            'assets/images/BalletDoodle.svg',
+            width: 300,
+            color: primaryColor,
+          ),
+          Spacer(
+            flex: 1,
+          ),
+          Text("welcome".tr(), style: bigTitle),
+          Spacer(
+            flex: 1,
+          ),
+          Text(
+            "intro_gradely_helps_monitoring".tr(),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 17,
+            ),
+          ),
+          Spacer(
+            flex: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              gradelyIconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      GradelyPageRoute(builder: (context) => _Intro2()),
+                    );
+                  },
+                  icon: Icon(Icons.arrow_forward_ios)),
+            ],
+          ),
+          Spacer(
+            flex: 1,
+          ),
+          progressIndicator(),
+          Spacer(
+            flex: 1,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -134,55 +118,56 @@ class _Intro2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     progress = 0.32;
-    return Column(
-      children: [
-        Spacer(
-          flex: 6,
-        ),
-        SvgPicture.asset(
-          'assets/images/MeditatingDoodle.svg',
-          width: 300,
-          color: primaryColor,
-        ),
-        Spacer(
-          flex: 1,
-        ),
-        Text("everywhere_available".tr(), style: bigTitle),
-        Spacer(
-          flex: 1,
-        ),
-        Text(
-          "intro_messaqge_sync".tr(),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 17,
+    return _IntroScreenWrapper(
+      child: Column(
+        children: [
+          Spacer(
+            flex: 6,
           ),
-        ),
-        Spacer(
-          flex: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            gradelyIconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => IntroScreenWrapper(3)),
-                  );
-                },
-                icon: Icon(Icons.arrow_forward_ios)),
-          ],
-        ),
-        Spacer(
-          flex: 1,
-        ),
-        progressIndicator(),
-        Spacer(
-          flex: 1,
-        ),
-      ],
+          SvgPicture.asset(
+            'assets/images/MeditatingDoodle.svg',
+            width: 300,
+            color: primaryColor,
+          ),
+          Spacer(
+            flex: 1,
+          ),
+          Text("everywhere_available".tr(), style: bigTitle),
+          Spacer(
+            flex: 1,
+          ),
+          Text(
+            "intro_messaqge_sync".tr(),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 17,
+            ),
+          ),
+          Spacer(
+            flex: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              gradelyIconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      GradelyPageRoute(builder: (context) => _Intro3()),
+                    );
+                  },
+                  icon: Icon(Icons.arrow_forward_ios)),
+            ],
+          ),
+          Spacer(
+            flex: 1,
+          ),
+          progressIndicator(),
+          Spacer(
+            flex: 1,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -191,57 +176,58 @@ class _Intro3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     progress = 0.48;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Spacer(
-          flex: 6,
-        ),
-        SvgPicture.asset(
-          'assets/images/MessyDoodle.svg',
-          width: 300,
-          color: primaryColor,
-        ),
-        Spacer(
-          flex: 1,
-        ),
-        Text("pluspoints_or_average".tr(),
-            textAlign: TextAlign.center, style: bigTitle),
-        Spacer(
-          flex: 1,
-        ),
-        Text(
-          "grade_result_change_in_settings".tr(),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 17,
+    return _IntroScreenWrapper(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Spacer(
+            flex: 6,
           ),
-        ),
-        Spacer(
-          flex: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            gradelyIconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => IntroScreenWrapper(4)),
-                  );
-                },
-                icon: Icon(Icons.arrow_forward_ios)),
-          ],
-        ),
-        Spacer(
-          flex: 1,
-        ),
-        progressIndicator(),
-        Spacer(
-          flex: 1,
-        ),
-      ],
+          SvgPicture.asset(
+            'assets/images/MessyDoodle.svg',
+            width: 300,
+            color: primaryColor,
+          ),
+          Spacer(
+            flex: 1,
+          ),
+          Text("pluspoints_or_average".tr(),
+              textAlign: TextAlign.center, style: bigTitle),
+          Spacer(
+            flex: 1,
+          ),
+          Text(
+            "grade_result_change_in_settings".tr(),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 17,
+            ),
+          ),
+          Spacer(
+            flex: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              gradelyIconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      GradelyPageRoute(builder: (context) => _Intro4()),
+                    );
+                  },
+                  icon: Icon(Icons.arrow_forward_ios)),
+            ],
+          ),
+          Spacer(
+            flex: 1,
+          ),
+          progressIndicator(),
+          Spacer(
+            flex: 1,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -256,6 +242,7 @@ class _Intro4State extends State<_Intro4> {
   createUser() async {
     isLoadingController.add(true);
     Future resultCreateAccount = account.create(
+      name: nameController.text,
       email: emailController.text,
       password: passwordController.text,
     );
@@ -277,7 +264,7 @@ class _Intro4State extends State<_Intro4> {
       passwordController.text = "";
       Navigator.pushAndRemoveUntil(
         context,
-        GradelyPageRoute(builder: (context) => IntroScreenWrapper(5)),
+        GradelyPageRoute(builder: (context) => _Intro5()),
         (Route<dynamic> route) => false,
       );
     }).catchError((error) {
@@ -290,76 +277,78 @@ class _Intro4State extends State<_Intro4> {
   @override
   Widget build(BuildContext context) {
     progress = 0.64;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text("lets_get_started".tr(),
-            textAlign: TextAlign.center, style: bigTitle),
-        Spacer(
-          flex: 1,
-        ),
-        MediaQuery.of(context).viewInsets.bottom == 0
-            ? Text(
-                "intro_get_started_description".tr(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
+    return _IntroScreenWrapper(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text("lets_get_started".tr(),
+              textAlign: TextAlign.center, style: bigTitle),
+          Spacer(
+            flex: 1,
+          ),
+          MediaQuery.of(context).viewInsets.bottom == 0
+              ? Text(
+                  "intro_get_started_description".tr(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                )
+              : Container(),
+          Spacer(
+            flex: 1,
+          ),
+          TextField(
+              controller: nameController,
+              textAlign: TextAlign.left,
+              decoration: inputDec(label: "your_name".tr())),
+          Spacer(
+            flex: 1,
+          ),
+          TextField(
+              keyboardType: TextInputType.emailAddress,
+              controller: emailController,
+              textAlign: TextAlign.left,
+              decoration: inputDec(label: "your_email".tr())),
+          Spacer(
+            flex: 1,
+          ),
+          TextField(
+              controller: passwordController,
+              textAlign: TextAlign.left,
+              obscureText: _obsecuredText,
+              decoration: inputDec(
+                label: "your_password".tr(),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _obsecuredText = !_obsecuredText;
+                    });
+                  },
+                  icon: Icon(Icons.remove_red_eye,
+                      color: _obsecuredText ? Colors.grey : primaryColor),
                 ),
-              )
-            : Container(),
-        Spacer(
-          flex: 1,
-        ),
-        TextField(
-            controller: nameController,
-            textAlign: TextAlign.left,
-            decoration: inputDec(label: "your_name".tr())),
-        Spacer(
-          flex: 1,
-        ),
-        TextField(
-            keyboardType: TextInputType.emailAddress,
-            controller: emailController,
-            textAlign: TextAlign.left,
-            decoration: inputDec(label: "your_email".tr())),
-        Spacer(
-          flex: 1,
-        ),
-        TextField(
-            controller: passwordController,
-            textAlign: TextAlign.left,
-            obscureText: _obsecuredText,
-            decoration: inputDec(
-              label: "your_password".tr(),
-              suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() {
-                    _obsecuredText = !_obsecuredText;
-                  });
-                },
-                icon: Icon(Icons.remove_red_eye,
-                    color: _obsecuredText ? Colors.grey : primaryColor),
-              ),
-            )),
-        Spacer(
-          flex: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            gradelyIconButton(
-                onPressed: () => createUser(),
-                icon: Icon(Icons.arrow_forward_ios)),
-          ],
-        ),
-        Spacer(
-          flex: 1,
-        ),
-        progressIndicator(),
-        Spacer(
-          flex: 1,
-        ),
-      ],
+              )),
+          Spacer(
+            flex: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              gradelyIconButton(
+                  onPressed: () => createUser(),
+                  icon: Icon(Icons.arrow_forward_ios)),
+            ],
+          ),
+          Spacer(
+            flex: 1,
+          ),
+          progressIndicator(),
+          Spacer(
+            flex: 1,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -368,95 +357,96 @@ class _Intro5 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     progress = 0.76;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Spacer(
-          flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 6 : 1,
-        ),
-        Spacer(
-          flex: 1,
-        ),
-        Text("add_first_semester".tr(),
-            textAlign: TextAlign.center, style: bigTitle),
-        Spacer(
-          flex: 1,
-        ),
-        Text(
-          "intro_add_semester".tr(),
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 17),
-        ),
-        Spacer(
-          flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 3 : 1,
-        ),
-        TextField(
-            controller: addSemesterController,
-            textAlign: TextAlign.left,
-            decoration: inputDec(label: "Semester Name")),
-        Spacer(
-          flex: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            gradelyIconButton(
-                onPressed: () async {
-                  isLoadingController.add(true);
-                  await getUserInfo();
-                  Future result = database.createDocument(
-                      collectionId: collectionSemester,
-                      data: {
-                        "parentId": user.dbID,
-                        "name": addSemesterController.text
-                      });
+    return _IntroScreenWrapper(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Spacer(
+            flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 6 : 1,
+          ),
+          Spacer(
+            flex: 1,
+          ),
+          Text("add_first_semester".tr(),
+              textAlign: TextAlign.center, style: bigTitle),
+          Spacer(
+            flex: 1,
+          ),
+          Text(
+            "intro_add_semester".tr(),
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 17),
+          ),
+          Spacer(
+            flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 3 : 1,
+          ),
+          TextField(
+              controller: addSemesterController,
+              textAlign: TextAlign.left,
+              decoration: inputDec(label: "Semester Name")),
+          Spacer(
+            flex: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              gradelyIconButton(
+                  onPressed: () async {
+                    isLoadingController.add(true);
+                    await getUserInfo();
+                    Future result = database.createDocument(
+                        collectionId: collectionSemester,
+                        data: {
+                          "parentId": user.dbID,
+                          "name": addSemesterController.text
+                        });
 
-                  result.then((response) {
-                    response = jsonDecode(response.toString());
+                    result.then((response) {
+                      response = jsonDecode(response.toString());
 
-                    database.updateDocument(
-                        collectionId: collectionUser,
-                        documentId: user.dbID,
-                        data: {"choosenSemester": response["\$id"]});
-                  }).catchError((error) {
-                    print(error.response);
-                  });
+                      database.updateDocument(
+                          collectionId: collectionUser,
+                          documentId: user.dbID,
+                          data: {"choosenSemester": response["\$id"]});
+                    }).catchError((error) {
+                      print(error.response);
+                    });
 
-                  errorSuccessDialog(
-                      context: context,
-                      error: false,
-                      text: "success_semester_added".tr());
+                    errorSuccessDialog(
+                        context: context,
+                        error: false,
+                        text: "success_semester_added".tr());
 
-                  addLessonController.text = "";
-                  semesterList = [];
-                  isLoadingController.add(false);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => IntroScreenWrapper(6)),
-                  );
-                },
-                icon: Icon(Icons.arrow_forward_ios)),
-          ],
-        ),
-        Spacer(
-          flex: 1,
-        ),
-        progressIndicator(),
-        Spacer(
-          flex: 1,
-        ),
-      ],
+                    addLessonController.text = "";
+                    semesterList = [];
+                    isLoadingController.add(false);
+                    Navigator.push(
+                      context,
+                      GradelyPageRoute(builder: (context) => Intro6()),
+                    );
+                  },
+                  icon: Icon(Icons.arrow_forward_ios)),
+            ],
+          ),
+          Spacer(
+            flex: 1,
+          ),
+          progressIndicator(),
+          Spacer(
+            flex: 1,
+          ),
+        ],
+      ),
     );
   }
 }
 
-class _Intro6 extends StatefulWidget {
+class Intro6 extends StatefulWidget {
   @override
-  State<_Intro6> createState() => _Intro6State();
+  State<Intro6> createState() => _Intro6State();
 }
 
-class _Intro6State extends State<_Intro6> {
+class _Intro6State extends State<Intro6> {
   @override
   void initState() {
     super.initState();
@@ -466,136 +456,138 @@ class _Intro6State extends State<_Intro6> {
   @override
   Widget build(BuildContext context) {
     progress = 1;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Spacer(
-          flex: 6,
-        ),
-        Spacer(
-          flex: 1,
-        ),
-        Text("almost_finished".tr(),
-            textAlign: TextAlign.center, style: bigTitle),
-        Spacer(
-          flex: 1,
-        ),
-        Text(
-          "intro_email_verification".tr() + " " + user.email,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 19),
-        ),
-        Text(
-          "\n" + "check_email_spam".tr(),
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 15),
-        ),
-        Spacer(
-          flex: 6,
-        ),
-        TextButton(
-            onPressed: () {
-              Future result = account.createVerification(
-                  url: "https://gradelyapp.com/user/verifyEmail");
+    return _IntroScreenWrapper(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Spacer(
+            flex: 6,
+          ),
+          Spacer(
+            flex: 1,
+          ),
+          Text("almost_finished".tr(),
+              textAlign: TextAlign.center, style: bigTitle),
+          Spacer(
+            flex: 1,
+          ),
+          Text(
+            "intro_email_verification".tr() + " " + user.email,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 19),
+          ),
+          Text(
+            "\n" + "check_email_spam".tr(),
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 15),
+          ),
+          Spacer(
+            flex: 6,
+          ),
+          TextButton(
+              onPressed: () {
+                Future result = account.createVerification(
+                    url: "https://gradelyapp.com/user/verifyEmail");
 
-              result.then((response) {
-                errorSuccessDialog(
-                    context: context,
-                    error: false,
-                    text: "success_email_sent".tr());
-              }).catchError((error) {
-                errorSuccessDialog(
-                    context: context, error: true, text: error.message);
-              });
-            },
-            child: Text("send_again".tr())),
-        Theme(
-          data: ThemeData().copyWith(
-              dividerColor: Colors.transparent,
-              colorScheme:
-                  ColorScheme.fromSwatch().copyWith(secondary: primaryColor)),
-          child: ExpansionTile(
-            textColor: primaryColor,
-            collapsedTextColor: primaryColor,
-            trailing: SizedBox.shrink(),
-            expandedAlignment: Alignment.center,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("        " + "change_email".tr(),
-                    style: TextStyle(
-                      fontSize: 14,
-                    )),
-              ],
-            ),
-            children: [
-              Row(
+                result.then((response) {
+                  errorSuccessDialog(
+                      context: context,
+                      error: false,
+                      text: "success_email_sent".tr());
+                }).catchError((error) {
+                  errorSuccessDialog(
+                      context: context, error: true, text: error.message);
+                });
+              },
+              child: Text("send_again".tr())),
+          Theme(
+            data: ThemeData().copyWith(
+                dividerColor: Colors.transparent,
+                colorScheme:
+                    ColorScheme.fromSwatch().copyWith(secondary: primaryColor)),
+            child: ExpansionTile(
+              textColor: primaryColor,
+              collapsedTextColor: primaryColor,
+              trailing: SizedBox.shrink(),
+              expandedAlignment: Alignment.center,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: TextField(
-                        style: TextStyle(color: wbColor),
-                        keyboardType: TextInputType.emailAddress,
-                        controller: changeEmailController,
-                        textAlign: TextAlign.left,
-                        decoration: inputDec(label: "email".tr())),
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      try {
-                        changeEmail(changeEmailController.text, context);
-                      } catch (e) {
-                        errorSuccessDialog(
-                            context: context, error: true, text: e.message);
-                      }
-                    },
-                    icon: Icon(FontAwesome5Solid.save),
-                    color: primaryColor,
-                  ),
+                  Text("        " + "change_email".tr(),
+                      style: TextStyle(
+                        fontSize: 14,
+                      )),
                 ],
               ),
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                          style: TextStyle(color: wbColor),
+                          keyboardType: TextInputType.emailAddress,
+                          controller: changeEmailController,
+                          textAlign: TextAlign.left,
+                          decoration: inputDec(label: "email".tr())),
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        try {
+                          changeEmail(changeEmailController.text, context);
+                        } catch (e) {
+                          errorSuccessDialog(
+                              context: context, error: true, text: e.message);
+                        }
+                      },
+                      icon: Icon(FontAwesome5Solid.save),
+                      color: primaryColor,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Spacer(
+            flex: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              gradelyIconButton(
+                  onPressed: () async {
+                    isLoadingController.add(true);
+                    await getUserInfo();
+                    if (user.emailVerification) {
+                      Navigator.pushNamed(
+                        context,
+                        "subjects",
+                      );
+                      errorSuccessDialog(
+                          context: context,
+                          error: false,
+                          text: "success_email_verified".tr());
+                    } else {
+                      errorSuccessDialog(
+                          context: context,
+                          error: true,
+                          text: "error_email_not_verified".tr());
+                    }
+
+                    isLoadingController.add(false);
+                  },
+                  icon: Icon(Icons.arrow_forward_ios)),
             ],
           ),
-        ),
-        Spacer(
-          flex: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            gradelyIconButton(
-                onPressed: () async {
-                  isLoadingController.add(true);
-                  await getUserInfo();
-                  if (user.emailVerification) {
-                    Navigator.push(
-                      context,
-                      GradelyPageRoute(builder: (context) => SemesterDetail()),
-                    );
-                    errorSuccessDialog(
-                        context: context,
-                        error: false,
-                        text: "success_email_verified".tr());
-                  } else {
-                    errorSuccessDialog(
-                        context: context,
-                        error: true,
-                        text: "error_email_not_verified".tr());
-                  }
-
-                  isLoadingController.add(false);
-                },
-                icon: Icon(Icons.arrow_forward_ios)),
-          ],
-        ),
-        Spacer(
-          flex: 1,
-        ),
-        progressIndicator(),
-        Spacer(
-          flex: 1,
-        ),
-      ],
+          Spacer(
+            flex: 1,
+          ),
+          progressIndicator(),
+          Spacer(
+            flex: 1,
+          ),
+        ],
+      ),
     );
   }
 }

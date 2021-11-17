@@ -99,10 +99,7 @@ class _SignInPageState extends State<SignInPage> {
             Spacer(flex: 12),
             TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    GradelyPageRoute(builder: (context) => AuthHome()),
-                  );
+                  Navigator.pushNamed(context, "auth/home");
                 },
                 child: Text(
                   "question_no_account".tr(),
@@ -110,10 +107,7 @@ class _SignInPageState extends State<SignInPage> {
                 )),
             TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    GradelyPageRoute(builder: (context) => ResetPasswordPage()),
-                  );
+                  Navigator.pushNamed(context, "auth/resetPassword");
                 },
                 child: Text(
                   "question_forgot_password".tr(),

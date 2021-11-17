@@ -47,10 +47,9 @@ class _AuthHomeState extends State<AuthHome> {
               width: 300,
               child: gradelyButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushNamed(
                       context,
-                      GradelyPageRoute(
-                          builder: (context) => IntroScreenWrapper(1)),
+                      "auth/signUp",
                     );
                   },
                   text: "get_started".tr())),
@@ -61,10 +60,7 @@ class _AuthHomeState extends State<AuthHome> {
             width: 300,
             child: gradelyButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    GradelyPageRoute(builder: (context) => SignInPage()),
-                  );
+                  Navigator.pushNamed(context, "auth/signIn");
                 },
                 text: "sign_in".tr(),
                 color: frontColor(),

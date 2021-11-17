@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart' as appwrite;
 import 'package:easy_localization_loader/easy_localization_loader.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely2/screens/auth/authHome.dart';
@@ -20,6 +21,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely2/shared/loading.dart';
 import 'package:gradely2/shared/maintenance.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
+import 'package:universal_io/io.dart';
 
 bool isLoggedIn = false;
 
@@ -32,12 +34,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await sharedPrefs();
-
-  const String serverUrl = "https://analytics.eliasschneider.com";
-  const String domain = "app.gradelyapp.com";
-
-  final plausible = Plausible(serverUrl, domain);
-  final event = plausible.event();
 
   client = appwrite.Client();
   account = appwrite.Account(client);
@@ -62,7 +58,7 @@ void main() async {
 var routes = {
   '/': (context) => HomeWrapper(),
   'auth/home': (context) => AuthHome(),
-  'auth/signUp': (context) => IntroScreenWrapper(0),
+  'auth/signUp': (context) => Intro1(),
   'auth/resetPassword': (context) => ResetPasswordPage(),
   'auth/signIn': (context) => SignInPage(),
   'semesters': (context) => ChooseSemester(),
@@ -86,8 +82,11 @@ class MaterialWrapper extends StatelessWidget {
     return MaterialApp(
       title: "Gradely 2",
       initialRoute: '/',
-      routes: routes,
       onGenerateRoute: (settings) {
+        final plausible = Plausible(
+            "https://analytics.eliasschneider.com", "app.gradelyapp.com");
+        plausible.event(page: settings.name);
+
         return GradelyPageRoute(
             builder: (context) => routes[settings.name](context));
       },

@@ -88,11 +88,8 @@ Future settingsScreen(BuildContext context) {
                         child: settingsListTile(
                             context: context,
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                GradelyPageRoute(
-                                    builder: (context) => UserInfoScreen()),
-                              );
+                              Navigator.pushNamed(
+                                  context, "settings/userInfo");
                             },
                             items: [
                               Icon(FontAwesome5Solid.user,
@@ -212,11 +209,8 @@ Future settingsScreen(BuildContext context) {
                                   Text("contribute".tr()),
                                 ],
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    GradelyPageRoute(
-                                        builder: (context) => Contribute()),
-                                  );
+                                  Navigator.pushNamed(
+                                      context, "settings/contribute");
                                 },
                               ),
                               settingsListTile(
@@ -252,10 +246,9 @@ Future settingsScreen(BuildContext context) {
                                   Text("app_info".tr()),
                                 ],
                                 onTap: () {
-                                  Navigator.push(
+                                  Navigator.pushNamed(
                                     context,
-                                    GradelyPageRoute(
-                                        builder: (context) => AppInfo()),
+                                    "settings/appInfo"
                                   );
                                 },
                               ),

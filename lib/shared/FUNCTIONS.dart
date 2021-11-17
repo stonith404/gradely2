@@ -347,9 +347,9 @@ changeEmail(_email, context) async {
                       text: "email_updated".tr());
 
                   Future.delayed(Duration(seconds: 2));
-                  Navigator.pushAndRemoveUntil(
+                  Navigator.pushNamedAndRemoveUntil(
                     context,
-                    GradelyPageRoute(builder: (context) => SemesterDetail()),
+                  "subjects",
                     (Route<dynamic> route) => false,
                   );
                 } catch (e) {

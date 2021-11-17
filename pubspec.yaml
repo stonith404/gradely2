@@ -33,7 +33,7 @@ dependencies:
   syncfusion_flutter_charts: ^19.1.66+1
   flutter_inapp_purchase: ^5.0.3
   flutter_spinkit: ^5.0.0
-  another_flushbar: ^1.10.24
+  another_flushbar: ^1.10.25
   flutter_svg: ^0.22.0
   package_info_plus: ^1.0.4
   universal_io: ^2.0.4

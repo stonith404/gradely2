@@ -1,4 +1,4 @@
-import 'package:gradely2/screens/auth/introScreen.dart';
+import 'package:gradely2/screens/auth/introScreen.dart' as introScreen;
 import 'package:universal_io/io.dart';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
@@ -97,7 +97,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
     if (user.choosenSemester == "noSemesterChoosed") {
       return ChooseSemester();
     } else if (!user.emailVerification) {
-      return IntroScreenWrapper(6);
+      return introScreen.Intro6();
     } else if (isLoading) {
       return LoadingScreen();
     } else {
@@ -130,11 +130,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
                               icon:
                                   Icon(Icons.switch_left, color: primaryColor),
                               onPressed: () async {
-                                Navigator.push(
-                                  context,
-                                  GradelyPageRoute(
-                                      builder: (context) => ChooseSemester()),
-                                );
+                                Navigator.pushNamed(context, "semesters");
                               }),
                         ],
                       ),
@@ -370,12 +366,8 @@ class _SemesterDetailState extends State<SemesterDetail> {
                                         })(),
                                       ),
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          GradelyPageRoute(
-                                              builder: (context) =>
-                                                  LessonsDetail()),
-                                        ).then((value) {
+                                        Navigator.pushNamed(context, "grades")
+                                            .then((value) {
                                           getLessons(false);
                                         });
 

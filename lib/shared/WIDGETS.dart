@@ -328,9 +328,9 @@ gradelyPlusDialog(context) {
         CupertinoButton(
             onPressed: () {
               Navigator.of(context).pop();
-              Navigator.push(
+              Navigator.pushNamed(
                 context,
-                GradelyPageRoute(builder: (context) => GradelyPlus()),
+                "settings/gradelyPlus"
               );
             },
             child: Text(

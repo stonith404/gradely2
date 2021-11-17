@@ -74,9 +74,9 @@ class Contribute extends StatelessWidget {
                 gradelyButton(
                     text: "contact_me".tr(),
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushNamed(
                         context,
-                        GradelyPageRoute(builder: (context) => ContactScreen()),
+                       "settings/contact"
                       );
                     }),
                 gradelyButton(
