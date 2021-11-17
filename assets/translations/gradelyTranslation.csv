@@ -56,6 +56,7 @@ password_reset_success_text,An email to reset your password was sent. Please mak
 error,error,Fehler
 error_wrong_password,Wrong password,Falsches Passwort
 error_unknown,There was an unknown error,Ein unbekannter Fehler ist aufgetreten
+error_contact,Unfortunately there is an error. You can try it later or you can contact me under elias@eliasschneider.com,Leider ist ein Fehler aufgetreten. Versuche es später nochmals oder konatkiere mich unter elias@eliasschneider.com
 dream_grade,Dream grade,Wunschnote
 dream_grade_calulator,Dream grade calulator,Wunschnoten rechner
 dream_grade_result_text,Your grade for the next exam should be:,Deine Note für den nächsten test:

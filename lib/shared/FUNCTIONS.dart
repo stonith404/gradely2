@@ -69,21 +69,19 @@ Future internetConnection({BuildContext context}) async {
     return true;
   } else {
     try {
-    final result = await InternetAddress.lookup('example.com');
-    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      return true;
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        return true;
+      }
+    } on SocketException catch (_) {
+      errorSuccessDialog(
+          context: context,
+          error: true,
+          text: "no_network".tr(),
+          title: "network_needed_title".tr());
+      return false;
     }
-  } on SocketException catch (_) {
-    errorSuccessDialog(
-        context: context,
-        error: true,
-        text: "no_network".tr(),
-        title: "network_needed_title".tr());
-    return false;
   }
-  }
-
-  
 }
 
 isMaintenance() async {

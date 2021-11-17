@@ -3,14 +3,23 @@ import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely2/screens/auth/authHome.dart';
+import 'package:gradely2/screens/auth/introScreen.dart';
+import 'package:gradely2/screens/auth/resetPassword.dart';
+import 'package:gradely2/screens/auth/signIn.dart';
+import 'package:gradely2/screens/main/grades/grades.dart';
 import 'package:gradely2/screens/main/lessons.dart';
+import 'package:gradely2/screens/main/semesters.dart';
+import 'package:gradely2/screens/settings/appInfo.dart';
+import 'package:gradely2/screens/settings/contact.dart';
+import 'package:gradely2/screens/settings/contribute.dart';
+import 'package:gradely2/screens/settings/gradelyPlus.dart';
+import 'package:gradely2/screens/settings/userInfo.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely2/shared/loading.dart';
 import 'package:gradely2/shared/maintenance.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 bool isLoggedIn = false;
 
@@ -50,6 +59,23 @@ void main() async {
       child: MaterialWrapper()));
 }
 
+var routes = {
+  '/': (context) => HomeWrapper(),
+  'auth/home': (context) => AuthHome(),
+  'auth/signUp': (context) => IntroScreenWrapper(0),
+  'auth/resetPassword': (context) => ResetPasswordPage(),
+  'auth/signIn': (context) => SignInPage(),
+  'semesters': (context) => ChooseSemester(),
+  'subjects': (context) => SemesterDetail(),
+  'grades': (context) => LessonsDetail(),
+  'settings/gradelyPlus': (context) => GradelyPlus(),
+  'settings/userInfo': (context) => UserInfoScreen(),
+  'settings/contribute': (context) => Contribute(),
+  'settings/appInfo': (context) => AppInfo(),
+  'settings/contact': (context) => ContactScreen(),
+  'maintenance': (context) => Maintenance(),
+};
+
 class MaterialWrapper extends StatelessWidget {
   const MaterialWrapper({
     Key key,
@@ -60,10 +86,10 @@ class MaterialWrapper extends StatelessWidget {
     return MaterialApp(
       title: "Gradely 2",
       initialRoute: '/',
-      routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
-        '/': (context) => HomeWrapper(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
+      routes: routes,
+      onGenerateRoute: (settings) {
+        return GradelyPageRoute(
+            builder: (context) => routes[settings.name](context));
       },
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
