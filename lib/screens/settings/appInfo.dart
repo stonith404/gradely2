@@ -15,12 +15,12 @@ class _AppInfo {
 
 List<_AppInfo> _appInfoList = [];
 
-class AppInfo extends StatefulWidget {
+class AppInfoScreen extends StatefulWidget {
   @override
-  _AppInfoState createState() => _AppInfoState();
+  _AppInfoScreenState createState() => _AppInfoScreenState();
 }
 
-class _AppInfoState extends State<AppInfo> {
+class _AppInfoScreenState extends State<AppInfoScreen> {
   String _serverUp;
   String packageName = "";
   String version = "";

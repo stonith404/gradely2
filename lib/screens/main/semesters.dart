@@ -15,12 +15,12 @@ bool isChecked = false;
 String choosenSemester;
 Semester _selectedSemester;
 
-class ChooseSemester extends StatefulWidget {
+class SemesterScreen extends StatefulWidget {
   @override
-  _ChooseSemesterState createState() => _ChooseSemesterState();
+  _SemesterScreenState createState() => _SemesterScreenState();
 }
 
-class _ChooseSemesterState extends State<ChooseSemester> {
+class _SemesterScreenState extends State<SemesterScreen> {
   getSemesters() async {
     setState(() => isLoading = true);
     semesterList = [];

@@ -6,12 +6,12 @@ import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 
-class ResetPasswordPage extends StatefulWidget {
+class ResetPasswordScreen extends StatefulWidget {
   @override
-  _ResetPasswordPageState createState() => _ResetPasswordPageState();
+  _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
 }
 
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   sendPasswordResetEmail(String email) async {
     Future result = account.createRecovery(
       email: email,

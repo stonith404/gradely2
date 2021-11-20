@@ -68,7 +68,7 @@ Future settingsScreen(BuildContext context) {
                               PageRouteBuilder(
                                 pageBuilder:
                                     (context, animation1, animation2) =>
-                                        SemesterDetail(),
+                                        LessonsScreen(),
                                 transitionDuration: Duration(seconds: 0),
                               ),
                             );
@@ -88,8 +88,7 @@ Future settingsScreen(BuildContext context) {
                         child: settingsListTile(
                             context: context,
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, "settings/userInfo");
+                              Navigator.pushNamed(context, "settings/userInfo");
                             },
                             items: [
                               Icon(FontAwesome5Solid.user,
@@ -123,11 +122,9 @@ Future settingsScreen(BuildContext context) {
                                           Text("Gradely Plus"),
                                         ],
                                         onTap: () {
-                                          Navigator.push(
+                                          Navigator.pushNamed(
                                             context,
-                                            GradelyPageRoute(
-                                                builder: (context) =>
-                                                    GradelyPlus()),
+                                           "settings/gradelyPlus"
                                           );
                                         }),
                                   )
@@ -247,9 +244,7 @@ Future settingsScreen(BuildContext context) {
                                 ],
                                 onTap: () {
                                   Navigator.pushNamed(
-                                    context,
-                                    "settings/appInfo"
-                                  );
+                                      context, "settings/appInfo");
                                 },
                               ),
                             ],

@@ -11,12 +11,12 @@ import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:gradely2/shared/loading.dart';
 
-class GradelyPlus extends StatefulWidget {
+class GradelyPlusScreen extends StatefulWidget {
   @override
-  _GradelyPlusState createState() => _GradelyPlusState();
+  _GradelyPlusScreenState createState() => _GradelyPlusScreenState();
 }
 
-class _GradelyPlusState extends State<GradelyPlus> {
+class _GradelyPlusScreenState extends State<GradelyPlusScreen> {
   StreamSubscription purchaseUpdatedSubscription;
   StreamSubscription purchaseErrorSubscription;
   StreamSubscription _conectionSubscription;

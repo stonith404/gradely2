@@ -7,12 +7,12 @@ import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class AuthHome extends StatefulWidget {
+class AuthHomeScreen extends StatefulWidget {
   @override
-  _AuthHomeState createState() => _AuthHomeState();
+  _AuthHomeScreenState createState() => _AuthHomeScreenState();
 }
 
-class _AuthHomeState extends State<AuthHome> {
+class _AuthHomeScreenState extends State<AuthHomeScreen> {
   @override
   Widget build(BuildContext context) {
     darkModeColorChanger(context);

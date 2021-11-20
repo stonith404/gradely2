@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gradely2/screens/settings/contact.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 
-class Contribute extends StatelessWidget {
+class ContributeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

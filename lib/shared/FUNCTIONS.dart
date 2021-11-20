@@ -349,7 +349,7 @@ changeEmail(_email, context) async {
                   Future.delayed(Duration(seconds: 2));
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                  "subjects",
+                    "subjects",
                     (Route<dynamic> route) => false,
                   );
                 } catch (e) {
@@ -417,4 +417,20 @@ GradelyPageRoute({Widget Function(BuildContext) builder}) {
   } else {
     return MaterialPageRoute(builder: builder);
   }
+}
+
+getUserAgent() {
+  String platform;
+
+  if (Platform.isIOS) {
+    platform = "iPhone OS";
+  } else if (Platform.isAndroid) {
+    platform = "Android";
+  } else if (Platform.isMacOS) {
+    platform = "Mac OS X";
+  } else if (Platform.isWindows) {
+    platform = "Windows";
+  }
+
+  return "Mozilla/5.0 ($platform, Firefox)";
 }

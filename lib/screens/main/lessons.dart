@@ -11,7 +11,6 @@ import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:gradely2/shared/loading.dart';
-import 'grades/grades.dart';
 import 'semesters.dart';
 import 'dart:math' as math;
 import 'package:easy_localization/easy_localization.dart';
@@ -26,12 +25,12 @@ double _averageOfSemester = 0 / -0;
 double _averageOfSemesterPP = 0 / -0;
 String choosenSemesterName = "-";
 
-class SemesterDetail extends StatefulWidget {
+class LessonsScreen extends StatefulWidget {
   @override
-  _SemesterDetailState createState() => _SemesterDetailState();
+  _LessonsScreenState createState() => _LessonsScreenState();
 }
 
-class _SemesterDetailState extends State<SemesterDetail> {
+class _LessonsScreenState extends State<LessonsScreen> {
   getLessons(loading) async {
     if (loading) setState(() => isLoading = true);
 //get choosen semester name
@@ -95,7 +94,7 @@ class _SemesterDetailState extends State<SemesterDetail> {
     darkModeColorChanger(context);
 
     if (user.choosenSemester == "noSemesterChoosed") {
-      return ChooseSemester();
+      return SemesterScreen();
     } else if (!user.emailVerification) {
       return introScreen.Intro6();
     } else if (isLoading) {

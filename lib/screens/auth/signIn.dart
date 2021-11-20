@@ -11,12 +11,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 bool _obsecuredText = true;
 
-class SignInPage extends StatefulWidget {
+class SignInScreen extends StatefulWidget {
   @override
-  _SignInPageState createState() => _SignInPageState();
+  _SignInScreenState createState() => _SignInScreenState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignInScreenState extends State<SignInScreen> {
   signInUser() async {
     isLoadingController.add(true);
     SharedPreferences prefs = await SharedPreferences.getInstance();

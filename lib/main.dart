@@ -54,19 +54,19 @@ void main() async {
 
 var routes = {
   '/': (context) => HomeWrapper(),
-  'auth/home': (context) => AuthHome(),
+  'auth/home': (context) => AuthHomeScreen(),
   'auth/signUp': (context) => Intro1(),
-  'auth/resetPassword': (context) => ResetPasswordPage(),
-  'auth/signIn': (context) => SignInPage(),
-  'semesters': (context) => ChooseSemester(),
-  'subjects': (context) => SemesterDetail(),
-  'grades': (context) => LessonsDetail(),
-  'settings/gradelyPlus': (context) => GradelyPlus(),
+  'auth/resetPassword': (context) => ResetPasswordScreen(),
+  'auth/signIn': (context) => SignInScreen(),
+  'semesters': (context) => SemesterScreen(),
+  'subjects': (context) => LessonsScreen(),
+  'grades': (context) => GradesScreen(),
+  'settings/gradelyPlus': (context) => GradelyPlusScreen(),
   'settings/userInfo': (context) => UserInfoScreen(),
-  'settings/contribute': (context) => Contribute(),
-  'settings/appInfo': (context) => AppInfo(),
+  'settings/contribute': (context) => ContributeScreen(),
+  'settings/appInfo': (context) => AppInfoScreen(),
   'settings/contact': (context) => ContactScreen(),
-  'maintenance': (context) => Maintenance(),
+  'maintenance': (context) => MaintenanceScreen(),
 };
 
 class MaterialWrapper extends StatelessWidget {
@@ -80,7 +80,8 @@ class MaterialWrapper extends StatelessWidget {
       title: "Gradely 2",
       initialRoute: '/',
       onGenerateRoute: (settings) {
-        plausible.enabled = kDebugMode ? false : true;
+        plausible.enabled = kDebugMode || kIsWeb ? false : true;
+        plausible.userAgent = getUserAgent();
         plausible.event(page: settings.name);
         return GradelyPageRoute(
             builder: (context) => routes[settings.name](context));
@@ -156,7 +157,7 @@ class _State extends State<HomeWrapper> {
         if (snapshot.data == null) {
           return LoadingScreen();
         } else if (snapshot.data == true) {
-          return Maintenance();
+          return MaintenanceScreen();
         } else {
           return FutureBuilder(
               future: getUserData,
@@ -165,9 +166,9 @@ class _State extends State<HomeWrapper> {
                   return LoadingScreen();
                 } else {
                   if (prefs.getBool("signedIn") ?? false) {
-                    return SemesterDetail();
+                    return LessonsScreen();
                   } else {
-                    return AuthHome();
+                    return AuthHomeScreen();
                   }
                 }
               });

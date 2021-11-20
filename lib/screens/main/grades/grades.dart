@@ -31,12 +31,12 @@ TextEditingController editTestInfoName = new TextEditingController();
 TextEditingController editTestInfoGrade = new TextEditingController();
 TextEditingController editTestInfoWeight = new TextEditingController();
 
-class LessonsDetail extends StatefulWidget {
+class GradesScreen extends StatefulWidget {
   @override
-  _LessonsDetailState createState() => _LessonsDetailState();
+  _GradesScreenState createState() => _GradesScreenState();
 }
 
-class _LessonsDetailState extends State<LessonsDetail> {
+class _GradesScreenState extends State<GradesScreen> {
   updateAverage() async {
     database.updateDocument(
         documentId: selectedLesson,
@@ -56,7 +56,7 @@ class _LessonsDetailState extends State<LessonsDetail> {
     if (mounted) setState(() => isLoading = true);
 
     if (user.choosenSemester == null) {
-      return ChooseSemester();
+      return SemesterScreen();
     }
 
     choosenSemester = user.choosenSemester;
