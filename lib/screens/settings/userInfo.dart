@@ -43,9 +43,10 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               onPressed: () async {
                 await signOut();
 
-                Navigator.pushReplacement(
+                Navigator.pushNamedAndRemoveUntil(
                   context,
-                  GradelyPageRoute(builder: (context) => HomeWrapper()),
+                  "auth/home",
+                  (Route<dynamic> route) => false,
                 );
               })
         ],

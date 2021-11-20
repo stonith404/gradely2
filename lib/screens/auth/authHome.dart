@@ -34,6 +34,7 @@ class _AuthHomeState extends State<AuthHome> {
           ),
           Text(
             "welcome_to_gradely".tr(),
+            textAlign: TextAlign.center,
             style: bigTitle,
           ),
           Spacer(

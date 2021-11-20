@@ -26,7 +26,7 @@ class _IntroScreenWrapper extends StatelessWidget {
           backgroundColor: defaultBGColor,
           elevation: 0,
           actions: [
-            progress >= 0.64
+            progress >= 0.76
                 ? IconButton(
                     color: primaryColor,
                     icon: Icon(FontAwesome5Solid.sign_out_alt),
@@ -74,7 +74,7 @@ class Intro1 extends StatelessWidget {
           Spacer(
             flex: 1,
           ),
-          Text("welcome".tr(), style: bigTitle),
+          Text("welcome".tr(), textAlign: TextAlign.center, style: bigTitle),
           Spacer(
             flex: 1,
           ),
@@ -132,7 +132,8 @@ class _Intro2 extends StatelessWidget {
           Spacer(
             flex: 1,
           ),
-          Text("everywhere_available".tr(), style: bigTitle),
+          Text("everywhere_available".tr(),
+              textAlign: TextAlign.center, style: bigTitle),
           Spacer(
             flex: 1,
           ),

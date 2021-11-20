@@ -21,14 +21,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely2/shared/loading.dart';
 import 'package:gradely2/shared/maintenance.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
-import 'package:universal_io/io.dart';
 
 bool isLoggedIn = false;
 
-List<String> testList = [];
-var courseListID = [];
-var allAverageList = [];
-var allAverageListPP = [];
+final plausible =
+    Plausible("https://analytics.eliasschneider.com", "app.gradelyapp.com");
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -83,10 +80,8 @@ class MaterialWrapper extends StatelessWidget {
       title: "Gradely 2",
       initialRoute: '/',
       onGenerateRoute: (settings) {
-        final plausible = Plausible(
-            "https://analytics.eliasschneider.com", "app.gradelyapp.com");
+        plausible.enabled = kDebugMode ? false : true;
         plausible.event(page: settings.name);
-
         return GradelyPageRoute(
             builder: (context) => routes[settings.name](context));
       },
