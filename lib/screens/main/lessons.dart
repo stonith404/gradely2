@@ -34,7 +34,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
   getLessons(loading) async {
     if (loading) setState(() => isLoading = true);
 //get choosen semester name
-    var semesterResponse = await listDocuments(
+    var semesterResponse = await api.listDocuments(
         collection: collectionSemester,
         name: "semesterName",
         filters: ["\$id=${user.choosenSemester}"]);
@@ -43,7 +43,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
           semesterResponse["documents"][0]["name"] ?? "noSemesterChoosed";
     });
 
-    lessonList = (await listDocuments(
+    lessonList = (await api.listDocuments(
             collection: collectionLessons,
             name: "lessonList_${user.choosenSemester}",
             filters: ["parentId=${user.choosenSemester}"]))["documents"]
@@ -302,8 +302,8 @@ class _LessonsScreenState extends State<LessonsScreen> {
                                                   TextStyle(color: Colors.red),
                                             ),
                                             onPressed: () async {
-                                              noNetworkDialog(context);
-                                              database.deleteDocument(
+                                              ;
+                                              api.deleteDocument(context,
                                                   collectionId:
                                                       collectionLessons,
                                                   documentId:
@@ -491,9 +491,8 @@ class _LessonsScreenState extends State<LessonsScreen> {
                 text: "add".tr(),
                 onPressed: () async {
                   isLoadingController.add(true);
-
-                  noNetworkDialog(context);
-                  await database.createDocument(
+                  await api.createDocument(
+                    context,
                     collectionId: collectionLessons,
                     data: {
                       "parentId": user.choosenSemester,
@@ -619,8 +618,8 @@ class _LessonsScreenState extends State<LessonsScreen> {
                 text: "rename".tr(),
                 onPressed: () async {
                   isLoadingController.add(true);
-                  noNetworkDialog(context);
-                  await database.updateDocument(
+                  ;
+                  await api.updateDocument(context,
                       collectionId: collectionLessons,
                       documentId: selectedLesson,
                       data: {

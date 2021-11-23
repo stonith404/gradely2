@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gradely2/shared/VARIABLES.dart';
 
 class Lesson {
   String id;
@@ -55,5 +56,3 @@ class User {
       this.dbID,
       this.color);
 }
-
-

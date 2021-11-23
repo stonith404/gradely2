@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely2/screens/auth/authHome.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/main.dart';
 import 'package:flutter/services.dart';
 
 class UserInfoScreen extends StatefulWidget {
@@ -208,7 +206,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                     if (await reAuthenticate(
                                         email: user.email,
                                         password: passwordController.text)) {
-                                      await database.deleteDocument(
+                                      await api.deleteDocument(context,
                                           collectionId: collectionUser,
                                           documentId: user.dbID);
 

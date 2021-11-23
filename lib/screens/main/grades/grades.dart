@@ -38,7 +38,7 @@ class GradesScreen extends StatefulWidget {
 
 class _GradesScreenState extends State<GradesScreen> {
   updateAverage() async {
-    database.updateDocument(
+    api.updateDocument(context,
         documentId: selectedLesson,
         collectionId: collectionLessons,
         data: {
@@ -61,7 +61,7 @@ class _GradesScreenState extends State<GradesScreen> {
 
     choosenSemester = user.choosenSemester;
 
-    gradeList = (await listDocuments(
+    gradeList = (await api.listDocuments(
       orderField: "date",
       collection: collectionGrades,
       name: "gradeList_$selectedLesson",
@@ -178,9 +178,9 @@ class _GradesScreenState extends State<GradesScreen> {
                                               color: frontColor(),
                                             ),
                                             onTap: () async {
-                                              noNetworkDialog(context);
+                                              ;
                                               selectedTest = gradeList[index];
-                                              database.deleteDocument(
+                                              api.deleteDocument(context,
                                                   collectionId:
                                                       collectionGrades,
                                                   documentId:
@@ -417,9 +417,9 @@ class _GradesScreenState extends State<GradesScreen> {
             gradelyIconButton(
                 onPressed: () async {
                   isLoadingController.add(true);
-                  noNetworkDialog(context);
+                  ;
                   try {
-                    await database.updateDocument(
+                    await api.updateDocument(context,
                         collectionId: collectionGrades,
                         documentId: selectedTest.id,
                         data: {
@@ -537,9 +537,10 @@ class _GradesScreenState extends State<GradesScreen> {
     uploadGrade() async {
       bool succeded = false;
       isLoadingController.add(true);
-      noNetworkDialog(context);
+
       try {
-        Future result = database.createDocument(
+        Future result = api.createDocument(
+          context,
           collectionId: collectionGrades,
           data: {
             "parentId": selectedLesson,

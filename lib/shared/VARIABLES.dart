@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely2/shared/CLASSES.dart';
+import 'package:gradely2/shared/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 List lessonList = [];
@@ -28,6 +29,7 @@ Database database;
 Locale locale;
 Storage storage;
 Functions functions;
+GradelyApi api;
 
 //colors
 Color primaryColor = Colors.black;

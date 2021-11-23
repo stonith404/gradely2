@@ -25,7 +25,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
     setState(() => isLoading = true);
     semesterList = [];
 
-    semesterList = (await listDocuments(
+    semesterList = (await api.listDocuments(
             collection: collectionSemester,
             name: "semesterList",
             filters: ["parentId=${user.dbID}"]))["documents"]
@@ -38,7 +38,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
   }
 
   saveChoosenSemester(String _choosenSemester) async {
-    await database.updateDocument(
+    await api.updateDocument(context,
         collectionId: collectionUser,
         documentId: user.dbID,
         data: {"choosenSemester": _choosenSemester});
@@ -148,8 +148,8 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                           style: TextStyle(color: Colors.red),
                                         ),
                                         onPressed: () {
-                                          noNetworkDialog(context);
-                                          database.deleteDocument(
+                                          ;
+                                          api.deleteDocument(context,
                                               collectionId: collectionSemester,
                                               documentId:
                                                   semesterList[index].id);
@@ -243,8 +243,8 @@ class _SemesterScreenState extends State<SemesterScreen> {
               text: "rename".tr(),
               onPressed: () async {
                 isLoadingController.add(true);
-                noNetworkDialog(context);
-                await database.updateDocument(
+                ;
+                await api.updateDocument(context,
                     collectionId: collectionSemester,
                     documentId: _selectedSemester.id,
                     data: {"name": renameSemesterController.text});
@@ -290,9 +290,9 @@ class _SemesterScreenState extends State<SemesterScreen> {
                 text: "add".tr(),
                 onPressed: () async {
                   isLoadingController.add(true);
-                  noNetworkDialog(context);
+                  ;
                   await getUserInfo();
-                  await database.createDocument(
+                  await api.createDocument(context,
                       collectionId: collectionSemester,
                       data: {
                         "parentId": user.dbID,

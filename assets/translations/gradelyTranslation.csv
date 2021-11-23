@@ -62,13 +62,9 @@ dream_grade_calulator,Dream grade calulator,Wunschnoten rechner
 dream_grade_result_text,Your grade for the next exam should be:,Deine Note für den nächsten test:
 dream _grade_weight,Dream grade weight,Wunschnoten Gewichtung
 date,date,Datum
-benefit_support,Support developer,Entwickler unterstützen
-why_gradely_plus,Why Gradely plus?,Wieso Gradely plus?
-gradely_plus_description,"I invested a lot of time and money in this app. Of course I want that this app is free, but servers aren't free... With Gradely plus you can help me so I can make this app better and pay the servers 🖤","Ich habe viele Stunden und Geld in diese App investiert, leider sind Server nicht gratis... Ich möchte das diese App gratis ist. Mit Gradely Plus kann du mithelfen dass ich die App immer weiterentwickeln und die Server bezahlen kann 🖤"
-benefit_more_coming_soon,More benefits coming soon,Mehr Vorteile kommen bald
-benefit_emojis,Emojis in names,Emojis in Namen
-gradely_plus_mobile_only,Gradely plus can only be bought on a mobile device. After the purchase you have gradely on any of your devices.,Gradely Plus kann nur auf an einem Handy gekauft werden. Nach dem Kauf hast du Gradely Plus auf allen Geräten.
-gradely_pluss_success_text,Thank you so much for being a gradely plus user. Enjoy it!,"Danke viel mals, dass du ein Gradely Plus Nutzer bist. Viel Spass!"
+tip,Tip,Spende
+tip_description,"I invested a lot of time and money in this app. Of course I want that this app is free, but servers aren't free... With a tip you can help to improve this app and pay the servers 🖤","Ich habe viele Stunden und Geld in diese App investiert, leider sind Server nicht gratis... Ich möchte das diese App gratis ist. Mit einer Spende kannst du mithelfen, dass ich die App immer weiterentwickeln und die Server bezahlen kann 🖤"
+support,Support,Unterstützung
 loading,loading,Lädt...
 email,Email,Email
 action_required,Action required,Handlung erforderlich

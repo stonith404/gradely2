@@ -15,9 +15,11 @@ import 'package:gradely2/screens/settings/contact.dart';
 import 'package:gradely2/screens/settings/contribute.dart';
 import 'package:gradely2/screens/settings/gradelyPlus.dart';
 import 'package:gradely2/screens/settings/userInfo.dart';
+import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gradely2/shared/api.dart';
 import 'package:gradely2/shared/loading.dart';
 import 'package:gradely2/shared/maintenance.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
@@ -31,7 +33,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await sharedPrefs();
-
+  api = GradelyApi();
   client = appwrite.Client();
   account = appwrite.Account(client);
   database = appwrite.Database(client);

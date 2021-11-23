@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'package:gradely2/main.dart';
+import 'package:gradely2/screens/settings/heartAnimation.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -50,7 +50,7 @@ class _GradelyPlusScreenState extends State<GradelyPlusScreen> {
     FlutterInappPurchase.instance.consumePurchaseAndroid(token);
     isLoadingController.add(false);
 
-    database.updateDocument(
+    api.updateDocument(context,
         collectionId: collectionUser,
         documentId: user.dbID,
         data: {'gradelyPlus': true});
@@ -123,7 +123,7 @@ class _GradelyPlusScreenState extends State<GradelyPlusScreen> {
         ),
         backgroundColor: defaultBGColor,
         elevation: 0,
-        title: Text("Gradely Plus", style: appBarTextTheme),
+        title: Text("support".tr(), style: appBarTextTheme),
       ),
       body: iapList.isEmpty && (Platform.isIOS || Platform.isAndroid)
           ? Column(
@@ -135,95 +135,20 @@ class _GradelyPlusScreenState extends State<GradelyPlusScreen> {
               child: Padding(
                   padding: const EdgeInsets.all(24.0),
                   child: Column(children: [
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
+                    Text("tip_description".tr()),
+                    SizedBox(
+                      height: 30,
+                    ),
                     Text(
-                      "why_gradely_plus".tr(),
+                      "tip".tr(),
                       style: TextStyle(fontWeight: FontWeight.w800),
                     ),
                     SizedBox(
                       height: 10,
                     ),
-                    Text("gradely_plus_description".tr()),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      "benefits".tr(),
-                      style: TextStyle(fontWeight: FontWeight.w800),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      decoration: boxDec(),
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: boxDec(),
-                            child: ListTile(
-                              title: Row(
-                                children: [
-                                  Icon(
-                                    CupertinoIcons.heart,
-                                    color: primaryColor,
-                                  ),
-                                  SizedBox(width: 20),
-                                  Text("benefit_support".tr())
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Container(
-                            decoration: boxDec(),
-                            child: ListTile(
-                              title: Row(
-                                children: [
-                                  Icon(
-                                    FontAwesome5.laugh,
-                                    color: primaryColor,
-                                  ),
-                                  SizedBox(width: 20),
-                                  Text("benefit_emojis".tr())
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Container(
-                            decoration: boxDec(),
-                            child: ListTile(
-                              title: Row(
-                                children: [
-                                  Icon(
-                                    CupertinoIcons.star,
-                                    color: primaryColor,
-                                  ),
-                                  SizedBox(width: 20),
-                                  Text("benefit_more_coming_soon".tr())
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
                     Platform.isIOS || Platform.isAndroid
                         ? Column(children: [
-                            Text(
-                              "gradely_plus_explain_products".tr(),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(
-                              height: 25,
-                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -248,7 +173,54 @@ class _GradelyPlusScreenState extends State<GradelyPlusScreen> {
                             )
                           ])
                         : Text("gradely_plus_mobile_only".tr(),
-                            style: TextStyle(fontStyle: FontStyle.italic))
+                            style: TextStyle(fontStyle: FontStyle.italic)),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                      "contribute".tr(),
+                      style: TextStyle(fontWeight: FontWeight.w800),
+                    ),
+                    Text(
+                      "Gradely 2's Code is opensource, if you want you can help to improve Gradely 2 with your skills",
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    gradelyButton(
+                        onPressed: () =>
+                            Navigator.pushNamed(context, "settings/contribute"),
+                        text: "contribute".tr()),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                      "Send Heart".tr(),
+                      style: TextStyle(fontWeight: FontWeight.w800),
+                    ),
+                    Text("You can also send me a free heart".tr()),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    gradelyButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation1, animation2) =>
+                                  HeartScreen(),
+                              transitionDuration: Duration.zero,
+                            ),
+                          ).then((value) => Future.delayed(
+                              Duration(seconds: 1),
+                              () => gradelyDialog(
+                                  context: context,
+                                  title: "title",
+                                  text: "text")));
+                        },
+                        text: "❤️",
+                        color: frontColor())
                   ])),
             ),
     );

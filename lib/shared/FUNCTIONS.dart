@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/screens/main/lessons.dart';
 import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -38,7 +37,7 @@ Future getUserInfo() async {
   if (missingScope) {
     prefs.setBool("signedIn", false);
   } else if (accountResponse != null) {
-    var dbResponse = (await listDocuments(
+    var dbResponse = (await api.listDocuments(
         name: "userDB",
         collection: collectionUser,
         filters: ["uid=${accountResponse['\$id']}"]))["documents"][0];
@@ -95,33 +94,6 @@ isMaintenance() async {
   } catch (_) {
     return false;
   }
-}
-
-//get documents from the db or from the cache
-
-Future<Map> listDocuments(
-    {@required String collection,
-    @required String name,
-    List filters,
-    String orderField}) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  Map response;
-  if (await internetConnection()) {
-    Future result = database.listDocuments(
-      filters: filters ?? [],
-      collectionId: collection,
-    );
-
-    await result.then((r) async {
-      response = jsonDecode(r.toString());
-
-      await prefs.setString(name, jsonEncode(response));
-    }).catchError((error) {});
-  } else {
-    response = jsonDecode(prefs.getString(name));
-  }
-
-  return response;
 }
 
 //re authenticates the user
@@ -387,15 +359,16 @@ completeOfflineTasks(context) {
     try {
       for (var item in tasks) {
         if (item["type"] == "update") {
-          database.updateDocument(
+          api.updateDocument(context,
               collectionId: item["collection"],
               documentId: item["documentId"],
               data: item["data"]);
         } else if (item["type"] == "create") {
-          database.createDocument(
+          api.createDocument(context,
               collectionId: item["collection"], data: item["data"]);
         } else if (item["type"] == "delete") {
-          database.deleteDocument(
+          api.deleteDocument(
+            context,
             collectionId: item["collection"],
             documentId: item["documentId"],
           );
