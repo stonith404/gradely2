@@ -148,7 +148,11 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                           style: TextStyle(color: Colors.red),
                                         ),
                                         onPressed: () {
-                                          ;
+                                          if (user.choosenSemester ==
+                                              semesterList[index].id) {
+                                            saveChoosenSemester(
+                                                "noSemesterChoosed");
+                                          }
                                           api.deleteDocument(context,
                                               collectionId: collectionSemester,
                                               documentId:
