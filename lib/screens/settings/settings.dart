@@ -168,8 +168,7 @@ Future settingsScreen(BuildContext context) {
                                   Text("support".tr()),
                                 ],
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, "settings/gradelyPlus");
+                                  Navigator.pushNamed(context, "settings/tip");
                                 },
                               ),
                               settingsListTile(
@@ -183,28 +182,6 @@ Future settingsScreen(BuildContext context) {
                                   ],
                                   onTap: () => launchURL(
                                       "https://gradelyapp.com#download")),
-                              settingsListTile(
-                                  context: context,
-                                  items: [
-                                    Icon(FontAwesome5Solid.star,
-                                        size: 15, color: primaryColor),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("rate_app".tr()),
-                                  ],
-                                  onTap: () => launchURL((() {
-                                        if (Platform.isIOS ||
-                                            Platform.isMacOS) {
-                                          return "https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974";
-                                        } else if (Platform.isAndroid) {
-                                          return "https://play.google.com/store/apps/details?id=com.eliasschneider.gradely2";
-                                        } else if (Platform.isWindows) {
-                                          return "https://www.microsoft.com/store/apps/9MW4FPN80D7D";
-                                        } else {
-                                          return "https://gradelyapp.com";
-                                        }
-                                      }()))),
                               settingsListTile(
                                 context: context,
                                 items: [

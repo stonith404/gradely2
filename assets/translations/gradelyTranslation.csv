@@ -62,9 +62,10 @@ dream_grade_calulator,Dream grade calulator,Wunschnoten rechner
 dream_grade_result_text,Your grade for the next exam should be:,Deine Note für den nächsten test:
 dream _grade_weight,Dream grade weight,Wunschnoten Gewichtung
 date,date,Datum
-tip,Tip,Spende
-tip_description,"I invested a lot of time and money in this app. Of course I want that this app is free, but servers aren't free... With a tip you can help to improve this app and pay the servers 🖤","Ich habe viele Stunden und Geld in diese App investiert, leider sind Server nicht gratis... Ich möchte das diese App gratis ist. Mit einer Spende kannst du mithelfen, dass ich die App immer weiterentwickeln und die Server bezahlen kann 🖤"
-support,Support,Unterstützung
+tip,Tip,Trinkgeld
+tip_description,"I invested a lot of time in this app. Of course I want that this app is free, but servers aren't free. With your support you can help to improve this app and pay the servers 🖤.","Ich habe viel Zeit in diese App investiert, Server sind aber nicht gratis. Ich möchte das diese App gratis ist. Mit deiner Unterstützung kannst du mithelfen, dass ich die App immer weiterentwickeln und die Server bezahlen kann 🖤."
+support,Support app,App unterstützen
+tip_only_mobile,Tips are only available on mobile.,Trinkgeld ist nur auf mobile verfügbar.
 loading,loading,Lädt...
 email,Email,Email
 action_required,Action required,Handlung erforderlich

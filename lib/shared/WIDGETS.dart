@@ -327,10 +327,7 @@ gradelyPlusDialog(context) {
         CupertinoButton(
             onPressed: () {
               Navigator.of(context).pop();
-              Navigator.pushNamed(
-                context,
-                "settings/gradelyPlus"
-              );
+              Navigator.pushNamed(context, "settings/tip");
             },
             child: Text(
               "learn_more".tr(),

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'package:gradely2/main.dart';
-import 'package:gradely2/screens/settings/heartAnimation.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -11,12 +10,12 @@ import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:gradely2/shared/loading.dart';
 
-class GradelyPlusScreen extends StatefulWidget {
+class TipScreen extends StatefulWidget {
   @override
-  _GradelyPlusScreenState createState() => _GradelyPlusScreenState();
+  _TipScreenState createState() => _TipScreenState();
 }
 
-class _GradelyPlusScreenState extends State<GradelyPlusScreen> {
+class _TipScreenState extends State<TipScreen> {
   StreamSubscription purchaseUpdatedSubscription;
   StreamSubscription purchaseErrorSubscription;
   StreamSubscription _conectionSubscription;
@@ -136,7 +135,10 @@ class _GradelyPlusScreenState extends State<GradelyPlusScreen> {
                   padding: const EdgeInsets.all(24.0),
                   child: Column(children: [
                     SizedBox(height: 10),
-                    Text("tip_description".tr()),
+                    Text(
+                      "tip_description".tr(),
+                      textAlign: TextAlign.center,
+                    ),
                     SizedBox(
                       height: 30,
                     ),
@@ -172,7 +174,7 @@ class _GradelyPlusScreenState extends State<GradelyPlusScreen> {
                               ],
                             )
                           ])
-                        : Text("gradely_plus_mobile_only".tr(),
+                        : Text("tip_only_mobile".tr(),
                             style: TextStyle(fontStyle: FontStyle.italic)),
                     SizedBox(
                       height: 40,
@@ -181,17 +183,22 @@ class _GradelyPlusScreenState extends State<GradelyPlusScreen> {
                       "contribute".tr(),
                       style: TextStyle(fontWeight: FontWeight.w800),
                     ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Text(
                       "Gradely 2's Code is opensource, if you want you can help to improve Gradely 2 with your skills",
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     gradelyButton(
                         onPressed: () =>
                             Navigator.pushNamed(context, "settings/contribute"),
-                        text: "contribute".tr()),
+                        text: "contribute".tr(),
+                        color: frontColor(),
+                        textColor: primaryColor),
                     SizedBox(
                       height: 40,
                     ),
@@ -204,21 +211,17 @@ class _GradelyPlusScreenState extends State<GradelyPlusScreen> {
                       height: 10,
                     ),
                     gradelyButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) =>
-                                  HeartScreen(),
-                              transitionDuration: Duration.zero,
-                            ),
-                          ).then((value) => Future.delayed(
-                              Duration(seconds: 1),
-                              () => gradelyDialog(
-                                  context: context,
-                                  title: "title",
-                                  text: "text")));
-                        },
+                        onPressed: () => launchURL((() {
+                              if (Platform.isIOS || Platform.isMacOS) {
+                                return "https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974";
+                              } else if (Platform.isAndroid) {
+                                return "https://play.google.com/store/apps/details?id=com.eliasschneider.gradely2";
+                              } else if (Platform.isWindows) {
+                                return "https://www.microsoft.com/store/apps/9MW4FPN80D7D";
+                              } else {
+                                return "https://gradelyapp.com";
+                              }
+                            }())),
                         text: "❤️",
                         color: frontColor())
                   ])),
