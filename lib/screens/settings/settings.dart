@@ -1,4 +1,3 @@
-import 'package:universal_io/io.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -151,7 +150,7 @@ Future settingsScreen(BuildContext context) {
                         decoration: boxDec(),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 40,
                       ),
                       Container(
                           decoration: boxDec(),

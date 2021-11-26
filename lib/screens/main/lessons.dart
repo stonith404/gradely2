@@ -55,20 +55,26 @@ class _LessonsScreenState extends State<LessonsScreen> {
     lessonList.sort((a, b) => b.average.compareTo(a.average));
 
     setState(() => isLoading = false);
-    //getSemesteraverage
-    double _sum = 0;
-    double _ppSum = 0;
-    double _count = 0;
-    for (var e in lessonList) {
-      if (e.average != -99) {
-        _sum += e.average;
-        _ppSum += getPluspoints(e.average);
-        _count = _count + 1;
 
-        setState(() {
-          _averageOfSemesterPP = _ppSum;
-          _averageOfSemester = _sum / _count;
-        });
+    //get the semester average
+    if (lessonList.length == 0) {
+      _averageOfSemesterPP = -99;
+      _averageOfSemester = -99;
+    } else {
+      double _sum = 0;
+      double _ppSum = 0;
+      double _count = 0;
+      for (var e in lessonList) {
+        if (e.average != -99) {
+          _sum += e.average;
+          _ppSum += getPluspoints(e.average);
+          _count = _count + 1;
+
+          setState(() {
+            _averageOfSemesterPP = _ppSum;
+            _averageOfSemester = _sum / _count;
+          });
+        }
       }
     }
   }
@@ -93,7 +99,6 @@ class _LessonsScreenState extends State<LessonsScreen> {
   Widget build(BuildContext context) {
     screenwidth = MediaQuery.of(context).size.width;
     darkModeColorChanger(context);
-
     if (user.choosenSemester == "noSemesterChoosed") {
       return SemesterScreen();
     } else if (!user.emailVerification) {
@@ -176,10 +181,12 @@ class _LessonsScreenState extends State<LessonsScreen> {
                                             width: 5,
                                           ),
                                           Text(
-                                              _averageOfSemester.isNaN
+                                              _averageOfSemester.isNaN ||
+                                                      _averageOfSemester == -99
                                                   ? "-"
-                                                  : _averageOfSemester
-                                                      .toStringAsFixed(2),
+                                                  : roundGrade(
+                                                      _averageOfSemester,
+                                                      selectedSemester.round),
                                               style: TextStyle(
                                                 fontSize: 20,
                                                 color: frontColor(),
@@ -610,7 +617,6 @@ class _LessonsScreenState extends State<LessonsScreen> {
                 text: "rename".tr(),
                 onPressed: () async {
                   isLoadingController.add(true);
-                  ;
                   await api.updateDocument(context,
                       collectionId: collectionLessons,
                       documentId: selectedLesson,
@@ -618,7 +624,6 @@ class _LessonsScreenState extends State<LessonsScreen> {
                         "name": renameTestWeightController.text,
                         "emoji": _selectedEmoji
                       });
-
                   await getLessons(false);
                   Navigator.of(context).pop();
 

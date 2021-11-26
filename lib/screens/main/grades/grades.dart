@@ -177,8 +177,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                               FontAwesome5.trash_alt,
                                               color: frontColor(),
                                             ),
-                                            onTap: () async {
-                                              ;
+                                            onTap: () async {                                              
                                               selectedTest = gradeList[index];
                                               api.deleteDocument(context,
                                                   collectionId:
@@ -417,7 +416,6 @@ class _GradesScreenState extends State<GradesScreen> {
             gradelyIconButton(
                 onPressed: () async {
                   isLoadingController.add(true);
-                  ;
                   try {
                     await api.updateDocument(context,
                         collectionId: collectionGrades,

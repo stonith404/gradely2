@@ -15,7 +15,6 @@ import 'package:gradely2/screens/settings/contact.dart';
 import 'package:gradely2/screens/settings/contribute.dart';
 import 'package:gradely2/screens/settings/tip.dart';
 import 'package:gradely2/screens/settings/userInfo.dart';
-import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';

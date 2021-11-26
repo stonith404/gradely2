@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
-import 'package:gradely2/main.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -170,7 +169,7 @@ class _TipScreenState extends State<TipScreen> {
                       height: 10,
                     ),
                     Text(
-                      "Gradely 2's Code is opensource, if you want you can help to improve Gradely 2 with your skills",
+                      "tip_contribute".tr(),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(
@@ -179,7 +178,7 @@ class _TipScreenState extends State<TipScreen> {
                     gradelyButton(
                         onPressed: () =>
                             Navigator.pushNamed(context, "settings/contribute"),
-                        text: "contribute".tr(),
+                        text: "🖤",
                         color: frontColor(),
                         textColor: primaryColor),
                     SizedBox(
