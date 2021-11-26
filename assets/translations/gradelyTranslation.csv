@@ -92,12 +92,9 @@ stats_description,This shows your grades along the date time period.,Diese Stati
 your_name,Your name,Dein Name
 benefits,Benefits,Vorteile
 your_benefits,Your benefits,Deine Vorteile
-gradely_plus_add_tip,Do you want to spend me one more drink?,Willst du mir noch ein Drink ausgeben?
 thank_you,Thank you!,Danke!
-gradely_plus_active_thanks,Thank you soo much for supporting Gradely 2 🖤. Enjoy it!,Danke viel mals das du Gradely 2 unterstützt 🖤. Geniess es!
-gradely_plus_active_title,Wohoo you're a Gradely Plus Member 🎉,Wohoo du bist ein Gradely Plus Mitglied 🎉
+tip_success_text,Thank you soo much for supporting Gradely 2 🖤.,Danke viel mals das du Gradely 2 unterstützt 🖤.
 description,Description,Beschreibung
-gradely_plus_explain_products,No matter what you buy you get the exact same features:,"Egal was du kaufst, du erhälst genau die gleichen Features."
 beer,Beer,Bier
 success,Success,Erfolgreich
 email_updated,Your email was updated,Deine Email wurde aktualisiert
@@ -137,11 +134,11 @@ i_verified_email,I verified my email,Ich habe meine Email bestätigt
 send_again,Send again,Erneut senden
 success_semester_added,Your semester was added,Dein Semester wurde hinzugefügt
 success_email_sent,An email was sent successfully.,Eine Email wurde erfolgreich gesendet.
-gradely_plus_required,"To use this feature you have to be a Gradely Plus member, it's really cheap but supports this app really much.","Um diese Funktion zu nutzen, brauchst du Gradely Plus. Es ist nicht so teuer aber unterstützt die App sehr."
 learn_more,Learn more,Mehr erfahren
 error_server_down,"The Gradely 2 server is down, try again in a few minutes","Der Gradely 2 Server ist im Moment offline, versuche es in ein paar Minuten erneut."
 server_down,Server offline,Server offline
 rate_app,Rate app,App bewerten
+rate_app_description,Rating Gradely 2 helps very much.,Gradely 2 bewerten hilft sehr viel.
 maintenance_hurry,"If you're in hurry open the app without a network connection.","Falls du nicht warten kannst, öffne die App ohne Internetverbindung."
 maintenance_description,"We're improving your Gradely 2 experience. Try again in a few minutes.","Wir verbessern gerade Gradely 2. Bitte versuche es in ein paar Minuten erneut."
 maintenance,Maintenance,Wartung

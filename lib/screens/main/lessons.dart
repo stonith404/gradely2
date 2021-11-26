@@ -416,53 +416,49 @@ class _LessonsScreenState extends State<LessonsScreen> {
                   });
                 },
                 onTap: () {
-                  if (user.gradelyPlus) {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext subcontext) {
-                        return Container(
-                          height: 290,
-                          child: Column(
-                            children: [
-                              SizedBox(height: 20),
-                              EmojiChooser(
-                                columns: ((() {
-                                  if (screenwidth > 1700) {
-                                    return 35;
-                                  } else if (screenwidth > 1100) {
-                                    return 45;
-                                  } else if (screenwidth > 900) {
-                                    return 38;
-                                  } else if (screenwidth > 800) {
-                                    return 30;
-                                  } else if (screenwidth > 700) {
-                                    return 28;
-                                  } else if (screenwidth > 600) {
-                                    return 25;
-                                  } else if (screenwidth > 500) {
-                                    return 15;
-                                  } else if (screenwidth > 400) {
-                                    return 15;
-                                  } else if (screenwidth < 400) {
-                                    return 10;
-                                  }
-                                })()),
-                                onSelected: (_emoji) {
-                                  setState(() {
-                                    _selectedEmoji = _emoji.char;
-                                  });
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext subcontext) {
+                      return Container(
+                        height: 290,
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20),
+                            EmojiChooser(
+                              columns: ((() {
+                                if (screenwidth > 1700) {
+                                  return 35;
+                                } else if (screenwidth > 1100) {
+                                  return 45;
+                                } else if (screenwidth > 900) {
+                                  return 38;
+                                } else if (screenwidth > 800) {
+                                  return 30;
+                                } else if (screenwidth > 700) {
+                                  return 28;
+                                } else if (screenwidth > 600) {
+                                  return 25;
+                                } else if (screenwidth > 500) {
+                                  return 15;
+                                } else if (screenwidth > 400) {
+                                  return 15;
+                                } else if (screenwidth < 400) {
+                                  return 10;
+                                }
+                              })()),
+                              onSelected: (_emoji) {
+                                setState(() {
+                                  _selectedEmoji = _emoji.char;
+                                });
 
-                                  Navigator.of(subcontext).pop(_emoji);
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    gradelyPlusDialog(context);
-                  }
+                                Navigator.of(subcontext).pop(_emoji);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
                 child: ((() {
                   if (_selectedEmoji == "") {
@@ -543,53 +539,49 @@ class _LessonsScreenState extends State<LessonsScreen> {
                   });
                 },
                 onTap: () {
-                  if (user.gradelyPlus) {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext subcontext) {
-                        return Container(
-                          height: 290,
-                          child: Column(
-                            children: [
-                              SizedBox(height: 20),
-                              EmojiChooser(
-                                columns: ((() {
-                                  if (screenwidth > 1700) {
-                                    return 35;
-                                  } else if (screenwidth > 1100) {
-                                    return 45;
-                                  } else if (screenwidth > 900) {
-                                    return 38;
-                                  } else if (screenwidth > 800) {
-                                    return 30;
-                                  } else if (screenwidth > 700) {
-                                    return 28;
-                                  } else if (screenwidth > 600) {
-                                    return 25;
-                                  } else if (screenwidth > 500) {
-                                    return 15;
-                                  } else if (screenwidth > 400) {
-                                    return 15;
-                                  } else if (screenwidth < 400) {
-                                    return 10;
-                                  }
-                                })()),
-                                onSelected: (_emoji) {
-                                  setState(() {
-                                    _selectedEmoji = _emoji.char;
-                                  });
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext subcontext) {
+                      return Container(
+                        height: 290,
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20),
+                            EmojiChooser(
+                              columns: ((() {
+                                if (screenwidth > 1700) {
+                                  return 35;
+                                } else if (screenwidth > 1100) {
+                                  return 45;
+                                } else if (screenwidth > 900) {
+                                  return 38;
+                                } else if (screenwidth > 800) {
+                                  return 30;
+                                } else if (screenwidth > 700) {
+                                  return 28;
+                                } else if (screenwidth > 600) {
+                                  return 25;
+                                } else if (screenwidth > 500) {
+                                  return 15;
+                                } else if (screenwidth > 400) {
+                                  return 15;
+                                } else if (screenwidth < 400) {
+                                  return 10;
+                                }
+                              })()),
+                              onSelected: (_emoji) {
+                                setState(() {
+                                  _selectedEmoji = _emoji.char;
+                                });
 
-                                  Navigator.of(subcontext).pop(_emoji);
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    gradelyPlusDialog(context);
-                  }
+                                Navigator.of(subcontext).pop(_emoji);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
                 child: ((() {
                   if (_selectedEmoji == "") {

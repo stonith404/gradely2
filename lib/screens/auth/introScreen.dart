@@ -256,7 +256,6 @@ class _Intro4State extends State<_Intro4> {
 
       await api.createDocument(context, collectionId: collectionUser, data: {
         "uid": response["\$id"],
-        "gradelyPlus": false,
         "gradeType": "av",
         "choosenSemester": "noSemesterChoosed"
       });

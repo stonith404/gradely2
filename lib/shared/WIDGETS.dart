@@ -309,29 +309,3 @@ Widget gradelyModalSheetHeader(BuildContext context,
     ],
   );
 }
-
-gradelyPlusDialog(context) {
-  gradelyDialog(
-      context: context,
-      title: "Gradely Plus",
-      text: "gradely_plus_required".tr() + "❤️",
-      actions: [
-        CupertinoButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              "Ok",
-              style: TextStyle(color: primaryColor),
-            )),
-        CupertinoButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.pushNamed(context, "settings/tip");
-            },
-            child: Text(
-              "learn_more".tr(),
-              style: TextStyle(color: primaryColor),
-            )),
-      ]);
-}

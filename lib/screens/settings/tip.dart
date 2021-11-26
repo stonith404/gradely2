@@ -49,27 +49,10 @@ class _TipScreenState extends State<TipScreen> {
     FlutterInappPurchase.instance.consumePurchaseAndroid(token);
     isLoadingController.add(false);
 
-    api.updateDocument(context,
-        collectionId: collectionUser,
-        documentId: user.dbID,
-        data: {'gradelyPlus': true});
-
-    if (user.gradelyPlus) {
-      gradelyDialog(
-          context: context,
-          title: "thank_you".tr(),
-          text: "gradely_plus_active_thanks".tr());
-    } else {
-      Navigator.push(
-        context,
-        GradelyPageRoute(builder: (context) => HomeWrapper()),
-      );
-
-      gradelyDialog(
-          context: context,
-          title: "🎉 Wohooo",
-          text: "gradely_pluss_success_text".tr());
-    }
+    gradelyDialog(
+        context: context,
+        title: "thank_you".tr(),
+        text: "tip_success_text".tr());
   }
 
   @override
@@ -203,12 +186,15 @@ class _TipScreenState extends State<TipScreen> {
                       height: 40,
                     ),
                     Text(
-                      "Send Heart".tr(),
+                      "rate_app".tr(),
                       style: TextStyle(fontWeight: FontWeight.w800),
                     ),
-                    Text("You can also send me a free heart".tr()),
                     SizedBox(
                       height: 10,
+                    ),
+                    Text("rate_app_description".tr()),
+                    SizedBox(
+                      height: 20,
                     ),
                     gradelyButton(
                         onPressed: () => launchURL((() {
@@ -222,7 +208,7 @@ class _TipScreenState extends State<TipScreen> {
                                 return "https://gradelyapp.com";
                               }
                             }())),
-                        text: "❤️",
+                        text: "⭐️",
                         color: frontColor())
                   ])),
             ),

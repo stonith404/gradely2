@@ -50,12 +50,10 @@ Future getUserInfo() async {
         accountResponse['passwordUpdate'],
         accountResponse['email'],
         accountResponse['emailVerification'],
-        dbResponse["gradelyPlus"],
         dbResponse["gradeType"],
         dbResponse["choosenSemester"],
         dbResponse["\$id"],
-        Color(int.parse(dbResponse["color"].substring(1, 7), radix: 16) +
-            0xFF000000));
+      );
   }
 
   return "done";
