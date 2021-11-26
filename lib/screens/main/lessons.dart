@@ -23,7 +23,7 @@ String selectedLessonName;
 String _selectedEmoji = "";
 double _averageOfSemester = 0 / -0;
 double _averageOfSemesterPP = 0 / -0;
-String choosenSemesterName = "-";
+Semester selectedSemester;
 
 class LessonsScreen extends StatefulWidget {
   @override
@@ -39,8 +39,9 @@ class _LessonsScreenState extends State<LessonsScreen> {
         name: "semesterName",
         filters: ["\$id=${user.choosenSemester}"]);
     setState(() {
-      choosenSemesterName =
-          semesterResponse["documents"][0]["name"] ?? "noSemesterChoosed";
+      selectedSemester = semesterResponse["documents"]
+          .map((r) => Semester(r["\$id"], r["name"], r["round"]))
+          .toList()[0];
     });
 
     lessonList = (await api.listDocuments(
@@ -154,7 +155,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    choosenSemesterName,
+                                    selectedSemester.name,
                                     style: TextStyle(
                                         fontFamily: "PlayfairDisplay",
                                         fontWeight: FontWeight.w900,
@@ -302,7 +303,6 @@ class _LessonsScreenState extends State<LessonsScreen> {
                                                   TextStyle(color: Colors.red),
                                             ),
                                             onPressed: () async {
-                                              ;
                                               api.deleteDocument(context,
                                                   collectionId:
                                                       collectionLessons,
@@ -358,9 +358,9 @@ class _LessonsScreenState extends State<LessonsScreen> {
                                                     lessonList[index].average)
                                                 .toString();
                                           } else {
-                                            return lessonList[index]
-                                                .average
-                                                .toStringAsFixed(2);
+                                            return roundGrade(
+                                                lessonList[index].average,
+                                                selectedSemester.round);
                                           }
                                         })(),
                                       ),

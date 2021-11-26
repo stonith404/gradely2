@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gradely2/shared/VARIABLES.dart';
 
 class Lesson {
   String id;
   String name;
-
   double average;
   String emoji;
 
@@ -14,8 +12,9 @@ class Lesson {
 class Semester {
   String id;
   String name;
+  double round;
 
-  Semester(this.id, this.name);
+  Semester(this.id, this.name, this.round);
 }
 
 class Grade {

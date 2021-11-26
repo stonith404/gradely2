@@ -81,7 +81,8 @@ done,Done,Fertig
 create,Create,Erstellen
 account,Account,Account
 no_emoji_choosed,Add emoji,Emoji hinzuzufügen
-rename_semester,Rename semester,Semester unbennen
+edit_semester,Edit semester,Semester bearbeiten
+edit_semester_round,Round subjects to:, Fachnoten runden auf: 
 empty_lesson_p1,It's really empty here.,Es ist sehr leer hier
 empty_lesson_p2,Click the,Klicke auf
 empty_lesson_p3,to add your first grade.,um eine Note hinzuzufügen.

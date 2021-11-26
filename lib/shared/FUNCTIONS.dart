@@ -407,3 +407,15 @@ getUserAgent() {
 
   return "Mozilla/5.0 ($platform, Firefox)";
 }
+
+String roundGrade(double value, double x) {
+  if (x == 0.1) {
+    return value.toStringAsFixed(1);
+  } else if (x == 1) {
+    return value.roundToDouble().toString();
+  } else if (x == 0.5) {
+    return ((value * 2).round() / 2).toString();
+  } else {
+    return value.toStringAsFixed(2);
+  }
+}
