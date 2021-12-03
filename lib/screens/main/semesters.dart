@@ -9,6 +9,7 @@ import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:gradely2/shared/loading.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:native_context_menu/native_context_menu.dart';
 
 bool isChecked = false;
 String choosenSemester;
@@ -38,6 +39,46 @@ class _SemesterScreenState extends State<SemesterScreen> {
         collectionId: collectionUser,
         documentId: user.dbID,
         data: {"choosenSemester": _choosenSemester});
+  }
+
+  deleteSemester(index) {
+    return gradelyDialog(
+      context: context,
+      title: "warning".tr(),
+      text:
+          '${"delete_confirmation_p1".tr()} "${semesterList[index].name}" ${"delete_confirmation_p2".tr()}',
+      actions: <Widget>[
+        CupertinoButton(
+          child: Text(
+            "no".tr(),
+            style: TextStyle(color: wbColor),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        CupertinoButton(
+          child: Text(
+            "delete".tr(),
+            style: TextStyle(color: Colors.red),
+          ),
+          onPressed: () {
+            if (user.choosenSemester == semesterList[index].id) {
+              saveChoosenSemester("noSemesterChoosed");
+            }
+            api.deleteDocument(context,
+                collectionId: collectionSemester,
+                documentId: semesterList[index].id);
+
+            setState(() {
+              semesterList
+                  .removeWhere((item) => item.id == semesterList[index].id);
+            });
+            Navigator.of(context).pop();
+          },
+        )
+      ],
+    );
   }
 
   @override
@@ -117,55 +158,12 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                 bottomRight: Radius.circular(10),
                               ),
                               child: IconSlideAction(
-                                color: primaryColor,
-                                iconWidget: Icon(
-                                  FontAwesome5.trash_alt,
-                                  color: frontColor(),
-                                ),
-                                onTap: () {
-                                  return gradelyDialog(
-                                    context: context,
-                                    title: "warning".tr(),
-                                    text:
-                                        '${"delete_confirmation_p1".tr()} "${semesterList[index].name}" ${"delete_confirmation_p2".tr()}',
-                                    actions: <Widget>[
-                                      CupertinoButton(
-                                        child: Text(
-                                          "no".tr(),
-                                          style: TextStyle(color: wbColor),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      CupertinoButton(
-                                        child: Text(
-                                          "delete".tr(),
-                                          style: TextStyle(color: Colors.red),
-                                        ),
-                                        onPressed: () {
-                                          if (user.choosenSemester ==
-                                              semesterList[index].id) {
-                                            saveChoosenSemester(
-                                                "noSemesterChoosed");
-                                          }
-                                          api.deleteDocument(context,
-                                              collectionId: collectionSemester,
-                                              documentId:
-                                                  semesterList[index].id);
-
-                                          setState(() {
-                                            semesterList.removeWhere((item) =>
-                                                item.id ==
-                                                semesterList[index].id);
-                                          });
-                                          Navigator.of(context).pop();
-                                        },
-                                      )
-                                    ],
-                                  );
-                                },
-                              ),
+                                  color: primaryColor,
+                                  iconWidget: Icon(
+                                    FontAwesome5.trash_alt,
+                                    color: frontColor(),
+                                  ),
+                                  onTap: () => deleteSemester(index)),
                             ),
                           ],
                           child: Container(
@@ -173,24 +171,45 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                 index: index, list: semesterList),
                             child: Column(
                               children: [
-                                ListTile(
-                                  title: Text(
-                                    semesterList[index].name,
+                                ContextMenuRegion(
+                                  onItemSelected: (item) => {item.onSelected()},
+                                  menuItems: [
+                                    MenuItem(
+                                      onSelected: () => deleteSemester(index),
+                                      title: 'delete'.tr(),
+                                    ),
+                                    MenuItem(
+                                        onSelected: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    updateSemester()),
+                                          );
+                                          _selectedSemester =
+                                              semesterList[index];
+                                        },
+                                        title: 'rename'.tr()),
+                                  ],
+                                  child: ListTile(
+                                    title: Text(
+                                      semesterList[index].name,
+                                    ),
+                                    trailing: IconButton(
+                                        color: primaryColor,
+                                        icon: Icon(Icons.arrow_forward),
+                                        onPressed: () async {
+                                          await saveChoosenSemester(
+                                              semesterList[index].id);
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            GradelyPageRoute(
+                                                builder: (context) =>
+                                                    HomeWrapper()),
+                                            (Route<dynamic> route) => false,
+                                          );
+                                        }),
                                   ),
-                                  trailing: IconButton(
-                                      color: primaryColor,
-                                      icon: Icon(Icons.arrow_forward),
-                                      onPressed: () async {
-                                        await saveChoosenSemester(
-                                            semesterList[index].id);
-                                        Navigator.pushAndRemoveUntil(
-                                          context,
-                                          GradelyPageRoute(
-                                              builder: (context) =>
-                                                  HomeWrapper()),
-                                          (Route<dynamic> route) => false,
-                                        );
-                                      }),
                                 ),
                               ],
                             ),

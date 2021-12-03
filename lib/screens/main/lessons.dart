@@ -17,7 +17,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:emoji_chooser/emoji_chooser.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:native_context_menu/native_context_menu.dart';
 
+var action;
 String selectedLesson = "";
 String selectedLessonName;
 String _selectedEmoji = "";
@@ -77,6 +79,42 @@ class _LessonsScreenState extends State<LessonsScreen> {
         }
       }
     }
+  }
+
+  deleteLesson(index) {
+    gradelyDialog(
+      context: context,
+      title: "warning".tr(),
+      text:
+          '${"delete_confirmation_p1".tr()} "${lessonList[index].name}" ${"delete_confirmation_p2".tr()}',
+      actions: <Widget>[
+        CupertinoButton(
+          child: Text(
+            "no".tr(),
+            style: TextStyle(color: wbColor),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        CupertinoButton(
+          child: Text(
+            "delete".tr(),
+            style: TextStyle(color: Colors.red),
+          ),
+          onPressed: () async {
+            api.deleteDocument(context,
+                collectionId: collectionLessons,
+                documentId: lessonList[index].id);
+            setState(() {
+              lessonList.removeWhere((item) => item.id == lessonList[index].id);
+            });
+            getLessons(false);
+            Navigator.of(context).pop();
+          },
+        )
+      ],
+    );
   }
 
   @override
@@ -282,52 +320,12 @@ class _LessonsScreenState extends State<LessonsScreen> {
                                     bottomRight: Radius.circular(10),
                                   ),
                                   child: IconSlideAction(
-                                    color: primaryColor,
-                                    iconWidget: Icon(
-                                      FontAwesome5.trash_alt,
-                                      color: frontColor(),
-                                    ),
-                                    onTap: () {
-                                      gradelyDialog(
-                                        context: context,
-                                        title: "warning".tr(),
-                                        text:
-                                            '${"delete_confirmation_p1".tr()} "${lessonList[index].name}" ${"delete_confirmation_p2".tr()}',
-                                        actions: <Widget>[
-                                          CupertinoButton(
-                                            child: Text(
-                                              "no".tr(),
-                                              style: TextStyle(color: wbColor),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          CupertinoButton(
-                                            child: Text(
-                                              "delete".tr(),
-                                              style:
-                                                  TextStyle(color: Colors.red),
-                                            ),
-                                            onPressed: () async {
-                                              api.deleteDocument(context,
-                                                  collectionId:
-                                                      collectionLessons,
-                                                  documentId:
-                                                      lessonList[index].id);
-                                              setState(() {
-                                                lessonList.removeWhere((item) =>
-                                                    item.id ==
-                                                    lessonList[index].id);
-                                              });
-                                              getLessons(false);
-                                              Navigator.of(context).pop();
-                                            },
-                                          )
-                                        ],
-                                      );
-                                    },
-                                  ),
+                                      color: primaryColor,
+                                      iconWidget: Icon(
+                                        FontAwesome5.trash_alt,
+                                        color: frontColor(),
+                                      ),
+                                      onTap: () => deleteLesson(index)),
                                 ),
                               ],
                               child: Container(
@@ -335,52 +333,70 @@ class _LessonsScreenState extends State<LessonsScreen> {
                                     index: index, list: lessonList),
                                 child: Column(
                                   children: [
-                                    ListTile(
-                                      title: Row(
-                                        children: [
-                                          Text(lessonList[index].emoji + "  ",
-                                              style: TextStyle(
-                                                shadows: [
-                                                  Shadow(
-                                                    blurRadius: 5.0,
-                                                    color: darkmode
-                                                        ? Colors.grey[900]
-                                                        : Colors.grey[350],
-                                                    offset: Offset(2.0, 2.0),
-                                                  ),
-                                                ],
-                                              )),
-                                          Text(
-                                            lessonList[index].name,
-                                          ),
-                                        ],
-                                      ),
-                                      trailing: Text(
-                                        (() {
-                                          if (lessonList[index].average ==
-                                              -99) {
-                                            return "-";
-                                          } else if (user.gradeType == "pp") {
-                                            return getPluspoints(
-                                                    lessonList[index].average)
-                                                .toString();
-                                          } else {
-                                            return roundGrade(
-                                                lessonList[index].average,
-                                                selectedSemester.round);
-                                          }
-                                        })(),
-                                      ),
-                                      onTap: () {
-                                        Navigator.pushNamed(context, "grades")
-                                            .then((value) {
-                                          getLessons(false);
-                                        });
+                                    ContextMenuRegion(
+                                      onItemSelected: (item) =>
+                                          {item.onSelected()},
+                                      menuItems: [
+                                        MenuItem(
+                                          onSelected: () => deleteLesson(index),
+                                          title: 'delete'.tr(),
+                                        ),
+                                        MenuItem(
+                                            onSelected: () => Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          updateLesson()),
+                                                ),
+                                            title: 'rename'.tr()),
+                                      ],
+                                      child: ListTile(
+                                        title: Row(
+                                          children: [
+                                            Text(lessonList[index].emoji + "  ",
+                                                style: TextStyle(
+                                                  shadows: [
+                                                    Shadow(
+                                                      blurRadius: 5.0,
+                                                      color: darkmode
+                                                          ? Colors.grey[900]
+                                                          : Colors.grey[350],
+                                                      offset: Offset(2.0, 2.0),
+                                                    ),
+                                                  ],
+                                                )),
+                                            Text(
+                                              lessonList[index].name,
+                                            ),
+                                          ],
+                                        ),
+                                        trailing: Text(
+                                          (() {
+                                            if (lessonList[index].average ==
+                                                -99) {
+                                              return "-";
+                                            } else if (user.gradeType == "pp") {
+                                              return getPluspoints(
+                                                      lessonList[index].average)
+                                                  .toString();
+                                            } else {
+                                              return roundGrade(
+                                                  lessonList[index].average,
+                                                  selectedSemester.round);
+                                            }
+                                          })(),
+                                        ),
+                                        onTap: () {
+                                          Navigator.pushNamed(context, "grades")
+                                              .then((value) {
+                                            getLessons(false);
+                                          });
 
-                                        selectedLesson = lessonList[index].id;
-                                        selectedLessonName =
-                                            lessonList[index].name;
-                                      },
+                                          selectedLesson = lessonList[index].id;
+                                          selectedLessonName =
+                                              lessonList[index].name;
+                                        },
+                                      ),
                                     ),
                                     listDivider(),
                                   ],

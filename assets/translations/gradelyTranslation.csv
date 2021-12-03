@@ -12,7 +12,7 @@ exam_name,exam name,Test Name
 delete,Delete,löschen
 no,No,Nein
 back,Back,zurück
-rename,Edit,bearbeiten
+rename,Edit,Bearbeiten
 add_semester,Add semester,Semester hinzufügen
 add_lesson,Add a subject,Fach hinzufügen
 lesson_name,Subject name,Fach Name
@@ -96,7 +96,7 @@ thank_you,Thank you!,Danke!
 tip_contribute,"Gradely 2's code is open source, you can help to improve Gradely 2 with your skills.","Gradely 2's Code ist Open Source, du kannst mit deinen Skills helfen Gradely 2 zu verbessern."
 tip_success_text,Thank you soo much for supporting Gradely 2 🖤.,Danke viel mals das du Gradely 2 unterstützt 🖤.
 description,Description,Beschreibung
-beer,Beer,Bier
+rate,Rate,Bewerten
 success,Success,Erfolgreich
 email_updated,Your email was updated,Deine Email wurde aktualisiert
 name_updated,Your name was updated,Dein Name wurde aktualisiert
