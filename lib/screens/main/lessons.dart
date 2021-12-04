@@ -173,7 +173,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
                               icon:
                                   Icon(Icons.switch_left, color: primaryColor),
                               onPressed: () async {
-                                Navigator.pushNamed(context, "semesters");
+                                Navigator.pushNamed(context, "semesters").then((value) => getLessons(false));
                               }),
                         ],
                       ),
