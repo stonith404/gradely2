@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:gradely2/screens/auth/introScreen.dart' as introScreen;
 import 'package:universal_io/io.dart';
 import 'dart:ui';
@@ -124,6 +125,27 @@ class _SubjectScreenState extends State<SubjectScreen> {
     getLessons(true);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       completeOfflineTasks(context);
+      //notify the user that Gradely 2 Web isn't recommended.
+      if (!(prefs.getBool("webNotRecommendedPopUp") ?? false) && kIsWeb) {
+        gradelyDialog(
+            context: context,
+            title: "web_popup_title".tr(),
+            text: "web_popup_description".tr(),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    prefs.setBool("webNotRecommendedPopUp", true);
+                    launchURL("https://gradelyapp.com#download");
+                  },
+                  child: Text("download".tr())),
+              TextButton(
+                  onPressed: () {
+                    prefs.setBool("webNotRecommendedPopUp", true);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Ok".tr()))
+            ]);
+      }
     });
   }
 

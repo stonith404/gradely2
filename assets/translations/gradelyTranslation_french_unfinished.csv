@@ -146,3 +146,6 @@ try_again,Try again,Erneut versuchen
 intro_get_started_description,"Enter your information to create a Gradely 2 account.","Gib deine Informationen ein, um ein Gradely 2 Konto zu erstellen."
 lets_get_started,"Let's get started","Los geht's"
 downloads,Downloads,Downloads
+download,Download,Download
+web_popup_title,Gradely 2 Web App,Gradely 2 Web App
+web_popup_description,"You're using the Gradely 2 Web App. To get the best experience, download the Gradely 2 app.", "Du benutzt die Gradely 2 Web App. Um das beste Erlebnis zu bekommen, lade Gradely 2 herunter."
