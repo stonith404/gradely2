@@ -13,7 +13,7 @@ import 'package:gradely2/screens/main/semesters.dart';
 import 'package:gradely2/screens/settings/appInfo.dart';
 import 'package:gradely2/screens/settings/contact.dart';
 import 'package:gradely2/screens/settings/contribute.dart';
-import 'package:gradely2/screens/settings/tip.dart';
+import 'package:gradely2/screens/settings/support.dart';
 import 'package:gradely2/screens/settings/userInfo.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
@@ -62,7 +62,7 @@ var routes = {
   'semesters': (context) => SemesterScreen(),
   'subjects': (context) => LessonsScreen(),
   'grades': (context) => GradesScreen(),
-  'settings/tip': (context) => TipScreen(),
+  'supportApp': (context) => SupportAppScreen(),
   'settings/userInfo': (context) => UserInfoScreen(),
   'settings/contribute': (context) => ContributeScreen(),
   'settings/appInfo': (context) => AppInfoScreen(),

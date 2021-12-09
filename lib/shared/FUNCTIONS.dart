@@ -392,7 +392,6 @@ GradelyPageRoute({Widget Function(BuildContext) builder}) {
 
 getUserAgent() {
   String platform;
-
   if (Platform.isIOS) {
     platform = "iPhone OS";
   } else if (Platform.isAndroid) {
