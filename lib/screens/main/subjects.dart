@@ -27,12 +27,12 @@ double _averageOfSemester = 0 / -0;
 double _averageOfSemesterPP = 0 / -0;
 Semester selectedSemester;
 
-class LessonsScreen extends StatefulWidget {
+class SubjectScreen extends StatefulWidget {
   @override
-  _LessonsScreenState createState() => _LessonsScreenState();
+  _SubjectScreenState createState() => _SubjectScreenState();
 }
 
-class _LessonsScreenState extends State<LessonsScreen> {
+class _SubjectScreenState extends State<SubjectScreen> {
   getLessons(loading) async {
     if (loading) setState(() => isLoading = true);
 //get choosen semester name
@@ -173,7 +173,8 @@ class _LessonsScreenState extends State<LessonsScreen> {
                               icon:
                                   Icon(Icons.switch_left, color: primaryColor),
                               onPressed: () async {
-                                Navigator.pushNamed(context, "semesters").then((value) => getLessons(false));
+                                Navigator.pushNamed(context, "semesters")
+                                    .then((value) => getLessons(false));
                               }),
                         ],
                       ),

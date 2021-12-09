@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely2/screens/main/semesters.dart';
-import 'package:gradely2/screens/main/lessons.dart';
+import 'package:gradely2/screens/main/subjects.dart';
 import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
@@ -15,6 +15,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:native_context_menu/native_context_menu.dart';
 
 Grade selectedTest;
 String errorMessage = "";
@@ -91,6 +92,17 @@ class _GradesScreenState extends State<GradesScreen> {
     });
     updateAverage();
     if (mounted) setState(() => isLoading = false);
+  }
+
+  deleteGrade(index) {
+    selectedTest = gradeList[index];
+    api.deleteDocument(context,
+        collectionId: collectionGrades, documentId: gradeList[index].id);
+
+    setState(() {
+      gradeList.removeWhere((item) => item.id == gradeList[index].id);
+    });
+    getTests();
   }
 
   void initState() {
@@ -172,76 +184,73 @@ class _GradesScreenState extends State<GradesScreen> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           child: IconSlideAction(
-                                            color: primaryColor,
-                                            iconWidget: Icon(
-                                              FontAwesome5.trash_alt,
-                                              color: frontColor(),
-                                            ),
-                                            onTap: () async {                                              
-                                              selectedTest = gradeList[index];
-                                              api.deleteDocument(context,
-                                                  collectionId:
-                                                      collectionGrades,
-                                                  documentId:
-                                                      gradeList[index].id);
-
-                                              setState(() {
-                                                gradeList.removeWhere((item) =>
-                                                    item.id ==
-                                                    gradeList[index].id);
-                                              });
-                                              getTests();
-                                            },
-                                          ),
+                                              color: primaryColor,
+                                              iconWidget: Icon(
+                                                FontAwesome5.trash_alt,
+                                                color: frontColor(),
+                                              ),
+                                              onTap: () => deleteGrade(index)),
                                         ),
                                       ],
                                       child: Column(
                                         children: [
-                                          ListTile(
-                                              title: Text(
-                                                gradeList[index].name,
+                                          ContextMenuRegion(
+                                            onItemSelected: (item) =>
+                                                {item.onSelected()},
+                                            menuItems: [
+                                              MenuItem(
+                                                onSelected: () =>
+                                                    deleteGrade(index),
+                                                title: 'delete'.tr(),
                                               ),
-                                              subtitle: gradeList.isEmpty
-                                                  ? Text("")
-                                                  : Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons
-                                                              .calculate_outlined,
-                                                          size: 20,
-                                                        ),
-                                                        Text(" " +
-                                                            gradeList[index]
-                                                                .weight
-                                                                .toString() +
-                                                            "   "),
-                                                        Icon(
-                                                          Icons.date_range,
-                                                          size: 20,
-                                                        ),
-                                                        Text((() {
-                                                          if (gradeList[index]
-                                                                  .date ==
-                                                              "") {
-                                                            return "  -";
-                                                          } else {
-                                                            return " " +
-                                                                formatDateForClient(gradeList[
-                                                                            index]
-                                                                        .date
-                                                                        .toString())
-                                                                    .toString();
-                                                          }
-                                                        }())),
-                                                      ],
-                                                    ),
-                                              trailing: Text(gradeList[index]
-                                                  .grade
-                                                  .toStringAsFixed(2)),
-                                              onTap: () async {
-                                                selectedTest = gradeList[index];
-                                                testDetail(context);
-                                              }),
+                                            ],
+                                            child: ListTile(
+                                                title: Text(
+                                                  gradeList[index].name,
+                                                ),
+                                                subtitle: gradeList.isEmpty
+                                                    ? Text("")
+                                                    : Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .calculate_outlined,
+                                                            size: 20,
+                                                          ),
+                                                          Text(" " +
+                                                              gradeList[index]
+                                                                  .weight
+                                                                  .toString() +
+                                                              "   "),
+                                                          Icon(
+                                                            Icons.date_range,
+                                                            size: 20,
+                                                          ),
+                                                          Text((() {
+                                                            if (gradeList[index]
+                                                                    .date ==
+                                                                "") {
+                                                              return "  -";
+                                                            } else {
+                                                              return " " +
+                                                                  formatDateForClient(gradeList[
+                                                                              index]
+                                                                          .date
+                                                                          .toString())
+                                                                      .toString();
+                                                            }
+                                                          }())),
+                                                        ],
+                                                      ),
+                                                trailing: Text(gradeList[index]
+                                                    .grade
+                                                    .toStringAsFixed(2)),
+                                                onTap: () async {
+                                                  selectedTest =
+                                                      gradeList[index];
+                                                  testDetail(context);
+                                                }),
+                                          ),
                                           listDivider()
                                         ],
                                       ),
