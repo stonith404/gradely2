@@ -8,16 +8,18 @@ import 'package:gradely2/screens/auth/introScreen.dart';
 import 'package:gradely2/screens/auth/resetPassword.dart';
 import 'package:gradely2/screens/auth/signIn.dart';
 import 'package:gradely2/screens/main/grades/grades.dart';
-import 'package:gradely2/screens/main/lessons.dart';
+import 'package:gradely2/screens/main/subjects.dart';
 import 'package:gradely2/screens/main/semesters.dart';
 import 'package:gradely2/screens/settings/appInfo.dart';
 import 'package:gradely2/screens/settings/contact.dart';
 import 'package:gradely2/screens/settings/contribute.dart';
-import 'package:gradely2/screens/settings/gradelyPlus.dart';
+import 'package:gradely2/screens/settings/support.dart';
 import 'package:gradely2/screens/settings/userInfo.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gradely2/shared/WIDGETS.dart';
+import 'package:gradely2/shared/api.dart';
 import 'package:gradely2/shared/loading.dart';
 import 'package:gradely2/shared/maintenance.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
@@ -31,7 +33,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await sharedPrefs();
-
+  api = GradelyApi();
   client = appwrite.Client();
   account = appwrite.Account(client);
   database = appwrite.Database(client);
@@ -59,9 +61,9 @@ var routes = {
   'auth/resetPassword': (context) => ResetPasswordScreen(),
   'auth/signIn': (context) => SignInScreen(),
   'semesters': (context) => SemesterScreen(),
-  'subjects': (context) => LessonsScreen(),
+  'subjects': (context) => SubjectScreen(),
   'grades': (context) => GradesScreen(),
-  'settings/gradelyPlus': (context) => GradelyPlusScreen(),
+  'supportApp': (context) => SupportAppScreen(),
   'settings/userInfo': (context) => UserInfoScreen(),
   'settings/contribute': (context) => ContributeScreen(),
   'settings/appInfo': (context) => AppInfoScreen(),
@@ -165,8 +167,8 @@ class _State extends State<HomeWrapper> {
                 if (snap.data == null) {
                   return LoadingScreen();
                 } else {
-                  if (prefs.getBool("signedIn") ?? false) {
-                    return LessonsScreen();
+                  if (prefs.getBool("signedIn") ?? false || !snap.hasError) {
+                    return SubjectScreen();
                   } else {
                     return AuthHomeScreen();
                   }

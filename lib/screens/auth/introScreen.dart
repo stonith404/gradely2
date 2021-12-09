@@ -254,9 +254,8 @@ class _Intro4State extends State<_Intro4> {
       );
       response = jsonDecode(response.toString());
 
-      await database.createDocument(collectionId: collectionUser, data: {
+      await api.createDocument(context, collectionId: collectionUser, data: {
         "uid": response["\$id"],
-        "gradelyPlus": false,
         "gradeType": "av",
         "choosenSemester": "noSemesterChoosed"
       });
@@ -395,7 +394,7 @@ class _Intro5 extends StatelessWidget {
                   onPressed: () async {
                     isLoadingController.add(true);
                     await getUserInfo();
-                    Future result = database.createDocument(
+                    Future result = api.createDocument(context,
                         collectionId: collectionSemester,
                         data: {
                           "parentId": user.dbID,
@@ -405,7 +404,7 @@ class _Intro5 extends StatelessWidget {
                     result.then((response) {
                       response = jsonDecode(response.toString());
 
-                      database.updateDocument(
+                      api.updateDocument(context,
                           collectionId: collectionUser,
                           documentId: user.dbID,
                           data: {"choosenSemester": response["\$id"]});

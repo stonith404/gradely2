@@ -1,17 +1,12 @@
-import 'package:universal_io/io.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely2/screens/main/lessons.dart';
-import 'package:gradely2/screens/settings/appInfo.dart';
-import 'package:gradely2/screens/settings/contribute.dart';
-import 'package:gradely2/screens/settings/userInfo.dart';
+import 'package:gradely2/screens/main/subjects.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'gradelyPlus.dart';
 
 Future settingsScreen(BuildContext context) {
   String gradesResult = user.gradeType;
@@ -68,7 +63,7 @@ Future settingsScreen(BuildContext context) {
                               PageRouteBuilder(
                                 pageBuilder:
                                     (context, animation1, animation2) =>
-                                        LessonsScreen(),
+                                        SubjectScreen(),
                                 transitionDuration: Duration(seconds: 0),
                               ),
                             );
@@ -85,50 +80,26 @@ Future settingsScreen(BuildContext context) {
                   child: Column(
                     children: [
                       Container(
-                        child: settingsListTile(
-                            context: context,
-                            onTap: () {
-                              Navigator.pushNamed(context, "settings/userInfo");
-                            },
-                            items: [
-                              Icon(FontAwesome5Solid.user,
-                                  size: 15, color: primaryColor),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(user.name == "" ? user.email : user.name),
-                              Spacer(
-                                flex: 1,
-                              ),
-                            ]),
-                        decoration: boxDec(),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        decoration: boxDec(),
                         child: Column(
                           children: [
-                            !user.gradelyPlus
-                                ? SizedBox(
-                                    child: settingsListTile(
-                                        items: [
-                                          Icon(FontAwesome5Solid.hand_peace,
-                                              size: 17, color: primaryColor),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text("Gradely Plus"),
-                                        ],
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                            context,
-                                           "settings/gradelyPlus"
-                                          );
-                                        }),
-                                  )
-                                : Container(),
+                            settingsListTile(
+                                context: context,
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, "settings/userInfo");
+                                },
+                                items: [
+                                  Icon(FontAwesome5Solid.user,
+                                      size: 15, color: primaryColor),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                      user.name == "" ? user.email : user.name),
+                                  Spacer(
+                                    flex: 1,
+                                  ),
+                                ]),
                             settingsListTile(
                               arrow: false,
                               items: [
@@ -161,7 +132,7 @@ Future settingsScreen(BuildContext context) {
                                     } else {
                                       newValue = "av";
                                     }
-                                    database.updateDocument(
+                                    api.updateDocument(context,
                                         documentId: user.dbID,
                                         collectionId: collectionUser,
                                         data: {
@@ -176,14 +147,29 @@ Future settingsScreen(BuildContext context) {
                             ),
                           ],
                         ),
+                        decoration: boxDec(),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 40,
                       ),
                       Container(
                           decoration: boxDec(),
                           child: Column(
                             children: [
+                              settingsListTile(
+                                context: context,
+                                items: [
+                                  Icon(FontAwesome5Solid.heart,
+                                      size: 15, color: primaryColor),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("support".tr()),
+                                ],
+                                onTap: () {
+                                  Navigator.pushNamed(context, "supportApp");
+                                },
+                              ),
                               settingsListTile(
                                   items: [
                                     Icon(FontAwesome5Solid.laptop,
@@ -195,43 +181,6 @@ Future settingsScreen(BuildContext context) {
                                   ],
                                   onTap: () => launchURL(
                                       "https://gradelyapp.com#download")),
-                              settingsListTile(
-                                context: context,
-                                items: [
-                                  Icon(FontAwesome5Solid.heart,
-                                      size: 15, color: primaryColor),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("contribute".tr()),
-                                ],
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, "settings/contribute");
-                                },
-                              ),
-                              settingsListTile(
-                                  context: context,
-                                  items: [
-                                    Icon(FontAwesome5Solid.star,
-                                        size: 15, color: primaryColor),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("rate_app".tr()),
-                                  ],
-                                  onTap: () => launchURL((() {
-                                        if (Platform.isIOS ||
-                                            Platform.isMacOS) {
-                                          return "https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974";
-                                        } else if (Platform.isAndroid) {
-                                          return "https://play.google.com/store/apps/details?id=com.eliasschneider.gradely2";
-                                        } else if (Platform.isWindows) {
-                                          return "https://www.microsoft.com/store/apps/9MW4FPN80D7D";
-                                        } else {
-                                          return "https://gradelyapp.com";
-                                        }
-                                      }()))),
                               settingsListTile(
                                 context: context,
                                 items: [

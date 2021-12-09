@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class Lesson {
   String id;
   String name;
-
   double average;
   String emoji;
 
@@ -13,8 +12,9 @@ class Lesson {
 class Semester {
   String id;
   String name;
+  double round;
 
-  Semester(this.id, this.name);
+  Semester(this.id, this.name, this.round);
 }
 
 class Grade {
@@ -35,25 +35,21 @@ class User {
   int passwordUpdate;
   String email;
   bool emailVerification;
-  bool gradelyPlus;
   String gradeType;
   String choosenSemester;
   String dbID;
   Color color;
 
   User(
-      this.id,
-      this.name,
-      this.registration,
-      this.status,
-      this.passwordUpdate,
-      this.email,
-      this.emailVerification,
-      this.gradelyPlus,
-      this.gradeType,
-      this.choosenSemester,
-      this.dbID,
-      this.color);
+    this.id,
+    this.name,
+    this.registration,
+    this.status,
+    this.passwordUpdate,
+    this.email,
+    this.emailVerification,
+    this.gradeType,
+    this.choosenSemester,
+    this.dbID,
+  );
 }
-
-

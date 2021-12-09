@@ -1,73 +1,73 @@
-key,en,de
-average,Average,Durchschnitt
-pluspoints,Pluspoints,Pluspunkte
-pp,Pluspoints,Pluspunkte
-av,Average,Durchschnitt
-settings,Settings,Einstellungen
-grade_result,Grades results,Noten Resultate
-weight,weight,Gewichtung
-add_exam,Add exam,Test hinzufügen
-grade,grade,Note
-exam_name,exam name,Test Name
-delete,Delete,Löschen
-no,No,Nein
-back,Back,Zurück
-rename,Edit,Bearbeiten
-add_semester,Add semester,Semester hinzufügen
-add_lesson,Add a subject,Fach hinzufügen
-lesson_name,Subject name,Fach Name
-delete_confirmation_p1,Do you really want to delete,"Bist du sicher, dass du"
-delete_confirmation_p2,?,löschen willst?
-add,Add,Hinzufügen
-sign_in,Sign in,Einloggen
-password_remembered,Remember your password?,Weisst du dein Passwort?
-your_email,Your email,Deine Email
-your_password,Your password,Dein Passwort
-password,Password,Passwort
-question_forgot_password,Forgot password?,Passwort vergessen?
-reset_password,Reset Password,Passwort zurücksetzen
-request_link,Request Link,Link anfordern
-sign_up,sign up,Registrieren
-question_have_account,Do you have an account already?,Hast du bereits ein Account?
-question_no_account,You don't have an account?,Hast du noch kein Account?
-welcome,"Welcome!","Willkommen!"
-welcome_to_gradely,Welcome to Gradely 2!,Willkommen bei Gradely 2!
-grades_across,Your grades across all your devices.,Deine Noten auf all deinen Geräten.
-get_started,Get started,Los geht's!
-intro_gradely_helps_monitoring,"Gradely helps to relieve your brain, because Gradely 2 can remember and monitor your grades.","Gradely 2 entlastet dein Gehirn, denn Gradely 2 kann sich deine Noten merken und überwachen."
-everywhere_available,Available everywhere,Überall verfügbar
-intro_messaqge_sync,"Your grades are stored in a cloud. So, you can edit and view your grades on all your devices.","Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf all deinen Geräten bearbeiten und anschauen."
-intro_more_in_settings,More Informations can you find in Settings.,Mehr Infos findest du in den Einstellungen.
-pluspoints_or_average,Pluspoints or average?,Pluspunkte oder Durchschnitt?
-grade_result_change_in_settings,In Settings you can decide if your grades should be displayed as an average or Pluspoints.,In den Einstellungen kannst du einstellen ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.
-almost_finished,Almost finished...,Fast Fertig...
-intro_add_semester,Add a semester. No worries you can delete or edit this semester later.,Füge ein Semester hinzu. Keine Angst dieses kannst du später löschen oder unbenennen.
-settings_platforms_download_button,Download Gradely 2 for your other devices,Gradely 2 für deine anderen Geräte herunterladen
-try_again,Try again,Erneut versuchen
-restart_intro,Restart Intro,Intro wiederholen
-contact_developer,Contact developer,Entwickler kontaktieren
-your_message,Your message,Deine Nachricht
-send,Send,Senden
-edit,Edit,Bearbeiten
-sent,Sent!,Gesendet!
-or,Or,Oder
-contact_success_text,Thanks for your message. I will contact you with this email:,Danke für deine Nachricht. Ich werde mich bei dir unter dieser Email melden:
-password_reset_success_text,An email to reset your password was sent. Please make sure you check your spam folder.,Eine Email um dein Passwort zurückzusetzen wurde erfolgreich gesendet. Bitte beachte auch dein Spam Fach.
-error,Error,Fehler
-error_wrong_password,Wrong password,Falsches Passwort
-error_unknown,There was an unknown error,Ein unbekannter Fehler ist aufgetreten
-error_contact,Unfortunately there is an error. You can try it later or you can contact me under elias@eliasschneider.com,Leider ist ein Fehler aufgetreten. Versuche es später nochmals oder konatkiere mich unter elias@eliasschneider.com
-dream_grade,Dream grade,Wunschnote
-dream_grade_calulator,Dream grade calculator,Wunschnoten rechner
-dream_grade_result_text,Your grade for the next exam should be:,Deine Note für den nächsten test:
-dream _grade_weight,Dream grade weight,Wunschnoten Gewichtung
-date,Date,Datum
-tip,Tip,Trinkgeld
-tip_description,"I invested a lot of time in this app. Of course I want that this app is free, but servers aren't free. With your support you can help to improve this app and pay the servers 🖤.","Ich habe viel Zeit in diese App investiert, Server sind aber nicht gratis. Ich möchte das diese App gratis ist. Mit deiner Unterstützung kannst du mithelfen, dass ich die App immer weiterentwickeln und die Server bezahlen kann 🖤."
-support,Support the app,App unterstützen
+key,en,de,fr
+average,Average,Durchschnitt,Moyenne
+pluspoints,Pluspoints,Pluspunkte,Points positifs
+pp,Pluspoints,Pluspunkte,Points positifs
+av,Average,Durchschnitt,Moyenne
+settings,Settings,Einstellungen,Paramètres
+grade_result,Grades results,Noten Resultate,Notes Résultats
+weight,weight,Gewichtung,Poids
+add_exam,Add exam,Test hinzufügen,Ajouter un examen
+grade,grade,Note,note
+exam_name,exam name,Test Name,Nom de la note
+delete,Delete,Löschen,Supprimer
+no,No,Nein,Non
+back,Back,Zurück,Arrière
+rename,Edit,Bearbeiten,Modifier
+add_semester,Add semester,Semester hinzufügen,Ajouter un semestre
+add_lesson,Add a subject,Fach hinzufügen,Ajouter un sujet
+lesson_name,Subject name,Fach Name,Nom du sujet
+delete_confirmation_p1,Do you really want to delete,"Bist du sicher, dass du",Tu veux vraiment supprimer
+delete_confirmation_p2,?,löschen willst?,?
+add,Add,Hinzufügen,Ajouter
+sign_in,Sign in,Einloggen,S'identifier
+password_remembered,Remember your password?,Weisst du dein Passwort?,Vous vous souvenez de votre mot de passe?
+your_email,Your email,Deine Email,Votre e-mail
+your_password,Your password,Dein Passwort,Votre mot de passe
+password,Password,Passwort,Mot de passe
+question_forgot_password,Forgot password?,Passwort vergessen?,Mot de passe oublié?
+reset_password,Reset Password,Passwort zurücksetzen,Réinitialiser le mot de passe
+request_link,Request Link,Link anfordern,Lien de demande
+sign_up,sign up,Registrieren,S'inscrire
+question_have_account,Do you have an account already?,Hast du bereits ein Account?,Vous avez déjà un compte?
+question_no_account,You don't have an account?,Hast du noch kein Account?,Tu n'as pas de compte?
+welcome,"Welcome!","Willkommen!",Bienvenue!
+welcome_to_gradely,Welcome to Gradely 2!,Willkommen bei Gradely 2!,Bienvenue à Gradely 2!
+grades_across,Your grades across all your devices.,Deine Noten auf all deinen Geräten.,Vos notes sur tous vos appareils.
+get_started,Get started,Los geht's!,Commencer!
+intro_gradely_helps_monitoring,"Gradely helps to relieve your brain, because Gradely 2 can remember and monitor your grades.","Gradely 2 entlastet dein Gehirn, denn Gradely 2 kann sich deine Noten merken und überwachen.","Gradely aide à soulager ton cerveau, car Gradely 2 peut se souvenir et surveiller tes notes."
+everywhere_available,Available everywhere,Überall verfügbar,Disponible partout
+intro_messaqge_sync,"Your grades are stored in a cloud. So, you can edit and view your grades on all your devices.","Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf all deinen Geräten bearbeiten und anschauen.","Tes notes sont stockées dans un nuage. Tu peux donc modifier et consulter tes notes sur tous tes appareils."
+intro_more_in_settings,More Informations can you find in Settings.,Mehr Infos findest du in den Einstellungen.,Tu trouveras plus d'informations dans Paramètres.
+pluspoints_or_average,Pluspoints or average?,Pluspunkte oder Durchschnitt?,Pluspoints ou moyenne?
+grade_result_change_in_settings,In Settings you can decide if your grades should be displayed as an average or Pluspoints.,In den Einstellungen kannst du einstellen ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.,
+almost_finished,Almost finished...,Fast Fertig...,Presque terminé...
+intro_add_semester,Add a semester. No worries you can delete or edit this semester later.,Füge ein Semester hinzu. Keine Angst dieses kannst du später löschen oder unbenennen.,"Ajoute un semestre.Ne t'inquiète pas, tu peux supprimer ou modifier ce semestre plus tard."
+settings_platforms_download_button,Download Gradely 2 for your other devices,Gradely 2 für deine anderen Geräte herunterladen,Télécharge Gradely 2 pour tes autres appareils
+try_again,Try again,Erneut versuchen,Essaie à nouveau
+restart_intro,Restart Intro,Intro wiederholen,Redémarrer l'intro
+contact_developer,Contact developer,Entwickler kontaktieren,Contact développeur
+your_message,Your message,Deine Nachricht,Ton message
+send,Send,Senden,Envoyer
+edit,Edit,Bearbeiten,Éditer
+sent,Sent!,Gesendet!,Envoyé!
+or,Or,Oder,Ou
+contact_success_text,Thanks for your message. I will contact you with this email:,Danke für deine Nachricht. Ich werde mich bei dir unter dieser Email melden:,Merci pour ton message. Je vais te contacter avec cet email:
+password_reset_success_text,An email to reset your password was sent. Please make sure you check your spam folder.,Eine Email um dein Passwort zurückzusetzen wurde erfolgreich gesendet. Bitte beachte auch dein Spam Fach.,Un courriel pour réinitialiser votre mot de passe a été envoyé. Veuillez vérifier votre dossier spam.
+error,Error,Fehler,Erreur
+error_wrong_password,Wrong password,Falsches Passwort,Mot de passe incorrect
+error_unknown,There was an unknown error,Ein unbekannter Fehler ist aufgetreten,Il y a eu une erreur inconnue
+error_contact,Unfortunately there is an error. You can try it later or you can contact me under elias@eliasschneider.com,Leider ist ein Fehler aufgetreten. Versuche es später nochmals oder konatkiere mich unter elias@eliasschneider.com,"Malheureusement, il y a une erreur. Vous pouvez essayer plus tard ou me contacter sous elias@eliasschneider.com."
+dream_grade,Dream grade,Wunschnote,Note de rêve
+dream_grade_calulator,Dream grade calculator,Wunschnoten rechner,Calculatrice de la note de rêve
+dream_grade_result_text,Your grade for the next exam should be:,Deine Note für den nächsten test:,Votre note pour le prochain examen devrait être:
+dream _grade_weight,Dream grade weight,Wunschnoten Gewichtung,Poids du note de rêve
+date,Date,Datum,Date
+tip,Tip,Trinkgeld,Pourboire
+tip_description,"I invested a lot of time in this app. Of course I want that this app is free, but servers aren't free. With your support you can help to improve this app and pay the servers 🖤.","Ich habe viel Zeit in diese App investiert, Server sind aber nicht gratis. Ich möchte das diese App gratis ist. Mit deiner Unterstützung kannst du mithelfen, dass ich die App immer weiterentwickeln und die Server bezahlen kann 🖤.","J'ai investi beaucoup de temps dans cette application. Bien sûr, je veux que cette appli soit gratuite, mais les serveurs ne sont pas gratuits. Avec votre soutien, vous pouvez aider à améliorer cette appli et à payer les serveurs 🖤."
+support,Support the app,App unterstützen,Soutenir l'application
 tip_only_mobile,Tips are only available on mobile.,Trinkgeld ist nur auf mobile verfügbar.
-email,Email,Email
-action_required,Action required,Aktion erforderlich
+email,Email,Email,Courriel
+action_required,Action required,Aktion erforderlich,Action nécessaire
 re_enter_password_save_changes,Please re enter your password to save your changes,Bitte gib dein Passwort ein um deine Änderungen zu speichern.
 delete_account,Delete account,Account löschen
 save,save,speichern

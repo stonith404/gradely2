@@ -2,7 +2,6 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gradely2/screens/settings/gradelyPlus.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -309,33 +308,4 @@ Widget gradelyModalSheetHeader(BuildContext context,
       ),
     ],
   );
-}
-
-gradelyPlusDialog(context) {
-  gradelyDialog(
-      context: context,
-      title: "Gradely Plus",
-      text: "gradely_plus_required".tr() + "❤️",
-      actions: [
-        CupertinoButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              "Ok",
-              style: TextStyle(color: primaryColor),
-            )),
-        CupertinoButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.pushNamed(
-                context,
-                "settings/gradelyPlus"
-              );
-            },
-            child: Text(
-              "learn_more".tr(),
-              style: TextStyle(color: primaryColor),
-            )),
-      ]);
 }
