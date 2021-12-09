@@ -1,0 +1,150 @@
+key,en,de,fr
+average,Average,Durchschnitt,Moyenne
+pluspoints,Pluspoints,Pluspunkte,Points positifs
+pp,Pluspoints,Pluspunkte,Points positifs
+av,Average,Durchschnitt,Moyenne
+settings,Settings,Einstellungen,Paramètres
+grade_result,Grades results,Noten Resultate,Notes Résultats
+weight,weight,Gewichtung,Poids
+add_exam,Add exam,Test hinzufügen,Ajouter un examen
+grade,grade,Note,note
+exam_name,exam name,Test Name,Nom de la note
+delete,Delete,Löschen,Supprimer
+no,No,Nein,Non
+back,Back,Zurück,Arrière
+rename,Edit,Bearbeiten,Modifier
+add_semester,Add semester,Semester hinzufügen,Ajouter un semestre
+add_lesson,Add a subject,Fach hinzufügen,Ajouter un sujet
+lesson_name,Subject name,Fach Name,Nom du sujet
+delete_confirmation_p1,Do you really want to delete,"Bist du sicher, dass du",Tu veux vraiment supprimer
+delete_confirmation_p2,?,löschen willst?,?
+add,Add,Hinzufügen,Ajouter
+sign_in,Sign in,Einloggen,S'identifier
+password_remembered,Remember your password?,Weisst du dein Passwort?,Vous vous souvenez de votre mot de passe?
+your_email,Your email,Deine Email,Votre e-mail
+your_password,Your password,Dein Passwort,Votre mot de passe
+password,Password,Passwort,Mot de passe
+question_forgot_password,Forgot password?,Passwort vergessen?,Mot de passe oublié?
+reset_password,Reset Password,Passwort zurücksetzen,Réinitialiser le mot de passe
+request_link,Request Link,Link anfordern,Lien de demande
+sign_up,sign up,Registrieren,S'inscrire
+question_have_account,Do you have an account already?,Hast du bereits ein Account?,Vous avez déjà un compte?
+question_no_account,You don't have an account?,Hast du noch kein Account?,Tu n'as pas de compte?
+welcome,"Welcome!","Willkommen!",Bienvenue!
+welcome_to_gradely,Welcome to Gradely 2!,Willkommen bei Gradely 2!,Bienvenue à Gradely 2!
+grades_across,Your grades across all your devices.,Deine Noten auf all deinen Geräten.,Vos notes sur tous vos appareils.
+get_started,Get started,Los geht's!,Commencer!
+intro_gradely_helps_monitoring,"Gradely helps to relieve your brain, because Gradely 2 can remember and monitor your grades.","Gradely 2 entlastet dein Gehirn, denn Gradely 2 kann sich deine Noten merken und überwachen.","Gradely aide à soulager ton cerveau, car Gradely 2 peut se souvenir et surveiller tes notes."
+everywhere_available,Available everywhere,Überall verfügbar,Disponible partout
+intro_messaqge_sync,"Your grades are stored in a cloud. So, you can edit and view your grades on all your devices.","Deine Noten werden sicher in der Cloud gespeichert. So kannst du auf all deinen Geräten bearbeiten und anschauen.","Tes notes sont stockées dans un nuage. Tu peux donc modifier et consulter tes notes sur tous tes appareils."
+intro_more_in_settings,More Informations can you find in Settings.,Mehr Infos findest du in den Einstellungen.,Tu trouveras plus d'informations dans Paramètres.
+pluspoints_or_average,Pluspoints or average?,Pluspunkte oder Durchschnitt?,Pluspoints ou moyenne?
+grade_result_change_in_settings,In Settings you can decide if your grades should be displayed as an average or Pluspoints.,In den Einstellungen kannst du einstellen ob es deine Resultate in Pluspunkten oder als Durschnitt anzeigen soll.,
+almost_finished,Almost finished...,Fast Fertig...,Presque terminé...
+intro_add_semester,Add a semester. No worries you can delete or edit this semester later.,Füge ein Semester hinzu. Keine Angst dieses kannst du später löschen oder unbenennen.,"Ajoute un semestre.Ne t'inquiète pas, tu peux supprimer ou modifier ce semestre plus tard."
+settings_platforms_download_button,Download Gradely 2 for your other devices,Gradely 2 für deine anderen Geräte herunterladen,Télécharge Gradely 2 pour tes autres appareils
+try_again,Try again,Erneut versuchen,Essaie à nouveau
+restart_intro,Restart Intro,Intro wiederholen,Redémarrer l'intro
+contact_developer,Contact developer,Entwickler kontaktieren,Contact développeur
+your_message,Your message,Deine Nachricht,Ton message
+send,Send,Senden,Envoyer
+edit,Edit,Bearbeiten,Éditer
+sent,Sent!,Gesendet!,Envoyé!
+or,Or,Oder,Ou
+contact_success_text,Thanks for your message. I will contact you with this email:,Danke für deine Nachricht. Ich werde mich bei dir unter dieser Email melden:,Merci pour ton message. Je vais te contacter avec cet email:
+password_reset_success_text,An email to reset your password was sent. Please make sure you check your spam folder.,Eine Email um dein Passwort zurückzusetzen wurde erfolgreich gesendet. Bitte beachte auch dein Spam Fach.,Un courriel pour réinitialiser votre mot de passe a été envoyé. Veuillez vérifier votre dossier spam.
+error,Error,Fehler,Erreur
+error_wrong_password,Wrong password,Falsches Passwort,Mot de passe incorrect
+error_unknown,There was an unknown error,Ein unbekannter Fehler ist aufgetreten,Il y a eu une erreur inconnue
+error_contact,Unfortunately there is an error. You can try it later or you can contact me under elias@eliasschneider.com,Leider ist ein Fehler aufgetreten. Versuche es später nochmals oder konatkiere mich unter elias@eliasschneider.com,"Malheureusement, il y a une erreur. Vous pouvez essayer plus tard ou me contacter sous elias@eliasschneider.com."
+dream_grade,Dream grade,Wunschnote,Note de rêve
+dream_grade_calulator,Dream grade calculator,Wunschnoten rechner,Calculatrice de la note de rêve
+dream_grade_result_text,Your grade for the next exam should be:,Deine Note für den nächsten test:,Votre note pour le prochain examen devrait être:
+dream _grade_weight,Dream grade weight,Wunschnoten Gewichtung,Poids du note de rêve
+date,Date,Datum,Date
+tip,Tip,Trinkgeld,Pourboire
+tip_description,"I invested a lot of time in this app. Of course I want that this app is free, but servers aren't free. With your support you can help to improve this app and pay the servers 🖤.","Ich habe viel Zeit in diese App investiert, Server sind aber nicht gratis. Ich möchte das diese App gratis ist. Mit deiner Unterstützung kannst du mithelfen, dass ich die App immer weiterentwickeln und die Server bezahlen kann 🖤.","J'ai investi beaucoup de temps dans cette application. Bien sûr, je veux que cette appli soit gratuite, mais les serveurs ne sont pas gratuits. Avec votre soutien, vous pouvez aider à améliorer cette appli et à payer les serveurs 🖤."
+support,Support the app,App unterstützen,Soutenir l'application
+tip_only_mobile,Tips are only available on mobile.,Trinkgeld ist nur auf mobile verfügbar.
+email,Email,Email,Courriel
+action_required,Action required,Aktion erforderlich,Action nécessaire
+re_enter_password_save_changes,Please re enter your password to save your changes,Bitte gib dein Passwort ein um deine Änderungen zu speichern.
+delete_account,Delete account,Account löschen
+save,save,speichern
+change_password,Change password,Passwort ändern
+warning,Warning,Achtung
+change_password_text,To change your password click the button below. You get an email there you can change your password.,Um dein Passwort zu ändern drücke den Knopf unten. Du bekommst eine Email dort kannst du dein Passwort ändern.
+delete_account_text,Warning! Do you really want to delete your account and your grades? This can't be undone.,Achtung! Willst du wirklich all deine Noten und dein Account löschen? Dies kann nicht Rückgängig gemacht werden.
+reset,Reset,Zurücksetzen
+done,Done,Fertig
+create,Create,Erstellen
+account,Account,Account
+no_emoji_choosed,Add emoji,Emoji hinzuzufügen
+edit_semester,Edit semester,Semester bearbeiten
+edit_semester_round,Round subjects to:,Fachnoten runden auf:
+empty_lesson_p1,It's really empty here.,Es ist sehr leer hier
+empty_lesson_p2,Click the,Klicke auf
+empty_lesson_p3,to add your first grade.,um eine Note hinzuzufügen.
+error_stats_contain_no_date,Some of your grades don't have dates. Please add a date to every of your grade to see your statistics.,Ein paar Noten haben kein Datum. Bitte füge ein Datum hinzu um deine Statistiken zu sehen.
+statistics,Statistics,Statistiken
+stats_description,This shows your grades along the date time period.,Diese Statistik zeigt dir deine Noten während der Datum Zeitperiode.
+your_name,Your name,Dein Name
+benefits,Benefits,Vorteile
+your_benefits,Your benefits,Deine Vorteile
+thank_you,Thank you!,Danke!
+tip_contribute,"Gradely 2's code is open source, you can help to improve Gradely 2 with your skills.","Gradely 2's Code ist Open Source, du kannst mit deinen Skills helfen Gradely 2 zu verbessern."
+tip_success_text,Thank you soo much for supporting Gradely 2 🖤.,Danke viel mals das du Gradely 2 unterstützt 🖤.
+description,Description,Beschreibung
+rate,Rate,Bewerten
+success,Success,Erfolgreich
+email_updated,Your email was updated,Deine Email wurde aktualisiert
+name_updated,Your name was updated,Dein Name wurde aktualisiert
+no_network_offline_loading,It looks like you have a slow or no internet connection.,"Es sieht so aus, dass du keine oder eine langsame Internet Verbindung hast."
+network_needed_title,Network Connection,Internet Verbindung
+network_needed_text,To use this feature you need a network connection.,"Um diese Funktion zu nutzen, brauchst du eine Internet Verbindung."
+no_network,"You're not connected to the internet.","Du bist nicht mit dem Internet verbunden."
+app_info,App Information,App Informationen
+server_location,Server Location,Server Standort
+app_language,App Language,App Sprache
+server_connection,Server Connection,Server Verbindung
+app_name,App Name,App Name
+version,Version,Version
+build,Build,Build
+licenses,Licenses,Lizensen
+contribute,Contribute,Mithelfen
+error_server_not_reachable_title,Server not reachable,Server nicht verfügbar
+error_server_not_reachable_text,"Currently the server is not reachable, please try again in a few minutes","Im Moment ist der Server nicht erreichbar, bitte versuche es in einpaar Minuten erneut."
+contribute_leading_text,"Gradely 2 is opensource, this means that everybody can help make this app better. If you want to contribute to make gradely better, here are you right ❤️.","Gradely 2 ist Open Source, das heisst jeder kann helfen die App zu verbessern. die aFalls du mithelfen willst, Gradely besser zu machen bist du hier richtig ❤️."
+languages,Languages,Sprachen
+bug_or_improvement,Bug or improvement,Bug oder Vorschläge
+contribute_translate_p1,"To give every user an awesome experience, Gradely should be translated in many languages.","Um jedem Nutzer ein super Erlebnis zu geben, sollte Gradely in vielen Sprachen verfügbar sein"
+contribute_translate_p2,"Found some language error, or better do you want to help translate Gradely in another language?","Hast du ein Fehler bei einer Sprache gefunden oder noch besser, willst du helfen, gradely in eine andere Sprache zu übersetzen?"
+contribute_feature_bug_suggestion,Did you spot a bug or do you have an improvement or suggestion?,Hast du einen Bug entdeckt oder hast eine Verbesserung?
+or_something_else,Or something else?,Oder etwas anderes?
+contact_me,Contact me,Kontaktiere mich
+error_grade_badly_formatted,Please check if your grade or weight is correctly formatted.,Bitte überprüfe ob die Note oder die Gewichtung korrekt formatiert ist.
+view_github,View on GitHub,Auf GitHub ansehen
+change_email,Change email,Email ändern
+intro_email_verification,"You have to verify your email, so you can't lose your grades. We sent you an email to","Du musst deine Email bestätigen, so kannst du deine Noten nicht verlieren. Wir haben dir eine Email gesendet an"
+check_email_spam,Please check also your spam folder.,Bitte überprüfe auch deinen Spam Ordner.
+add_first_semester,Add your first Semester,Füge dein erstes Semester hinzu
+error_email_not_verified,Please check your mails and verify your email.,Bitte überprüfe deine Mails und verifiziere deine Email.
+success_email_verified,Your email is verified.,Deine Email wurde bestätigt.
+i_verified_email,I verified my email,Ich habe meine Email bestätigt
+send_again,Send again,Erneut senden
+success_semester_added,Your semester was added,Dein Semester wurde hinzugefügt
+success_email_sent,An email was sent successfully.,Eine Email wurde erfolgreich gesendet.
+learn_more,Learn more,Mehr erfahren
+error_server_down,"The Gradely 2 server is down, try again in a few minutes","Der Gradely 2 Server ist im Moment offline, versuche es in ein paar Minuten erneut."
+server_down,Server offline,Server offline
+rate_app,Rate app,App bewerten
+rate_app_description,Rating Gradely 2 helps very much.,Gradely 2 bewerten hilft sehr viel.
+maintenance_hurry,"If you're in hurry open the app without a network connection.","Falls du nicht warten kannst, öffne die App ohne Internetverbindung."
+maintenance_description,"We're improving your Gradely 2 experience. Try again in a few minutes.","Wir verbessern gerade Gradely 2. Bitte versuche es in ein paar Minuten erneut."
+maintenance,Maintenance,Wartung
+sorry,Sorry,Entschuldigung
+still_maintenance,Gradely 2 is still in maintenance.,Gradely 2 ist immer noch in Wartung.
+try_again,Try again,Erneut versuchen
+intro_get_started_description,"Enter your information to create a Gradely 2 account.","Gib deine Informationen ein, um ein Gradely 2 Konto zu erstellen."
+lets_get_started,"Let's get started","Los geht's"
+downloads,Downloads,Downloads
