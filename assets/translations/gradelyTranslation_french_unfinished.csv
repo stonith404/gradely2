@@ -112,14 +112,12 @@ version,Version,Version
 build,Build,Build
 licenses,Licenses,Lizensen
 contribute,Contribute,Mithelfen
-error_server_not_reachable_title,Server not reachable,Server nicht verfügbar
-error_server_not_reachable_text,"Currently the server is not reachable, please try again in a few minutes","Im Moment ist der Server nicht erreichbar, bitte versuche es in einpaar Minuten erneut."
 contribute_leading_text,"Gradely 2 is opensource, this means that everybody can help make this app better. If you want to contribute to make gradely better, here are you right ❤️.","Gradely 2 ist Open Source, das heisst jeder kann helfen die App zu verbessern. die aFalls du mithelfen willst, Gradely besser zu machen bist du hier richtig ❤️."
 languages,Languages,Sprachen
 bug_or_improvement,Bug or improvement,Bug oder Vorschläge
 contribute_translate_p1,"To give every user an awesome experience, Gradely should be translated in many languages.","Um jedem Nutzer ein super Erlebnis zu geben, sollte Gradely in vielen Sprachen verfügbar sein"
 contribute_translate_p2,"Found some language error, or better do you want to help translate Gradely in another language?","Hast du ein Fehler bei einer Sprache gefunden oder noch besser, willst du helfen, gradely in eine andere Sprache zu übersetzen?"
-contribute_feature_bug_suggestion,Did you spot a bug or do you have an improvement or suggestion?,Hast du einen Bug entdeckt oder hast eine Verbesserung?
+contribute_feature_bug_suggestion,Did you spot a bug or do you have an improvement or suggestion?,Hast du einen Bug entdeckt oder eine Verbesserung?
 or_something_else,Or something else?,Oder etwas anderes?
 contact_me,Contact me,Kontaktiere mich
 error_grade_badly_formatted,Please check if your grade or weight is correctly formatted.,Bitte überprüfe ob die Note oder die Gewichtung korrekt formatiert ist.
