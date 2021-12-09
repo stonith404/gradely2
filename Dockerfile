@@ -1,12 +1,7 @@
 #Docker file to deploy the web app
 #To publish run `flutter build web --release && buildx ghcr.io/generalxhd/gradely2-webapp`
-FROM alpine
-RUN apk update
-RUN apk add --no-cache php
+FROM nginx:alpine
 
-WORKDIR /usr/src/app
-COPY ./build/web ./
+COPY ./build/web /usr/share/nginx/html
 
 EXPOSE 80
-
-CMD [ "php", "-S","0.0.0.0:80"]
