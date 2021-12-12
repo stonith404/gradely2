@@ -43,17 +43,17 @@ Future getUserInfo() async {
         filters: ["uid=${accountResponse['\$id']}"]))["documents"][0];
 
     user = User(
-        accountResponse['\$id'],
-        accountResponse['name'],
-        accountResponse['registration'],
-        accountResponse['status'],
-        accountResponse['passwordUpdate'],
-        accountResponse['email'],
-        accountResponse['emailVerification'],
-        dbResponse["gradeType"],
-        dbResponse["choosenSemester"],
-        dbResponse["\$id"],
-      );
+      accountResponse['\$id'],
+      accountResponse['name'],
+      accountResponse['registration'],
+      accountResponse['status'],
+      accountResponse['passwordUpdate'],
+      accountResponse['email'],
+      accountResponse['emailVerification'],
+      dbResponse["gradeType"],
+      dbResponse["choosenSemester"],
+      dbResponse["\$id"],
+    );
   }
 
   return "done";
@@ -266,8 +266,7 @@ formatDateForClient(date) {
 }
 //launch url with the package "url launcher"
 
-void launchURL(_url) async =>
-    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
+void launchURL(_url) async => await launch(_url);
 
 //clears all variables when user sign out
 clearVariables() {
