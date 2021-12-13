@@ -47,8 +47,7 @@ void main() async {
   runApp(EasyLocalization(
       supportedLocales: [Locale('de'), Locale('en')],
       useOnlyLangCode: true,
-      path: 'assets/translations/',
-      assetLoader: JsonAssetLoader(),
+      path: 'assets/translations',
       fallbackLocale: Locale('en'),
       saveLocale: true,
       child: MaterialWrapper()));
