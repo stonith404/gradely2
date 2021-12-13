@@ -109,7 +109,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                     collectionId: collectionSemester,
                     data: {
                       "parentId": user.dbID,
-                      "name": semesterList[index].name + " - Copy",
+                      "name": semesterList[index].name + " - ${'copy'.tr()}",
                       "round": semesterList[index].round
                     });
 

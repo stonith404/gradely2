@@ -47,8 +47,8 @@ void main() async {
   runApp(EasyLocalization(
       supportedLocales: [Locale('de'), Locale('en')],
       useOnlyLangCode: true,
-      path: 'assets/translations/gradelyTranslation.csv',
-      assetLoader: CsvAssetLoader(),
+      path: 'assets/translations/',
+      assetLoader: JsonAssetLoader(),
       fallbackLocale: Locale('en'),
       saveLocale: true,
       child: MaterialWrapper()));
