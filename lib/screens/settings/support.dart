@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class _SupportAppState extends State<SupportAppScreen> {
   }
 
   getProducts() async {
-    await FlutterInappPurchase.instance.initConnection;
+    await FlutterInappPurchase.instance.initialize();
     if (Platform.isIOS || Platform.isAndroid) {
       await FlutterInappPurchase.instance.clearTransactionIOS();
       iapList = (await FlutterInappPurchase.instance.getProducts([
@@ -80,7 +79,7 @@ class _SupportAppState extends State<SupportAppScreen> {
 
   Future<void> initPlatformState() async {
     // prepare
-    await FlutterInappPurchase.instance.initConnection;
+    await FlutterInappPurchase.instance.initialize();
 
     if (!mounted) return;
 

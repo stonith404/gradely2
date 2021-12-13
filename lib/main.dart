@@ -1,6 +1,4 @@
 import 'package:appwrite/appwrite.dart' as appwrite;
-import 'package:easy_localization_loader/easy_localization_loader.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely2/screens/auth/authHome.dart';
@@ -18,7 +16,6 @@ import 'package:gradely2/screens/settings/userInfo.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:gradely2/shared/api.dart';
 import 'package:gradely2/shared/loading.dart';
 import 'package:gradely2/shared/maintenance.dart';
