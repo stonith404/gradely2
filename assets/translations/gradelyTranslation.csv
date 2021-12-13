@@ -149,3 +149,7 @@ downloads,Downloads,Downloads
 download,Download,Download
 web_popup_title,Gradely 2 Web App,Gradely 2 Web App
 web_popup_description,"You're using the Gradely 2 Web App. To get the best experience, download the Gradely 2 app.", "Du benutzt die Gradely 2 Web App. Um das beste Erlebnis zu bekommen, lade Gradely 2 herunter."
+duplicate_semester,Duplicate semester, Semester duplizieren
+duplicate_semester_text,Duplicating the semester will not duplicate your grades,Die Duplizierung des Semesters führt nicht zu einer Duplizierung deiner Noten
+cancel,Cancel,Abbrechen
+continue,Continue,Weiter

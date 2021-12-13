@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -81,6 +83,54 @@ class _SemesterScreenState extends State<SemesterScreen> {
     );
   }
 
+  duplicateSemester(index) {
+    gradelyDialog(
+        context: context,
+        title: "duplicate_semester".tr(),
+        text: "duplicate_semester_text".tr(),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text("cancel".tr()),
+          ),
+          TextButton(
+              onPressed: () async {
+                var lessonsList = (await api.listDocuments(
+                        collection: collectionLessons,
+                        name: "lessonList_${semesterList[index].id}",
+                        filters: [
+                      "parentId=${semesterList[index].id}"
+                    ]))["documents"]
+                    .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
+                        double.parse(r["average"].toString())))
+                    .toList();
+
+                var newSemester = await api.createDocument(context,
+                    collectionId: collectionSemester,
+                    data: {
+                      "parentId": user.dbID,
+                      "name": semesterList[index].name + " - Copy",
+                      "round": semesterList[index].round
+                    });
+
+                newSemester = jsonDecode(newSemester.toString())["\$id"];
+
+                for (var i = 0; i < lessonsList.length; i++) {
+                  api.createDocument(context,
+                      collectionId: collectionLessons,
+                      data: {
+                        "parentId": newSemester,
+                        "name": lessonsList[i].name,
+                        "emoji": lessonsList[i].emoji
+                      });
+                }
+                Navigator.of(context).pop();
+                getSemesters();
+              },
+              child: Text("continue".tr()))
+        ]);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -136,21 +186,28 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                 bottomLeft: Radius.circular(10),
                               ),
                               child: IconSlideAction(
-                                color: primaryColor,
-                                iconWidget: Icon(
-                                  FontAwesome5Solid.pencil_alt,
-                                  color: frontColor(),
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    GradelyPageRoute(
-                                        builder: (context) => updateSemester()),
-                                  );
-
-                                  _selectedSemester = semesterList[index];
-                                },
+                                  color: primaryColor,
+                                  iconWidget: Icon(
+                                    FontAwesome5Solid.clone,
+                                    color: frontColor(),
+                                  ),
+                                  onTap: () => duplicateSemester(index)),
+                            ),
+                            IconSlideAction(
+                              color: primaryColor,
+                              iconWidget: Icon(
+                                FontAwesome5Solid.pencil_alt,
+                                color: frontColor(),
                               ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  GradelyPageRoute(
+                                      builder: (context) => updateSemester()),
+                                );
+
+                                _selectedSemester = semesterList[index];
+                              },
                             ),
                             ClipRRect(
                               borderRadius: BorderRadius.only(
