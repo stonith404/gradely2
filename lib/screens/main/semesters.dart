@@ -121,6 +121,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                       data: {
                         "parentId": newSemester,
                         "name": lessonsList[i].name,
+                        "average": -99,
                         "emoji": lessonsList[i].emoji
                       });
                 }

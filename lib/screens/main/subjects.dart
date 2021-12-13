@@ -268,7 +268,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                           user.gradeType == "av"
                                               ? Container()
                                               : Text(
-                                                  _averageOfSemesterPP.isNaN
+                                                  _averageOfSemester.isNaN ||
+                                                          _averageOfSemester ==
+                                                              -99
                                                       ? "0"
                                                       : _averageOfSemesterPP
                                                           .toString(),
