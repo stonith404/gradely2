@@ -124,6 +124,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     getLessons(true);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       completeOfflineTasks(context);
+      askForInAppRating();
       //notify the user that Gradely 2 Web isn't recommended.
       if (!(prefs.getBool("webNotRecommendedPopUp") ?? false) && kIsWeb) {
         gradelyDialog(

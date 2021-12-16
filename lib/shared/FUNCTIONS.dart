@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -413,5 +414,17 @@ String roundGrade(double value, double x) {
     return ((value * 2).round() / 2).toString();
   } else {
     return value.toStringAsFixed(2);
+  }
+}
+
+askForInAppRating() async {
+  bool isAccountOlderThen30Days =
+      (DateTime.now().millisecondsSinceEpoch / 1000) - user.registration >
+          2592000;
+  final InAppReview inAppReview = InAppReview.instance;
+  if (isAccountOlderThen30Days &&
+      await inAppReview.isAvailable() &&
+      (Platform.isAndroid || Platform.isMacOS || Platform.isIOS)) {
+    inAppReview.requestReview();
   }
 }

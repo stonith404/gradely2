@@ -202,20 +202,17 @@ class _SupportAppState extends State<SupportAppScreen> {
                       height: 20,
                     ),
                     gradelyButton(
-                        onPressed: () async {
-                          final InAppReview inAppReview = InAppReview.instance;
-                          if (await inAppReview.isAvailable()) {
-                            inAppReview.requestReview();
-                          } else if (Platform.isIOS ||
-                              Platform.isMacOS ||
-                              Platform.isAndroid) {
-                          } else if (Platform.isWindows) {
-                            launchURL(
-                                "https://www.microsoft.com/store/apps/9MW4FPN80D7D");
-                          } else {
-                            launchURL("https://gradelyapp.com");
-                          }
-                        },
+                        onPressed: ()=>launchURL((() {
+                              if (Platform.isIOS || Platform.isMacOS) {
+                                return "https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974";
+                              } else if (Platform.isAndroid) {
+                                return "https://play.google.com/store/apps/details?id=com.eliasschneider.gradely2";
+                              } else if (Platform.isWindows) {
+                                return "https://www.microsoft.com/store/apps/9MW4FPN80D7D";
+                              } else {
+                                return "https://gradelyapp.com";
+                              }
+                            }())),
                         text: "rate".tr(),
                         color: frontColor(),
                         textColor: primaryColor)
