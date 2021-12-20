@@ -167,7 +167,7 @@ Future settingsScreen(BuildContext context) {
                                   Text("support".tr()),
                                 ],
                                 onTap: () {
-                                  Navigator.pushNamed(context, "supportApp");
+                                  Navigator.pushNamed(context, "settings/supportApp");
                                 },
                               ),
                               settingsListTile(

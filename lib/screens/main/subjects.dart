@@ -85,8 +85,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     gradelyDialog(
       context: context,
       title: "warning".tr(),
-      text:
-          '${"delete_confirmation_p1".tr()} "${lessonList[index].name}" ${"delete_confirmation_p2".tr()}',
+      text: "delete_confirmation".tr(args: [lessonList[index].name]),
       actions: <Widget>[
         CupertinoButton(
           child: Text(
@@ -373,7 +372,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                                       builder: (context) =>
                                                           updateLesson()),
                                                 ),
-                                            title: 'rename'.tr()),
+                                            title: 'edit'.tr()),
                                       ],
                                       child: ListTile(
                                         title: Row(
@@ -571,7 +570,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
           ),
           backgroundColor: defaultBGColor,
           elevation: 0,
-          title: Text("rename".tr(), style: appBarTextTheme),
+          title: Text("edit".tr(), style: appBarTextTheme),
           shape: defaultRoundedCorners(),
         ),
         body: Padding(
@@ -655,7 +654,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 height: 40,
               ),
               gradelyButton(
-                text: "rename".tr(),
+                text: "save".tr(),
                 onPressed: () async {
                   isLoadingController.add(true);
                   await api.updateDocument(context,

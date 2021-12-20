@@ -48,7 +48,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
       context: context,
       title: "warning".tr(),
       text:
-          '${"delete_confirmation_p1".tr()} "${semesterList[index].name}" ${"delete_confirmation_p2".tr()}',
+          "delete_confirmation".tr(args: [semesterList[index].name]),
       actions: <Widget>[
         CupertinoButton(
           child: Text(
@@ -247,7 +247,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                           _selectedSemester =
                                               semesterList[index];
                                         },
-                                        title: 'rename'.tr()),
+                                        title: 'edit'.tr()),
                                   ],
                                   child: ListTile(
                                     title: Text(
@@ -334,7 +334,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                 height: 30,
               ),
               gradelyButton(
-                text: "rename".tr(),
+                text: "save".tr(),
                 onPressed: () async {
                   isLoadingController.add(true);
                   await api.updateDocument(context,
