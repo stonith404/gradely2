@@ -30,7 +30,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
     semesterList = (await api.listDocuments(
             collection: collectionSemester,
             name: "semesterList",
-            filters: ["parentId=${user.dbID}"]))["documents"]
+            filters: ["parentId=${user.dbID}"]))
         .map((r) => Semester(r["\$id"], r["name"], r["round"]))
         .toList();
     setState(() => isLoading = false);
@@ -100,7 +100,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                         name: "lessonList_${semesterList[index].id}",
                         filters: [
                       "parentId=${semesterList[index].id}"
-                    ]))["documents"]
+                    ]))
                     .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
                         double.parse(r["average"].toString())))
                     .toList();

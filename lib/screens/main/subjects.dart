@@ -41,7 +41,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
         name: "semesterName",
         filters: ["\$id=${user.choosenSemester}"]);
     setState(() {
-      selectedSemester = semesterResponse["documents"]
+      selectedSemester = semesterResponse
           .map((r) => Semester(r["\$id"], r["name"], r["round"]))
           .toList()[0];
     });
@@ -49,7 +49,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     lessonList = (await api.listDocuments(
             collection: collectionLessons,
             name: "lessonList_${user.choosenSemester}",
-            filters: ["parentId=${user.choosenSemester}"]))["documents"]
+            filters: ["parentId=${user.choosenSemester}"]))
         .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
             double.parse(r["average"].toString())))
         .toList();

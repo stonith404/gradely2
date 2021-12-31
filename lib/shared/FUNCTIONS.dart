@@ -1,63 +1,62 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:appwrite/models.dart';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+
+import 'CLASSES.dart' as classes;
 //get info of current logged in user
 
 Future getUserInfo() async {
-  var accountResponse;
+  User accountR;
   bool missingScope = false;
   SharedPreferences prefs = await SharedPreferences.getInstance();
   if (await internetConnection()) {
-    Future accountResult = account.get();
-
-    await accountResult.then((r) async {
-      accountResponse = r.toString();
-
-      await prefs.setString("accountResult", accountResponse);
-    }).catchError((error) {
-      if (error.code == 401) {
+    try {
+      accountR = await account.get();
+    } catch (e) {
+      if (e.code == 401) {
         missingScope = true;
       }
-    });
+    }
+    // await prefs.setString("accountResult", accountR.toMap().toString());
   } else {
-    accountResponse = prefs.getString("accountResult");
+    //  accountR = prefs.getString("accountResult");
+    accountR = jsonDecode(accountR.toString());
   }
 
-  accountResponse = jsonDecode(accountResponse.toString());
   if (missingScope) {
     prefs.setBool("signedIn", false);
-  } else if (accountResponse != null) {
+  } else if (accountR != null) {
     var dbResponse = (await api.listDocuments(
         name: "userDB",
         collection: collectionUser,
-        filters: ["uid=${accountResponse['\$id']}"]))["documents"][0];
+        filters: ["uid=${accountR.$id}"]))[0];
 
-    user = User(
-      accountResponse['\$id'],
-      accountResponse['name'],
-      accountResponse['registration'],
-      accountResponse['status'],
-      accountResponse['passwordUpdate'],
-      accountResponse['email'],
-      accountResponse['emailVerification'],
+    user = classes.User(
+      accountR.$id,
+      accountR.name,
+      accountR.registration,
+      accountR.status,
+      accountR.passwordUpdate,
+      accountR.email,
+      accountR.emailVerification,
       dbResponse["gradeType"],
       dbResponse["choosenSemester"],
       dbResponse["\$id"],
     );
   }
 
-  return "done";
+  return;
 }
 
 //checks if client is connected to the server

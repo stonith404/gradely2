@@ -160,7 +160,7 @@ class _State extends State<HomeWrapper> {
           return FutureBuilder(
               future: getUserData,
               builder: (BuildContext context, AsyncSnapshot snap) {
-                if (snap.data == null) {
+                if (snap.connectionState == ConnectionState.waiting) {
                   return LoadingScreen();
                 } else {
                   if (prefs.getBool("signedIn") ?? false || !snap.hasError) {

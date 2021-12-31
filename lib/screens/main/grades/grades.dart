@@ -65,7 +65,7 @@ class _GradesScreenState extends State<GradesScreen> {
       collection: collectionGrades,
       name: "gradeList_$selectedLesson",
       filters: ["parentId=$selectedLesson"],
-    ))["documents"]
+    ))
         .map((r) => Grade(
               r["\$id"],
               r["name"],

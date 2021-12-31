@@ -14,7 +14,7 @@ dependencies:
     sdk: flutter
   #custom dependencies
   msix: ^2.6.6
-  appwrite: ^1.0.1
+  appwrite: ^2.1.0
   http: ^0.13.4
   flutter_slidable: ^0.6.0 # Shouldn't be upgraded
   modal_bottom_sheet: ^2.0.0
