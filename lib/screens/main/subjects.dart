@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:gradely2/screens/auth/introScreen.dart' as introScreen;
+import 'package:showcaseview/showcaseview.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,8 @@ import 'package:emoji_chooser/emoji_chooser.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:native_context_menu/native_context_menu.dart';
 
+GlobalKey _one = GlobalKey();
+GlobalKey _two = GlobalKey();
 var action;
 String selectedLesson = "";
 String selectedLessonName;
@@ -145,6 +148,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   child: Text("Ok".tr()))
             ]);
       }
+      if (!(prefs.getBool("showcaseview_viewed") ?? false)) {
+        Future.delayed(Duration(milliseconds: 2000), () {
+          ShowCaseWidget.of(context).startShowCase([
+            _one,
+            _two,
+          ]);
+        });
+      }
     });
   }
 
@@ -190,13 +201,22 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               }),
                         ),
                         actions: [
-                          IconButton(
-                              icon:
-                                  Icon(Icons.switch_left, color: primaryColor),
-                              onPressed: () async {
-                                Navigator.pushNamed(context, "semesters")
-                                    .then((value) => getLessons(false));
-                              }),
+                          Showcase(
+                            key: _one,
+                            title: 'Semesters',
+                            description:
+                                'Click here to switch between your semesters.',
+                            disableAnimation: false,
+                            shapeBorder: CircleBorder(),
+                            radius: BorderRadius.all(Radius.circular(40)),
+                            child: IconButton(
+                                icon: Icon(Icons.switch_left,
+                                    color: primaryColor),
+                                onPressed: () async {
+                                  Navigator.pushNamed(context, "semesters")
+                                      .then((value) => getLessons(false));
+                                }),
+                          ),
                         ],
                       ),
                     ];
@@ -309,124 +329,19 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: lessonList.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Slidable(
-                              actionPane: SlidableDrawerActionPane(),
-                              actionExtentRatio: 0.25,
-                              secondaryActions: <Widget>[
-                                ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                  ),
-                                  child: IconSlideAction(
-                                    color: primaryColor,
-                                    iconWidget: Icon(
-                                      FontAwesome5Solid.pencil_alt,
-                                      color: frontColor(),
-                                    ),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                updateLesson()),
-                                      );
-                                      selectedLessonName =
-                                          lessonList[index].name;
-                                      _selectedEmoji = lessonList[index].emoji;
-                                      selectedLesson = lessonList[index].id;
-                                    },
-                                  ),
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10),
-                                  ),
-                                  child: IconSlideAction(
-                                      color: primaryColor,
-                                      iconWidget: Icon(
-                                        FontAwesome5.trash_alt,
-                                        color: frontColor(),
-                                      ),
-                                      onTap: () => deleteLesson(index)),
-                                ),
-                              ],
-                              child: Container(
-                                decoration: listContainerDecoration(
-                                    index: index, list: lessonList),
-                                child: Column(
-                                  children: [
-                                    ContextMenuRegion(
-                                      onItemSelected: (item) =>
-                                          {item.onSelected()},
-                                      menuItems: [
-                                        MenuItem(
-                                          onSelected: () => deleteLesson(index),
-                                          title: 'delete'.tr(),
-                                        ),
-                                        MenuItem(
-                                            onSelected: () => Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          updateLesson()),
-                                                ),
-                                            title: 'edit'.tr()),
-                                      ],
-                                      child: ListTile(
-                                        title: Row(
-                                          children: [
-                                            Text(lessonList[index].emoji + "  ",
-                                                style: TextStyle(
-                                                  shadows: [
-                                                    Shadow(
-                                                      blurRadius: 5.0,
-                                                      color: darkmode
-                                                          ? Colors.grey[900]
-                                                          : Colors.grey[350],
-                                                      offset: Offset(2.0, 2.0),
-                                                    ),
-                                                  ],
-                                                )),
-                                            Text(
-                                              lessonList[index].name,
-                                            ),
-                                          ],
-                                        ),
-                                        trailing: Text(
-                                          (() {
-                                            if (lessonList[index].average ==
-                                                -99) {
-                                              return "-";
-                                            } else if (user.gradeType == "pp") {
-                                              return getPluspoints(
-                                                      lessonList[index].average)
-                                                  .toString();
-                                            } else {
-                                              return roundGrade(
-                                                  lessonList[index].average,
-                                                  selectedSemester.round);
-                                            }
-                                          })(),
-                                        ),
-                                        onTap: () {
-                                          Navigator.pushNamed(context, "grades")
-                                              .then((value) {
-                                            getLessons(false);
-                                          });
-
-                                          selectedLesson = lessonList[index].id;
-                                          selectedLessonName =
-                                              lessonList[index].name;
-                                        },
-                                      ),
-                                    ),
-                                    listDivider(),
-                                  ],
-                                ),
-                              ),
-                            );
+                            return index == 1
+                                ? Showcase(
+                                    key: _two,
+                                    title: 'Subjects',
+                                    description:
+                                        'This is a subject click on it to view your grades and swipe left to edit or delete it.',
+                                    disableAnimation: false,
+                                    shapeBorder: CircleBorder(),
+                                    radius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                    child: AbsorbPointer(
+                                        child: subjectListTile(index)))
+                                : subjectListTile(index);
                           },
                         ),
                       ),
@@ -435,6 +350,115 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 ),
               )));
     }
+  }
+
+  Widget subjectListTile(index) {
+    return Slidable(
+        actionPane: SlidableDrawerActionPane(),
+        actionExtentRatio: 0.25,
+        secondaryActions: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
+            ),
+            child: IconSlideAction(
+              color: primaryColor,
+              iconWidget: Icon(
+                FontAwesome5Solid.pencil_alt,
+                color: frontColor(),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => updateLesson()),
+                );
+                selectedLessonName = lessonList[index].name;
+                _selectedEmoji = lessonList[index].emoji;
+                selectedLesson = lessonList[index].id;
+              },
+            ),
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(10),
+              bottomRight: Radius.circular(10),
+            ),
+            child: IconSlideAction(
+                color: primaryColor,
+                iconWidget: Icon(
+                  FontAwesome5.trash_alt,
+                  color: frontColor(),
+                ),
+                onTap: () => deleteLesson(index)),
+          ),
+        ],
+        child: Container(
+          decoration: listContainerDecoration(index: index, list: lessonList),
+          child: Column(
+            children: [
+              ContextMenuRegion(
+                onItemSelected: (item) => {item.onSelected()},
+                menuItems: [
+                  MenuItem(
+                    onSelected: () => deleteLesson(index),
+                    title: 'delete'.tr(),
+                  ),
+                  MenuItem(
+                      onSelected: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => updateLesson()),
+                          ),
+                      title: 'edit'.tr()),
+                ],
+                child: ListTile(
+                  title: Row(
+                    children: [
+                      Text(lessonList[index].emoji + "  ",
+                          style: TextStyle(
+                            shadows: [
+                              Shadow(
+                                blurRadius: 5.0,
+                                color: darkmode
+                                    ? Colors.grey[900]
+                                    : Colors.grey[350],
+                                offset: Offset(2.0, 2.0),
+                              ),
+                            ],
+                          )),
+                      Text(
+                        lessonList[index].name,
+                      ),
+                    ],
+                  ),
+                  trailing: Text(
+                    (() {
+                      if (lessonList[index].average == -99) {
+                        return "-";
+                      } else if (user.gradeType == "pp") {
+                        return getPluspoints(lessonList[index].average)
+                            .toString();
+                      } else {
+                        return roundGrade(
+                            lessonList[index].average, selectedSemester.round);
+                      }
+                    })(),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, "grades").then((value) {
+                      getLessons(false);
+                    });
+
+                    selectedLesson = lessonList[index].id;
+                    selectedLessonName = lessonList[index].name;
+                  },
+                ),
+              ),
+              listDivider(),
+            ],
+          ),
+        ));
   }
 
   addLesson() {

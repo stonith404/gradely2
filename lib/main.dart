@@ -20,6 +20,7 @@ import 'package:gradely2/shared/api.dart';
 import 'package:gradely2/shared/loading.dart';
 import 'package:gradely2/shared/maintenance.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 bool isLoggedIn = false;
 
@@ -164,7 +165,13 @@ class _State extends State<HomeWrapper> {
                   return LoadingScreen();
                 } else {
                   if (prefs.getBool("signedIn") ?? false || !snap.hasError) {
-                    return SubjectScreen();
+                    return ShowCaseWidget(
+                        blurValue: 1,
+                        onFinish: () {
+                          prefs.setBool("showcaseview_viewed", true);
+                        },
+                        builder:
+                            Builder(builder: (context) => SubjectScreen()));
                   } else {
                     return AuthHomeScreen();
                   }
