@@ -16,7 +16,6 @@
   "add_semester": "Ajouter un semestre",
   "add_lesson": "Ajouter un sujet",
   "lesson_name": "Nom du sujet",
-  "delete_confirmation": "Voulez-vous vraiment supprimer {} ?",
   "add": "Ajouter",
   "sign_in": "Se connecter",
   "password_remembered": "Vous vous souvenez de votre mot de passe ?",
@@ -149,5 +148,10 @@
   "duplicate_semester_text": "La duplication du semestre ne dupliquera pas vos notes.",
   "cancel": "Annuler",
   "continue": "Continuer",
-  "copy": "Copie"
+  "copy": "Copie",
+  "delete_confirmation": "Voulez-vous vraiment supprimer {} ?",
+  "showcase_semester_button": "Cliquez ici pour passer d'un semestre à l'autre.",
+  "showcase_add_subject_button": "Ici, vous pouvez ajouter un sujet.",
+  "showcase_subject_list": "Il s'agit d'une matière ; cliquez dessus pour afficher vos notes et faites glisser vers la gauche pour la modifier ou la supprimer.",
+  "showcase_subject_list_desktop": "Il s'agit d'un sujet : cliquez dessus pour voir vos notes et cliquez à gauche pour le modifier ou le supprimer."
 }

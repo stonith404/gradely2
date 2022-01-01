@@ -20,8 +20,9 @@ import 'package:emoji_chooser/emoji_chooser.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:native_context_menu/native_context_menu.dart';
 
-GlobalKey _one = GlobalKey();
-GlobalKey _two = GlobalKey();
+GlobalKey _showCase1 = GlobalKey();
+GlobalKey _showCase2 = GlobalKey();
+GlobalKey _showCase3 = GlobalKey();
 var action;
 String selectedLesson = "";
 String selectedLessonName;
@@ -128,7 +129,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
       completeOfflineTasks(context);
       askForInAppRating();
       //notify the user that Gradely 2 Web isn't recommended.
-      if (!(prefs.getBool("webNotRecommendedPopUp") ?? false) && kIsWeb) {
+      if (!(prefs.getBool("webNotRecommendedPopUp_viewed") ?? false) &&
+          kIsWeb) {
         gradelyDialog(
             context: context,
             title: "web_popup_title".tr(),
@@ -136,13 +138,13 @@ class _SubjectScreenState extends State<SubjectScreen> {
             actions: [
               TextButton(
                   onPressed: () {
-                    prefs.setBool("webNotRecommendedPopUp", true);
+                    prefs.setBool("webNotRecommendedPopUp_viewed", true);
                     launchURL("https://gradelyapp.com#download");
                   },
                   child: Text("download".tr())),
               TextButton(
                   onPressed: () {
-                    prefs.setBool("webNotRecommendedPopUp", true);
+                    prefs.setBool("webNotRecommendedPopUp_viewed", true);
                     Navigator.of(context).pop();
                   },
                   child: Text("Ok".tr()))
@@ -150,10 +152,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
       }
       if (!(prefs.getBool("showcaseview_viewed") ?? false)) {
         Future.delayed(Duration(milliseconds: 2000), () {
-          ShowCaseWidget.of(context).startShowCase([
-            _one,
-            _two,
-          ]);
+          ShowCaseWidget.of(context)
+              .startShowCase([_showCase1, _showCase2, _showCase3]);
         });
       }
     });
@@ -202,10 +202,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
                         ),
                         actions: [
                           Showcase(
-                            key: _one,
+                            key: _showCase1,
                             title: 'Semesters',
-                            description:
-                                'Click here to switch between your semesters.',
+                            description: 'showcase_semester_button'.tr(),
                             disableAnimation: false,
                             shapeBorder: CircleBorder(),
                             radius: BorderRadius.all(Radius.circular(40)),
@@ -303,16 +302,24 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                 ],
                               ),
                               Spacer(flex: 1),
-                              IconButton(
-                                  icon: Icon(Icons.add),
-                                  color: frontColor(),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      GradelyPageRoute(
-                                          builder: (context) => addLesson()),
-                                    );
-                                  }),
+                              Showcase(
+                                key: _showCase2,
+                                title: 'Semesters',
+                                description: 'showcase_add_subject_button'.tr(),
+                                disableAnimation: false,
+                                shapeBorder: CircleBorder(),
+                                radius: BorderRadius.all(Radius.circular(40)),
+                                child: IconButton(
+                                    icon: Icon(Icons.add),
+                                    color: frontColor(),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        GradelyPageRoute(
+                                            builder: (context) => addLesson()),
+                                      );
+                                    }),
+                              ),
                             ],
                           ),
                         ),
@@ -329,18 +336,19 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: lessonList.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return index == 1
+                            return index == 0
                                 ? Showcase(
-                                    key: _two,
+                                    key: _showCase3,
                                     title: 'Subjects',
-                                    description:
-                                        'This is a subject click on it to view your grades and swipe left to edit or delete it.',
+                                    description: Platform.isWindows ||
+                                            Platform.isMacOS
+                                        ? 'showcase_subject_list_desktop'.tr()
+                                        : 'showcase_subject_list_desktop'.tr(),
                                     disableAnimation: false,
                                     shapeBorder: CircleBorder(),
                                     radius:
                                         BorderRadius.all(Radius.circular(15)),
-                                    child: AbsorbPointer(
-                                        child: subjectListTile(index)))
+                                    child: subjectListTile(index))
                                 : subjectListTile(index);
                           },
                         ),
@@ -446,6 +454,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                     })(),
                   ),
                   onTap: () {
+                    ShowCaseWidget.of(context).dismiss();
                     Navigator.pushNamed(context, "grades").then((value) {
                       getLessons(false);
                     });

@@ -16,7 +16,6 @@
   "add_semester": "Add semester",
   "add_lesson": "Add a subject",
   "lesson_name": "Subject name",
-  "delete_confirmation_p1": "Do you really want to delete {} ?",
   "add": "Add",
   "sign_in": "Sign in",
   "password_remembered": "Remember your password?",
@@ -149,5 +148,10 @@
   "duplicate_semester_text": "Duplicating the semester will not duplicate your grades.",
   "cancel": "Cancel",
   "continue": "Continue",
-  "copy": "Copy"
+  "copy": "Copy",
+  "delete_confirmation": "Do you really want to delete {} ?",
+  "showcase_semester_button": "Click here to switch between your semesters.",
+  "showcase_add_subject_button": "Here you can add a subject.",
+  "showcase_subject_list": "This is a subject click on it to view your grades and swipe left to edit or delete it.",
+  "showcase_subject_list_desktop": "This is a subject click on it to view your grades and left click to edit or delete it."
 }

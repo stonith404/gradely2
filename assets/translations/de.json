@@ -16,7 +16,6 @@
   "add_semester": "Semester hinzufügen",
   "add_lesson": "Fach hinzufügen",
   "lesson_name": "Fach Name",
-  "delete_confirmation": "Bist du sicher, dass du {} löschen möchtest?",
   "add": "Hinzufügen",
   "sign_in": "Einloggen",
   "password_remembered": "Weisst du dein Passwort?",
@@ -149,5 +148,10 @@
   "duplicate_semester_text": "Die Duplizierung des Semesters führt nicht zu einer Duplizierung deiner Noten.",
   "cancel": "Abbrechen",
   "continue": "Weiter",
-  "copy": "Kopie"
+  "copy": "Kopie",
+  "delete_confirmation": "Willst du wirklich {} löschen?",
+  "showcase_semester_button": "Klicke hier, um zwischen deinen Semestern zu wechseln.",
+  "showcase_add_subject_button": "Hier kannst du ein Fach hinzufügen.",
+  "showcase_subject_list": "Klicke hier, um deine Noten anzuzeigen, und swipe nach links, um sie zu bearbeiten oder zu löschen.",
+  "showcase_subject_list_desktop": "Klicke hier, um deine Noten zu sehen, und mache einen Linksklick, um sie zu bearbeiten oder zu löschen."
 }
