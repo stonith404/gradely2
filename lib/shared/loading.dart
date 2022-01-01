@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gradely2/screens/settings/settings.dart';
@@ -240,10 +240,11 @@ class _GradelyLoadingIndicatorState extends State<GradelyLoadingIndicator> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SpinKitWave(
-                color: primaryColor,
-                size: 25.0,
-              ),
+              Platform.isIOS || Platform.isMacOS
+                  ? CupertinoActivityIndicator()
+                  : CircularProgressIndicator(
+                      color: primaryColor,
+                    ),
               SizedBox(
                 height: 30,
               ),

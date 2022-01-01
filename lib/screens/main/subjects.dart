@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely2/screens/settings/settings.dart';
-import 'package:gradely2/shared/CLASSES.dart';
+import 'package:gradely2/shared/MODELS.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -126,8 +126,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
     getUserInfo();
     getLessons(true);
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      completeOfflineTasks(context);
-      askForInAppRating();
       //notify the user that Gradely 2 Web isn't recommended.
       if (!(prefs.getBool("webNotRecommendedPopUp_viewed") ?? false) &&
           kIsWeb) {
@@ -155,6 +153,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
           ShowCaseWidget.of(context)
               .startShowCase([_showCase1, _showCase2, _showCase3]);
         });
+      } else {
+        askForInAppRating();
       }
     });
   }

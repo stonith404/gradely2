@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely2/screens/main/semesters.dart';
 import 'package:gradely2/screens/main/subjects.dart';
-import 'package:gradely2/shared/CLASSES.dart';
+import 'package:gradely2/shared/MODELS.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
-import 'package:gradely2/shared/CLASSES.dart';
+import 'package:gradely2/shared/MODELS.dart';
 import 'package:gradely2/shared/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

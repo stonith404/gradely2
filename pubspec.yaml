@@ -35,7 +35,6 @@ dependencies:
   showcaseview: ^1.1.4
   # Packages that should be removed in the future versions:
   emoji_chooser: ^0.9.2 # Isn't maintained anymore
-  flutter_spinkit: ^5.1.0 # It's only used for one widget
   cupertino_icons: ^1.0.2 # Icons shouldn't be mixed
 
 dev_dependencies:

@@ -12,8 +12,8 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+import 'MODELS.dart' as models;
 
-import 'CLASSES.dart' as classes;
 //get info of current logged in user
 
 Future getUserInfo() async {
@@ -42,7 +42,7 @@ Future getUserInfo() async {
         collection: collectionUser,
         filters: ["uid=${accountR.$id}"]))[0];
 
-    user = classes.User(
+    user = models.User(
       accountR.$id,
       accountR.name,
       accountR.registration,
@@ -81,7 +81,7 @@ Future internetConnection({BuildContext context}) async {
   }
 }
 
-isMaintenance() async {
+Future<bool> isMaintenance() async {
   try {
     var request = await http
         .get(Uri.parse("https://gradelyapp.com/static-api"))
@@ -112,7 +112,7 @@ Future<bool> reAuthenticate(
   return success;
 }
 
-frontColor() {
+Color frontColor() {
   Color color;
   if (primaryColor == Color(0xFFFFFFFF)) {
     color = Colors.black;
@@ -124,7 +124,7 @@ frontColor() {
 
 //checks if darkmode is activated and changes colors
 
-darkModeColorChanger(context) {
+void darkModeColorChanger(context) {
   if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
     if (primaryColor == Color(0xff000000)) {
       primaryColor = Colors.white;
@@ -166,7 +166,7 @@ darkModeColorChanger(context) {
 
 //if there is no connection, show a dialog
 
-noNetworkDialog(context) async {
+void noNetworkDialog(context) async {
   if (!await internetConnection()) {
     errorSuccessDialog(
         context: context,
@@ -184,7 +184,7 @@ Future sharedPrefs() async {
 
 //convertes average to pluspoints
 
-getPluspoints(num value) {
+double getPluspoints(num value) {
   double plusPoints;
 
   if (value >= 5.75) {
@@ -219,7 +219,7 @@ getPluspoints(num value) {
 
 //formats the date to the supported date
 
-formatDateForDB(date) {
+String formatDateForDB(date) {
   try {
     var _formatted = DateTime.parse(date.toString());
     return "${_formatted.year}.${(() {
@@ -240,7 +240,7 @@ formatDateForDB(date) {
   }
 }
 
-formatDateForClient(date) {
+String formatDateForClient(date) {
   if (date == "") {
     return "-";
   } else {
@@ -269,7 +269,7 @@ formatDateForClient(date) {
 void launchURL(_url) async => await launch(_url);
 
 //clears all variables when user sign out
-clearVariables() {
+void clearVariables() {
   prefs.clear();
   gradeList = [];
   semesterList = [];
@@ -278,7 +278,7 @@ clearVariables() {
 
 //changes email of user
 
-changeEmail(_email, context) async {
+void changeEmail(_email, context) async {
   showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -335,53 +335,15 @@ changeEmail(_email, context) async {
       });
 }
 
-signOut() async {
+void signOut() async {
   await account.deleteSession(sessionId: "current");
   prefs.setBool("signedIn", false);
 
   clearVariables();
 }
 
-completeOfflineTasks(context) {
-  List tasks = [
-    // {
-    //   "type": "create",
-    //   "documentId": "",
-    //   "collection": collectionGrades,
-    //   "data": {"name": "off", "grade": 3.3, "weight": 1.0}
-    // }
-  ];
-
-  if (tasks.isNotEmpty) {
-    try {
-      for (var item in tasks) {
-        if (item["type"] == "update") {
-          api.updateDocument(context,
-              collectionId: item["collection"],
-              documentId: item["documentId"],
-              data: item["data"]);
-        } else if (item["type"] == "create") {
-          api.createDocument(context,
-              collectionId: item["collection"], data: item["data"]);
-        } else if (item["type"] == "delete") {
-          api.deleteDocument(
-            context,
-            collectionId: item["collection"],
-            documentId: item["documentId"],
-          );
-        }
-      }
-
-      errorSuccessDialog(context: context, error: false, text: "Uploaded");
-    } catch (e) {
-      print(e);
-    }
-  }
-  print("no offline tasks");
-}
-
 // ignore: non_constant_identifier_names
-GradelyPageRoute({Widget Function(BuildContext) builder}) {
+PageRoute GradelyPageRoute({Widget Function(BuildContext) builder}) {
   if (Platform.isIOS) {
     return MaterialWithModalsPageRoute(builder: builder);
   } else {
@@ -389,7 +351,7 @@ GradelyPageRoute({Widget Function(BuildContext) builder}) {
   }
 }
 
-getUserAgent() {
+String getUserAgent() {
   String platform;
   if (Platform.isIOS) {
     platform = "iPhone OS";
@@ -421,9 +383,7 @@ askForInAppRating() async {
       (DateTime.now().millisecondsSinceEpoch / 1000) - user.registration >
           2592000;
   final InAppReview inAppReview = InAppReview.instance;
-  if (isAccountOlderThen30Days &&
-      await inAppReview.isAvailable() &&
-      (Platform.isAndroid || Platform.isMacOS || Platform.isIOS)) {
+  if (isAccountOlderThen30Days && await inAppReview.isAvailable()) {
     inAppReview.requestReview();
   }
 }
