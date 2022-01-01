@@ -23,13 +23,13 @@ import 'package:native_context_menu/native_context_menu.dart';
 GlobalKey _showCase1 = GlobalKey();
 GlobalKey _showCase2 = GlobalKey();
 GlobalKey _showCase3 = GlobalKey();
-var action;
 String selectedLesson = "";
 String selectedLessonName;
 String _selectedEmoji = "";
 double _averageOfSemester = 0 / -0;
 double _averageOfSemesterPP = 0 / -0;
 Semester selectedSemester;
+String switchedGradeType = user.gradeType;
 
 class SubjectScreen extends StatefulWidget {
   @override
@@ -251,52 +251,75 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                           vertical: 15.0),
                                       child: Row(
                                         children: [
-                                          Text("Ø",
-                                              style: TextStyle(
-                                                fontSize: 19,
-                                                color: frontColor(),
-                                              )),
-                                          SizedBox(
-                                            width: 5,
+                                          InkWell(
+                                            onTap: () {
+                                              setState(() =>
+                                                  switchedGradeType = "av");
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Text("Ø",
+                                                    style: TextStyle(
+                                                      fontSize: 19,
+                                                      color: frontColor(),
+                                                    )),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                    _averageOfSemester.isNaN ||
+                                                            _averageOfSemester ==
+                                                                -99
+                                                        ? "-"
+                                                        : roundGrade(
+                                                            _averageOfSemester,
+                                                            selectedSemester
+                                                                .round),
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: frontColor(),
+                                                    )),
+                                              ],
+                                            ),
                                           ),
-                                          Text(
-                                              _averageOfSemester.isNaN ||
-                                                      _averageOfSemester == -99
-                                                  ? "-"
-                                                  : roundGrade(
-                                                      _averageOfSemester,
-                                                      selectedSemester.round),
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                color: frontColor(),
-                                              )),
                                           SizedBox(
                                             width: 20,
                                           ),
-                                          user.gradeType == "av"
-                                              ? Container()
-                                              : Icon(
-                                                  Icons
-                                                      .add_circle_outline_outlined,
-                                                  size: 19,
-                                                  color: frontColor(),
+                                          InkWell(
+                                            onTap: () {
+                                              setState(() =>
+                                                  switchedGradeType = "pp");
+                                            },
+                                            child: Row(
+                                              children: [
+                                                user.gradeType == "av"
+                                                    ? Container()
+                                                    : Icon(
+                                                        Icons
+                                                            .add_circle_outline_outlined,
+                                                        size: 19,
+                                                        color: frontColor(),
+                                                      ),
+                                                SizedBox(
+                                                  width: 5,
                                                 ),
-                                          SizedBox(
-                                            width: 5,
+                                                user.gradeType == "av"
+                                                    ? Container()
+                                                    : Text(
+                                                        _averageOfSemester
+                                                                    .isNaN ||
+                                                                _averageOfSemester ==
+                                                                    -99
+                                                            ? "0"
+                                                            : _averageOfSemesterPP
+                                                                .toString(),
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          color: frontColor(),
+                                                        ))
+                                              ],
+                                            ),
                                           ),
-                                          user.gradeType == "av"
-                                              ? Container()
-                                              : Text(
-                                                  _averageOfSemester.isNaN ||
-                                                          _averageOfSemester ==
-                                                              -99
-                                                      ? "0"
-                                                      : _averageOfSemesterPP
-                                                          .toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: frontColor(),
-                                                  ))
                                         ],
                                       )),
                                 ],
@@ -444,7 +467,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                     (() {
                       if (lessonList[index].average == -99) {
                         return "-";
-                      } else if (user.gradeType == "pp") {
+                      } else if (user.gradeType == "pp" &&
+                          switchedGradeType == "pp") {
                         return getPluspoints(lessonList[index].average)
                             .toString();
                       } else {
