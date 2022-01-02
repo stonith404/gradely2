@@ -16,11 +16,11 @@ import 'MODELS.dart' as models;
 
 //get info of current logged in user
 
-Future getUserInfo() async {
+Future getUserInfo({bool offlineMode = false}) async {
   User accountR;
   bool missingScope = false;
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  if (await internetConnection()) {
+  if (!offlineMode && await internetConnection()) {
     try {
       accountR = await account.get();
     } catch (e) {
@@ -28,10 +28,20 @@ Future getUserInfo() async {
         missingScope = true;
       }
     }
-    // await prefs.setString("accountResult", accountR.toMap().toString());
+    await prefs.setString("accountResult", jsonEncode(accountR.toMap()));
   } else {
-    //  accountR = prefs.getString("accountResult");
-    accountR = jsonDecode(accountR.toString());
+    print(jsonDecode(prefs.getString("accountResult")).runtimeType);
+    var prefsRes = jsonDecode(prefs.getString("accountResult"));
+
+    accountR = User(
+        $id: prefsRes["\$id"],
+        name: prefsRes["name"],
+        registration: prefsRes["registration"],
+        status: prefsRes["status"],
+        passwordUpdate: prefsRes["passwordUpdate"],
+        email: prefsRes["email"],
+        emailVerification: prefsRes["emailVerification"],
+        prefs: Preferences(data: prefsRes["prefs"]));
   }
 
   if (missingScope) {
@@ -379,11 +389,23 @@ String roundGrade(double value, double x) {
 }
 
 askForInAppRating() async {
-  bool isAccountOlderThen30Days =
-      (DateTime.now().millisecondsSinceEpoch / 1000) - user.registration >
-          2592000;
+  int today = (DateTime.now().millisecondsSinceEpoch / 1000).round();
+  bool isLastAskedOlderThen14Days;
+
+  try {
+    isLastAskedOlderThen14Days =
+        (today - prefs.getInt("timestamp_asked_for_review") > 1296000);
+  } catch (_) {
+    isLastAskedOlderThen14Days = true;
+  }
+
+  bool isAccountOlderThen30Days = (today - user.registration) > 2592000;
   final InAppReview inAppReview = InAppReview.instance;
-  if (isAccountOlderThen30Days && await inAppReview.isAvailable()) {
+
+  if (isAccountOlderThen30Days &&
+      isLastAskedOlderThen14Days &&
+      await inAppReview.isAvailable()) {
     inAppReview.requestReview();
+    prefs.setInt("timestamp_asked_for_review", today);
   }
 }
