@@ -153,5 +153,8 @@
   "showcase_semester_button": "Cliquez ici pour passer d'un semestre à l'autre.",
   "showcase_add_subject_button": "Ici, vous pouvez ajouter un sujet.",
   "showcase_subject_list": "Il s'agit d'une matière ; cliquez dessus pour afficher vos notes et faites glisser vers la gauche pour la modifier ou la supprimer.",
-  "showcase_subject_list_desktop": "Il s'agit d'un sujet : cliquez dessus pour voir vos notes et cliquez à gauche pour le modifier ou le supprimer."
+  "showcase_subject_list_desktop": "Il s'agit d'un sujet : cliquez dessus pour voir vos notes et cliquez à gauche pour le modifier ou le supprimer.",
+  "semesters" : "Semestre",
+  "subjects" : "Sujet",
+  "grades" : "Notes"
 }

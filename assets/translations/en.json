@@ -153,5 +153,8 @@
   "showcase_semester_button": "Click here to switch between your semesters.",
   "showcase_add_subject_button": "Here you can add a subject.",
   "showcase_subject_list": "This is a subject click on it to view your grades and swipe left to edit or delete it.",
-  "showcase_subject_list_desktop": "This is a subject click on it to view your grades and left click to edit or delete it."
+  "showcase_subject_list_desktop": "This is a subject click on it to view your grades and left click to edit or delete it.",
+  "semesters" : "Semesters",
+  "subjects" : "Subjects",
+  "grades" : "Grades"
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 
@@ -39,8 +38,8 @@ class User {
   bool emailVerification;
   String gradeType;
   String choosenSemester;
+  bool showcaseViewed;
   String dbID;
-  Color color;
   Future<bool> isSignedIn() async {
     if (await internetConnection()) {
       try {
@@ -68,6 +67,7 @@ class User {
     this.emailVerification,
     this.gradeType,
     this.choosenSemester,
+    this.showcaseViewed,
     this.dbID,
   );
 }

@@ -151,15 +151,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   child: Text("Ok".tr()))
             ]);
       }
-
-      Future.delayed(Duration(milliseconds: 2000), () {
-        if (!(prefs.getBool("showcaseview_viewed") ?? false)) {
+      if ((user.showcaseViewed ?? false)) {
+        Future.delayed(Duration(milliseconds: 1000), () {
           ShowCaseWidget.of(context)
               .startShowCase([_showCase1, _showCase2, _showCase3]);
-        } else {
-          askForInAppRating();
-        }
-      });
+        });
+      } else {
+        Future.delayed(Duration(milliseconds: 4000), () => askForInAppRating());
+      }
     });
   }
 
@@ -207,7 +206,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                         actions: [
                           Showcase(
                             key: _showCase1,
-                            title: 'Semesters',
+                            title: 'semesters'.tr(),
                             description: 'showcase_semester_button'.tr(),
                             disableAnimation: false,
                             shapeBorder: CircleBorder(),
@@ -332,7 +331,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               Spacer(flex: 1),
                               Showcase(
                                 key: _showCase2,
-                                title: 'Semesters',
+                                title: 'subjects'.tr(),
                                 description: 'showcase_add_subject_button'.tr(),
                                 disableAnimation: false,
                                 shapeBorder: CircleBorder(),
@@ -367,7 +366,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                             return index == 0
                                 ? Showcase(
                                     key: _showCase3,
-                                    title: 'Subjects',
+                                    title: 'grades'.tr(),
                                     description: Platform.isWindows ||
                                             Platform.isMacOS
                                         ? 'showcase_subject_list_desktop'.tr()
@@ -483,7 +482,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                     })(),
                   ),
                   onTap: () {
-                    ShowCaseWidget.of(context).dismiss();
+                    ShowCaseWidget.of(context).completed(_showCase3);
                     Navigator.pushNamed(context, "grades").then((value) {
                       getLessons(false, false);
                     });

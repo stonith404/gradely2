@@ -51,6 +51,7 @@ Future getUserInfo() async {
       accountR.emailVerification,
       dbResponse["gradeType"],
       dbResponse["choosenSemester"],
+      dbResponse["showcase_viewed"] ?? false,
       dbResponse["\$id"],
     );
   }

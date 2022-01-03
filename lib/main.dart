@@ -163,7 +163,11 @@ class _State extends State<HomeWrapper> {
         return ShowCaseWidget(
             blurValue: 1,
             onFinish: () {
-              prefs.setBool("showcaseview_viewed", true);
+              user.showcaseViewed = true;
+              api.updateDocument(context,
+                  collectionId: collectionUser,
+                  documentId: user.dbID,
+                  data: {"showcase_viewed": true});
             },
             builder: Builder(builder: (context) => SubjectScreen()));
       } else {
