@@ -58,15 +58,6 @@ Future settingsScreen(BuildContext context) {
                           onPressed: () async {
                             await getUserInfo();
                             Navigator.of(context).pop();
-                            Navigator.pushReplacement(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation1, animation2) =>
-                                        SubjectScreen(),
-                                transitionDuration: Duration(seconds: 0),
-                              ),
-                            );
                           },
                           icon: Icon(Icons.arrow_forward_ios_outlined)),
                     ),
@@ -167,7 +158,8 @@ Future settingsScreen(BuildContext context) {
                                   Text("support".tr()),
                                 ],
                                 onTap: () {
-                                  Navigator.pushNamed(context, "settings/supportApp");
+                                  Navigator.pushNamed(
+                                      context, "settings/supportApp");
                                 },
                               ),
                               settingsListTile(

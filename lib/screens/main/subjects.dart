@@ -51,6 +51,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
           .toList()[0];
     });
 
+    setState(() => isLoading = false);
+
     lessonList = (await api.listDocuments(
             collection: collectionLessons,
             name: "lessonList_${user.choosenSemester}",
@@ -61,8 +63,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
         .toList();
 
     lessonList.sort((a, b) => b.average.compareTo(a.average));
-
-    setState(() => isLoading = false);
 
     //get the semester average
     if (lessonList.length == 0) {
@@ -363,7 +363,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: lessonList.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return index == 0
+                            return index == 0 && !user.showcaseViewed
                                 ? Showcase(
                                     key: _showCase3,
                                     title: 'grades'.tr(),

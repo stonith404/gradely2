@@ -49,7 +49,7 @@ void main() async {
 
   await _executeJobs();
   runApp(EasyLocalization(
-      supportedLocales: [Locale('de'), Locale('en')],
+      supportedLocales: [Locale('de'), Locale('en'), Locale("fr")],
       useOnlyLangCode: true,
       path: 'assets/translations',
       fallbackLocale: Locale('en'),
@@ -81,59 +81,69 @@ class MaterialWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Gradely 2",
-      initialRoute: '/',
-      onGenerateRoute: (settings) {
-        plausible.enabled = kDebugMode || kIsWeb ? false : true;
-        plausible.userAgent = getUserAgent();
-        plausible.event(page: settings.name);
-        return GradelyPageRoute(
-            builder: (context) => routes[settings.name](context));
-      },
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      theme: ThemeData(
-        textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.black),
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        textButtonTheme: TextButtonThemeData(
-            style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-        )),
-        dialogBackgroundColor: Color(0xFFF2F2F7),
-        appBarTheme: AppBarTheme(
-          centerTitle: true,
-          iconTheme: IconThemeData(color: frontColor()),
+    return ShowCaseWidget(
+            blurValue: 1,
+            onFinish: () {
+              user.showcaseViewed = true;
+              api.updateDocument(context,
+                  collectionId: collectionUser,
+                  documentId: user.dbID,
+                  data: {"showcase_viewed": true});
+            },
+            builder: Builder(builder: (context) => MaterialApp(
+        title: "Gradely 2",
+        initialRoute: '/',
+        onGenerateRoute: (settings) {
+          plausible.enabled = kDebugMode || kIsWeb ? false : true;
+          plausible.userAgent = getUserAgent();
+          plausible.event(page: settings.name);
+          return GradelyPageRoute(
+              builder: (context) => routes[settings.name](context));
+        },
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        theme: ThemeData(
+          textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.black),
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          textButtonTheme: TextButtonThemeData(
+              style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+          )),
+          dialogBackgroundColor: Color(0xFFF2F2F7),
+          appBarTheme: AppBarTheme(
+            centerTitle: true,
+            iconTheme: IconThemeData(color: frontColor()),
+          ),
+          brightness: Brightness.light,
+          primaryColor: primaryColor,
+          scaffoldBackgroundColor: Color(0xFFF2F2F7),
+          backgroundColor: Colors.grey[300],
         ),
-        brightness: Brightness.light,
-        primaryColor: primaryColor,
-        scaffoldBackgroundColor: Color(0xFFF2F2F7),
-        backgroundColor: Colors.grey[300],
-      ),
-      darkTheme: ThemeData(
-        textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.white),
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        appBarTheme: AppBarTheme(
-          centerTitle: true,
-          iconTheme: IconThemeData(color: frontColor()),
+        darkTheme: ThemeData(
+          textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.white),
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          appBarTheme: AppBarTheme(
+            centerTitle: true,
+            iconTheme: IconThemeData(color: frontColor()),
+          ),
+          backgroundColor: Color(0xFF010001),
+          textButtonTheme: TextButtonThemeData(
+              style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+          )),
+          dialogBackgroundColor: Color(0xFF1a1a1a),
+          scaffoldBackgroundColor: Color(0xFF010001),
+          brightness: Brightness.dark,
+          primaryColor: primaryColor,
+          floatingActionButtonTheme:
+              FloatingActionButtonThemeData(backgroundColor: primaryColor),
         ),
-        backgroundColor: Color(0xFF010001),
-        textButtonTheme: TextButtonThemeData(
-            style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-        )),
-        dialogBackgroundColor: Color(0xFF1a1a1a),
-        scaffoldBackgroundColor: Color(0xFF010001),
-        brightness: Brightness.dark,
-        primaryColor: primaryColor,
-        floatingActionButtonTheme:
-            FloatingActionButtonThemeData(backgroundColor: primaryColor),
       ),
-    );
+    ));
   }
 }
 
@@ -160,16 +170,7 @@ class _State extends State<HomeWrapper> {
       return MaintenanceScreen();
     } else {
       if (_isSignedIn) {
-        return ShowCaseWidget(
-            blurValue: 1,
-            onFinish: () {
-              user.showcaseViewed = true;
-              api.updateDocument(context,
-                  collectionId: collectionUser,
-                  documentId: user.dbID,
-                  data: {"showcase_viewed": true});
-            },
-            builder: Builder(builder: (context) => SubjectScreen()));
+        return  SubjectScreen();
       } else {
         return AuthHomeScreen();
       }

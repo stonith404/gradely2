@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:appwrite/models.dart';
-import 'package:flutter/foundation.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +66,7 @@ Future<bool> isSignedIn() async {
       prefs.setBool("signedIn", false);
       return false;
     }
-  } else if (prefs.getBool("signedIn")) {
+  } else if (prefs.getBool("signedIn") ?? false) {
     return true;
   } else {
     return false;
@@ -77,20 +76,13 @@ Future<bool> isSignedIn() async {
 //checks if client is connected to the server
 
 Future internetConnection({BuildContext context}) async {
-  if (kIsWeb) {
+  try {
+    await account.get();
     return true;
-  } else {
-    try {
-      final result = await InternetAddress.lookup('example.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        return true;
-      }
-    } on SocketException catch (_) {
-      errorSuccessDialog(
-          context: context,
-          error: true,
-          text: "no_network".tr(),
-          title: "network_needed_title".tr());
+  } catch (e) {
+    if (e.code != null) {
+      return true;
+    } else {
       return false;
     }
   }
@@ -99,7 +91,7 @@ Future internetConnection({BuildContext context}) async {
 Future<bool> isMaintenance() async {
   try {
     var request = await http
-        .get(Uri.parse("https://gradelyapp.com/sttic-api"))
+        .get(Uri.parse("https://gradelyapp.com/static-api"))
         .timeout(const Duration(seconds: 2));
     return jsonDecode(request.body)["maintenance"];
   } catch (_) {
