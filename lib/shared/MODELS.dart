@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gradely2/shared/FUNCTIONS.dart';
+import 'package:gradely2/shared/VARIABLES.dart';
 
 class Lesson {
   String id;
@@ -39,6 +41,22 @@ class User {
   String choosenSemester;
   String dbID;
   Color color;
+  Future<bool> isSignedIn() async {
+    if (await internetConnection()) {
+      try {
+        await account.get();
+        prefs.setBool("signedIn", true);
+        return true;
+      } catch (_) {
+        prefs.setBool("signedIn", false);
+        return false;
+      }
+    } else if (prefs.getBool("signedIn")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   User(
     this.id,

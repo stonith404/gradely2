@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gradely2/main.dart';
 import 'package:gradely2/shared/MODELS.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
@@ -37,6 +35,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
   }
 
   saveChoosenSemester(String _choosenSemester) async {
+    user.choosenSemester = _choosenSemester;
     await api.updateDocument(context,
         collectionId: collectionUser,
         documentId: user.dbID,
@@ -47,8 +46,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
     return gradelyDialog(
       context: context,
       title: "warning".tr(),
-      text:
-          "delete_confirmation".tr(args: [semesterList[index].name]),
+      text: "delete_confirmation".tr(args: [semesterList[index].name]),
       actions: <Widget>[
         CupertinoButton(
           child: Text(
@@ -98,9 +96,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                 var lessonsList = (await api.listDocuments(
                         collection: collectionLessons,
                         name: "lessonList_${semesterList[index].id}",
-                        filters: [
-                      "parentId=${semesterList[index].id}"
-                    ]))
+                        filters: ["parentId=${semesterList[index].id}"]))
                     .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
                         double.parse(r["average"].toString())))
                     .toList();
@@ -259,11 +255,9 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                         onPressed: () async {
                                           await saveChoosenSemester(
                                               semesterList[index].id);
-                                          Navigator.pushAndRemoveUntil(
+                                          Navigator.pushNamedAndRemoveUntil(
                                             context,
-                                            GradelyPageRoute(
-                                                builder: (context) =>
-                                                    HomeWrapper()),
+                                            "subjects",
                                             (Route<dynamic> route) => false,
                                           );
                                         }),

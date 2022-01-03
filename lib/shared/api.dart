@@ -11,10 +11,11 @@ class GradelyApi {
       {@required String collection,
       @required String name,
       List filters,
-      String orderField}) async {
+      String orderField,
+      bool offlineMode = false}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List result = [];
-    if (await internetConnection()) {
+    if (!offlineMode && await internetConnection()) {
       DocumentList res = await database.listDocuments(
         filters: filters ?? [],
         collectionId: collection,
@@ -25,7 +26,11 @@ class GradelyApi {
       }
       await prefs.setString(name, jsonEncode(result));
     } else {
-      result = jsonDecode(prefs.getString(name));
+      var res = jsonDecode(prefs.getString(name));
+
+      for (var i = 0; i < res.length; i++) {
+        result.add(res[i]);
+      }
     }
 
     return result;

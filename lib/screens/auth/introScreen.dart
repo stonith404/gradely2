@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:appwrite/models.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -242,7 +243,7 @@ class _Intro4State extends State<_Intro4> {
   bool _obsecuredText = true;
   createUser() async {
     isLoadingController.add(true);
-    Future resultCreateAccount = account.create(
+    Future<User> resultCreateAccount = account.create(
       name: nameController.text,
       email: emailController.text,
       password: passwordController.text,
@@ -252,10 +253,9 @@ class _Intro4State extends State<_Intro4> {
         email: emailController.text,
         password: passwordController.text,
       );
-      response = jsonDecode(response.toString());
 
       await api.createDocument(context, collectionId: collectionUser, data: {
-        "uid": response["\$id"],
+        "uid": response.$id,
         "gradeType": "av",
         "choosenSemester": "noSemesterChoosed"
       });
@@ -276,6 +276,7 @@ class _Intro4State extends State<_Intro4> {
 
   @override
   Widget build(BuildContext context) {
+    bool keyboardActive = MediaQuery.of(context).viewInsets.bottom == 0;
     progress = 0.64;
     return _IntroScreenWrapper(
       child: Column(
@@ -284,9 +285,9 @@ class _Intro4State extends State<_Intro4> {
           Text("lets_get_started".tr(),
               textAlign: TextAlign.center, style: bigTitle),
           Spacer(
-            flex: 1,
+            flex: 3,
           ),
-          MediaQuery.of(context).viewInsets.bottom == 0
+          keyboardActive
               ? Text(
                   "intro_get_started_description".tr(),
                   textAlign: TextAlign.center,
@@ -296,14 +297,14 @@ class _Intro4State extends State<_Intro4> {
                 )
               : Container(),
           Spacer(
-            flex: 1,
+            flex: keyboardActive ? 3 : 1,
           ),
           TextField(
               controller: nameController,
               textAlign: TextAlign.left,
               decoration: inputDec(label: "your_name".tr())),
           Spacer(
-            flex: 1,
+            flex: keyboardActive ? 3 : 2,
           ),
           TextField(
               keyboardType: TextInputType.emailAddress,
@@ -311,7 +312,7 @@ class _Intro4State extends State<_Intro4> {
               textAlign: TextAlign.left,
               decoration: inputDec(label: "your_email".tr())),
           Spacer(
-            flex: 1,
+            flex: keyboardActive ? 3 : 2,
           ),
           TextField(
               controller: passwordController,
@@ -330,7 +331,7 @@ class _Intro4State extends State<_Intro4> {
                 ),
               )),
           Spacer(
-            flex: 10,
+            flex: 30,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -341,11 +342,11 @@ class _Intro4State extends State<_Intro4> {
             ],
           ),
           Spacer(
-            flex: 1,
+            flex: 3,
           ),
           progressIndicator(),
           Spacer(
-            flex: 1,
+            flex: 3,
           ),
         ],
       ),

@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gradely2/main.dart';
+import 'package:gradely2/screens/auth/authHome.dart';
+import 'package:gradely2/screens/main/subjects.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -57,10 +58,15 @@ class MaintenanceScreen extends StatelessWidget {
                             error: true,
                             title: "sorry".tr(),
                             text: "still_maintenance".tr());
+                      } else if (await isSignedIn()) {
+                          Navigator.pushReplacement(
+                          context,
+                          GradelyPageRoute(builder: (context) => SubjectScreen()),
+                        );
                       } else {
                         Navigator.pushReplacement(
                           context,
-                          GradelyPageRoute(builder: (context) => HomeWrapper()),
+                          GradelyPageRoute(builder: (context) => AuthHomeScreen()),
                         );
                       }
                       isLoadingController.add(false);

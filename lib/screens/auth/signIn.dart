@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gradely2/main.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -25,9 +24,9 @@ class _SignInScreenState extends State<SignInScreen> {
     await result.then((response) async {
       prefs.setBool("signedIn", true);
       await getUserInfo();
-      Navigator.pushReplacement(
+      Navigator.pushNamed(
         context,
-        GradelyPageRoute(builder: (context) => HomeWrapper()),
+       "subjects"
       );
 
       passwordController.text = "";

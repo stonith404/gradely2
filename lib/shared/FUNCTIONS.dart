@@ -16,37 +16,26 @@ import 'MODELS.dart' as models;
 
 //get info of current logged in user
 
-Future getUserInfo({bool offlineMode = false}) async {
-  User accountR;
-  bool missingScope = false;
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  if (!offlineMode && await internetConnection()) {
-    try {
+Future getUserInfo() async {
+  if (await isSignedIn()) {
+    User accountR;
+    if (await internetConnection()) {
       accountR = await account.get();
-    } catch (e) {
-      if (e.code == 401) {
-        missingScope = true;
-      }
+      prefs.setString("accountResult", jsonEncode(accountR.toMap()));
+    } else {
+      var prefsRes = jsonDecode(prefs.getString("accountResult"));
+
+      accountR = User(
+          $id: prefsRes["\$id"],
+          name: prefsRes["name"],
+          registration: prefsRes["registration"],
+          status: prefsRes["status"],
+          passwordUpdate: prefsRes["passwordUpdate"],
+          email: prefsRes["email"],
+          emailVerification: prefsRes["emailVerification"],
+          prefs: Preferences(data: prefsRes["prefs"]));
     }
-    await prefs.setString("accountResult", jsonEncode(accountR.toMap()));
-  } else {
-    print(jsonDecode(prefs.getString("accountResult")).runtimeType);
-    var prefsRes = jsonDecode(prefs.getString("accountResult"));
 
-    accountR = User(
-        $id: prefsRes["\$id"],
-        name: prefsRes["name"],
-        registration: prefsRes["registration"],
-        status: prefsRes["status"],
-        passwordUpdate: prefsRes["passwordUpdate"],
-        email: prefsRes["email"],
-        emailVerification: prefsRes["emailVerification"],
-        prefs: Preferences(data: prefsRes["prefs"]));
-  }
-
-  if (missingScope) {
-    prefs.setBool("signedIn", false);
-  } else if (accountR != null) {
     var dbResponse = (await api.listDocuments(
         name: "userDB",
         collection: collectionUser,
@@ -65,8 +54,23 @@ Future getUserInfo({bool offlineMode = false}) async {
       dbResponse["\$id"],
     );
   }
+}
 
-  return;
+Future<bool> isSignedIn() async {
+  if (await internetConnection()) {
+    try {
+      await account.get();
+      prefs.setBool("signedIn", true);
+      return true;
+    } catch (_) {
+      prefs.setBool("signedIn", false);
+      return false;
+    }
+  } else if (prefs.getBool("signedIn")) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 //checks if client is connected to the server
@@ -94,11 +98,9 @@ Future internetConnection({BuildContext context}) async {
 Future<bool> isMaintenance() async {
   try {
     var request = await http
-        .get(Uri.parse("https://gradelyapp.com/static-api"))
+        .get(Uri.parse("https://gradelyapp.com/sttic-api"))
         .timeout(const Duration(seconds: 2));
     return jsonDecode(request.body)["maintenance"];
-  } on TimeoutException catch (_) {
-    return false;
   } catch (_) {
     return false;
   }
@@ -345,10 +347,9 @@ void changeEmail(_email, context) async {
       });
 }
 
-void signOut() async {
+Future signOut() async {
   await account.deleteSession(sessionId: "current");
   prefs.setBool("signedIn", false);
-
   clearVariables();
 }
 

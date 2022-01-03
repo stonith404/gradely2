@@ -20,9 +20,6 @@ import 'package:emoji_chooser/emoji_chooser.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:native_context_menu/native_context_menu.dart';
 
-GlobalKey _showCase1 = GlobalKey();
-GlobalKey _showCase2 = GlobalKey();
-GlobalKey _showCase3 = GlobalKey();
 String selectedLesson = "";
 String selectedLessonName;
 String _selectedEmoji = "";
@@ -37,13 +34,17 @@ class SubjectScreen extends StatefulWidget {
 }
 
 class _SubjectScreenState extends State<SubjectScreen> {
-  getLessons(loading) async {
+  GlobalKey _showCase1 = GlobalKey();
+  GlobalKey _showCase2 = GlobalKey();
+  GlobalKey _showCase3 = GlobalKey();
+  getLessons(loading, offlineMode) async {
     if (loading) setState(() => isLoading = true);
 //get choosen semester name
     var semesterResponse = await api.listDocuments(
         collection: collectionSemester,
         name: "semesterName",
-        filters: ["\$id=${user.choosenSemester}"]);
+        filters: ["\$id=${user.choosenSemester}"],
+        offlineMode: offlineMode);
     setState(() {
       selectedSemester = semesterResponse
           .map((r) => Semester(r["\$id"], r["name"], r["round"]))
@@ -53,7 +54,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
     lessonList = (await api.listDocuments(
             collection: collectionLessons,
             name: "lessonList_${user.choosenSemester}",
-            filters: ["parentId=${user.choosenSemester}"]))
+            filters: ["parentId=${user.choosenSemester}"],
+            offlineMode: offlineMode))
         .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
             double.parse(r["average"].toString())))
         .toList();
@@ -112,7 +114,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
             setState(() {
               lessonList.removeWhere((item) => item.id == lessonList[index].id);
             });
-            getLessons(false);
+            getLessons(false, false);
             Navigator.of(context).pop();
           },
         )
@@ -124,7 +126,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
   void initState() {
     super.initState();
     getUserInfo();
-    getLessons(true);
+    getLessons(true, true);
+    getLessons(true, false);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       //notify the user that Gradely 2 Web isn't recommended.
       if (!(prefs.getBool("webNotRecommendedPopUp_viewed") ?? false) &&
@@ -148,14 +151,15 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   child: Text("Ok".tr()))
             ]);
       }
-      if (!(prefs.getBool("showcaseview_viewed") ?? false)) {
-        Future.delayed(Duration(milliseconds: 2000), () {
+
+      Future.delayed(Duration(milliseconds: 2000), () {
+        if (!(prefs.getBool("showcaseview_viewed") ?? false)) {
           ShowCaseWidget.of(context)
               .startShowCase([_showCase1, _showCase2, _showCase3]);
-        });
-      } else {
-        askForInAppRating();
-      }
+        } else {
+          askForInAppRating();
+        }
+      });
     });
   }
 
@@ -213,7 +217,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                     color: primaryColor),
                                 onPressed: () async {
                                   Navigator.pushNamed(context, "semesters")
-                                      .then((value) => getLessons(false));
+                                      .then(
+                                          (value) => getLessons(false, false));
                                 }),
                           ),
                         ],
@@ -366,7 +371,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                     description: Platform.isWindows ||
                                             Platform.isMacOS
                                         ? 'showcase_subject_list_desktop'.tr()
-                                        : 'showcase_subject_list_desktop'.tr(),
+                                        : 'showcase_subject_list'.tr(),
                                     disableAnimation: false,
                                     shapeBorder: CircleBorder(),
                                     radius:
@@ -480,7 +485,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   onTap: () {
                     ShowCaseWidget.of(context).dismiss();
                     Navigator.pushNamed(context, "grades").then((value) {
-                      getLessons(false);
+                      getLessons(false, false);
                     });
 
                     selectedLesson = lessonList[index].id;
@@ -602,7 +607,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                     },
                   );
 
-                  await getLessons(false);
+                  await getLessons(false, false);
                   Navigator.of(context).pop();
                   addLessonController.text = "";
                   isLoadingController.add(false);
@@ -721,7 +726,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                         "name": renameTestWeightController.text,
                         "emoji": _selectedEmoji
                       });
-                  await getLessons(false);
+                  await getLessons(false, false);
                   Navigator.of(context).pop();
 
                   renameTestWeightController.text = "";

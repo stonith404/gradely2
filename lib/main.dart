@@ -17,15 +17,20 @@ import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely2/shared/api.dart';
-import 'package:gradely2/shared/loading.dart';
 import 'package:gradely2/shared/maintenance.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:showcaseview/showcaseview.dart';
 
-bool isLoggedIn = false;
-
+bool _isSignedIn = false;
+bool _isMaintenance;
 final plausible =
     Plausible("https://analytics.eliasschneider.com", "app.gradelyapp.com");
+
+Future _executeJobs() async {
+  await getUserInfo();
+  _isSignedIn = await isSignedIn();
+  _isMaintenance = await isMaintenance();
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +47,7 @@ void main() async {
       .setEndpoint('https://aw.cloud.eliasschneider.com/v1')
       .setProject('60f40cb212896');
 
+  await _executeJobs();
   runApp(EasyLocalization(
       supportedLocales: [Locale('de'), Locale('en')],
       useOnlyLangCode: true,
@@ -149,36 +155,20 @@ class _State extends State<HomeWrapper> {
   Widget build(BuildContext context) {
     internetConnection(context: context);
     client.setLocale(Localizations.localeOf(context).toString());
-//this future builder gets the user data and returns the semester detail page when done.
-    return FutureBuilder(
-      future: isMaintenance(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.data == null) {
-          return LoadingScreen();
-        } else if (snapshot.data == true) {
-          return MaintenanceScreen();
-        } else {
-          return FutureBuilder(
-              future: getUserData,
-              builder: (BuildContext context, AsyncSnapshot snap) {
-                if (snap.connectionState == ConnectionState.waiting) {
-                  return LoadingScreen();
-                } else {
-                  if (prefs.getBool("signedIn") ?? false || !snap.hasError) {
-                    return ShowCaseWidget(
-                        blurValue: 1,
-                        onFinish: () {
-                          prefs.setBool("showcaseview_viewed", true);
-                        },
-                        builder:
-                            Builder(builder: (context) => SubjectScreen()));
-                  } else {
-                    return AuthHomeScreen();
-                  }
-                }
-              });
-        }
-      },
-    );
+    _executeJobs();
+    if (_isMaintenance) {
+      return MaintenanceScreen();
+    } else {
+      if (_isSignedIn) {
+        return ShowCaseWidget(
+            blurValue: 1,
+            onFinish: () {
+              prefs.setBool("showcaseview_viewed", true);
+            },
+            builder: Builder(builder: (context) => SubjectScreen()));
+      } else {
+        return AuthHomeScreen();
+      }
+    }
   }
 }
