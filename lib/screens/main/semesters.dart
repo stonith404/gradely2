@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -101,15 +100,14 @@ class _SemesterScreenState extends State<SemesterScreen> {
                         double.parse(r["average"].toString())))
                     .toList();
 
-                var newSemester = await api.createDocument(context,
-                    collectionId: collectionSemester,
-                    data: {
+                String newSemester = (await api.createDocument(context,
+                        collectionId: collectionSemester,
+                        data: {
                       "parentId": user.dbID,
                       "name": semesterList[index].name + " - ${'copy'.tr()}",
                       "round": semesterList[index].round
-                    });
-
-                newSemester = jsonDecode(newSemester.toString())["\$id"];
+                    }))
+                    .$id;
 
                 for (var i = 0; i < lessonsList.length; i++) {
                   api.createDocument(context,

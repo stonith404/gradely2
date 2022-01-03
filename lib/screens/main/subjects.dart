@@ -151,7 +151,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   child: Text("Ok".tr()))
             ]);
       }
-      if ((user.showcaseViewed ?? false)) {
+      if (!(user.showcaseViewed ?? false)) {
         Future.delayed(Duration(milliseconds: 1000), () {
           ShowCaseWidget.of(context)
               .startShowCase([_showCase1, _showCase2, _showCase3]);
