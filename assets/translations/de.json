@@ -156,5 +156,9 @@
   "showcase_subject_list_desktop": "Klicke hier, um deine Noten zu sehen, und mache einen Linksklick, um sie zu bearbeiten oder zu löschen.",
   "semesters" : "Semester",
   "subjects" : "Fächer",
-  "grades" : "Noten"
+  "grades" : "Noten",
+  "updated_needed": "Aktualisierung erforderlich",
+  "updated_needed_description" : "Du benutzt eine alte Version von Gradely 2. Bitte aktualisiere die App auf die neueste Version.",
+  "updated_needed_version" : "Diese Version: {} | Benötigt Version: {}",
+  "update_now": "Jetzt aktualisieren"
 }

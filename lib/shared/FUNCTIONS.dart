@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:appwrite/models.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -401,5 +402,40 @@ askForInAppRating() async {
       await inAppReview.isAvailable()) {
     inAppReview.requestReview();
     prefs.setInt("timestamp_asked_for_review", today);
+  }
+}
+
+Future minAppVersion() async {
+  try {
+    String currentVersion = (await PackageInfo.fromPlatform()).version;
+    String minAppVersion = (await api.listDocuments(
+        collection: "61d43a3784b50",
+        name: "minAppVersion",
+        filters: [
+          "key=min_" +
+              (() {
+                if (Platform.isIOS) {
+                  return "ios";
+                } else if (Platform.isAndroid) {
+                  return "android";
+                } else if (Platform.isMacOS) {
+                  return "macos";
+                } else if (Platform.isWindows) {
+                  return "windows";
+                } else {
+                  return {"isUpToDate": true};
+                }
+              }()) +
+              "_version"
+        ]))[0]["value"];
+
+    return {
+      "isUpToDate": int.parse(currentVersion.replaceAll(".", "")) >=
+          int.parse(minAppVersion.replaceAll(".", "")),
+      "currentVersion": currentVersion,
+      "minAppVersion": minAppVersion
+    };
+  } catch (_) {
+    return {"isUpToDate": true};
   }
 }

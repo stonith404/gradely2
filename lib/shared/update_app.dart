@@ -1,13 +1,17 @@
+import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gradely2/screens/auth/authHome.dart';
-import 'package:gradely2/screens/main/subjects.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 
-class MaintenanceScreen extends StatelessWidget {
+// ignore: must_be_immutable
+class UpdateAppScreen extends StatelessWidget {
+  String minAppVersion;
+  String currentVersion;
+
+  UpdateAppScreen(this.minAppVersion, this.currentVersion);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,19 +34,23 @@ class MaintenanceScreen extends StatelessWidget {
               flex: 4,
             ),
             Text(
-              "maintenance".tr(),
+              "updated_needed".tr(),
               style: bigTitle,
               textAlign: TextAlign.center,
             ),
             Spacer(
-              flex: 1,
+              flex: 2,
             ),
             Text(
-              "maintenance_description".tr(),
+              "updated_needed_description".tr(),
               textAlign: TextAlign.center,
             ),
+            Spacer(
+              flex: 3,
+            ),
             Text(
-              "maintenance_hurry".tr(),
+              "updated_needed_version"
+                  .tr(args: [currentVersion, minAppVersion]),
               textAlign: TextAlign.center,
             ),
             Spacer(
@@ -51,30 +59,18 @@ class MaintenanceScreen extends StatelessWidget {
             Container(
                 width: 300,
                 child: gradelyButton(
-                    onPressed: () async {
-                      isLoadingController.add(true);
-                      if (await isMaintenance()) {
-                        errorSuccessDialog(
-                            context: context,
-                            error: true,
-                            title: "sorry".tr(),
-                            text: "still_maintenance".tr());
-                      } else if (await isSignedIn()) {
-                        Navigator.pushReplacement(
-                          context,
-                          GradelyPageRoute(
-                              builder: (context) => SubjectScreen()),
-                        );
-                      } else {
-                        Navigator.pushReplacement(
-                          context,
-                          GradelyPageRoute(
-                              builder: (context) => AuthHomeScreen()),
-                        );
-                      }
-                      isLoadingController.add(false);
-                    },
-                    text: "try_again".tr())),
+                    onPressed: () => launchURL((() {
+                          if (Platform.isIOS || Platform.isMacOS) {
+                            return "https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974";
+                          } else if (Platform.isAndroid) {
+                            return "https://play.google.com/store/apps/details?id=com.eliasschneider.gradely2";
+                          } else if (Platform.isWindows) {
+                            return "https://www.microsoft.com/store/apps/9MW4FPN80D7D";
+                          } else {
+                            return "https://gradelyapp.com";
+                          }
+                        }())),
+                    text: "update_now".tr())),
             Spacer(
               flex: 1,
             ),

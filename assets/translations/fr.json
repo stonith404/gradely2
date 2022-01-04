@@ -156,5 +156,9 @@
   "showcase_subject_list_desktop": "Il s'agit d'un sujet : cliquez dessus pour voir vos notes et cliquez à gauche pour le modifier ou le supprimer.",
   "semesters" : "Semestre",
   "subjects" : "Sujet",
-  "grades" : "Notes"
+  "grades" : "Notes",
+  "updated_needed": "Actualisation nécessaire",
+  "updated_needed_description" : "Vous utilisez une ancienne version de Gradely 2. Veuillez la mettre à jour avec la dernière version.",
+  "updated_needed_version" : "Cette version : {} | Version nécessaire : {}",
+  "update_now": "Actualiser maintenant"
 }

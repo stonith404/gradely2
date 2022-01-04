@@ -40,18 +40,19 @@ class _SubjectScreenState extends State<SubjectScreen> {
   getLessons(loading, offlineMode) async {
     if (loading) setState(() => isLoading = true);
 //get choosen semester name
-    var semesterResponse = await api.listDocuments(
-        collection: collectionSemester,
-        name: "semesterName",
-        filters: ["\$id=${user.choosenSemester}"],
-        offlineMode: offlineMode);
-    setState(() {
-      selectedSemester = semesterResponse
-          .map((r) => Semester(r["\$id"], r["name"], r["round"]))
-          .toList()[0];
-    });
-
-    setState(() => isLoading = false);
+    try {
+      var semesterResponse = await api.listDocuments(
+          collection: collectionSemester,
+          name: "semesterName",
+          filters: ["\$id=${user.choosenSemester}"],
+          offlineMode: offlineMode);
+      setState(() {
+        selectedSemester = semesterResponse
+            .map((r) => Semester(r["\$id"], r["name"], r["round"]))
+            .toList()[0];
+      });
+      setState(() => isLoading = false);
+    } catch (_) {}
 
     lessonList = (await api.listDocuments(
             collection: collectionLessons,
