@@ -79,10 +79,11 @@ class _GradesScreenState extends State<GradesScreen> {
 
     _sumW = 0;
     _sum = 0;
-
     await Future.forEach(gradeList, (e) async {
-      _sumW += e.weight;
-      _sum += e.grade * e.weight;
+      if (e.grade != -99) {
+        _sumW += e.weight;
+        _sum += e.grade * e.weight;
+      }
     });
 
     setState(() {
@@ -241,8 +242,12 @@ class _GradesScreenState extends State<GradesScreen> {
                                                         ],
                                                       ),
                                                 trailing: Text(gradeList[index]
-                                                    .grade
-                                                    .toStringAsFixed(2)),
+                                                            .grade ==
+                                                        -99
+                                                    ? "-"
+                                                    : gradeList[index]
+                                                        .grade
+                                                        .toStringAsFixed(2)),
                                                 onTap: () async {
                                                   selectedTest =
                                                       gradeList[index];
@@ -405,7 +410,8 @@ class _GradesScreenState extends State<GradesScreen> {
   }
 
   Future testDetail(BuildContext context) {
-    editTestInfoGrade.text = selectedTest.grade.toString();
+    editTestInfoGrade.text =
+        selectedTest.grade == -99 ? "" : selectedTest.grade.toString();
     editTestInfoName.text = selectedTest.name;
     editTestInfoWeight.text = selectedTest.weight.toString();
     editTestDateController.text =
@@ -429,9 +435,14 @@ class _GradesScreenState extends State<GradesScreen> {
                         documentId: selectedTest.id,
                         data: {
                           "name": editTestInfoName.text,
-                          "grade": double.parse(
-                            editTestInfoGrade.text.replaceAll(",", "."),
-                          ),
+                          "grade": (() {
+                            try {
+                              double.parse(addTestGradeController.text
+                                  .replaceAll(",", "."));
+                            } catch (_) {
+                              return -99.0;
+                            }
+                          }()),
                           "weight": double.parse(
                               editTestInfoWeight.text.replaceAll(",", ".")),
                           "date": (() {
@@ -439,7 +450,7 @@ class _GradesScreenState extends State<GradesScreen> {
                               return formatDateForDB(
                                   editTestDateController.text);
                             } catch (_) {
-                              return "-";
+                              return "";
                             }
                           }())
                         });
@@ -550,8 +561,13 @@ class _GradesScreenState extends State<GradesScreen> {
           data: {
             "parentId": selectedLesson,
             "name": addTestNameController.text,
-            "grade":
-                double.parse(addTestGradeController.text.replaceAll(",", ".")),
+            "grade": (() {
+              try {
+                double.parse(addTestGradeController.text.replaceAll(",", "."));
+              } catch (_) {
+                return -99.0;
+              }
+            }()),
             "weight":
                 double.parse(addTestWeightController.text.replaceAll(",", ".")),
             "date": (() {
@@ -590,7 +606,7 @@ class _GradesScreenState extends State<GradesScreen> {
       return succeded;
     }
 
-    addTestNameController.text = "";
+    addTestNameController.text = "exam".tr() + " ${gradeList.length + 1}";
     addTestGradeController.text = "";
     addTestDateController.text = "";
     addTestWeightController.text = "1";

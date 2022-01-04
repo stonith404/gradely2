@@ -62,7 +62,7 @@ Future settingsScreen(BuildContext context) {
                     ),
                   ],
                 ),
-                Text("settings".tr(), style: title),
+                Text("options".tr(), style: title),
                 SizedBox(
                   height: 20,
                 ),

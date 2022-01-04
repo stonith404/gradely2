@@ -27,6 +27,7 @@ double _averageOfSemester = 0 / -0;
 double _averageOfSemesterPP = 0 / -0;
 Semester selectedSemester;
 String switchedGradeType = user.gradeType;
+double _initialSemesterRound = selectedSemester.round;
 
 class SubjectScreen extends StatefulWidget {
   @override
@@ -201,7 +202,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           child: IconButton(
                               icon: Icon(Icons.segment, color: primaryColor),
                               onPressed: () async {
-                                settingsScreen(context);
+                                await settingsScreen(context);
+                                getLessons(false, true);
                               }),
                         ),
                         actions: [
@@ -258,8 +260,18 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                         children: [
                                           InkWell(
                                             onTap: () {
-                                              setState(() =>
-                                                  switchedGradeType = "av");
+                                              if (user.gradeType == "av") {
+                                                setState(() => selectedSemester
+                                                            .round ==
+                                                        _initialSemesterRound
+                                                    ? selectedSemester.round =
+                                                        0.01
+                                                    : selectedSemester.round =
+                                                        _initialSemesterRound);
+                                              } else {
+                                                setState(() =>
+                                                    switchedGradeType = "av");
+                                              }
                                             },
                                             child: Row(
                                               children: [
