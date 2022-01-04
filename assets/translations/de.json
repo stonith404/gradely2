@@ -146,6 +146,7 @@
   "web_popup_title": "Gradely 2 Web App",
   "web_popup_description": "Du benutzt die Gradely 2 Web App. Um das beste Erlebnis zu bekommen, lade Gradely 2 herunter.",
   "duplicate_semester": "Semester duplizieren",
+  "duplicate" : "Duplizieren",
   "duplicate_semester_text": "Die Duplizierung des Semesters führt nicht zu einer Duplizierung deiner Noten.",
   "cancel": "Abbrechen",
   "continue": "Weiter",

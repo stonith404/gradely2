@@ -242,6 +242,10 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                               semesterList[index];
                                         },
                                         title: 'edit'.tr()),
+                                    MenuItem(
+                                        onSelected: () =>
+                                            duplicateSemester(index),
+                                        title: 'duplicate'.tr()),
                                   ],
                                   child: ListTile(
                                     title: Text(
