@@ -15,7 +15,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:native_context_menu/native_context_menu.dart';
 
-Grade selectedTest;
 String errorMessage = "";
 double averageOfGrades = 0;
 num _sumW = 0;
@@ -94,7 +93,6 @@ class _GradesScreenState extends State<GradesScreen> {
   }
 
   deleteGrade(index) {
-    selectedTest = gradeList[index];
     api.deleteDocument(context,
         collectionId: collectionGrades, documentId: gradeList[index].id);
 
@@ -262,9 +260,8 @@ class _GradesScreenState extends State<GradesScreen> {
                                                         .grade
                                                         .toStringAsFixed(2)),
                                                 onTap: () async {
-                                                  selectedTest =
-                                                      gradeList[index];
-                                                  testDetail(context);
+                                                  testDetail(context,
+                                                      gradeList[index]);
                                                 }),
                                           ),
                                           listDivider()
@@ -422,7 +419,7 @@ class _GradesScreenState extends State<GradesScreen> {
     );
   }
 
-  Future testDetail(BuildContext context) {
+  Future testDetail(BuildContext context, Grade selectedTest) {
     editTestInfoGrade.text =
         selectedTest.grade == -99 ? "" : selectedTest.grade.toString();
     editTestInfoName.text = selectedTest.name;
@@ -450,8 +447,8 @@ class _GradesScreenState extends State<GradesScreen> {
                           "name": editTestInfoName.text,
                           "grade": (() {
                             try {
-                              double.parse(addTestGradeController.text
-                                  .replaceAll(",", "."));
+                              return double.parse(
+                                  editTestInfoGrade.text.replaceAll(",", "."));
                             } catch (_) {
                               return -99.0;
                             }
@@ -568,7 +565,7 @@ class _GradesScreenState extends State<GradesScreen> {
       isLoadingController.add(true);
 
       try {
-        Future result = api.createDocument(
+       await api.createDocument(
           context,
           collectionId: collectionGrades,
           data: {
@@ -576,7 +573,8 @@ class _GradesScreenState extends State<GradesScreen> {
             "name": addTestNameController.text,
             "grade": (() {
               try {
-                double.parse(addTestGradeController.text.replaceAll(",", "."));
+                return double.parse(
+                    addTestGradeController.text.replaceAll(",", "."));
               } catch (_) {
                 return -99.0;
               }
@@ -592,17 +590,6 @@ class _GradesScreenState extends State<GradesScreen> {
             }())
           },
         );
-        await result.then((r) {
-          r = jsonDecode(r.toString());
-          selectedTest = Grade(
-              r["\$id"],
-              r["name"],
-              double.parse(r["grade"].toString()),
-              double.parse(r["weight"].toString()),
-              r["date"]);
-        }).catchError((error) {
-          print(error);
-        });
         await getTests();
         addLessonController.text = "";
         succeded = true;
