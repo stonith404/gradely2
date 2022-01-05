@@ -475,8 +475,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               ),
                             ],
                           )),
-                      Text(
-                        lessonList[index].name,
+                      Flexible(
+                        child: FittedBox(
+                          child: Text(
+                            lessonList[index].name,
+                          ),
+                        ),
                       ),
                     ],
                   ),

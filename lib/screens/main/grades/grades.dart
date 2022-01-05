@@ -146,16 +146,29 @@ class _GradesScreenState extends State<GradesScreen> {
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("empty_lesson_p2".tr() + " "),
-                                    Icon(
-                                      FontAwesome5Solid.plus,
-                                      size: 15,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                      style: TextStyle(color: wbColor),
+                                      children: [
+                                        TextSpan(
+                                          text: "empty_lesson_p2".tr() + " ",
+                                        ),
+                                        WidgetSpan(
+                                          child: Icon(
+                                            FontAwesome5Solid.plus,
+                                            size: 15,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: " " + "empty_lesson_p3".tr(),
+                                        ),
+                                      ],
                                     ),
-                                    Text(" " + "empty_lesson_p3".tr())
-                                  ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -626,9 +639,11 @@ class _GradesScreenState extends State<GradesScreen> {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-          child: Text(
-            "add_exam".tr(),
-            style: bigTitle,
+          child: FittedBox(
+            child: Text(
+              "add_exam".tr(),
+              style: bigTitle,
+            ),
           ),
         ),
         Padding(
@@ -749,7 +764,12 @@ Future dreamGradeC(BuildContext context) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("dream_grade_calulator".tr(), style: title),
+                      Flexible(
+                          child: FittedBox(
+                              child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text("dream_grade_calulator".tr(), style: title),
+                      ))),
                       CircleAvatar(
                         radius: 22,
                         backgroundColor: primaryColor,
@@ -781,7 +801,7 @@ Future dreamGradeC(BuildContext context) {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: TextField(
                       controller: dreamGradeWeight,
                       onChanged: (String value) async {
@@ -798,18 +818,24 @@ Future dreamGradeC(BuildContext context) {
                   SizedBox(
                     height: 25,
                   ),
-                  Row(
-                    children: [
-                      Text("dream_grade_result_text".tr() + "  "),
-                      Text((() {
-                        if (dreamgradeResult.isInfinite) {
-                          return "-";
-                        } else {
-                          return dreamgradeResult.toStringAsFixed(2);
-                        }
-                      })(), style: TextStyle(fontSize: 20)),
-                    ],
-                  )
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: TextStyle(color: wbColor),
+                      children: [
+                        TextSpan(text: "dream_grade_result_text".tr() + "  "),
+                        TextSpan(
+                            text: (() {
+                              if (dreamgradeResult.isInfinite) {
+                                return "-";
+                              } else {
+                                return dreamgradeResult.toStringAsFixed(2);
+                              }
+                            })(),
+                            style: TextStyle(fontSize: 20)),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
