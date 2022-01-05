@@ -159,7 +159,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
               .startShowCase([_showCase1, _showCase2, _showCase3]);
         });
       } else {
-        Future.delayed(Duration(milliseconds: 4000), () => askForInAppRating());
+        Future.delayed(Duration(milliseconds: 7000), () => askForInAppRating());
       }
     });
   }
