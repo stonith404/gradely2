@@ -341,10 +341,15 @@ void changeEmail(_email, context) async {
       });
 }
 
-Future signOut() async {
+Future signOut(context) async {
   await account.deleteSession(sessionId: "current");
   prefs.setBool("signedIn", false);
   clearVariables();
+  Navigator.pushNamedAndRemoveUntil(
+    context,
+    "auth/home",
+    (Route<dynamic> route) => false,
+  );
 }
 
 // ignore: non_constant_identifier_names

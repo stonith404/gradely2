@@ -31,15 +31,7 @@ class _IntroScreenWrapper extends StatelessWidget {
                 ? IconButton(
                     color: primaryColor,
                     icon: Icon(FontAwesome5Solid.sign_out_alt),
-                    onPressed: () async {
-                      await signOut();
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        "auth/home",
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                  )
+                    onPressed: () => signOut(context))
                 : Container(),
           ],
         ),

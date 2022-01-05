@@ -36,15 +36,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 size: 20,
                 color: primaryColor,
               ),
-              onPressed: () async {
-                await signOut();
-
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  "auth/home",
-                  (Route<dynamic> route) => false,
-                );
-              })
+              onPressed: () => signOut(context))
         ],
         title: Text("account".tr(), style: appBarTextTheme),
       ),
@@ -211,8 +203,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       await account.delete();
                                       clearVariables();
                                       passwordController.text = "";
-                                      Navigator.pushReplacementNamed(
-                                          context, "auth/home");
+                                      Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        "auth/home",
+                                        (Route<dynamic> route) => false,
+                                      );
                                       prefs.setBool("signedIn", false);
                                     } else {
                                       errorSuccessDialog(
