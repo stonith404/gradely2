@@ -244,6 +244,7 @@ class _Intro4State extends State<_Intro4> {
   createUser() async {
     isLoadingController.add(true);
     Future<User> resultCreateAccount = account.create(
+      userId: "unique()",
       name: nameController.text,
       email: emailController.text,
       password: passwordController.text,

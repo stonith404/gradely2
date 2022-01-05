@@ -32,7 +32,7 @@ class User {
   String id;
   String name;
   int registration;
-  int status;
+  bool status;
   int passwordUpdate;
   String email;
   bool emailVerification;
@@ -40,22 +40,7 @@ class User {
   String choosenSemester;
   bool showcaseViewed;
   String dbID;
-  Future<bool> isSignedIn() async {
-    if (await internetConnection()) {
-      try {
-        await account.get();
-        prefs.setBool("signedIn", true);
-        return true;
-      } catch (_) {
-        prefs.setBool("signedIn", false);
-        return false;
-      }
-    } else if (prefs.getBool("signedIn")) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+
 
   User(
     this.id,

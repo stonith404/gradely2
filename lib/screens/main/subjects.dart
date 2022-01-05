@@ -1,3 +1,4 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gradely2/screens/auth/introScreen.dart' as introScreen;
 import 'package:showcaseview/showcaseview.dart';
@@ -45,7 +46,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
       var semesterResponse = await api.listDocuments(
           collection: collectionSemester,
           name: "semesterName",
-          filters: ["\$id=${user.choosenSemester}"],
+          queries: [Query.equal("\$id", user.choosenSemester)],
           offlineMode: offlineMode);
       setState(() {
         selectedSemester = semesterResponse
@@ -58,7 +59,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     lessonList = (await api.listDocuments(
             collection: collectionLessons,
             name: "lessonList_${user.choosenSemester}",
-            filters: ["parentId=${user.choosenSemester}"],
+            queries: [Query.equal("parentId", user.choosenSemester)],
             offlineMode: offlineMode))
         .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
             double.parse(r["average"].toString())))

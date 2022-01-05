@@ -10,14 +10,14 @@ class GradelyApi {
   Future<List> listDocuments(
       {@required String collection,
       @required String name,
-      List filters,
+      List queries,
       String orderField,
       bool offlineMode = false}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List result = [];
     if (!offlineMode && await internetConnection()) {
       DocumentList res = await database.listDocuments(
-        filters: filters ?? [],
+        queries: queries ?? [],
         collectionId: collection,
       );
 
@@ -50,6 +50,7 @@ class GradelyApi {
       noNetworkDialog(context);
     } else {
       return await database.createDocument(
+        documentId: "unique()",
           collectionId: collectionId, data: data);
     }
   }

@@ -1,3 +1,4 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -27,7 +28,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
     semesterList = (await api.listDocuments(
             collection: collectionSemester,
             name: "semesterList",
-            filters: ["parentId=${user.dbID}"]))
+            queries: [Query.equal("parentId", user.dbID)]))
         .map((r) => Semester(r["\$id"], r["name"], r["round"]))
         .toList();
     setState(() => isLoading = false);
@@ -95,7 +96,9 @@ class _SemesterScreenState extends State<SemesterScreen> {
                 var lessonsList = (await api.listDocuments(
                         collection: collectionLessons,
                         name: "lessonList_${semesterList[index].id}",
-                        filters: ["parentId=${semesterList[index].id}"]))
+                        queries: [
+                      Query.equal("parentId", semesterList[index].id)
+                    ]))
                     .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
                         double.parse(r["average"].toString())))
                     .toList();

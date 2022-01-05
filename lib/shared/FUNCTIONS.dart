@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -39,7 +40,7 @@ Future getUserInfo() async {
     var dbResponse = (await api.listDocuments(
         name: "userDB",
         collection: collectionUser,
-        filters: ["uid=${accountR.$id}"]))[0];
+        queries: [Query.equal("uid", accountR.$id)]))[0];
 
     user = models.User(
       accountR.$id,
@@ -411,8 +412,8 @@ Future minAppVersion() async {
     String minAppVersion = (await api.listDocuments(
         collection: "61d43a3784b50",
         name: "minAppVersion",
-        filters: [
-          "key=min_" +
+        queries: [
+         Query.equal("key", "key =min_" +
               (() {
                 if (Platform.isIOS) {
                   return "ios";
@@ -427,7 +428,7 @@ Future minAppVersion() async {
                 }
               }()) +
               "_version"
-        ]))[0]["value"];
+    )]))[0]["value"];
 
     return {
       "isUpToDate": int.parse(currentVersion.replaceAll(".", "")) >=

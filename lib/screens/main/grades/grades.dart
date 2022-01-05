@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely2/screens/main/semesters.dart';
 import 'package:gradely2/screens/main/subjects.dart';
@@ -64,7 +65,7 @@ class _GradesScreenState extends State<GradesScreen> {
       orderField: "date",
       collection: collectionGrades,
       name: "gradeList_$selectedLesson",
-      filters: ["parentId=$selectedLesson"],
+      queries: [Query.equal("parentId", selectedLesson)],
     ))
         .map((r) => Grade(
               r["\$id"],
