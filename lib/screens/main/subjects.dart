@@ -357,7 +357,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                         context,
                                         GradelyPageRoute(
                                             builder: (context) => addLesson()),
-                                      );
+                                      ).then(
+                                          (value) => getLessons(false, false));
                                     }),
                               ),
                             ],
@@ -622,11 +623,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       "emoji": _selectedEmoji
                     },
                   );
-
-                  await getLessons(false, false);
+                  isLoadingController.add(false);
                   Navigator.of(context).pop();
                   addLessonController.text = "";
-                  isLoadingController.add(false);
                 },
               ),
               Spacer(flex: 5),
