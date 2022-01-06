@@ -36,6 +36,18 @@ class GradesScreen extends StatefulWidget {
 
 class _GradesScreenState extends State<GradesScreen> {
   updateAverage() async {
+    _sumW = 0;
+    _sum = 0;
+    await Future.forEach(gradeList, (e) async {
+      if (e.grade != -99) {
+        _sumW += e.weight;
+        _sum += e.grade * e.weight;
+      }
+    });
+
+    setState(() {
+      averageOfGrades = _sum / _sumW;
+    });
     api.updateDocument(context,
         documentId: selectedLesson,
         collectionId: collectionLessons,
@@ -76,18 +88,6 @@ class _GradesScreenState extends State<GradesScreen> {
 
     gradeList.sort((a, b) => b.date.compareTo(a.date));
 
-    _sumW = 0;
-    _sum = 0;
-    await Future.forEach(gradeList, (e) async {
-      if (e.grade != -99) {
-        _sumW += e.weight;
-        _sum += e.grade * e.weight;
-      }
-    });
-
-    setState(() {
-      averageOfGrades = _sum / _sumW;
-    });
     updateAverage();
     if (mounted) setState(() => isLoading = false);
   }
@@ -99,7 +99,7 @@ class _GradesScreenState extends State<GradesScreen> {
     setState(() {
       gradeList.removeWhere((item) => item.id == gradeList[index].id);
     });
-    getTests();
+    updateAverage();
   }
 
   void initState() {
@@ -565,7 +565,7 @@ class _GradesScreenState extends State<GradesScreen> {
       isLoadingController.add(true);
 
       try {
-       await api.createDocument(
+        await api.createDocument(
           context,
           collectionId: collectionGrades,
           data: {
