@@ -404,6 +404,7 @@ askForInAppRating() async {
 
   if (isAccountOlderThen30Days &&
       isLastAskedOlderThen14Days &&
+      (Platform.isIOS || Platform.isMacOS || Platform.isAndroid) &&
       await inAppReview.isAvailable()) {
     inAppReview.requestReview();
     prefs.setInt("timestamp_asked_for_review", today);
