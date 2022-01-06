@@ -420,7 +420,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
 
                     await getSemesters();
                     Navigator.of(context).pop();
-
+                    addSemesterController.text = "";
                     isLoadingController.add(false);
                   })
             ],

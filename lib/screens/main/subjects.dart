@@ -39,6 +39,29 @@ class _SubjectScreenState extends State<SubjectScreen> {
   GlobalKey _showCase1 = GlobalKey();
   GlobalKey _showCase2 = GlobalKey();
   GlobalKey _showCase3 = GlobalKey();
+
+  getSemesterAverage() {
+    if (lessonList.length == 0) {
+      _averageOfSemesterPP = -99;
+      _averageOfSemester = -99;
+    } else {
+      double _sum = 0;
+      double _ppSum = 0;
+      double _count = 0;
+      for (var e in lessonList) {
+        if (e.average != -99) {
+          _sum += e.average;
+          _ppSum += getPluspoints(e.average);
+          _count = _count + 1;
+        }
+        setState(() {
+          _averageOfSemesterPP = _ppSum;
+          _averageOfSemester = _sum / _count;
+        });
+      }
+    }
+  }
+
   getLessons(loading, offlineMode) async {
     if (loading) setState(() => isLoading = true);
 //get choosen semester name
@@ -65,29 +88,10 @@ class _SubjectScreenState extends State<SubjectScreen> {
             double.parse(r["average"].toString())))
         .toList();
 
-    lessonList.sort((a, b) => b.average.compareTo(a.average));
-
-    //get the semester average
-    if (lessonList.length == 0) {
-      _averageOfSemesterPP = -99;
-      _averageOfSemester = -99;
-    } else {
-      double _sum = 0;
-      double _ppSum = 0;
-      double _count = 0;
-      for (var e in lessonList) {
-        if (e.average != -99) {
-          _sum += e.average;
-          _ppSum += getPluspoints(e.average);
-          _count = _count + 1;
-
-          setState(() {
-            _averageOfSemesterPP = _ppSum;
-            _averageOfSemester = _sum / _count;
-          });
-        }
-      }
-    }
+    setState(() {
+      lessonList.sort((a, b) => b.average.compareTo(a.average));
+    });
+    getSemesterAverage();
   }
 
   deleteLesson(index) {
@@ -117,7 +121,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
             setState(() {
               lessonList.removeWhere((item) => item.id == lessonList[index].id);
             });
-            getLessons(false, false);
+            getSemesterAverage();
             Navigator.of(context).pop();
           },
         )
@@ -358,7 +362,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                         context,
                                         GradelyPageRoute(
                                             builder: (context) => addLesson()),
-                                      );
+                                      ).then(
+                                          (value) => getLessons(false, false));
                                     }),
                               ),
                             ],
@@ -623,11 +628,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       "emoji": _selectedEmoji
                     },
                   );
-
-                  await getLessons(false, false);
+                  isLoadingController.add(false);
                   Navigator.of(context).pop();
                   addLessonController.text = "";
-                  isLoadingController.add(false);
                 },
               ),
               Spacer(flex: 5),

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
@@ -24,9 +23,9 @@ class GradelyApi {
       for (var i = 0; i < res.sum; i++) {
         result.add(res.documents[i].data);
       }
-      await prefs.setString(name, jsonEncode(result));
+      prefs.setString(name, jsonEncode(result));
     } else {
-      var res = jsonDecode(prefs.getString(name));
+      var res = jsonDecode(prefs.getString(name) ?? "{}");
 
       for (var i = 0; i < res.length; i++) {
         result.add(res[i]);
