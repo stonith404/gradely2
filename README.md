@@ -43,7 +43,7 @@ You can download Gradely 2 on https://gradelyapp.com.
   - Weight
   - Dream grade calculator
   - Statistics
-- Pluspoints or average
+- Grade types: pluspoints and average
 
 <br>
 
@@ -55,12 +55,13 @@ You're very welcome to create an issue on GitHub or if you have an improvement f
 
 ### Translation
 
-Gradely 2 isn't supported in your language or did you find a language issue? You're welcome to help translate Gradely 2 in other languages. [Contact me](mailto:elias@eliasschneider.com) or edit the [CSV language file](https://github.com/generalxhd/Gradely2/blob/master/assets/translations/gradelyTranslation.csv) and create a pull request.
+Gradely 2 isn't supported in your language or did you find a language issue? You're welcome to help translate Gradely 2 in other languages. [Contact me](mailto:elias@eliasschneider.com) or contribute in the [PoEditor project](https://poeditor.com/join/project?hash=7xjXXMznLJ).
 
 Currently supported languages:
 
 - German
 - English
+- (French)
 
 <br>
 
