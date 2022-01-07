@@ -417,27 +417,32 @@ askForInAppRating() async {
 
 Future minAppVersion() async {
   try {
+    if (kIsWeb) {
+      return {"isUpToDate": true};
+    }
     String currentVersion = (await PackageInfo.fromPlatform()).version;
     String minAppVersion = (await api.listDocuments(
         collection: "61d43a3784b50",
         name: "minAppVersion",
         queries: [
-         Query.equal("key", "key =min_" +
-              (() {
-                if (Platform.isIOS) {
-                  return "ios";
-                } else if (Platform.isAndroid) {
-                  return "android";
-                } else if (Platform.isMacOS) {
-                  return "macos";
-                } else if (Platform.isWindows) {
-                  return "windows";
-                } else {
-                  return {"isUpToDate": true};
-                }
-              }()) +
-              "_version"
-    )]))[0]["value"];
+          Query.equal(
+              "key",
+              "key =min_" +
+                  (() {
+                    if (Platform.isIOS) {
+                      return "ios";
+                    } else if (Platform.isAndroid) {
+                      return "android";
+                    } else if (Platform.isMacOS) {
+                      return "macos";
+                    } else if (Platform.isWindows) {
+                      return "windows";
+                    } else {
+                      return {"isUpToDate": true};
+                    }
+                  }()) +
+                  "_version")
+        ]))[0]["value"];
 
     return {
       "isUpToDate": int.parse(currentVersion.replaceAll(".", "")) >=
