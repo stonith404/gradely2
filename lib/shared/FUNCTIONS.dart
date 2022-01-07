@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
+import 'package:flutter/foundation.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:universal_io/io.dart';
@@ -77,13 +79,15 @@ Future<bool> isSignedIn() async {
 //checks if client is connected to the server
 
 Future internetConnection({BuildContext context}) async {
-  try {
-    await account.get();
+  if (kIsWeb) {
     return true;
-  } catch (e) {
-    if (e.code != null) {
+  } else {
+    try {
+      await account.get().timeout(Duration(milliseconds: 500));
       return true;
-    } else {
+    } on AppwriteException {
+      return true;
+    } catch (_) {
       return false;
     }
   }

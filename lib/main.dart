@@ -175,7 +175,8 @@ class _State extends State<HomeWrapper> {
     client.setLocale(Localizations.localeOf(context).toString());
     _executeJobs();
     if (!_appVersionCheck["isUpToDate"]) {
-      return UpdateAppScreen(_appVersionCheck["minAppVersion"],_appVersionCheck["currentVersion"]);
+      return UpdateAppScreen(_appVersionCheck["minAppVersion"],
+          _appVersionCheck["currentVersion"]);
     } else if (_isMaintenance) {
       return MaintenanceScreen();
     } else {
