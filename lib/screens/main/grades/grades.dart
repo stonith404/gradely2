@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely2/screens/main/semesters.dart';
 import 'package:gradely2/screens/main/subjects.dart';
-import 'package:gradely2/shared/CLASSES.dart';
+import 'package:gradely2/shared/MODELS.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -17,7 +15,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:native_context_menu/native_context_menu.dart';
 
-Grade selectedTest;
 String errorMessage = "";
 double averageOfGrades = 0;
 num _sumW = 0;
@@ -39,6 +36,18 @@ class GradesScreen extends StatefulWidget {
 
 class _GradesScreenState extends State<GradesScreen> {
   updateAverage() async {
+    _sumW = 0;
+    _sum = 0;
+    await Future.forEach(gradeList, (e) async {
+      if (e.grade != -99) {
+        _sumW += e.weight;
+        _sum += e.grade * e.weight;
+      }
+    });
+
+    setState(() {
+      averageOfGrades = _sum / _sumW;
+    });
     api.updateDocument(context,
         documentId: selectedLesson,
         collectionId: collectionLessons,
@@ -67,7 +76,7 @@ class _GradesScreenState extends State<GradesScreen> {
       collection: collectionGrades,
       name: "gradeList_$selectedLesson",
       filters: ["parentId=$selectedLesson"],
-    ))["documents"]
+    ))
         .map((r) => Grade(
               r["\$id"],
               r["name"],
@@ -79,30 +88,18 @@ class _GradesScreenState extends State<GradesScreen> {
 
     gradeList.sort((a, b) => b.date.compareTo(a.date));
 
-    _sumW = 0;
-    _sum = 0;
-
-    await Future.forEach(gradeList, (e) async {
-      _sumW += e.weight;
-      _sum += e.grade * e.weight;
-    });
-
-    setState(() {
-      averageOfGrades = _sum / _sumW;
-    });
     updateAverage();
     if (mounted) setState(() => isLoading = false);
   }
 
   deleteGrade(index) {
-    selectedTest = gradeList[index];
     api.deleteDocument(context,
         collectionId: collectionGrades, documentId: gradeList[index].id);
 
     setState(() {
       gradeList.removeWhere((item) => item.id == gradeList[index].id);
     });
-    getTests();
+    updateAverage();
   }
 
   void initState() {
@@ -147,16 +144,29 @@ class _GradesScreenState extends State<GradesScreen> {
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("empty_lesson_p2".tr() + " "),
-                                    Icon(
-                                      FontAwesome5Solid.plus,
-                                      size: 15,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                      style: TextStyle(color: wbColor),
+                                      children: [
+                                        TextSpan(
+                                          text: "empty_lesson_p2".tr() + " ",
+                                        ),
+                                        WidgetSpan(
+                                          child: Icon(
+                                            FontAwesome5Solid.plus,
+                                            size: 15,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: " " + "empty_lesson_p3".tr(),
+                                        ),
+                                      ],
                                     ),
-                                    Text(" " + "empty_lesson_p3".tr())
-                                  ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -243,12 +253,15 @@ class _GradesScreenState extends State<GradesScreen> {
                                                         ],
                                                       ),
                                                 trailing: Text(gradeList[index]
-                                                    .grade
-                                                    .toStringAsFixed(2)),
+                                                            .grade ==
+                                                        -99
+                                                    ? "-"
+                                                    : gradeList[index]
+                                                        .grade
+                                                        .toStringAsFixed(2)),
                                                 onTap: () async {
-                                                  selectedTest =
-                                                      gradeList[index];
-                                                  testDetail(context);
+                                                  testDetail(context,
+                                                      gradeList[index]);
                                                 }),
                                           ),
                                           listDivider()
@@ -406,8 +419,9 @@ class _GradesScreenState extends State<GradesScreen> {
     );
   }
 
-  Future testDetail(BuildContext context) {
-    editTestInfoGrade.text = selectedTest.grade.toString();
+  Future testDetail(BuildContext context, Grade selectedTest) {
+    editTestInfoGrade.text =
+        selectedTest.grade == -99 ? "" : selectedTest.grade.toString();
     editTestInfoName.text = selectedTest.name;
     editTestInfoWeight.text = selectedTest.weight.toString();
     editTestDateController.text =
@@ -431,9 +445,14 @@ class _GradesScreenState extends State<GradesScreen> {
                         documentId: selectedTest.id,
                         data: {
                           "name": editTestInfoName.text,
-                          "grade": double.parse(
-                            editTestInfoGrade.text.replaceAll(",", "."),
-                          ),
+                          "grade": (() {
+                            try {
+                              return double.parse(
+                                  editTestInfoGrade.text.replaceAll(",", "."));
+                            } catch (_) {
+                              return -99.0;
+                            }
+                          }()),
                           "weight": double.parse(
                               editTestInfoWeight.text.replaceAll(",", ".")),
                           "date": (() {
@@ -441,7 +460,7 @@ class _GradesScreenState extends State<GradesScreen> {
                               return formatDateForDB(
                                   editTestDateController.text);
                             } catch (_) {
-                              return "-";
+                              return "";
                             }
                           }())
                         });
@@ -546,14 +565,20 @@ class _GradesScreenState extends State<GradesScreen> {
       isLoadingController.add(true);
 
       try {
-        Future result = api.createDocument(
+        await api.createDocument(
           context,
           collectionId: collectionGrades,
           data: {
             "parentId": selectedLesson,
             "name": addTestNameController.text,
-            "grade":
-                double.parse(addTestGradeController.text.replaceAll(",", ".")),
+            "grade": (() {
+              try {
+                return double.parse(
+                    addTestGradeController.text.replaceAll(",", "."));
+              } catch (_) {
+                return -99.0;
+              }
+            }()),
             "weight":
                 double.parse(addTestWeightController.text.replaceAll(",", ".")),
             "date": (() {
@@ -565,17 +590,6 @@ class _GradesScreenState extends State<GradesScreen> {
             }())
           },
         );
-        await result.then((r) {
-          r = jsonDecode(r.toString());
-          selectedTest = Grade(
-              r["\$id"],
-              r["name"],
-              double.parse(r["grade"].toString()),
-              double.parse(r["weight"].toString()),
-              r["date"]);
-        }).catchError((error) {
-          print(error);
-        });
         await getTests();
         addLessonController.text = "";
         succeded = true;
@@ -592,7 +606,7 @@ class _GradesScreenState extends State<GradesScreen> {
       return succeded;
     }
 
-    addTestNameController.text = "";
+    addTestNameController.text = "exam".tr() + " ${gradeList.length + 1}";
     addTestGradeController.text = "";
     addTestDateController.text = "";
     addTestWeightController.text = "1";
@@ -612,9 +626,11 @@ class _GradesScreenState extends State<GradesScreen> {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-          child: Text(
-            "add_exam".tr(),
-            style: bigTitle,
+          child: FittedBox(
+            child: Text(
+              "add_exam".tr(),
+              style: bigTitle,
+            ),
           ),
         ),
         Padding(
@@ -735,7 +751,12 @@ Future dreamGradeC(BuildContext context) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("dream_grade_calulator".tr(), style: title),
+                      Flexible(
+                          child: FittedBox(
+                              child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text("dream_grade_calulator".tr(), style: title),
+                      ))),
                       CircleAvatar(
                         radius: 22,
                         backgroundColor: primaryColor,
@@ -767,7 +788,7 @@ Future dreamGradeC(BuildContext context) {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: TextField(
                       controller: dreamGradeWeight,
                       onChanged: (String value) async {
@@ -784,18 +805,24 @@ Future dreamGradeC(BuildContext context) {
                   SizedBox(
                     height: 25,
                   ),
-                  Row(
-                    children: [
-                      Text("dream_grade_result_text".tr() + "  "),
-                      Text((() {
-                        if (dreamgradeResult.isInfinite) {
-                          return "-";
-                        } else {
-                          return dreamgradeResult.toStringAsFixed(2);
-                        }
-                      })(), style: TextStyle(fontSize: 20)),
-                    ],
-                  )
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: TextStyle(color: wbColor),
+                      children: [
+                        TextSpan(text: "dream_grade_result_text".tr() + "  "),
+                        TextSpan(
+                            text: (() {
+                              if (dreamgradeResult.isInfinite) {
+                                return "-";
+                              } else {
+                                return dreamgradeResult.toStringAsFixed(2);
+                              }
+                            })(),
+                            style: TextStyle(fontSize: 20)),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

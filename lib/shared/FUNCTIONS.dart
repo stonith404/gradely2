@@ -1,62 +1,79 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 import 'package:flutter/foundation.dart';
+import 'package:in_app_review/in_app_review.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/shared/CLASSES.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+import 'MODELS.dart' as models;
+
 //get info of current logged in user
 
 Future getUserInfo() async {
-  var accountResponse;
-  bool missingScope = false;
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  if (await internetConnection()) {
-    Future accountResult = account.get();
+  if (await isSignedIn()) {
+    User accountR;
+    if (await internetConnection()) {
+      accountR = await account.get();
+      prefs.setString("accountResult", jsonEncode(accountR.toMap()));
+    } else {
+      var prefsRes = jsonDecode(prefs.getString("accountResult"));
 
-    await accountResult.then((r) async {
-      accountResponse = r.toString();
+      accountR = User(
+          $id: prefsRes["\$id"],
+          name: prefsRes["name"],
+          registration: prefsRes["registration"],
+          status: prefsRes["status"],
+          passwordUpdate: prefsRes["passwordUpdate"],
+          email: prefsRes["email"],
+          emailVerification: prefsRes["emailVerification"],
+          prefs: Preferences(data: prefsRes["prefs"]));
+    }
 
-      await prefs.setString("accountResult", accountResponse);
-    }).catchError((error) {
-      if (error.code == 401) {
-        missingScope = true;
-      }
-    });
-  } else {
-    accountResponse = prefs.getString("accountResult");
-  }
-
-  accountResponse = jsonDecode(accountResponse.toString());
-  if (missingScope) {
-    prefs.setBool("signedIn", false);
-  } else if (accountResponse != null) {
     var dbResponse = (await api.listDocuments(
         name: "userDB",
         collection: collectionUser,
-        filters: ["uid=${accountResponse['\$id']}"]))["documents"][0];
+        filters: ["uid=${accountR.$id}"]))[0];
 
-    user = User(
-      accountResponse['\$id'],
-      accountResponse['name'],
-      accountResponse['registration'],
-      accountResponse['status'],
-      accountResponse['passwordUpdate'],
-      accountResponse['email'],
-      accountResponse['emailVerification'],
+    user = models.User(
+      accountR.$id,
+      accountR.name,
+      accountR.registration,
+      accountR.status,
+      accountR.passwordUpdate,
+      accountR.email,
+      accountR.emailVerification,
       dbResponse["gradeType"],
       dbResponse["choosenSemester"],
+      dbResponse["showcase_viewed"] ?? false,
       dbResponse["\$id"],
     );
   }
+}
 
-  return "done";
+Future<bool> isSignedIn() async {
+  if (await internetConnection()) {
+    try {
+      await account.get();
+      prefs.setBool("signedIn", true);
+      return true;
+    } catch (_) {
+      prefs.setBool("signedIn", false);
+      return false;
+    }
+  } else if (prefs.getBool("signedIn") ?? false) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 //checks if client is connected to the server
@@ -66,29 +83,22 @@ Future internetConnection({BuildContext context}) async {
     return true;
   } else {
     try {
-      final result = await InternetAddress.lookup('example.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        return true;
-      }
-    } on SocketException catch (_) {
-      errorSuccessDialog(
-          context: context,
-          error: true,
-          text: "no_network".tr(),
-          title: "network_needed_title".tr());
+      await account.get().timeout(Duration(milliseconds: 500));
+      return true;
+    } on AppwriteException {
+      return true;
+    } catch (_) {
       return false;
     }
   }
 }
 
-isMaintenance() async {
+Future<bool> isMaintenance() async {
   try {
     var request = await http
         .get(Uri.parse("https://gradelyapp.com/static-api"))
         .timeout(const Duration(seconds: 2));
     return jsonDecode(request.body)["maintenance"];
-  } on TimeoutException catch (_) {
-    return false;
   } catch (_) {
     return false;
   }
@@ -112,7 +122,7 @@ Future<bool> reAuthenticate(
   return success;
 }
 
-frontColor() {
+Color frontColor() {
   Color color;
   if (primaryColor == Color(0xFFFFFFFF)) {
     color = Colors.black;
@@ -124,7 +134,7 @@ frontColor() {
 
 //checks if darkmode is activated and changes colors
 
-darkModeColorChanger(context) {
+void darkModeColorChanger(context) {
   if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
     if (primaryColor == Color(0xff000000)) {
       primaryColor = Colors.white;
@@ -166,7 +176,7 @@ darkModeColorChanger(context) {
 
 //if there is no connection, show a dialog
 
-noNetworkDialog(context) async {
+void noNetworkDialog(context) async {
   if (!await internetConnection()) {
     errorSuccessDialog(
         context: context,
@@ -184,7 +194,7 @@ Future sharedPrefs() async {
 
 //convertes average to pluspoints
 
-getPluspoints(num value) {
+double getPluspoints(num value) {
   double plusPoints;
 
   if (value >= 5.75) {
@@ -219,7 +229,7 @@ getPluspoints(num value) {
 
 //formats the date to the supported date
 
-formatDateForDB(date) {
+String formatDateForDB(date) {
   try {
     var _formatted = DateTime.parse(date.toString());
     return "${_formatted.year}.${(() {
@@ -240,7 +250,7 @@ formatDateForDB(date) {
   }
 }
 
-formatDateForClient(date) {
+String formatDateForClient(date) {
   if (date == "") {
     return "-";
   } else {
@@ -269,7 +279,7 @@ formatDateForClient(date) {
 void launchURL(_url) async => await launch(_url);
 
 //clears all variables when user sign out
-clearVariables() {
+void clearVariables() {
   prefs.clear();
   gradeList = [];
   semesterList = [];
@@ -278,7 +288,7 @@ clearVariables() {
 
 //changes email of user
 
-changeEmail(_email, context) async {
+void changeEmail(_email, context) async {
   showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -335,53 +345,19 @@ changeEmail(_email, context) async {
       });
 }
 
-signOut() async {
+Future signOut(context) async {
   await account.deleteSession(sessionId: "current");
   prefs.setBool("signedIn", false);
-
   clearVariables();
-}
-
-completeOfflineTasks(context) {
-  List tasks = [
-    // {
-    //   "type": "create",
-    //   "documentId": "",
-    //   "collection": collectionGrades,
-    //   "data": {"name": "off", "grade": 3.3, "weight": 1.0}
-    // }
-  ];
-
-  if (tasks.isNotEmpty) {
-    try {
-      for (var item in tasks) {
-        if (item["type"] == "update") {
-          api.updateDocument(context,
-              collectionId: item["collection"],
-              documentId: item["documentId"],
-              data: item["data"]);
-        } else if (item["type"] == "create") {
-          api.createDocument(context,
-              collectionId: item["collection"], data: item["data"]);
-        } else if (item["type"] == "delete") {
-          api.deleteDocument(
-            context,
-            collectionId: item["collection"],
-            documentId: item["documentId"],
-          );
-        }
-      }
-
-      errorSuccessDialog(context: context, error: false, text: "Uploaded");
-    } catch (e) {
-      print(e);
-    }
-  }
-  print("no offline tasks");
+  Navigator.pushNamedAndRemoveUntil(
+    context,
+    "auth/home",
+    (Route<dynamic> route) => false,
+  );
 }
 
 // ignore: non_constant_identifier_names
-GradelyPageRoute({Widget Function(BuildContext) builder}) {
+PageRoute GradelyPageRoute({Widget Function(BuildContext) builder}) {
   if (Platform.isIOS) {
     return MaterialWithModalsPageRoute(builder: builder);
   } else {
@@ -389,7 +365,7 @@ GradelyPageRoute({Widget Function(BuildContext) builder}) {
   }
 }
 
-getUserAgent() {
+String getUserAgent() {
   String platform;
   if (Platform.isIOS) {
     platform = "iPhone OS";
@@ -413,5 +389,63 @@ String roundGrade(double value, double x) {
     return ((value * 2).round() / 2).toString();
   } else {
     return value.toStringAsFixed(2);
+  }
+}
+
+askForInAppRating() async {
+  int today = (DateTime.now().millisecondsSinceEpoch / 1000).round();
+  bool isLastAskedOlderThen14Days;
+
+  try {
+    isLastAskedOlderThen14Days =
+        (today - prefs.getInt("timestamp_asked_for_review") > 1296000);
+  } catch (_) {
+    isLastAskedOlderThen14Days = true;
+  }
+
+  bool isAccountOlderThen30Days = (today - user.registration) > 2592000;
+  final InAppReview inAppReview = InAppReview.instance;
+
+  if (isAccountOlderThen30Days &&
+      isLastAskedOlderThen14Days &&
+      (Platform.isIOS || Platform.isMacOS || Platform.isAndroid) &&
+      await inAppReview.isAvailable()) {
+    inAppReview.requestReview();
+    prefs.setInt("timestamp_asked_for_review", today);
+  }
+}
+
+Future minAppVersion() async {
+  try {
+    String currentVersion = (await PackageInfo.fromPlatform()).version;
+    String minAppVersion = (await api.listDocuments(
+        collection: "61d43a3784b50",
+        name: "minAppVersion",
+        filters: [
+          "key=min_" +
+              (() {
+                if (Platform.isIOS) {
+                  return "ios";
+                } else if (Platform.isAndroid) {
+                  return "android";
+                } else if (Platform.isMacOS) {
+                  return "macos";
+                } else if (Platform.isWindows) {
+                  return "windows";
+                } else {
+                  return {"isUpToDate": true};
+                }
+              }()) +
+              "_version"
+        ]))[0]["value"];
+
+    return {
+      "isUpToDate": int.parse(currentVersion.replaceAll(".", "")) >=
+          int.parse(minAppVersion.replaceAll(".", "")),
+      "currentVersion": currentVersion,
+      "minAppVersion": minAppVersion
+    };
+  } catch (_) {
+    return {"isUpToDate": true};
   }
 }

@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
-import 'package:in_app_review/in_app_review.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -31,7 +29,7 @@ class _SupportAppState extends State<SupportAppScreen> {
   }
 
   getProducts() async {
-    await FlutterInappPurchase.instance.initConnection;
+    await FlutterInappPurchase.instance.initialize();
     if (Platform.isIOS || Platform.isAndroid) {
       await FlutterInappPurchase.instance.clearTransactionIOS();
       iapList = (await FlutterInappPurchase.instance.getProducts([
@@ -80,7 +78,7 @@ class _SupportAppState extends State<SupportAppScreen> {
 
   Future<void> initPlatformState() async {
     // prepare
-    await FlutterInappPurchase.instance.initConnection;
+    await FlutterInappPurchase.instance.initialize();
 
     if (!mounted) return;
 
@@ -203,20 +201,17 @@ class _SupportAppState extends State<SupportAppScreen> {
                       height: 20,
                     ),
                     gradelyButton(
-                        onPressed: () async {
-                          final InAppReview inAppReview = InAppReview.instance;
-                          if (await inAppReview.isAvailable()) {
-                            inAppReview.requestReview();
-                          } else if (Platform.isIOS ||
-                              Platform.isMacOS ||
-                              Platform.isAndroid) {
-                          } else if (Platform.isWindows) {
-                            launchURL(
-                                "https://www.microsoft.com/store/apps/9MW4FPN80D7D");
-                          } else {
-                            launchURL("https://gradelyapp.com");
-                          }
-                        },
+                        onPressed: ()=>launchURL((() {
+                              if (Platform.isIOS || Platform.isMacOS) {
+                                return "https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974";
+                              } else if (Platform.isAndroid) {
+                                return "https://play.google.com/store/apps/details?id=com.eliasschneider.gradely2";
+                              } else if (Platform.isWindows) {
+                                return "https://www.microsoft.com/store/apps/9MW4FPN80D7D";
+                              } else {
+                                return "https://gradelyapp.com";
+                              }
+                            }())),
                         text: "rate".tr(),
                         color: frontColor(),
                         textColor: primaryColor)

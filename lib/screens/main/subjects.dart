@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:gradely2/screens/auth/introScreen.dart' as introScreen;
+import 'package:showcaseview/showcaseview.dart';
 import 'package:universal_io/io.dart';
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely2/screens/settings/settings.dart';
-import 'package:gradely2/shared/CLASSES.dart';
+import 'package:gradely2/shared/MODELS.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -20,13 +20,14 @@ import 'package:emoji_chooser/emoji_chooser.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:native_context_menu/native_context_menu.dart';
 
-var action;
 String selectedLesson = "";
 String selectedLessonName;
 String _selectedEmoji = "";
 double _averageOfSemester = 0 / -0;
 double _averageOfSemesterPP = 0 / -0;
 Semester selectedSemester;
+String switchedGradeType = user.gradeType;
+double _initialSemesterRound = selectedSemester.round;
 
 class SubjectScreen extends StatefulWidget {
   @override
@@ -34,32 +35,11 @@ class SubjectScreen extends StatefulWidget {
 }
 
 class _SubjectScreenState extends State<SubjectScreen> {
-  getLessons(loading) async {
-    if (loading) setState(() => isLoading = true);
-//get choosen semester name
-    var semesterResponse = await api.listDocuments(
-        collection: collectionSemester,
-        name: "semesterName",
-        filters: ["\$id=${user.choosenSemester}"]);
-    setState(() {
-      selectedSemester = semesterResponse["documents"]
-          .map((r) => Semester(r["\$id"], r["name"], r["round"]))
-          .toList()[0];
-    });
+  GlobalKey _showCase1 = GlobalKey();
+  GlobalKey _showCase2 = GlobalKey();
+  GlobalKey _showCase3 = GlobalKey();
 
-    lessonList = (await api.listDocuments(
-            collection: collectionLessons,
-            name: "lessonList_${user.choosenSemester}",
-            filters: ["parentId=${user.choosenSemester}"]))["documents"]
-        .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
-            double.parse(r["average"].toString())))
-        .toList();
-
-    lessonList.sort((a, b) => b.average.compareTo(a.average));
-
-    setState(() => isLoading = false);
-
-    //get the semester average
+  getSemesterAverage() {
     if (lessonList.length == 0) {
       _averageOfSemesterPP = -99;
       _averageOfSemester = -99;
@@ -72,22 +52,52 @@ class _SubjectScreenState extends State<SubjectScreen> {
           _sum += e.average;
           _ppSum += getPluspoints(e.average);
           _count = _count + 1;
-
-          setState(() {
-            _averageOfSemesterPP = _ppSum;
-            _averageOfSemester = _sum / _count;
-          });
         }
+        setState(() {
+          _averageOfSemesterPP = _ppSum;
+          _averageOfSemester = _sum / _count;
+        });
       }
     }
+  }
+
+  getLessons(loading, offlineMode) async {
+    if (loading) setState(() => isLoading = true);
+//get choosen semester name
+    try {
+      var semesterResponse = await api.listDocuments(
+          collection: collectionSemester,
+          name: "semesterName",
+          filters: ["\$id=${user.choosenSemester}"],
+          offlineMode: offlineMode);
+      setState(() {
+        selectedSemester = semesterResponse
+            .map((r) => Semester(r["\$id"], r["name"], r["round"]))
+            .toList()[0];
+      });
+      setState(() => isLoading = false);
+    } catch (_) {}
+
+    lessonList = (await api.listDocuments(
+            collection: collectionLessons,
+            name: "lessonList_${user.choosenSemester}",
+            filters: ["parentId=${user.choosenSemester}"],
+            offlineMode: offlineMode))
+        .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
+            double.parse(r["average"].toString())))
+        .toList();
+
+    setState(() {
+      lessonList.sort((a, b) => b.average.compareTo(a.average));
+    });
+    getSemesterAverage();
   }
 
   deleteLesson(index) {
     gradelyDialog(
       context: context,
       title: "warning".tr(),
-      text:
-          '${"delete_confirmation_p1".tr()} "${lessonList[index].name}" ${"delete_confirmation_p2".tr()}',
+      text: "delete_confirmation".tr(args: [lessonList[index].name]),
       actions: <Widget>[
         CupertinoButton(
           child: Text(
@@ -110,7 +120,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
             setState(() {
               lessonList.removeWhere((item) => item.id == lessonList[index].id);
             });
-            getLessons(false);
+            getSemesterAverage();
             Navigator.of(context).pop();
           },
         )
@@ -122,11 +132,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
   void initState() {
     super.initState();
     getUserInfo();
-    getLessons(true);
+    getLessons(true, true);
+    getLessons(true, false);
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      completeOfflineTasks(context);
       //notify the user that Gradely 2 Web isn't recommended.
-      if (!(prefs.getBool("webNotRecommendedPopUp") ?? false) && kIsWeb) {
+      if (!(prefs.getBool("webNotRecommendedPopUp_viewed") ?? false) &&
+          kIsWeb) {
         gradelyDialog(
             context: context,
             title: "web_popup_title".tr(),
@@ -134,17 +145,25 @@ class _SubjectScreenState extends State<SubjectScreen> {
             actions: [
               TextButton(
                   onPressed: () {
-                    prefs.setBool("webNotRecommendedPopUp", true);
+                    prefs.setBool("webNotRecommendedPopUp_viewed", true);
                     launchURL("https://gradelyapp.com#download");
                   },
                   child: Text("download".tr())),
               TextButton(
                   onPressed: () {
-                    prefs.setBool("webNotRecommendedPopUp", true);
+                    prefs.setBool("webNotRecommendedPopUp_viewed", true);
                     Navigator.of(context).pop();
                   },
                   child: Text("Ok".tr()))
             ]);
+      }
+      if (!(user.showcaseViewed ?? false)) {
+        Future.delayed(Duration(milliseconds: 1000), () {
+          ShowCaseWidget.of(context)
+              .startShowCase([_showCase1, _showCase2, _showCase3]);
+        });
+      } else {
+        Future.delayed(Duration(milliseconds: 7000), () => askForInAppRating());
       }
     });
   }
@@ -187,17 +206,27 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           child: IconButton(
                               icon: Icon(Icons.segment, color: primaryColor),
                               onPressed: () async {
-                                settingsScreen(context);
+                                await settingsScreen(context);
+                                getLessons(false, true);
                               }),
                         ),
                         actions: [
-                          IconButton(
-                              icon:
-                                  Icon(Icons.switch_left, color: primaryColor),
-                              onPressed: () async {
-                                Navigator.pushNamed(context, "semesters")
-                                    .then((value) => getLessons(false));
-                              }),
+                          Showcase(
+                            key: _showCase1,
+                            title: 'semesters'.tr(),
+                            description: 'showcase_semester_button'.tr(),
+                            disableAnimation: false,
+                            shapeBorder: CircleBorder(),
+                            radius: BorderRadius.all(Radius.circular(40)),
+                            child: IconButton(
+                                icon: Icon(Icons.switch_left,
+                                    color: primaryColor),
+                                onPressed: () async {
+                                  Navigator.pushNamed(context, "semesters")
+                                      .then(
+                                          (value) => getLessons(false, false));
+                                }),
+                          ),
                         ],
                       ),
                     ];
@@ -233,65 +262,109 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                           vertical: 15.0),
                                       child: Row(
                                         children: [
-                                          Text("Ø",
-                                              style: TextStyle(
-                                                fontSize: 19,
-                                                color: frontColor(),
-                                              )),
-                                          SizedBox(
-                                            width: 5,
+                                          InkWell(
+                                            onTap: () {
+                                              if (user.gradeType == "av") {
+                                                setState(() => selectedSemester
+                                                            .round ==
+                                                        _initialSemesterRound
+                                                    ? selectedSemester.round =
+                                                        0.01
+                                                    : selectedSemester.round =
+                                                        _initialSemesterRound);
+                                              } else {
+                                                setState(() =>
+                                                    switchedGradeType = "av");
+                                              }
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Text("Ø",
+                                                    style: TextStyle(
+                                                      fontSize: 19,
+                                                      color: frontColor(),
+                                                    )),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                    _averageOfSemester.isNaN ||
+                                                            _averageOfSemester ==
+                                                                -99
+                                                        ? "-"
+                                                        : roundGrade(
+                                                            _averageOfSemester,
+                                                            selectedSemester
+                                                                .round),
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: frontColor(),
+                                                    )),
+                                              ],
+                                            ),
                                           ),
-                                          Text(
-                                              _averageOfSemester.isNaN ||
-                                                      _averageOfSemester == -99
-                                                  ? "-"
-                                                  : roundGrade(
-                                                      _averageOfSemester,
-                                                      selectedSemester.round),
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                color: frontColor(),
-                                              )),
                                           SizedBox(
                                             width: 20,
                                           ),
-                                          user.gradeType == "av"
-                                              ? Container()
-                                              : Icon(
-                                                  Icons
-                                                      .add_circle_outline_outlined,
-                                                  size: 19,
-                                                  color: frontColor(),
+                                          InkWell(
+                                            onTap: () {
+                                              setState(() =>
+                                                  switchedGradeType = "pp");
+                                            },
+                                            child: Row(
+                                              children: [
+                                                user.gradeType == "av"
+                                                    ? Container()
+                                                    : Icon(
+                                                        Icons
+                                                            .add_circle_outline_outlined,
+                                                        size: 19,
+                                                        color: frontColor(),
+                                                      ),
+                                                SizedBox(
+                                                  width: 5,
                                                 ),
-                                          SizedBox(
-                                            width: 5,
+                                                user.gradeType == "av"
+                                                    ? Container()
+                                                    : Text(
+                                                        _averageOfSemester
+                                                                    .isNaN ||
+                                                                _averageOfSemester ==
+                                                                    -99
+                                                            ? "0"
+                                                            : _averageOfSemesterPP
+                                                                .toString(),
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          color: frontColor(),
+                                                        ))
+                                              ],
+                                            ),
                                           ),
-                                          user.gradeType == "av"
-                                              ? Container()
-                                              : Text(
-                                                  _averageOfSemesterPP.isNaN
-                                                      ? "0"
-                                                      : _averageOfSemesterPP
-                                                          .toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: frontColor(),
-                                                  ))
                                         ],
                                       )),
                                 ],
                               ),
                               Spacer(flex: 1),
-                              IconButton(
-                                  icon: Icon(Icons.add),
-                                  color: frontColor(),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      GradelyPageRoute(
-                                          builder: (context) => addLesson()),
-                                    );
-                                  }),
+                              Showcase(
+                                key: _showCase2,
+                                title: 'subjects'.tr(),
+                                description: 'showcase_add_subject_button'.tr(),
+                                disableAnimation: false,
+                                shapeBorder: CircleBorder(),
+                                radius: BorderRadius.all(Radius.circular(40)),
+                                child: IconButton(
+                                    icon: Icon(Icons.add),
+                                    color: frontColor(),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        GradelyPageRoute(
+                                            builder: (context) => addLesson()),
+                                      ).then(
+                                          (value) => getLessons(false, false));
+                                    }),
+                              ),
                             ],
                           ),
                         ),
@@ -308,124 +381,20 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: lessonList.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Slidable(
-                              actionPane: SlidableDrawerActionPane(),
-                              actionExtentRatio: 0.25,
-                              secondaryActions: <Widget>[
-                                ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                  ),
-                                  child: IconSlideAction(
-                                    color: primaryColor,
-                                    iconWidget: Icon(
-                                      FontAwesome5Solid.pencil_alt,
-                                      color: frontColor(),
-                                    ),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                updateLesson()),
-                                      );
-                                      selectedLessonName =
-                                          lessonList[index].name;
-                                      _selectedEmoji = lessonList[index].emoji;
-                                      selectedLesson = lessonList[index].id;
-                                    },
-                                  ),
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10),
-                                  ),
-                                  child: IconSlideAction(
-                                      color: primaryColor,
-                                      iconWidget: Icon(
-                                        FontAwesome5.trash_alt,
-                                        color: frontColor(),
-                                      ),
-                                      onTap: () => deleteLesson(index)),
-                                ),
-                              ],
-                              child: Container(
-                                decoration: listContainerDecoration(
-                                    index: index, list: lessonList),
-                                child: Column(
-                                  children: [
-                                    ContextMenuRegion(
-                                      onItemSelected: (item) =>
-                                          {item.onSelected()},
-                                      menuItems: [
-                                        MenuItem(
-                                          onSelected: () => deleteLesson(index),
-                                          title: 'delete'.tr(),
-                                        ),
-                                        MenuItem(
-                                            onSelected: () => Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          updateLesson()),
-                                                ),
-                                            title: 'rename'.tr()),
-                                      ],
-                                      child: ListTile(
-                                        title: Row(
-                                          children: [
-                                            Text(lessonList[index].emoji + "  ",
-                                                style: TextStyle(
-                                                  shadows: [
-                                                    Shadow(
-                                                      blurRadius: 5.0,
-                                                      color: darkmode
-                                                          ? Colors.grey[900]
-                                                          : Colors.grey[350],
-                                                      offset: Offset(2.0, 2.0),
-                                                    ),
-                                                  ],
-                                                )),
-                                            Text(
-                                              lessonList[index].name,
-                                            ),
-                                          ],
-                                        ),
-                                        trailing: Text(
-                                          (() {
-                                            if (lessonList[index].average ==
-                                                -99) {
-                                              return "-";
-                                            } else if (user.gradeType == "pp") {
-                                              return getPluspoints(
-                                                      lessonList[index].average)
-                                                  .toString();
-                                            } else {
-                                              return roundGrade(
-                                                  lessonList[index].average,
-                                                  selectedSemester.round);
-                                            }
-                                          })(),
-                                        ),
-                                        onTap: () {
-                                          Navigator.pushNamed(context, "grades")
-                                              .then((value) {
-                                            getLessons(false);
-                                          });
-
-                                          selectedLesson = lessonList[index].id;
-                                          selectedLessonName =
-                                              lessonList[index].name;
-                                        },
-                                      ),
-                                    ),
-                                    listDivider(),
-                                  ],
-                                ),
-                              ),
-                            );
+                            return index == 0 && !user.showcaseViewed
+                                ? Showcase(
+                                    key: _showCase3,
+                                    title: 'grades'.tr(),
+                                    description: Platform.isWindows ||
+                                            Platform.isMacOS
+                                        ? 'showcase_subject_list_desktop'.tr()
+                                        : 'showcase_subject_list'.tr(),
+                                    disableAnimation: false,
+                                    shapeBorder: CircleBorder(),
+                                    radius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                    child: subjectListTile(index))
+                                : subjectListTile(index);
                           },
                         ),
                       ),
@@ -434,6 +403,121 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 ),
               )));
     }
+  }
+
+  Widget subjectListTile(index) {
+    return Slidable(
+        actionPane: SlidableDrawerActionPane(),
+        actionExtentRatio: 0.25,
+        secondaryActions: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
+            ),
+            child: IconSlideAction(
+              color: primaryColor,
+              iconWidget: Icon(
+                FontAwesome5Solid.pencil_alt,
+                color: frontColor(),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => updateLesson()),
+                );
+                selectedLessonName = lessonList[index].name;
+                _selectedEmoji = lessonList[index].emoji;
+                selectedLesson = lessonList[index].id;
+              },
+            ),
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(10),
+              bottomRight: Radius.circular(10),
+            ),
+            child: IconSlideAction(
+                color: primaryColor,
+                iconWidget: Icon(
+                  FontAwesome5.trash_alt,
+                  color: frontColor(),
+                ),
+                onTap: () => deleteLesson(index)),
+          ),
+        ],
+        child: Container(
+          decoration: listContainerDecoration(index: index, list: lessonList),
+          child: Column(
+            children: [
+              ContextMenuRegion(
+                onItemSelected: (item) => {item.onSelected()},
+                menuItems: [
+                  MenuItem(
+                    onSelected: () => deleteLesson(index),
+                    title: 'delete'.tr(),
+                  ),
+                  MenuItem(
+                      onSelected: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => updateLesson()),
+                          ),
+                      title: 'edit'.tr()),
+                ],
+                child: ListTile(
+                  title: Row(
+                    children: [
+                      Text(lessonList[index].emoji + "  ",
+                          style: TextStyle(
+                            shadows: [
+                              Shadow(
+                                blurRadius: 5.0,
+                                color: darkmode
+                                    ? Colors.grey[900]
+                                    : Colors.grey[350],
+                                offset: Offset(2.0, 2.0),
+                              ),
+                            ],
+                          )),
+                      Flexible(
+                        child: FittedBox(
+                          child: Text(
+                            lessonList[index].name,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  trailing: Text(
+                    (() {
+                      if (lessonList[index].average == -99) {
+                        return "-";
+                      } else if (user.gradeType == "pp" &&
+                          switchedGradeType == "pp") {
+                        return getPluspoints(lessonList[index].average)
+                            .toString();
+                      } else {
+                        return roundGrade(
+                            lessonList[index].average, selectedSemester.round);
+                      }
+                    })(),
+                  ),
+                  onTap: () {
+                    ShowCaseWidget.of(context).completed(_showCase3);
+                    Navigator.pushNamed(context, "grades").then((value) {
+                      getLessons(false, false);
+                    });
+
+                    selectedLesson = lessonList[index].id;
+                    selectedLessonName = lessonList[index].name;
+                  },
+                ),
+              ),
+              listDivider(),
+            ],
+          ),
+        ));
   }
 
   addLesson() {
@@ -543,11 +627,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       "emoji": _selectedEmoji
                     },
                   );
-
-                  await getLessons(false);
+                  isLoadingController.add(false);
                   Navigator.of(context).pop();
                   addLessonController.text = "";
-                  isLoadingController.add(false);
                 },
               ),
               Spacer(flex: 5),
@@ -569,7 +651,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
           ),
           backgroundColor: defaultBGColor,
           elevation: 0,
-          title: Text("rename".tr(), style: appBarTextTheme),
+          title: Text("edit".tr(), style: appBarTextTheme),
           shape: defaultRoundedCorners(),
         ),
         body: Padding(
@@ -653,7 +735,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 height: 40,
               ),
               gradelyButton(
-                text: "rename".tr(),
+                text: "save".tr(),
                 onPressed: () async {
                   isLoadingController.add(true);
                   await api.updateDocument(context,
@@ -663,7 +745,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                         "name": renameTestWeightController.text,
                         "emoji": _selectedEmoji
                       });
-                  await getLessons(false);
+                  await getLessons(false, false);
                   Navigator.of(context).pop();
 
                   renameTestWeightController.text = "";

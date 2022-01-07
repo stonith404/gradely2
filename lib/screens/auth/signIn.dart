@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gradely2/main.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -25,9 +24,9 @@ class _SignInScreenState extends State<SignInScreen> {
     await result.then((response) async {
       prefs.setBool("signedIn", true);
       await getUserInfo();
-      Navigator.pushReplacement(
+      Navigator.pushNamed(
         context,
-        GradelyPageRoute(builder: (context) => HomeWrapper()),
+       "subjects"
       );
 
       passwordController.text = "";
@@ -41,6 +40,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     darkModeColorChanger(context);
+    bool keyboardActive = MediaQuery.of(context).viewInsets.bottom == 0;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: defaultBGColor,
@@ -50,21 +50,37 @@ class _SignInScreenState extends State<SignInScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Spacer(
-              flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 8 : 6,
-            ),
-            SvgPicture.asset("assets/images/logo.svg",
-                color: primaryColor, height: 60),
-            Spacer(
-              flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 4 : 1,
+              flex: keyboardActive ? 8 : 6,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "sign_in".tr(),
-                  style: title,
-                ),
+                SvgPicture.asset("assets/images/logo.svg",
+                    color: primaryColor, height: keyboardActive ? 60 : 30),
+                keyboardActive
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: Text(
+                          "sign_in".tr(),
+                          style: title,
+                        ),
+                      )
               ],
             ),
+            Spacer(
+              flex: keyboardActive ? 4 : 1,
+            ),
+            keyboardActive
+                ? Row(
+                    children: [
+                      Text(
+                        "sign_in".tr(),
+                        style: title,
+                      ),
+                    ],
+                  )
+                : Container(),
             Spacer(
               flex: 2,
             ),
@@ -92,7 +108,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         color: _obsecuredText ? Colors.grey : primaryColor),
                   ),
                 )),
-            Spacer(flex: 4),
+            Spacer(flex: keyboardActive ? 4 : 2),
             gradelyButton(text: "sign_in".tr(), onPressed: () => signInUser()),
             Spacer(flex: 12),
             TextButton(

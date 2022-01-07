@@ -106,56 +106,20 @@ Widget gradelyButton(
     @required String text,
     Color color,
     Color textColor}) {
-  return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
-    isLoadingStream.listen((value) {
-      setState(() {
-        if (value == null) {
-          value = false;
-        }
-        isLoading = value;
-      });
-    });
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          primary: color ?? primaryColor, // background
-          elevation: 0,
-          padding: EdgeInsets.all(12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12), // <-- Radius
-          ),
-        ),
-        child: isLoading
-            ? Theme(
-                data: ThemeData(
-                    cupertinoOverrideTheme: CupertinoThemeData(
-                        brightness: MediaQuery.of(context).platformBrightness ==
-                                Brightness.dark
-                            ? Brightness.light
-                            : Brightness.dark)),
-                child: CupertinoActivityIndicator())
-            : Text(text, style: TextStyle(color: textColor ?? frontColor())),
-        onPressed: onPressed);
-  });
-}
-
-//default gradely icon button
-
-Widget gradelyIconButton({Function onPressed, Icon icon}) {
-  return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
-    isLoadingStream.listen((value) {
-      setState(() {
-        if (value == null) {
-          value = false;
-        }
-        isLoading = value;
-      });
-    });
-    return CircleAvatar(
-        radius: 22,
-        backgroundColor: primaryColor,
-        child: IconButton(
-            color: frontColor(),
-            icon: isLoading
+  return StreamBuilder(
+      stream: isLoadingStream,
+      builder: (context, snapshot) {
+        dynamic isLoading = snapshot.data ?? false;
+        return ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: color ?? primaryColor, // background
+              elevation: 0,
+              padding: EdgeInsets.all(12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12), // <-- Radius
+              ),
+            ),
+            child: isLoading
                 ? Theme(
                     data: ThemeData(
                         cupertinoOverrideTheme: CupertinoThemeData(
@@ -165,9 +129,37 @@ Widget gradelyIconButton({Function onPressed, Icon icon}) {
                                     ? Brightness.light
                                     : Brightness.dark)),
                     child: CupertinoActivityIndicator())
-                : icon,
-            onPressed: onPressed));
-  });
+                : Text(text,
+                    style: TextStyle(color: textColor ?? frontColor())),
+            onPressed: onPressed);
+      });
+}
+
+//default gradely icon button
+
+Widget gradelyIconButton({Function onPressed, Icon icon}) {
+  return StreamBuilder(
+      stream: isLoadingStream,
+      builder: (context, snapshot) {
+        dynamic isLoading = snapshot.data ?? false;
+        return CircleAvatar(
+            radius: 22,
+            backgroundColor: primaryColor,
+            child: IconButton(
+                color: frontColor(),
+                icon: isLoading
+                    ? Theme(
+                        data: ThemeData(
+                            cupertinoOverrideTheme: CupertinoThemeData(
+                                brightness:
+                                    MediaQuery.of(context).platformBrightness ==
+                                            Brightness.dark
+                                        ? Brightness.light
+                                        : Brightness.dark)),
+                        child: CupertinoActivityIndicator())
+                    : icon,
+                onPressed: onPressed));
+      });
 }
 
 // default rounded corners for gradely

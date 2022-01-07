@@ -69,7 +69,7 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
         ),
         backgroundColor: defaultBGColor,
         elevation: 0,
-        title: Text("app_info".tr(), style: appBarTextTheme),
+        title: FittedBox(child: Text("app_info".tr(), style: appBarTextTheme)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),

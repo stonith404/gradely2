@@ -1,37 +1,41 @@
 import 'dart:convert';
-
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GradelyApi {
-  Future<Map> listDocuments(
+  Future<List> listDocuments(
       {@required String collection,
       @required String name,
       List filters,
-      String orderField}) async {
+      String orderField,
+      bool offlineMode = false}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    Map response;
-    if (await internetConnection()) {
-      Future result = database.listDocuments(
+    List result = [];
+    if (!offlineMode && await internetConnection()) {
+      DocumentList res = await database.listDocuments(
         filters: filters ?? [],
         collectionId: collection,
       );
 
-      await result.then((r) async {
-        response = jsonDecode(r.toString());
-
-        await prefs.setString(name, jsonEncode(response));
-      }).catchError((error) {});
+      for (var i = 0; i < res.sum; i++) {
+        result.add(res.documents[i].data);
+      }
+      prefs.setString(name, jsonEncode(result));
     } else {
-      response = jsonDecode(prefs.getString(name));
+      var res = jsonDecode(prefs.getString(name) ?? "{}");
+
+      for (var i = 0; i < res.length; i++) {
+        result.add(res[i]);
+      }
     }
 
-    return response;
+    return result;
   }
 
-  deleteDocument(context,{collectionId, documentId}) async {
+  deleteDocument(context, {collectionId, documentId}) async {
     if (!await internetConnection()) {
       noNetworkDialog(context);
     } else {
@@ -40,7 +44,7 @@ class GradelyApi {
     }
   }
 
-  createDocument(context,{collectionId, data}) async {
+  createDocument(context, {collectionId, data}) async {
     if (!await internetConnection()) {
       noNetworkDialog(context);
     } else {
@@ -49,7 +53,7 @@ class GradelyApi {
     }
   }
 
-  updateDocument(context,{collectionId, documentId, data}) async {
+  updateDocument(context, {collectionId, documentId, data}) async {
     if (!await internetConnection()) {
       noNetworkDialog(context);
     } else {

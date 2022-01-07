@@ -1,6 +1,4 @@
 import 'package:appwrite/appwrite.dart' as appwrite;
-import 'package:easy_localization_loader/easy_localization_loader.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely2/screens/auth/authHome.dart';
@@ -18,16 +16,26 @@ import 'package:gradely2/screens/settings/userInfo.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:gradely2/shared/api.dart';
-import 'package:gradely2/shared/loading.dart';
 import 'package:gradely2/shared/maintenance.dart';
+import 'package:gradely2/shared/update_app.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
+import 'package:showcaseview/showcaseview.dart';
 
-bool isLoggedIn = false;
-
+bool _isSignedIn = false;
+bool _isMaintenance;
+var _appVersionCheck;
 final plausible =
     Plausible("https://analytics.eliasschneider.com", "app.gradelyapp.com");
+
+Future _executeJobs() async {
+  _appVersionCheck = (await minAppVersion());
+  if (_appVersionCheck["isUpToDate"]) {
+    await getUserInfo();
+    _isSignedIn = await isSignedIn();
+    _isMaintenance = await isMaintenance();
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,11 +52,11 @@ void main() async {
       .setEndpoint('https://aw.cloud.eliasschneider.com/v1')
       .setProject('60f40cb212896');
 
+  await _executeJobs();
   runApp(EasyLocalization(
-      supportedLocales: [Locale('de'), Locale('en')],
+      supportedLocales: [Locale('de'), Locale('en'), Locale("fr")],
       useOnlyLangCode: true,
-      path: 'assets/translations/gradelyTranslation.csv',
-      assetLoader: CsvAssetLoader(),
+      path: 'assets/translations',
       fallbackLocale: Locale('en'),
       saveLocale: true,
       child: MaterialWrapper()));
@@ -63,7 +71,7 @@ var routes = {
   'semesters': (context) => SemesterScreen(),
   'subjects': (context) => SubjectScreen(),
   'grades': (context) => GradesScreen(),
-  'supportApp': (context) => SupportAppScreen(),
+  'settings/supportApp': (context) => SupportAppScreen(),
   'settings/userInfo': (context) => UserInfoScreen(),
   'settings/contribute': (context) => ContributeScreen(),
   'settings/appInfo': (context) => AppInfoScreen(),
@@ -78,59 +86,72 @@ class MaterialWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Gradely 2",
-      initialRoute: '/',
-      onGenerateRoute: (settings) {
-        plausible.enabled = kDebugMode || kIsWeb ? false : true;
-        plausible.userAgent = getUserAgent();
-        plausible.event(page: settings.name);
-        return GradelyPageRoute(
-            builder: (context) => routes[settings.name](context));
-      },
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      theme: ThemeData(
-        textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.black),
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        textButtonTheme: TextButtonThemeData(
-            style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-        )),
-        dialogBackgroundColor: Color(0xFFF2F2F7),
-        appBarTheme: AppBarTheme(
-          centerTitle: true,
-          iconTheme: IconThemeData(color: frontColor()),
-        ),
-        brightness: Brightness.light,
-        primaryColor: primaryColor,
-        scaffoldBackgroundColor: Color(0xFFF2F2F7),
-        backgroundColor: Colors.grey[300],
-      ),
-      darkTheme: ThemeData(
-        textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.white),
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        appBarTheme: AppBarTheme(
-          centerTitle: true,
-          iconTheme: IconThemeData(color: frontColor()),
-        ),
-        backgroundColor: Color(0xFF010001),
-        textButtonTheme: TextButtonThemeData(
-            style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-        )),
-        dialogBackgroundColor: Color(0xFF1a1a1a),
-        scaffoldBackgroundColor: Color(0xFF010001),
-        brightness: Brightness.dark,
-        primaryColor: primaryColor,
-        floatingActionButtonTheme:
-            FloatingActionButtonThemeData(backgroundColor: primaryColor),
-      ),
-    );
+    return ShowCaseWidget(
+        blurValue: 1,
+        onFinish: () {
+          user.showcaseViewed = true;
+          api.updateDocument(context,
+              collectionId: collectionUser,
+              documentId: user.dbID,
+              data: {"showcase_viewed": true});
+        },
+        builder: Builder(
+          builder: (context) => MaterialApp(
+            title: "Gradely 2",
+            initialRoute: '/',
+            onGenerateRoute: (settings) {
+              plausible.enabled = kDebugMode || kIsWeb ? false : true;
+              plausible.userAgent = getUserAgent();
+              plausible.event(page: settings.name);
+              return GradelyPageRoute(
+                  builder: (context) => routes[settings.name](context));
+            },
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            theme: ThemeData(
+              textSelectionTheme:
+                  TextSelectionThemeData(cursorColor: Colors.black),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              textButtonTheme: TextButtonThemeData(
+                  style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+              )),
+              dialogBackgroundColor: Color(0xFFF2F2F7),
+              appBarTheme: AppBarTheme(
+                centerTitle: true,
+                iconTheme: IconThemeData(color: frontColor()),
+              ),
+              brightness: Brightness.light,
+              primaryColor: primaryColor,
+              scaffoldBackgroundColor: Color(0xFFF2F2F7),
+              backgroundColor: Colors.grey[300],
+            ),
+            darkTheme: ThemeData(
+              textSelectionTheme:
+                  TextSelectionThemeData(cursorColor: Colors.white),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              appBarTheme: AppBarTheme(
+                centerTitle: true,
+                iconTheme: IconThemeData(color: frontColor()),
+              ),
+              backgroundColor: Color(0xFF010001),
+              textButtonTheme: TextButtonThemeData(
+                  style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              )),
+              dialogBackgroundColor: Color(0xFF1a1a1a),
+              scaffoldBackgroundColor: Color(0xFF010001),
+              brightness: Brightness.dark,
+              primaryColor: primaryColor,
+              floatingActionButtonTheme:
+                  FloatingActionButtonThemeData(backgroundColor: primaryColor),
+            ),
+          ),
+        ));
   }
 }
 
@@ -152,30 +173,18 @@ class _State extends State<HomeWrapper> {
   Widget build(BuildContext context) {
     internetConnection(context: context);
     client.setLocale(Localizations.localeOf(context).toString());
-//this future builder gets the user data and returns the semester detail page when done.
-    return FutureBuilder(
-      future: isMaintenance(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.data == null) {
-          return LoadingScreen();
-        } else if (snapshot.data == true) {
-          return MaintenanceScreen();
-        } else {
-          return FutureBuilder(
-              future: getUserData,
-              builder: (BuildContext context, AsyncSnapshot snap) {
-                if (snap.data == null) {
-                  return LoadingScreen();
-                } else {
-                  if (prefs.getBool("signedIn") ?? false || !snap.hasError) {
-                    return SubjectScreen();
-                  } else {
-                    return AuthHomeScreen();
-                  }
-                }
-              });
-        }
-      },
-    );
+    _executeJobs();
+    if (!_appVersionCheck["isUpToDate"]) {
+      return UpdateAppScreen(_appVersionCheck["minAppVersion"],
+          _appVersionCheck["currentVersion"]);
+    } else if (_isMaintenance) {
+      return MaintenanceScreen();
+    } else {
+      if (_isSignedIn) {
+        return SubjectScreen();
+      } else {
+        return AuthHomeScreen();
+      }
+    }
   }
 }

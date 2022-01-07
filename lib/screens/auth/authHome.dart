@@ -16,59 +16,65 @@ class _AuthHomeScreenState extends State<AuthHomeScreen> {
     darkModeColorChanger(context);
     return Scaffold(
       backgroundColor: defaultBGColor,
-      body: Container(
-        width: MediaQuery.of(context).size.width * 1,
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Spacer(
-            flex: 12,
-          ),
-          SvgPicture.asset(
-            "assets/images/logo.svg",
-            color: primaryColor,
-            height: 100,
-          ),
-          Spacer(
-            flex: 4,
-          ),
-          Text(
-            "welcome_to_gradely".tr(),
-            textAlign: TextAlign.center,
-            style: bigTitle,
-          ),
-          Spacer(
-            flex: 1,
-          ),
-          Text("grades_across".tr()),
-          Spacer(
-            flex: 20,
-          ),
-          Container(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width * 1,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Spacer(
+              flex: 12,
+            ),
+            SvgPicture.asset(
+              "assets/images/logo.svg",
+              color: primaryColor,
+              height: 100,
+            ),
+            Spacer(
+              flex: 4,
+            ),
+            FittedBox(
+              child: Text(
+                "welcome_to_gradely".tr(),
+                textAlign: TextAlign.center,
+                style: bigTitle,
+              ),
+            ),
+            Spacer(
+              flex: 1,
+            ),
+            Text("grades_across".tr()),
+            Spacer(
+              flex: 20,
+            ),
+            Container(
+                width: 300,
+                child: gradelyButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        "auth/signUp",
+                      );
+                    },
+                    text: "get_started".tr())),
+            Spacer(
+              flex: 1,
+            ),
+            Container(
               width: 300,
               child: gradelyButton(
                   onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      "auth/signUp",
-                    );
+                    Navigator.pushNamed(context, "auth/signIn");
                   },
-                  text: "get_started".tr())),
-          Spacer(
-            flex: 1,
-          ),
-          Container(
-            width: 300,
-            child: gradelyButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "auth/signIn");
-                },
-                text: "sign_in".tr(),
-                color: frontColor(),
-                textColor: primaryColor),
-          ),
-          Spacer(
-            flex: 8,
-          ),
-        ]),
+                  text: "sign_in".tr(),
+                  color: frontColor(),
+                  textColor: primaryColor),
+            ),
+            Spacer(
+              flex: 8,
+            ),
+          ]),
+        ),
       ),
     );
   }

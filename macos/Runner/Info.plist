@@ -16,6 +16,7 @@
 	<array>
 		<string>de</string>
 		<string>en</string>
+		<string>fr</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>Gradely 2</string>

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely2/screens/main/subjects.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
@@ -58,21 +57,12 @@ Future settingsScreen(BuildContext context) {
                           onPressed: () async {
                             await getUserInfo();
                             Navigator.of(context).pop();
-                            Navigator.pushReplacement(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation1, animation2) =>
-                                        SubjectScreen(),
-                                transitionDuration: Duration(seconds: 0),
-                              ),
-                            );
                           },
                           icon: Icon(Icons.arrow_forward_ios_outlined)),
                     ),
                   ],
                 ),
-                Text("settings".tr(), style: title),
+                Text("options".tr(), style: title),
                 SizedBox(
                   height: 20,
                 ),
@@ -167,7 +157,8 @@ Future settingsScreen(BuildContext context) {
                                   Text("support".tr()),
                                 ],
                                 onTap: () {
-                                  Navigator.pushNamed(context, "supportApp");
+                                  Navigator.pushNamed(
+                                      context, "settings/supportApp");
                                 },
                               ),
                               settingsListTile(

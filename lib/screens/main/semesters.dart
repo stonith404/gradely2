@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gradely2/main.dart';
-import 'package:gradely2/shared/CLASSES.dart';
+import 'package:gradely2/shared/MODELS.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
@@ -28,13 +27,14 @@ class _SemesterScreenState extends State<SemesterScreen> {
     semesterList = (await api.listDocuments(
             collection: collectionSemester,
             name: "semesterList",
-            filters: ["parentId=${user.dbID}"]))["documents"]
+            filters: ["parentId=${user.dbID}"]))
         .map((r) => Semester(r["\$id"], r["name"], r["round"]))
         .toList();
     setState(() => isLoading = false);
   }
 
   saveChoosenSemester(String _choosenSemester) async {
+    user.choosenSemester = _choosenSemester;
     await api.updateDocument(context,
         collectionId: collectionUser,
         documentId: user.dbID,
@@ -45,8 +45,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
     return gradelyDialog(
       context: context,
       title: "warning".tr(),
-      text:
-          '${"delete_confirmation_p1".tr()} "${semesterList[index].name}" ${"delete_confirmation_p2".tr()}',
+      text: "delete_confirmation".tr(args: [semesterList[index].name]),
       actions: <Widget>[
         CupertinoButton(
           child: Text(
@@ -79,6 +78,52 @@ class _SemesterScreenState extends State<SemesterScreen> {
         )
       ],
     );
+  }
+
+  duplicateSemester(index) {
+    gradelyDialog(
+        context: context,
+        title: "duplicate_semester".tr(),
+        text: "duplicate_semester_text".tr(),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text("cancel".tr()),
+          ),
+          TextButton(
+              onPressed: () async {
+                var lessonsList = (await api.listDocuments(
+                        collection: collectionLessons,
+                        name: "lessonList_${semesterList[index].id}",
+                        filters: ["parentId=${semesterList[index].id}"]))
+                    .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
+                        double.parse(r["average"].toString())))
+                    .toList();
+
+                String newSemester = (await api.createDocument(context,
+                        collectionId: collectionSemester,
+                        data: {
+                      "parentId": user.dbID,
+                      "name": semesterList[index].name + " - ${'copy'.tr()}",
+                      "round": semesterList[index].round
+                    }))
+                    .$id;
+
+                for (var i = 0; i < lessonsList.length; i++) {
+                  api.createDocument(context,
+                      collectionId: collectionLessons,
+                      data: {
+                        "parentId": newSemester,
+                        "name": lessonsList[i].name,
+                        "average": -99,
+                        "emoji": lessonsList[i].emoji
+                      });
+                }
+                Navigator.of(context).pop();
+                getSemesters();
+              },
+              child: Text("continue".tr()))
+        ]);
   }
 
   @override
@@ -136,21 +181,28 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                 bottomLeft: Radius.circular(10),
                               ),
                               child: IconSlideAction(
-                                color: primaryColor,
-                                iconWidget: Icon(
-                                  FontAwesome5Solid.pencil_alt,
-                                  color: frontColor(),
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    GradelyPageRoute(
-                                        builder: (context) => updateSemester()),
-                                  );
-
-                                  _selectedSemester = semesterList[index];
-                                },
+                                  color: primaryColor,
+                                  iconWidget: Icon(
+                                    FontAwesome5Solid.clone,
+                                    color: frontColor(),
+                                  ),
+                                  onTap: () => duplicateSemester(index)),
+                            ),
+                            IconSlideAction(
+                              color: primaryColor,
+                              iconWidget: Icon(
+                                FontAwesome5Solid.pencil_alt,
+                                color: frontColor(),
                               ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  GradelyPageRoute(
+                                      builder: (context) => updateSemester()),
+                                );
+
+                                _selectedSemester = semesterList[index];
+                              },
                             ),
                             ClipRRect(
                               borderRadius: BorderRadius.only(
@@ -189,7 +241,11 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                           _selectedSemester =
                                               semesterList[index];
                                         },
-                                        title: 'rename'.tr()),
+                                        title: 'edit'.tr()),
+                                    MenuItem(
+                                        onSelected: () =>
+                                            duplicateSemester(index),
+                                        title: 'duplicate'.tr()),
                                   ],
                                   child: ListTile(
                                     title: Text(
@@ -201,11 +257,9 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                         onPressed: () async {
                                           await saveChoosenSemester(
                                               semesterList[index].id);
-                                          Navigator.pushAndRemoveUntil(
+                                          Navigator.pushNamedAndRemoveUntil(
                                             context,
-                                            GradelyPageRoute(
-                                                builder: (context) =>
-                                                    HomeWrapper()),
+                                            "subjects",
                                             (Route<dynamic> route) => false,
                                           );
                                         }),
@@ -276,7 +330,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                 height: 30,
               ),
               gradelyButton(
-                text: "rename".tr(),
+                text: "save".tr(),
                 onPressed: () async {
                   isLoadingController.add(true);
                   await api.updateDocument(context,
@@ -363,7 +417,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
 
                     await getSemesters();
                     Navigator.of(context).pop();
-
+                    addSemesterController.text = "";
                     isLoadingController.add(false);
                   })
             ],
