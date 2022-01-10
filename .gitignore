@@ -48,6 +48,8 @@ app.*.map.json
 
 #custom
 .vscode/
+node_modules/
+package-lock.json
 ios/build/
 windows/flutter/generated_plugin_registrant.cc
 windows/flutter/generated_plugins.cmake
