@@ -1,6 +1,6 @@
 // -------
 // A script to setup your Appwrite instance for Gradely 2.
-// ! This script isn't ready yet, it will be updated as soon as Appwrite 0.12 was released.
+// ! This script isn't ready yet.
 // -------
 
 import 'dart:io';
