@@ -11,8 +11,5 @@
   "license": "ISC",
   "dependencies": {
     "node-appwrite": "^4.0.2"
-  },
-  "devDependencies": {
-    "ts-node": "^10.4.0"
   }
 }

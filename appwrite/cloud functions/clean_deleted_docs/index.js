@@ -1,4 +1,4 @@
-import sdk, { Database } from "node-appwrite";
+let sdk = require("node-appwrite");
 
 
 // Initialise the client SDK
@@ -15,22 +15,22 @@ const collectionSemester = { name: "Semesters", id: "60f40d1b66424" };
 const collectionLessons = { name: "Lessons", id: "60f40d0ed5da4" };
 const collectionGrades = { name: "Grades", id: "60f71651520e5" };
 // Initialise
-let database: Database = new sdk.Database(client);
+let database = new sdk.Database(client);
 let deletedDocuments = 0;
 
-async function checkCollections(checkCollection: any, parentCollection: any) {
+async function checkCollections(checkCollection, parentCollection) {
   console.log(
     "\nChecking " + checkCollection.name + "..."
   );
 
-  let checkCollectionList: any = await listDocuments(checkCollection.id);
+  let checkCollectionList = await listDocuments(checkCollection.id);
 
-  let parentCollectionList: any = await listDocuments(parentCollection.id);
+  let parentCollectionList = await listDocuments(parentCollection.id);
 
   for (let index = 0; index < checkCollectionList.length; index++) {
     if (
       !parentCollectionList.find(
-        (parentCollectionDoc: { [x: string]: any }) => {
+        (parentCollectionDoc) => {
           return (
             parentCollectionDoc["$id"] ===
             checkCollectionList[index]["parentId"]
@@ -49,10 +49,10 @@ async function checkCollections(checkCollection: any, parentCollection: any) {
     }
   }
 }
-async function listDocuments(collection: string) {
+async function listDocuments(collection) {
   let documentList = [];
   let stopLoop = false;
-  let lastId: string = (await database.listDocuments(collection, undefined, 1))
+  let lastId = (await database.listDocuments(collection, undefined, 1))
     .documents[0].$id;
   while (!stopLoop) {
     let response = await database.listDocuments(

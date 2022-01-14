@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+let nodemailer = require('nodemailer');
 
 const mailData = JSON.parse(process.env.APPWRITE_FUNCTION_DATA)
 console.log(process.env.SMTP_HOST)
