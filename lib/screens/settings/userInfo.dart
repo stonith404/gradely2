@@ -196,11 +196,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                     if (await reAuthenticate(
                                         email: user.email,
                                         password: passwordController.text)) {
-                                      await api.deleteDocument(context,
-                                          collectionId: collectionUser,
-                                          documentId: user.dbID);
-
-                                      await account.delete();
+                                      await functions.createExecution(
+                                          functionId: "fcn_delete_account");
                                       clearVariables();
                                       passwordController.text = "";
                                       Navigator.pushNamedAndRemoveUntil(

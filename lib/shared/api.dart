@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
+import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GradelyApi {
@@ -39,8 +41,12 @@ class GradelyApi {
     if (!await internetConnection()) {
       noNetworkDialog(context);
     } else {
-      return await database.deleteDocument(
-          collectionId: collectionId, documentId: documentId);
+      try {
+        return await database.deleteDocument(
+            collectionId: collectionId, documentId: documentId);
+      } on AppwriteException catch (e) {
+        errorSuccessDialog(context: context, error: true, text: e.message);
+      }
     }
   }
 
@@ -48,9 +54,12 @@ class GradelyApi {
     if (!await internetConnection()) {
       noNetworkDialog(context);
     } else {
-      return await database.createDocument(
-        documentId: "unique()",
-          collectionId: collectionId, data: data);
+      try {
+        return await database.createDocument(
+            documentId: "unique()", collectionId: collectionId, data: data);
+      } on AppwriteException catch (e) {
+        errorSuccessDialog(context: context, error: true, text: e.message);
+      }
     }
   }
 
@@ -58,8 +67,12 @@ class GradelyApi {
     if (!await internetConnection()) {
       noNetworkDialog(context);
     } else {
-      return await database.updateDocument(
-          collectionId: collectionId, documentId: documentId, data: data);
+      try {
+        return await database.updateDocument(
+            collectionId: collectionId, documentId: documentId, data: data);
+      } on AppwriteException catch (e) {
+        errorSuccessDialog(context: context, error: true, text: e.message);
+      }
     }
   }
 }

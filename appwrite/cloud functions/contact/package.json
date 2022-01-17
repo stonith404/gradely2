@@ -1,13 +1,10 @@
 {
-  "name": "cloud-functions-storage-cleaner-nodejs",
+  "name": "cloud-functions-contact-nodejs",
   "version": "1.0.0",
-  "description": "A sample NodeJS Cloud Function for deleting files that are older than XX days on a schedule.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "ts-node": "ts-node index"
   },
-  "author": "",
+  "author": "Elias Schneider",
   "license": "ISC",
   "devDependencies": {
     "nodemailer": "^6.4.4"

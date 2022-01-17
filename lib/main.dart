@@ -49,7 +49,7 @@ void main() async {
   storage = appwrite.Storage(client);
   functions = appwrite.Functions(client);
   client
-      .setEndpoint('http://localhost:86/v1')
+      .setEndpoint('https://aw.cloud.eliasschneider.com/v1')
       .setProject('60f40cb212896');
 
   await _executeJobs();
