@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradely2/shared/FUNCTIONS.dart';
-import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely2/shared/WIDGETS.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -64,12 +63,7 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: primaryColor,
-        ),
-        backgroundColor: defaultBGColor,
-        elevation: 0,
-        title: FittedBox(child: Text("app_info".tr(), style: appBarTextTheme)),
+        title: FittedBox(child: Text("app_info".tr())),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -77,7 +71,7 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
           children: [
             Flexible(
               child: Container(
-                decoration: boxDec(),
+                decoration: boxDec(context),
                 child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -97,7 +91,8 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
                                         context: context,
                                         applicationIcon: SvgPicture.asset(
                                             "assets/images/logo.svg",
-                                            color: primaryColor,
+                                            color: Theme.of(context)
+                                                .primaryColorDark,
                                             height: 30));
                                   },
                                   icon: Icon(Icons.arrow_forward_ios, size: 20))

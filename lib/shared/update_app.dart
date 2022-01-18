@@ -15,7 +15,7 @@ class UpdateAppScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: defaultBGColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Container(
@@ -27,7 +27,7 @@ class UpdateAppScreen extends StatelessWidget {
             ),
             SvgPicture.asset(
               "assets/images/DumpingDoodle.svg",
-              color: primaryColor,
+              color: Theme.of(context).primaryColorDark,
               height: 200,
             ),
             Spacer(

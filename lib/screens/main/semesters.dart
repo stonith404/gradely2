@@ -51,7 +51,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
         CupertinoButton(
           child: Text(
             "no".tr(),
-            style: TextStyle(color: wbColor),
+            style: TextStyle(color: Theme.of(context).primaryColorDark),
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -145,15 +145,10 @@ class _SemesterScreenState extends State<SemesterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: primaryColor,
-        ),
-        backgroundColor: defaultBGColor,
-        elevation: 0,
-        title: Text("Semester", style: appBarTextTheme),
+        title: Text("Semester"),
       ),
       floatingActionButton: FloatingActionButton(
-          backgroundColor: primaryColor,
+          backgroundColor: Theme.of(context).primaryColorDark,
           child: Icon(Icons.add),
           onPressed: () {
             Navigator.push(
@@ -184,18 +179,18 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                 bottomLeft: Radius.circular(10),
                               ),
                               child: IconSlideAction(
-                                  color: primaryColor,
+                                  color: Theme.of(context).primaryColorDark,
                                   iconWidget: Icon(
                                     FontAwesome5Solid.clone,
-                                    color: frontColor(),
+                                    color: Theme.of(context).primaryColorLight,
                                   ),
                                   onTap: () => duplicateSemester(index)),
                             ),
                             IconSlideAction(
-                              color: primaryColor,
+                              color: Theme.of(context).primaryColorDark,
                               iconWidget: Icon(
                                 FontAwesome5Solid.pencil_alt,
-                                color: frontColor(),
+                                color: Theme.of(context).primaryColorLight,
                               ),
                               onTap: () {
                                 Navigator.push(
@@ -213,16 +208,16 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                 bottomRight: Radius.circular(10),
                               ),
                               child: IconSlideAction(
-                                  color: primaryColor,
+                                  color: Theme.of(context).primaryColorDark,
                                   iconWidget: Icon(
                                     FontAwesome5.trash_alt,
-                                    color: frontColor(),
+                                    color: Theme.of(context).primaryColorLight,
                                   ),
                                   onTap: () => deleteSemester(index)),
                             ),
                           ],
                           child: Container(
-                            decoration: listContainerDecoration(
+                            decoration: listContainerDecoration(context,
                                 index: index, list: semesterList),
                             child: Column(
                               children: [
@@ -255,7 +250,8 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                       semesterList[index].name,
                                     ),
                                     trailing: IconButton(
-                                        color: primaryColor,
+                                        color:
+                                            Theme.of(context).primaryColorDark,
                                         icon: Icon(Icons.arrow_forward),
                                         onPressed: () async {
                                           await saveChoosenSemester(
@@ -288,16 +284,9 @@ class _SemesterScreenState extends State<SemesterScreen> {
         builder: (BuildContext context, StateSetter setState) {
       return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: primaryColor,
-          ),
-          backgroundColor: defaultBGColor,
-          elevation: 0,
           title: Text(
             "edit_semester".tr(),
-            style: appBarTextTheme,
           ),
-          shape: defaultRoundedCorners(),
         ),
         body: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -308,7 +297,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                   controller: renameSemesterController,
                   textAlign: TextAlign.left,
                   inputFormatters: [emojiRegex()],
-                  decoration: inputDec(label: "Semester Name")),
+                  decoration: inputDec(context, label: "Semester Name")),
               SizedBox(
                 height: 30,
               ),
@@ -364,13 +353,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
         builder: (BuildContext context, StateSetter setState) {
       return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: primaryColor,
-          ),
-          elevation: 0,
-          backgroundColor: defaultBGColor,
-          title: Text("add_semester".tr(), style: appBarTextTheme),
-          shape: defaultRoundedCorners(),
+          title: Text("add_semester".tr()),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -381,7 +364,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                   inputFormatters: [emojiRegex()],
                   controller: addSemesterController,
                   textAlign: TextAlign.left,
-                  decoration: inputDec(label: "Semester Name")),
+                  decoration: inputDec(context, label: "Semester Name")),
               SizedBox(
                 height: 30,
               ),

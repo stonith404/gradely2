@@ -105,7 +105,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
         CupertinoButton(
           child: Text(
             "no".tr(),
-            style: TextStyle(color: wbColor),
+            style: TextStyle(color: Theme.of(context).primaryColorDark),
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -134,7 +134,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
   @override
   void initState() {
     super.initState();
-
     getLessons(true, true);
     getLessons(true, false);
 
@@ -202,15 +201,15 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       (BuildContext context, bool innerBoxIsScrolled) {
                     return <Widget>[
                       SliverAppBar(
-                        backgroundColor: defaultBGColor,
-                        elevation: 0,
                         title: SvgPicture.asset("assets/images/logo.svg",
-                            color: primaryColor, height: 30),
+                            color: Theme.of(context).primaryColorDark,
+                            height: 30),
                         leading: Transform(
                           alignment: Alignment.center,
                           transform: Matrix4.rotationY(math.pi),
                           child: IconButton(
-                              icon: Icon(Icons.segment, color: primaryColor),
+                              icon: Icon(Icons.segment,
+                                  color: Theme.of(context).primaryColorDark),
                               onPressed: () async {
                                 await settingsScreen(context);
                                 getLessons(false, true);
@@ -226,7 +225,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                             radius: BorderRadius.all(Radius.circular(40)),
                             child: IconButton(
                                 icon: Icon(Icons.switch_left,
-                                    color: primaryColor),
+                                    color: Theme.of(context).primaryColorDark),
                                 onPressed: () async {
                                   Navigator.pushNamed(context, "semesters")
                                       .then(
@@ -242,7 +241,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                     child: ListView(padding: EdgeInsets.zero, children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: primaryColor,
+                            color: Theme.of(context).primaryColorDark,
                             borderRadius: BorderRadius.all(
                               Radius.circular(15),
                             )),
@@ -257,11 +256,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                 children: [
                                   Text(
                                     selectedSemester.name,
-                                    style: TextStyle(
-                                        fontFamily: "PlayfairDisplay",
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 28,
-                                        color: frontColor()),
+                                    style:
+                                        Theme.of(context).textTheme.headline1,
                                   ),
                                   Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -288,7 +284,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                                 Text("Ø",
                                                     style: TextStyle(
                                                       fontSize: 19,
-                                                      color: frontColor(),
+                                                      color: Theme.of(context)
+                                                          .primaryColorLight,
                                                     )),
                                                 SizedBox(
                                                   width: 5,
@@ -304,7 +301,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                                                 .round),
                                                     style: TextStyle(
                                                       fontSize: 20,
-                                                      color: frontColor(),
+                                                      color: Theme.of(context)
+                                                          .primaryColorLight,
                                                     )),
                                               ],
                                             ),
@@ -325,8 +323,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                                         Icons
                                                             .add_circle_outline_outlined,
                                                         size: 19,
-                                                        color: frontColor(),
-                                                      ),
+                                                        color: Theme.of(context)
+                                                            .primaryColorLight),
                                                 SizedBox(
                                                   width: 5,
                                                 ),
@@ -342,7 +340,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                                                 .toString(),
                                                         style: TextStyle(
                                                           fontSize: 20,
-                                                          color: frontColor(),
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .primaryColorLight,
                                                         ))
                                               ],
                                             ),
@@ -361,7 +361,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                 radius: BorderRadius.all(Radius.circular(40)),
                                 child: IconButton(
                                     icon: Icon(Icons.add),
-                                    color: frontColor(),
+                                    color: Theme.of(context).primaryColorLight,
                                     onPressed: () {
                                       Navigator.push(
                                         context,
@@ -422,10 +422,10 @@ class _SubjectScreenState extends State<SubjectScreen> {
               bottomLeft: Radius.circular(10),
             ),
             child: IconSlideAction(
-              color: primaryColor,
+              color: Theme.of(context).primaryColorDark,
               iconWidget: Icon(
                 FontAwesome5Solid.pencil_alt,
-                color: frontColor(),
+                color: Theme.of(context).primaryColorLight,
               ),
               onTap: () {
                 Navigator.push(
@@ -444,16 +444,17 @@ class _SubjectScreenState extends State<SubjectScreen> {
               bottomRight: Radius.circular(10),
             ),
             child: IconSlideAction(
-                color: primaryColor,
+                color: Theme.of(context).primaryColorDark,
                 iconWidget: Icon(
                   FontAwesome5.trash_alt,
-                  color: frontColor(),
+                  color: Theme.of(context).primaryColorLight,
                 ),
                 onTap: () => deleteLesson(index)),
           ),
         ],
         child: Container(
-          decoration: listContainerDecoration(index: index, list: lessonList),
+          decoration:
+              listContainerDecoration(context, index: index, list: lessonList),
           child: Column(
             children: [
               ContextMenuRegion(
@@ -479,9 +480,11 @@ class _SubjectScreenState extends State<SubjectScreen> {
                             shadows: [
                               Shadow(
                                 blurRadius: 5.0,
-                                color: darkmode
-                                    ? Colors.grey[900]
-                                    : Colors.grey[350],
+                                color:
+                                    MediaQuery.of(context).platformBrightness ==
+                                            Brightness.dark
+                                        ? Colors.grey[900]
+                                        : Colors.grey[350],
                                 offset: Offset(2.0, 2.0),
                               ),
                             ],
@@ -531,13 +534,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
         builder: (BuildContext context, StateSetter setState) {
       return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: primaryColor,
-          ),
-          backgroundColor: defaultBGColor,
-          elevation: 0,
-          title: Text("add_lesson".tr(), style: appBarTextTheme),
-          shape: defaultRoundedCorners(),
+          title: Text("add_lesson".tr()),
         ),
         body: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -600,7 +597,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   if (_selectedEmoji == "") {
                     return Text(
                       "no_emoji_choosed".tr(),
-                      style: TextStyle(color: primaryColor),
+                      style:
+                          TextStyle(color: Theme.of(context).primaryColorDark),
                     );
                   } else {
                     return Text(
@@ -615,7 +613,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   inputFormatters: [emojiRegex()],
                   controller: addLessonController,
                   textAlign: TextAlign.left,
-                  decoration: inputDec(label: "lesson_name".tr())),
+                  decoration: inputDec(context, label: "lesson_name".tr())),
               SizedBox(
                 height: 40,
               ),
@@ -652,13 +650,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
         builder: (BuildContext context, StateSetter setState) {
       return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: primaryColor,
-          ),
-          backgroundColor: defaultBGColor,
-          elevation: 0,
-          title: Text("edit".tr(), style: appBarTextTheme),
-          shape: defaultRoundedCorners(),
+          title: Text("edit".tr()),
         ),
         body: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -721,7 +713,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   if (_selectedEmoji == "") {
                     return Text(
                       "no_emoji_choosed".tr(),
-                      style: TextStyle(color: primaryColor),
+                      style:
+                          TextStyle(color: Theme.of(context).primaryColorDark),
                     );
                   } else {
                     return Text(
@@ -736,7 +729,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   controller: renameTestWeightController,
                   inputFormatters: [emojiRegex()],
                   textAlign: TextAlign.left,
-                  decoration: inputDec(label: "lesson_name".tr())),
+                  decoration: inputDec(context, label: "lesson_name".tr())),
               SizedBox(
                 height: 40,
               ),

@@ -122,52 +122,17 @@ Future<bool> reAuthenticate(
   return success;
 }
 
-Color frontColor() {
-  Color color;
-  if (primaryColor == Color(0xFFFFFFFF)) {
-    color = Colors.black;
-  } else {
-    color = color = Colors.white;
-  }
-  return color;
-}
-
 //checks if darkmode is activated and changes colors
 
 void darkModeColorChanger(context) {
-  if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
-    if (primaryColor == Color(0xff000000)) {
-      primaryColor = Colors.white;
-    }
-    darkmode = true;
-    brightness = "dark";
-    bwColor = Color(0xFF1d1c1e);
-    wbColor = Colors.white;
-    defaultBGColor = Color(0xFF010001);
-  } else {
-    if (primaryColor == Color(0xffffffff)) {
-      primaryColor = Colors.black;
-    }
-    darkmode = false;
-    brightness = "light";
-    bwColor = Colors.white;
-    wbColor = Colors.grey[850];
-    defaultBGColor = Color(0xFFF2F2F7);
-  }
-  appBarTextTheme = TextStyle(
-    color: primaryColor,
-    fontWeight: FontWeight.w900,
-    letterSpacing: 1.5,
-    fontFamily: "PlayfairDisplay",
-  );
   title = TextStyle(
-      color: primaryColor,
+      color: Theme.of(context).primaryColorDark,
       fontWeight: FontWeight.w900,
       letterSpacing: 1.5,
       fontFamily: "PlayfairDisplay",
       fontSize: 21);
   bigTitle = TextStyle(
-      color: primaryColor,
+      color: Theme.of(context).primaryColorDark,
       fontWeight: FontWeight.w900,
       letterSpacing: 1.5,
       fontFamily: "PlayfairDisplay",
@@ -307,7 +272,7 @@ void changeEmail(_email, context) async {
                   controller: passwordController,
                   textAlign: TextAlign.left,
                   obscureText: true,
-                  decoration: inputDec(label: "your_password".tr())),
+                  decoration: inputDec(context, label: "your_password".tr())),
             ],
           ),
           actions: <Widget>[
@@ -427,7 +392,7 @@ Future minAppVersion() async {
         queries: [
           Query.equal(
               "key",
-              "key =min_" +
+              "min_" +
                   (() {
                     if (Platform.isIOS) {
                       return "ios";
@@ -443,7 +408,6 @@ Future minAppVersion() async {
                   }()) +
                   "_version")
         ]))[0]["value"];
-
     return {
       "isUpToDate": int.parse(currentVersion.replaceAll(".", "")) >=
           int.parse(minAppVersion.replaceAll(".", "")),

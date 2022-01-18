@@ -98,12 +98,7 @@ class _SupportAppState extends State<SupportAppScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: primaryColor,
-        ),
-        backgroundColor: defaultBGColor,
-        elevation: 0,
-        title: Text("support".tr(), style: appBarTextTheme),
+        title: Text("support".tr()),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -184,8 +179,8 @@ class _SupportAppState extends State<SupportAppScreen> {
                         onPressed: () =>
                             Navigator.pushNamed(context, "settings/contribute"),
                         text: "contribute".tr(),
-                        color: frontColor(),
-                        textColor: primaryColor),
+                        color: Theme.of(context).primaryColorLight,
+                        textColor: Theme.of(context).primaryColorDark),
                     SizedBox(
                       height: 40,
                     ),
@@ -201,7 +196,7 @@ class _SupportAppState extends State<SupportAppScreen> {
                       height: 20,
                     ),
                     gradelyButton(
-                        onPressed: ()=>launchURL((() {
+                        onPressed: () => launchURL((() {
                               if (Platform.isIOS || Platform.isMacOS) {
                                 return "https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974";
                               } else if (Platform.isAndroid) {
@@ -213,8 +208,8 @@ class _SupportAppState extends State<SupportAppScreen> {
                               }
                             }())),
                         text: "rate".tr(),
-                        color: frontColor(),
-                        textColor: primaryColor)
+                        color: Theme.of(context).primaryColorLight,
+                        textColor: Theme.of(context).primaryColorDark)
                   ]),
             )),
       ),

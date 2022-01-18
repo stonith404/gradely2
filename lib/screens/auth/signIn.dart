@@ -24,10 +24,7 @@ class _SignInScreenState extends State<SignInScreen> {
     await result.then((response) async {
       prefs.setBool("signedIn", true);
       await getUserInfo();
-      Navigator.pushNamed(
-        context,
-       "subjects"
-      );
+      Navigator.pushNamed(context, "subjects");
 
       passwordController.text = "";
     }).catchError((error) {
@@ -43,7 +40,7 @@ class _SignInScreenState extends State<SignInScreen> {
     bool keyboardActive = MediaQuery.of(context).viewInsets.bottom == 0;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: defaultBGColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
         child: Column(
@@ -56,7 +53,8 @@ class _SignInScreenState extends State<SignInScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset("assets/images/logo.svg",
-                    color: primaryColor, height: keyboardActive ? 60 : 30),
+                    color: Theme.of(context).primaryColorDark,
+                    height: keyboardActive ? 60 : 30),
                 keyboardActive
                     ? Container()
                     : Padding(
@@ -88,7 +86,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 keyboardType: TextInputType.emailAddress,
                 controller: emailController,
                 textAlign: TextAlign.left,
-                decoration: inputDec(label: "your_email".tr())),
+                decoration: inputDec(context, label: "your_email".tr())),
             Spacer(
               flex: 1,
             ),
@@ -97,6 +95,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 textAlign: TextAlign.left,
                 obscureText: _obsecuredText,
                 decoration: inputDec(
+                  context,
                   label: "your_password".tr(),
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -105,7 +104,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       });
                     },
                     icon: Icon(Icons.remove_red_eye,
-                        color: _obsecuredText ? Colors.grey : primaryColor),
+                        color: _obsecuredText
+                            ? Colors.grey
+                            : Theme.of(context).primaryColorDark),
                   ),
                 )),
             Spacer(flex: keyboardActive ? 4 : 2),
@@ -117,7 +118,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 },
                 child: Text(
                   "question_no_account".tr(),
-                  style: TextStyle(color: primaryColor),
+                  style: TextStyle(color: Theme.of(context).primaryColorDark),
                 )),
             TextButton(
                 onPressed: () {
@@ -125,7 +126,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 },
                 child: Text(
                   "question_forgot_password".tr(),
-                  style: TextStyle(color: primaryColor),
+                  style: TextStyle(color: Theme.of(context).primaryColorDark),
                 )),
             Spacer(flex: 4),
           ],

@@ -36,13 +36,7 @@ class _ContactScreenState extends State<ContactScreen> {
           FocusScope.of(context).requestFocus(new FocusNode());
         },
         child: Scaffold(
-          appBar: AppBar(
-              iconTheme: IconThemeData(
-                color: primaryColor,
-              ),
-              backgroundColor: defaultBGColor,
-              elevation: 0,
-              title: Text("contact_developer".tr(), style: appBarTextTheme)),
+          appBar: AppBar(title: Text("contact_developer".tr())),
           body: Padding(
             padding: const EdgeInsets.all(24.0),
             child: ListView(
@@ -52,7 +46,8 @@ class _ContactScreenState extends State<ContactScreen> {
                   child: TextField(
                       controller: contactMessage,
                       maxLines: 8,
-                      decoration: inputDec(label: "your_message".tr())),
+                      decoration:
+                          inputDec(context, label: "your_message".tr())),
                 ),
                 SizedBox(height: 50),
                 Row(

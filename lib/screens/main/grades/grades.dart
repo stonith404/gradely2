@@ -121,12 +121,8 @@ class _GradesScreenState extends State<GradesScreen> {
 
     return Scaffold(
       appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: primaryColor,
-          ),
-          backgroundColor: defaultBGColor,
-          title: Text(selectedLessonName, style: title),
-          elevation: 0),
+        title: Text(selectedLessonName, style: title),
+      ),
       body: Column(
         children: [
           isLoading
@@ -151,7 +147,9 @@ class _GradesScreenState extends State<GradesScreen> {
                                   child: RichText(
                                     textAlign: TextAlign.center,
                                     text: TextSpan(
-                                      style: TextStyle(color: wbColor),
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .primaryColorDark),
                                       children: [
                                         TextSpan(
                                           text: "empty_lesson_p2".tr() + " ",
@@ -185,7 +183,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                   return Container(
                                     margin:
                                         EdgeInsets.symmetric(horizontal: 15),
-                                    decoration: listContainerDecoration(
+                                    decoration: listContainerDecoration(context,
                                         index: index, list: gradeList),
                                     child: Slidable(
                                       actionPane: SlidableDrawerActionPane(),
@@ -195,10 +193,12 @@ class _GradesScreenState extends State<GradesScreen> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           child: IconSlideAction(
-                                              color: primaryColor,
+                                              color: Theme.of(context)
+                                                  .primaryColorDark,
                                               iconWidget: Icon(
                                                 FontAwesome5.trash_alt,
-                                                color: frontColor(),
+                                                color: Theme.of(context)
+                                                    .primaryColorLight,
                                               ),
                                               onTap: () => deleteGrade(index)),
                                         ),
@@ -278,7 +278,7 @@ class _GradesScreenState extends State<GradesScreen> {
                 ),
           Container(
             decoration: BoxDecoration(
-              color: bwColor,
+              color: Theme.of(context).backgroundColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(25),
                 topRight: Radius.circular(25),
@@ -320,14 +320,18 @@ class _GradesScreenState extends State<GradesScreen> {
                             }
                           })(), style: TextStyle(fontSize: 17)),
                     IconButton(
+                        color: Theme.of(context).primaryColorDark,
                         icon: Icon(Icons.add),
                         onPressed: () {
                           addTest(context);
                         }),
                     IconButton(
+                        color: Theme.of(context).primaryColorDark,
                         icon: Icon(FontAwesome5Solid.calculator, size: 17),
                         onPressed: () {
                           showModalBottomSheet(
+                              backgroundColor:
+                                  Theme.of(context).backgroundColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -345,12 +349,15 @@ class _GradesScreenState extends State<GradesScreen> {
                                           children: [
                                             CircleAvatar(
                                                 radius: 22,
-                                                backgroundColor: primaryColor,
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .primaryColorDark,
                                                 child: IconButton(
                                                     icon: Icon(
                                                       FontAwesome5Solid
                                                           .calculator,
-                                                      color: frontColor(),
+                                                      color: Theme.of(context)
+                                                          .primaryColorLight,
                                                     ),
                                                     onPressed: () {
                                                       Navigator.of(context)
@@ -370,11 +377,14 @@ class _GradesScreenState extends State<GradesScreen> {
                                           children: [
                                             CircleAvatar(
                                                 radius: 22,
-                                                backgroundColor: primaryColor,
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .primaryColorDark,
                                                 child: IconButton(
                                                     icon: Icon(
                                                       FontAwesome5.chart_bar,
-                                                      color: frontColor(),
+                                                      color: Theme.of(context)
+                                                          .primaryColorLight,
                                                     ),
                                                     onPressed: () {
                                                       Navigator.of(context)
@@ -497,7 +507,7 @@ class _GradesScreenState extends State<GradesScreen> {
           child: TextField(
             controller: editTestInfoName,
             textAlign: TextAlign.left,
-            decoration: inputDec(label: "exam_name".tr()),
+            decoration: inputDec(context, label: "exam_name".tr()),
             inputFormatters: [emojiRegex()],
           ),
         ),
@@ -514,12 +524,14 @@ class _GradesScreenState extends State<GradesScreen> {
                     return Theme(
                       data: Theme.of(context).copyWith(
                         colorScheme: ColorScheme.light(
-                            primary: Colors.black, onSurface: wbColor),
-                        dialogBackgroundColor: bwColor,
+                            primary: Colors.black,
+                            onSurface: Theme.of(context).primaryColorDark),
+                        dialogBackgroundColor:
+                            Theme.of(context).backgroundColor,
                         textButtonTheme: TextButtonThemeData(
                             style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.all<Color>(primaryColor),
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              Theme.of(context).primaryColorDark),
                         )),
                       ),
                       child: child,
@@ -534,7 +546,7 @@ class _GradesScreenState extends State<GradesScreen> {
               child: TextField(
                   controller: editTestDateController,
                   textAlign: TextAlign.left,
-                  decoration: inputDec(label: "date".tr())),
+                  decoration: inputDec(context, label: "date".tr())),
             ),
           ),
         ),
@@ -544,7 +556,7 @@ class _GradesScreenState extends State<GradesScreen> {
             controller: editTestInfoGrade,
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             textAlign: TextAlign.left,
-            decoration: inputDec(label: "grade".tr()),
+            decoration: inputDec(context, label: "grade".tr()),
           ),
         ),
         Padding(
@@ -553,7 +565,7 @@ class _GradesScreenState extends State<GradesScreen> {
             controller: editTestInfoWeight,
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             textAlign: TextAlign.left,
-            decoration: inputDec(label: "weight".tr()),
+            decoration: inputDec(context, label: "weight".tr()),
           ),
         ),
       ],
@@ -645,7 +657,7 @@ class _GradesScreenState extends State<GradesScreen> {
           child: TextField(
             controller: addTestNameController,
             textAlign: TextAlign.left,
-            decoration: inputDec(label: "exam_name".tr()),
+            decoration: inputDec(context, label: "exam_name".tr()),
             inputFormatters: [emojiRegex()],
           ),
         ),
@@ -662,12 +674,14 @@ class _GradesScreenState extends State<GradesScreen> {
                     return Theme(
                       data: Theme.of(context).copyWith(
                         colorScheme: ColorScheme.light(
-                            primary: Colors.black, onSurface: wbColor),
-                        dialogBackgroundColor: bwColor,
+                            primary: Colors.black,
+                            onSurface: Theme.of(context).primaryColorDark),
+                        dialogBackgroundColor:
+                            Theme.of(context).backgroundColor,
                         textButtonTheme: TextButtonThemeData(
                             style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.all<Color>(primaryColor),
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              Theme.of(context).primaryColorDark),
                         )),
                       ),
                       child: child,
@@ -684,7 +698,7 @@ class _GradesScreenState extends State<GradesScreen> {
               child: TextField(
                   controller: addTestDateController,
                   textAlign: TextAlign.left,
-                  decoration: inputDec(label: "date".tr())),
+                  decoration: inputDec(context, label: "date".tr())),
             ),
           ),
         ),
@@ -694,7 +708,7 @@ class _GradesScreenState extends State<GradesScreen> {
               controller: addTestGradeController,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               textAlign: TextAlign.left,
-              decoration: inputDec(label: "grade".tr())),
+              decoration: inputDec(context, label: "grade".tr())),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -702,7 +716,7 @@ class _GradesScreenState extends State<GradesScreen> {
               controller: addTestWeightController,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               textAlign: TextAlign.left,
-              decoration: inputDec(label: "weight".tr())),
+              decoration: inputDec(context, label: "weight".tr())),
         ),
         SizedBox(
           height: 10,
@@ -741,7 +755,7 @@ Future dreamGradeC(BuildContext context) {
       return SingleChildScrollView(
           controller: ModalScrollController.of(context),
           child: Material(
-            color: defaultBGColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(
@@ -760,9 +774,9 @@ Future dreamGradeC(BuildContext context) {
                       ))),
                       CircleAvatar(
                         radius: 22,
-                        backgroundColor: primaryColor,
+                        backgroundColor: Theme.of(context).primaryColorDark,
                         child: IconButton(
-                            color: frontColor(),
+                            color: Theme.of(context).primaryColorLight,
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
@@ -785,7 +799,7 @@ Future dreamGradeC(BuildContext context) {
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
-                      decoration: inputDec(label: "dream_grade".tr()),
+                      decoration: inputDec(context, label: "dream_grade".tr()),
                     ),
                   ),
                   Padding(
@@ -800,7 +814,8 @@ Future dreamGradeC(BuildContext context) {
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
-                      decoration: inputDec(label: "dream _grade_weight".tr()),
+                      decoration:
+                          inputDec(context, label: "dream _grade_weight".tr()),
                     ),
                   ),
                   SizedBox(
@@ -809,7 +824,8 @@ Future dreamGradeC(BuildContext context) {
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      style: TextStyle(color: wbColor),
+                      style:
+                          TextStyle(color: Theme.of(context).primaryColorDark),
                       children: [
                         TextSpan(text: "dream_grade_result_text".tr() + "  "),
                         TextSpan(

@@ -21,15 +21,12 @@ class _IntroScreenWrapper extends StatelessWidget {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          iconTheme: IconThemeData(color: primaryColor),
           title: SvgPicture.asset("assets/images/logo.svg",
-              color: primaryColor, height: 30),
-          backgroundColor: defaultBGColor,
-          elevation: 0,
+              color: Theme.of(context).primaryColorDark, height: 30),
           actions: [
             progress >= 0.76
                 ? IconButton(
-                    color: primaryColor,
+                    color: Theme.of(context).primaryColorDark,
                     icon: Icon(FontAwesome5Solid.sign_out_alt),
                     onPressed: () => signOut(context))
                 : Container(),
@@ -43,9 +40,8 @@ Widget progressIndicator() {
   return ClipRRect(
     borderRadius: BorderRadius.all(Radius.circular(10)),
     child: LinearProgressIndicator(
-      value: progress,
-      color: primaryColor,
-    ),
+        value: progress, color: Colors.white //TODO: Add primary color
+        ),
   );
 }
 
@@ -62,7 +58,7 @@ class Intro1 extends StatelessWidget {
           SvgPicture.asset(
             'assets/images/BalletDoodle.svg',
             width: 300,
-            color: primaryColor,
+            color: Theme.of(context).primaryColorDark,
           ),
           Spacer(
             flex: 1,
@@ -120,7 +116,7 @@ class _Intro2 extends StatelessWidget {
           SvgPicture.asset(
             'assets/images/MeditatingDoodle.svg',
             width: 300,
-            color: primaryColor,
+            color: Theme.of(context).primaryColorDark,
           ),
           Spacer(
             flex: 1,
@@ -180,7 +176,7 @@ class _Intro3 extends StatelessWidget {
           SvgPicture.asset(
             'assets/images/MessyDoodle.svg',
             width: 300,
-            color: primaryColor,
+            color: Theme.of(context).primaryColorDark,
           ),
           Spacer(
             flex: 1,
@@ -295,7 +291,7 @@ class _Intro4State extends State<_Intro4> {
           TextField(
               controller: nameController,
               textAlign: TextAlign.left,
-              decoration: inputDec(label: "your_name".tr())),
+              decoration: inputDec(context, label: "your_name".tr())),
           Spacer(
             flex: keyboardActive ? 3 : 2,
           ),
@@ -303,7 +299,7 @@ class _Intro4State extends State<_Intro4> {
               keyboardType: TextInputType.emailAddress,
               controller: emailController,
               textAlign: TextAlign.left,
-              decoration: inputDec(label: "your_email".tr())),
+              decoration: inputDec(context, label: "your_email".tr())),
           Spacer(
             flex: keyboardActive ? 3 : 2,
           ),
@@ -312,6 +308,7 @@ class _Intro4State extends State<_Intro4> {
               textAlign: TextAlign.left,
               obscureText: _obsecuredText,
               decoration: inputDec(
+                context,
                 label: "your_password".tr(),
                 suffixIcon: IconButton(
                   onPressed: () {
@@ -320,7 +317,9 @@ class _Intro4State extends State<_Intro4> {
                     });
                   },
                   icon: Icon(Icons.remove_red_eye,
-                      color: _obsecuredText ? Colors.grey : primaryColor),
+                      color: _obsecuredText
+                          ? Colors.grey
+                          : Theme.of(context).primaryColorDark),
                 ),
               )),
           Spacer(
@@ -377,7 +376,7 @@ class _Intro5 extends StatelessWidget {
           TextField(
               controller: addSemesterController,
               textAlign: TextAlign.left,
-              decoration: inputDec(label: "Semester Name")),
+              decoration: inputDec(context, label: "Semester Name")),
           Spacer(
             flex: 10,
           ),
@@ -498,11 +497,11 @@ class _Intro6State extends State<Intro6> {
           Theme(
             data: ThemeData().copyWith(
                 dividerColor: Colors.transparent,
-                colorScheme:
-                    ColorScheme.fromSwatch().copyWith(secondary: primaryColor)),
+                colorScheme: ColorScheme.fromSwatch()
+                    .copyWith(secondary: Theme.of(context).primaryColorDark)),
             child: ExpansionTile(
-              textColor: primaryColor,
-              collapsedTextColor: primaryColor,
+              textColor: Theme.of(context).primaryColorDark,
+              collapsedTextColor: Theme.of(context).primaryColorDark,
               trailing: SizedBox.shrink(),
               expandedAlignment: Alignment.center,
               title: Row(
@@ -519,11 +518,12 @@ class _Intro6State extends State<Intro6> {
                   children: [
                     Expanded(
                       child: TextField(
-                          style: TextStyle(color: wbColor),
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColorDark),
                           keyboardType: TextInputType.emailAddress,
                           controller: changeEmailController,
                           textAlign: TextAlign.left,
-                          decoration: inputDec(label: "email".tr())),
+                          decoration: inputDec(context, label: "email".tr())),
                     ),
                     IconButton(
                       onPressed: () async {
@@ -535,7 +535,7 @@ class _Intro6State extends State<Intro6> {
                         }
                       },
                       icon: Icon(FontAwesome5Solid.save),
-                      color: primaryColor,
+                      color: Theme.of(context).primaryColorDark,
                     ),
                   ],
                 ),

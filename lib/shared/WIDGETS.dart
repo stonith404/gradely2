@@ -7,29 +7,29 @@ import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-BoxDecoration listContainerDecoration({int index, List list}) {
+BoxDecoration listContainerDecoration(context, {int index, List list}) {
   return (() {
     if (list.length == 1) {
       return BoxDecoration(
-          color: bwColor,
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.all(
             Radius.circular(15),
           ));
     } else if (index == 0) {
       return BoxDecoration(
-          color: bwColor,
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(15),
           ));
     } else if (index == list.length - 1) {
       return BoxDecoration(
-          color: bwColor,
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(15),
           ));
     } else {
       return BoxDecoration(
-        color: bwColor,
+        color: Theme.of(context).backgroundColor,
       );
     }
   }());
@@ -92,7 +92,7 @@ errorSuccessDialog(
         blurRadius: 20,
       ),
     ],
-    backgroundColor: darkmode ? bwColor : frontColor(),
+    backgroundColor: Theme.of(context).backgroundColor,
     dismissDirection: FlushbarDismissDirection.VERTICAL,
     // The default curve is Curves.easeOut
     animationDuration: Duration(milliseconds: 500),
@@ -112,7 +112,6 @@ Widget gradelyButton(
         dynamic isLoading = snapshot.data ?? false;
         return ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: color ?? primaryColor, // background
               elevation: 0,
               padding: EdgeInsets.all(12),
               shape: RoundedRectangleBorder(
@@ -129,8 +128,9 @@ Widget gradelyButton(
                                     ? Brightness.light
                                     : Brightness.dark)),
                     child: CupertinoActivityIndicator())
-                : Text(text,
-                    style: TextStyle(color: textColor ?? frontColor())),
+                : Text(
+                    text,
+                  ),
             onPressed: onPressed);
       });
 }
@@ -144,9 +144,8 @@ Widget gradelyIconButton({Function onPressed, Icon icon}) {
         dynamic isLoading = snapshot.data ?? false;
         return CircleAvatar(
             radius: 22,
-            backgroundColor: primaryColor,
+            backgroundColor: Theme.of(context).primaryColorDark,
             child: IconButton(
-                color: frontColor(),
                 icon: isLoading
                     ? Theme(
                         data: ThemeData(
@@ -174,16 +173,16 @@ RoundedRectangleBorder defaultRoundedCorners() {
 
 // default box decoration for gradely containers
 
-BoxDecoration boxDec() {
+BoxDecoration boxDec(context) {
   return BoxDecoration(
-    color: bwColor,
+    color: Theme.of(context).backgroundColor,
     borderRadius: BorderRadius.all(Radius.circular(15)),
   );
 }
 
 //default input decoration for gradely
 
-InputDecoration inputDec({String label, var suffixIcon}) {
+InputDecoration inputDec(context, {String label, var suffixIcon}) {
   return InputDecoration(
     suffixIcon: suffixIcon ?? Container(height: 1, width: 1),
     disabledBorder: OutlineInputBorder(
@@ -191,8 +190,9 @@ InputDecoration inputDec({String label, var suffixIcon}) {
         borderSide: BorderSide.none),
     filled: true,
     labelText: label,
-    fillColor: bwColor,
-    labelStyle: TextStyle(fontSize: 17.0, height: 0.8, color: primaryColor),
+    fillColor: Theme.of(context).backgroundColor,
+    labelStyle: TextStyle(
+        fontSize: 17.0, height: 0.8, color: Theme.of(context).primaryColorDark),
     focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         borderSide: BorderSide.none),
@@ -233,7 +233,8 @@ Widget gradelyDialog(
                   TextButton(
                       child: Text(
                         "Ok",
-                        style: TextStyle(color: primaryColor),
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColorDark),
                       ),
                       onPressed: () => Navigator.of(context).pop())
                 ]);
@@ -243,14 +244,14 @@ Widget gradelyDialog(
 gradelyModalSheet(
     {@required BuildContext context, @required List<Widget> children}) {
   return showCupertinoModalBottomSheet(
-      backgroundColor: defaultBGColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       expand: true,
       context: context,
       builder: (context) => SingleChildScrollView(
             physics: NeverScrollableScrollPhysics(),
             controller: ModalScrollController.of(context),
             child: Material(
-              color: defaultBGColor,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Column(

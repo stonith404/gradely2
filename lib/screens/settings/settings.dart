@@ -20,7 +20,7 @@ Future settingsScreen(BuildContext context) {
     builder: (context) => StatefulBuilder(builder:
         (BuildContext context, StateSetter setState /*You can rename this!*/) {
       return Material(
-        color: defaultBGColor,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 1,
           child: Padding(
@@ -40,20 +40,22 @@ Future settingsScreen(BuildContext context) {
                       decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: bwColor.withOpacity(0.3),
+                              color: Theme.of(context)
+                                  .backgroundColor
+                                  .withOpacity(0.3),
                               spreadRadius: 5,
                               blurRadius: 7,
                               offset:
                                   Offset(0, 3), // changes position of shadow
                             ),
                           ],
-                          color: bwColor,
+                          color: Theme.of(context).backgroundColor,
                           borderRadius: BorderRadius.all(
                             Radius.circular(25),
                           )),
                       child: IconButton(
                           iconSize: 15,
-                          color: wbColor,
+                          color: Theme.of(context).primaryColorDark,
                           onPressed: () async {
                             await getUserInfo();
                             Navigator.of(context).pop();
@@ -80,7 +82,9 @@ Future settingsScreen(BuildContext context) {
                                 },
                                 items: [
                                   Icon(FontAwesome5Solid.user,
-                                      size: 15, color: primaryColor),
+                                      size: 15,
+                                      color:
+                                          Theme.of(context).primaryColorDark),
                                   SizedBox(
                                     width: 10,
                                   ),
@@ -94,7 +98,8 @@ Future settingsScreen(BuildContext context) {
                               arrow: false,
                               items: [
                                 Icon(CupertinoIcons.plus_slash_minus,
-                                    size: 15, color: primaryColor),
+                                    size: 15,
+                                    color: Theme.of(context).primaryColorDark),
                                 SizedBox(
                                   width: 10,
                                 ),
@@ -103,7 +108,14 @@ Future settingsScreen(BuildContext context) {
                                   flex: 1,
                                 ),
                                 DropdownButton<String>(
-                                  hint: Text(gradesResult.tr()),
+                                  dropdownColor:
+                                      Theme.of(context).backgroundColor,
+                                  hint: Text(
+                                    gradesResult.tr(),
+                                    style: TextStyle(
+                                        color:
+                                            Theme.of(context).primaryColorDark),
+                                  ),
                                   items: <String>[
                                     'av'.tr(),
                                     'pp'.tr(),
@@ -137,20 +149,22 @@ Future settingsScreen(BuildContext context) {
                             ),
                           ],
                         ),
-                        decoration: boxDec(),
+                        decoration: boxDec(context),
                       ),
                       SizedBox(
                         height: 40,
                       ),
                       Container(
-                          decoration: boxDec(),
+                          decoration: boxDec(context),
                           child: Column(
                             children: [
                               settingsListTile(
                                 context: context,
                                 items: [
                                   Icon(FontAwesome5Solid.heart,
-                                      size: 15, color: primaryColor),
+                                      size: 15,
+                                      color:
+                                          Theme.of(context).primaryColorDark),
                                   SizedBox(
                                     width: 10,
                                   ),
@@ -164,7 +178,9 @@ Future settingsScreen(BuildContext context) {
                               settingsListTile(
                                   items: [
                                     Icon(FontAwesome5Solid.laptop,
-                                        size: 15, color: primaryColor),
+                                        size: 15,
+                                        color:
+                                            Theme.of(context).primaryColorDark),
                                     SizedBox(
                                       width: 10,
                                     ),
@@ -176,7 +192,9 @@ Future settingsScreen(BuildContext context) {
                                 context: context,
                                 items: [
                                   Icon(FontAwesome5Solid.info_circle,
-                                      size: 15, color: primaryColor),
+                                      size: 15,
+                                      color:
+                                          Theme.of(context).primaryColorDark),
                                   SizedBox(
                                     width: 10,
                                   ),

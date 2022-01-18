@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gradely2/shared/MODELS.dart';
-import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -22,7 +21,7 @@ Future statisticsScreen(BuildContext context) {
       return SingleChildScrollView(
           controller: ModalScrollController.of(context),
           child: Material(
-            color: defaultBGColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
@@ -33,9 +32,9 @@ Future statisticsScreen(BuildContext context) {
                         Text("statistics".tr(), style: title),
                         CircleAvatar(
                           radius: 22,
-                          backgroundColor: primaryColor,
+                          backgroundColor: Theme.of(context).primaryColorDark,
                           child: IconButton(
-                              color: frontColor(),
+                              color: Theme.of(context).primaryColorLight,
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
@@ -55,7 +54,7 @@ Future statisticsScreen(BuildContext context) {
                               xValueMapper: (Grade stats, _) => stats.date
                                   .substring(
                                       0, stats.date.toString().length - 3),
-                              color: primaryColor,
+                              color: Theme.of(context).primaryColorDark,
                               yValueMapper: (Grade stats, _) => stats.grade)
                         ])),
                     Text("stats_description".tr())

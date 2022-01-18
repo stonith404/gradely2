@@ -15,7 +15,7 @@ class _AuthHomeScreenState extends State<AuthHomeScreen> {
   Widget build(BuildContext context) {
     darkModeColorChanger(context);
     return Scaffold(
-      backgroundColor: defaultBGColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
         child: Container(
@@ -27,7 +27,7 @@ class _AuthHomeScreenState extends State<AuthHomeScreen> {
             ),
             SvgPicture.asset(
               "assets/images/logo.svg",
-              color: primaryColor,
+              color: Theme.of(context).primaryColorDark,
               height: 100,
             ),
             Spacer(
@@ -67,8 +67,8 @@ class _AuthHomeScreenState extends State<AuthHomeScreen> {
                     Navigator.pushNamed(context, "auth/signIn");
                   },
                   text: "sign_in".tr(),
-                  color: frontColor(),
-                  textColor: primaryColor),
+                  color: Theme.of(context).primaryColorLight,
+                  textColor: Theme.of(context).primaryColorDark),
             ),
             Spacer(
               flex: 8,

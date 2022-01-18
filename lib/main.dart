@@ -18,6 +18,7 @@ import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gradely2/shared/api.dart';
 import 'package:gradely2/shared/maintenance.dart';
+import 'package:gradely2/shared/themes.dart';
 import 'package:gradely2/shared/update_app.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -97,60 +98,21 @@ class MaterialWrapper extends StatelessWidget {
         },
         builder: Builder(
           builder: (context) => MaterialApp(
-            title: "Gradely 2",
-            initialRoute: '/',
-            onGenerateRoute: (settings) {
-              plausible.enabled = kDebugMode || kIsWeb ? false : true;
-              plausible.userAgent = getUserAgent();
-              plausible.event(page: settings.name);
-              return GradelyPageRoute(
-                  builder: (context) => routes[settings.name](context));
-            },
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            theme: ThemeData(
-              textSelectionTheme:
-                  TextSelectionThemeData(cursorColor: Colors.black),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              textButtonTheme: TextButtonThemeData(
-                  style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-              )),
-              dialogBackgroundColor: Color(0xFFF2F2F7),
-              appBarTheme: AppBarTheme(
-                centerTitle: true,
-                iconTheme: IconThemeData(color: frontColor()),
-              ),
-              brightness: Brightness.light,
-              primaryColor: primaryColor,
-              scaffoldBackgroundColor: Color(0xFFF2F2F7),
-              backgroundColor: Colors.grey[300],
-            ),
-            darkTheme: ThemeData(
-              textSelectionTheme:
-                  TextSelectionThemeData(cursorColor: Colors.white),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              appBarTheme: AppBarTheme(
-                centerTitle: true,
-                iconTheme: IconThemeData(color: frontColor()),
-              ),
-              backgroundColor: Color(0xFF010001),
-              textButtonTheme: TextButtonThemeData(
-                  style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              )),
-              dialogBackgroundColor: Color(0xFF1a1a1a),
-              scaffoldBackgroundColor: Color(0xFF010001),
-              brightness: Brightness.dark,
-              primaryColor: primaryColor,
-              floatingActionButtonTheme:
-                  FloatingActionButtonThemeData(backgroundColor: primaryColor),
-            ),
-          ),
+              title: "Gradely 2",
+              initialRoute: '/',
+              onGenerateRoute: (settings) {
+                plausible.enabled = kDebugMode || kIsWeb ? false : true;
+                plausible.userAgent = getUserAgent();
+                plausible.event(page: settings.name);
+                return GradelyPageRoute(
+                    builder: (context) => routes[settings.name](context));
+              },
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              theme: lightTheme,
+              darkTheme: darkTheme),
         ));
   }
 }

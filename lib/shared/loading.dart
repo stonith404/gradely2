@@ -27,9 +27,9 @@ class _LoadingScreenState extends State<LoadingScreen>
 
     controllerOne = AnimationController(
         duration: Duration(milliseconds: 2000), vsync: this);
-    animationOne = ColorTween(begin: frontColor(), end: Colors.grey[300])
+    animationOne = ColorTween(begin: Colors.white, end: Colors.grey[300])
         .animate(controllerOne);
-    animationTwo = ColorTween(begin: Colors.grey[300], end: frontColor())
+    animationTwo = ColorTween(begin: Colors.grey[300], end: Colors.white)
         .animate(controllerOne);
     controllerOne.forward();
     controllerOne.addListener(() {
@@ -62,22 +62,26 @@ class _LoadingScreenState extends State<LoadingScreen>
                     (BuildContext context, bool innerBoxIsScrolled) {
                   return <Widget>[
                     SliverAppBar(
-                      backgroundColor: defaultBGColor,
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
                       elevation: 0,
                       title: SvgPicture.asset("assets/images/logo.svg",
-                          color: primaryColor, height: 30),
+                          color: Theme.of(context).primaryColorDark,
+                          height: 30),
                       leading: Transform(
                         alignment: Alignment.center,
                         transform: Matrix4.rotationY(math.pi),
                         child: IconButton(
-                            icon: Icon(Icons.segment, color: primaryColor),
+                            icon: Icon(Icons.segment,
+                                color: Theme.of(context).primaryColorDark),
                             onPressed: () async {
                               settingsScreen(context);
                             }),
                       ),
                       actions: [
                         IconButton(
-                            icon: Icon(Icons.switch_left, color: primaryColor),
+                            icon: Icon(Icons.switch_left,
+                                color: Theme.of(context).primaryColorDark),
                             onPressed: () async {}),
                       ],
                     ),
@@ -88,7 +92,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                   child: Column(children: [
                     Container(
                       decoration: BoxDecoration(
-                          color: primaryColor,
+                          color: Theme.of(context).primaryColorDark,
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),
                           )),
@@ -116,7 +120,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: primaryColor,
+                                      color: Theme.of(context).primaryColorDark,
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(10)),
                                     ),
@@ -142,7 +146,8 @@ class _LoadingScreenState extends State<LoadingScreen>
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        color: primaryColor,
+                                        color:
+                                            Theme.of(context).primaryColorDark,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
                                       ),
@@ -158,7 +163,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                               padding: const EdgeInsets.fromLTRB(0, 0, 15, 10),
                               child: IconButton(
                                   icon: Icon(Icons.add),
-                                  color: frontColor(),
+                                  color: Theme.of(context).primaryColorLight,
                                   onPressed: () {}),
                             ),
                           ],
@@ -191,7 +196,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                               children: [
                                 Container(
                                   padding: EdgeInsets.symmetric(horizontal: 15),
-                                  decoration: listContainerDecoration(
+                                  decoration: listContainerDecoration(context,
                                       index: index, list: list),
                                   child: ListTile(),
                                 ),
@@ -243,7 +248,7 @@ class _GradelyLoadingIndicatorState extends State<GradelyLoadingIndicator> {
               Platform.isIOS || Platform.isMacOS
                   ? CupertinoActivityIndicator()
                   : CircularProgressIndicator(
-                      color: primaryColor,
+                      color: Theme.of(context).primaryColorDark,
                     ),
               SizedBox(
                 height: 30,
@@ -253,7 +258,7 @@ class _GradelyLoadingIndicatorState extends State<GradelyLoadingIndicator> {
                       "no_network_offline_loading".tr(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: primaryColor,
+                          color: Theme.of(context).primaryColorDark,
                           fontSize: 15,
                           fontStyle: FontStyle.italic),
                     )

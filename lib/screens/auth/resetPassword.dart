@@ -26,7 +26,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     darkModeColorChanger(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: defaultBGColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
         child: Column(
@@ -36,7 +36,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 8 : 6,
             ),
             SvgPicture.asset("assets/images/logo.svg",
-                color: primaryColor, height: 60),
+                color: Theme.of(context).primaryColorDark, height: 60),
             Spacer(
               flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 6 : 2,
             ),
@@ -52,7 +52,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               flex: 2,
             ),
             TextField(
-              decoration: inputDec(label: "your_email".tr()),
+              decoration: inputDec(context, label: "your_email".tr()),
               keyboardType: TextInputType.emailAddress,
               controller: emailController,
               textAlign: TextAlign.left,
@@ -77,7 +77,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 },
                 child: Text(
                   "password_remembered".tr(),
-                  style: TextStyle(color: primaryColor),
+                  style: TextStyle(color: Theme.of(context).primaryColorDark),
                 )),
             Spacer(flex: 4),
           ],

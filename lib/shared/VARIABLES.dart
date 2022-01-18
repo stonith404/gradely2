@@ -32,10 +32,7 @@ Functions functions;
 GradelyApi api;
 
 //colors
-Color primaryColor = Colors.black;
 Color wbColor;
-Color bwColor;
-Color defaultBGColor;
 
 //final
 
@@ -45,20 +42,16 @@ final collectionLessons = "60f40d0ed5da4";
 final collectionGrades = "60f71651520e5";
 
 //vars for customize
-var appBarTextTheme = TextStyle(
-  color: primaryColor,
-  fontWeight: FontWeight.w900,
-  fontFamily: "PlayfairDisplay",
-);
+var appBarTextTheme = TextStyle();
 
 var bigTitle = TextStyle(
-    color: primaryColor,
+    // color: Theme.of(context).primaryColorDark,
     fontWeight: FontWeight.w900,
     fontFamily: "PlayfairDisplay",
     fontSize: 30);
 
 var title = TextStyle(
-    color: primaryColor,
+    // color: Theme.of(context).primaryColorDark,
     fontWeight: FontWeight.w900,
     fontFamily: "PlayfairDisplay",
     fontSize: 21);

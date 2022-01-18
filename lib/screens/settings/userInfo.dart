@@ -24,21 +24,16 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: primaryColor,
-        ),
-        backgroundColor: defaultBGColor,
-        elevation: 0,
         actions: [
           IconButton(
               icon: Icon(
                 FontAwesome5Solid.sign_out_alt,
                 size: 20,
-                color: primaryColor,
+                color: Theme.of(context).primaryColorDark,
               ),
               onPressed: () => signOut(context))
         ],
-        title: Text("account".tr(), style: appBarTextTheme),
+        title: Text("account".tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -51,7 +46,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   child: TextField(
                       controller: changeDisplayName,
                       textAlign: TextAlign.left,
-                      decoration: inputDec(label: "your_name".tr())),
+                      decoration: inputDec(context, label: "your_name".tr())),
                 ),
                 IconButton(
                   onPressed: () async {
@@ -69,7 +64,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     }
                   },
                   icon: Icon(FontAwesome5Solid.save),
-                  color: primaryColor,
+                  color: Theme.of(context).primaryColorDark,
                 ),
               ],
             ),
@@ -83,7 +78,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       keyboardType: TextInputType.emailAddress,
                       controller: changeEmailController,
                       textAlign: TextAlign.left,
-                      decoration: inputDec(label: "email".tr())),
+                      decoration: inputDec(context, label: "email".tr())),
                 ),
                 IconButton(
                   onPressed: () async {
@@ -97,7 +92,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     }
                   },
                   icon: Icon(FontAwesome5Solid.save),
-                  color: primaryColor,
+                  color: Theme.of(context).primaryColorDark,
                 ),
               ],
             ),
@@ -155,7 +150,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   obscureText: true,
                   controller: passwordPlaceholder,
                   textAlign: TextAlign.left,
-                  decoration: inputDec(label: "password".tr())),
+                  decoration: inputDec(context, label: "password".tr())),
             ),
             SizedBox(
               height: 20,
@@ -183,7 +178,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       controller: passwordController,
                                       textAlign: TextAlign.left,
                                       obscureText: true,
-                                      decoration: inputDec(
+                                      decoration: inputDec(context,
                                           label: "your_password".tr())),
                                 ],
                               ),
