@@ -13,22 +13,16 @@ class _ContactScreenState extends State<ContactScreen> {
   sendMail(String _message) async {
     var maildata = jsonEncode({"sender": user.email, "message": _message});
     Future result = functions.createExecution(
-        functionId: '61883453b0a37', data: maildata.toString());
+        functionId: 'fcn_contact', data: maildata.toString());
     await result.then((response) {
-      Navigator.pushNamed(
-        context,
-       "subjects"
-      );
+      Navigator.pushNamed(context, "subjects");
       errorSuccessDialog(
           context: context,
           error: false,
           text: "${"contact_success_text".tr()} ${user.email}.",
           title: "sent".tr());
     }).catchError((error) {
-      Navigator.pushNamed(
-        context,
-       "subjects"
-      );
+      Navigator.pushNamed(context, "subjects");
       errorSuccessDialog(
           context: context, error: true, text: "error_contact".tr());
     });

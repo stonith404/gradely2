@@ -65,33 +65,35 @@ class _SubjectScreenState extends State<SubjectScreen> {
   getLessons(loading, offlineMode) async {
     if (loading) setState(() => isLoading = true);
 //get choosen semester name
-    try {
-      var semesterResponse = await api.listDocuments(
-          collection: collectionSemester,
-          name: "semesterName",
-          queries: [Query.equal("\$id", user.choosenSemester)],
-          offlineMode: offlineMode);
+    var semesterResponse = await api.listDocuments(
+        collection: collectionSemester,
+        name: "semesterName",
+        queries: [Query.equal("\$id", user.choosenSemester)],
+        offlineMode: offlineMode);
+    if (semesterResponse.isEmpty) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, "semesters", (Route<dynamic> route) => false);
+    } else {
       setState(() {
         selectedSemester = semesterResponse
             .map((r) => Semester(r["\$id"], r["name"], r["round"]))
             .toList()[0];
       });
       setState(() => isLoading = false);
-    } catch (_) {}
 
-    lessonList = (await api.listDocuments(
-            collection: collectionLessons,
-            name: "lessonList_${user.choosenSemester}",
-            queries: [Query.equal("parentId", user.choosenSemester)],
-            offlineMode: offlineMode))
-        .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
-            double.parse(r["average"].toString())))
-        .toList();
-
-    setState(() {
-      lessonList.sort((a, b) => b.average.compareTo(a.average));
-    });
-    getSemesterAverage();
+      lessonList = (await api.listDocuments(
+              collection: collectionLessons,
+              name: "lessonList_${user.choosenSemester}",
+              queries: [Query.equal("parentId", user.choosenSemester)],
+              offlineMode: offlineMode))
+          .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
+              double.parse(r["average"].toString())))
+          .toList();
+      setState(() {
+        lessonList.sort((a, b) => b.average.compareTo(a.average));
+      });
+      getSemesterAverage();
+    }
   }
 
   deleteLesson(index) {
@@ -132,9 +134,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
   @override
   void initState() {
     super.initState();
-    getUserInfo();
+
     getLessons(true, true);
     getLessons(true, false);
+
+    getUserInfo();
+
     SchedulerBinding.instance.addPostFrameCallback((_) {
       //notify the user that Gradely 2 Web isn't recommended.
       if (!(prefs.getBool("webNotRecommendedPopUp_viewed") ?? false) &&
