@@ -36,7 +36,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    darkModeColorChanger(context);
     bool keyboardActive = MediaQuery.of(context).viewInsets.bottom == 0;
     return Scaffold(
       resizeToAvoidBottomInset: false,

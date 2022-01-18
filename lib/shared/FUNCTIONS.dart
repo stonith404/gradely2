@@ -122,25 +122,7 @@ Future<bool> reAuthenticate(
   return success;
 }
 
-//checks if darkmode is activated and changes colors
-
-void darkModeColorChanger(context) {
-  title = TextStyle(
-      color: Theme.of(context).primaryColorDark,
-      fontWeight: FontWeight.w900,
-      letterSpacing: 1.5,
-      fontFamily: "PlayfairDisplay",
-      fontSize: 21);
-  bigTitle = TextStyle(
-      color: Theme.of(context).primaryColorDark,
-      fontWeight: FontWeight.w900,
-      letterSpacing: 1.5,
-      fontFamily: "PlayfairDisplay",
-      fontSize: 30);
-}
-
 //if there is no connection, show a dialog
-
 void noNetworkDialog(context) async {
   if (!await internetConnection()) {
     errorSuccessDialog(

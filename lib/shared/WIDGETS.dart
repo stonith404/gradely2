@@ -2,7 +2,6 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -112,10 +111,11 @@ Widget gradelyButton(
         dynamic isLoading = snapshot.data ?? false;
         return ElevatedButton(
             style: ElevatedButton.styleFrom(
+              primary: color ?? Theme.of(context).primaryColorDark,
               elevation: 0,
               padding: EdgeInsets.all(12),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12), // <-- Radius
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
             child: isLoading
@@ -128,9 +128,10 @@ Widget gradelyButton(
                                     ? Brightness.light
                                     : Brightness.dark)),
                     child: CupertinoActivityIndicator())
-                : Text(
-                    text,
-                  ),
+                : Text(text,
+                    style: TextStyle(
+                        color:
+                            textColor ?? Theme.of(context).primaryColorLight)),
             onPressed: onPressed);
       });
 }

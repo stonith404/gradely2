@@ -12,12 +12,8 @@ List semesterList = [];
 User user;
 SharedPreferences prefs;
 
-//strings
-String brightness = "light";
-
 //bools
 bool isLoading = false;
-bool darkmode = false;
 
 //num's
 double screenwidth = 0;
@@ -31,30 +27,18 @@ Storage storage;
 Functions functions;
 GradelyApi api;
 
-//colors
-Color wbColor;
-
 //final
-
 final collectionUser = "60f40d07accb6";
 final collectionSemester = "60f40d1b66424";
 final collectionLessons = "60f40d0ed5da4";
 final collectionGrades = "60f71651520e5";
 
-//vars for customize
-var appBarTextTheme = TextStyle();
-
+//vars for customizing
 var bigTitle = TextStyle(
-    // color: Theme.of(context).primaryColorDark,
-    fontWeight: FontWeight.w900,
-    fontFamily: "PlayfairDisplay",
-    fontSize: 30);
+    fontWeight: FontWeight.w900, fontFamily: "PlayfairDisplay", fontSize: 30);
 
 var title = TextStyle(
-    // color: Theme.of(context).primaryColorDark,
-    fontWeight: FontWeight.w900,
-    fontFamily: "PlayfairDisplay",
-    fontSize: 21);
+    fontWeight: FontWeight.w900, fontFamily: "PlayfairDisplay", fontSize: 21);
 
 //text controllers
 

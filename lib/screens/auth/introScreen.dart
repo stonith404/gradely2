@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:appwrite/models.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -36,12 +35,13 @@ class _IntroScreenWrapper extends StatelessWidget {
   }
 }
 
-Widget progressIndicator() {
+Widget progressIndicator(context) {
   return ClipRRect(
     borderRadius: BorderRadius.all(Radius.circular(10)),
     child: LinearProgressIndicator(
-        value: progress, color: Colors.white //TODO: Add primary color
-        ),
+        backgroundColor: Theme.of(context).primaryColorLight,
+        value: progress,
+        color: Theme.of(context).primaryColorDark),
   );
 }
 
@@ -87,13 +87,14 @@ class Intro1 extends StatelessWidget {
                       GradelyPageRoute(builder: (context) => _Intro2()),
                     );
                   },
-                  icon: Icon(Icons.arrow_forward_ios)),
+                  icon: Icon(Icons.arrow_forward_ios,
+                      color: Theme.of(context).primaryColorLight)),
             ],
           ),
           Spacer(
             flex: 1,
           ),
-          progressIndicator(),
+          progressIndicator(context),
           Spacer(
             flex: 1,
           ),
@@ -146,13 +147,14 @@ class _Intro2 extends StatelessWidget {
                       GradelyPageRoute(builder: (context) => _Intro3()),
                     );
                   },
-                  icon: Icon(Icons.arrow_forward_ios)),
+                  icon: Icon(Icons.arrow_forward_ios,
+                      color: Theme.of(context).primaryColorLight)),
             ],
           ),
           Spacer(
             flex: 1,
           ),
-          progressIndicator(),
+          progressIndicator(context),
           Spacer(
             flex: 1,
           ),
@@ -206,13 +208,14 @@ class _Intro3 extends StatelessWidget {
                       GradelyPageRoute(builder: (context) => _Intro4()),
                     );
                   },
-                  icon: Icon(Icons.arrow_forward_ios)),
+                  icon: Icon(Icons.arrow_forward_ios,
+                      color: Theme.of(context).primaryColorLight)),
             ],
           ),
           Spacer(
             flex: 1,
           ),
-          progressIndicator(),
+          progressIndicator(context),
           Spacer(
             flex: 1,
           ),
@@ -330,13 +333,14 @@ class _Intro4State extends State<_Intro4> {
             children: [
               gradelyIconButton(
                   onPressed: () => createUser(),
-                  icon: Icon(Icons.arrow_forward_ios)),
+                  icon: Icon(Icons.arrow_forward_ios,
+                      color: Theme.of(context).primaryColorLight)),
             ],
           ),
           Spacer(
             flex: 3,
           ),
-          progressIndicator(),
+          progressIndicator(context),
           Spacer(
             flex: 3,
           ),
@@ -393,14 +397,11 @@ class _Intro5 extends StatelessWidget {
                           "parentId": user.dbID,
                           "name": addSemesterController.text
                         });
-
                     result.then((response) {
-                      response = jsonDecode(response.toString());
-
                       api.updateDocument(context,
                           collectionId: collectionUser,
                           documentId: user.dbID,
-                          data: {"choosenSemester": response["\$id"]});
+                          data: {"choosenSemester": response.$id});
                     }).catchError((error) {
                       print(error.response);
                     });
@@ -418,13 +419,14 @@ class _Intro5 extends StatelessWidget {
                       GradelyPageRoute(builder: (context) => Intro6()),
                     );
                   },
-                  icon: Icon(Icons.arrow_forward_ios)),
+                  icon: Icon(Icons.arrow_forward_ios,
+                      color: Theme.of(context).primaryColorLight)),
             ],
           ),
           Spacer(
             flex: 1,
           ),
-          progressIndicator(),
+          progressIndicator(context),
           Spacer(
             flex: 1,
           ),
@@ -570,13 +572,14 @@ class _Intro6State extends State<Intro6> {
 
                     isLoadingController.add(false);
                   },
-                  icon: Icon(Icons.arrow_forward_ios)),
+                  icon: Icon(Icons.arrow_forward_ios,
+                      color: Theme.of(context).primaryColorLight)),
             ],
           ),
           Spacer(
             flex: 1,
           ),
-          progressIndicator(),
+          progressIndicator(context),
           Spacer(
             flex: 1,
           ),

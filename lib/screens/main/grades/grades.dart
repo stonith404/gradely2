@@ -117,8 +117,6 @@ class _GradesScreenState extends State<GradesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    darkModeColorChanger(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(selectedLessonName, style: title),

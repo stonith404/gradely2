@@ -1,6 +1,3 @@
-import 'package:gradely2/shared/FUNCTIONS.dart';
-import 'package:gradely2/shared/VARIABLES.dart';
-
 class Lesson {
   String id;
   String name;

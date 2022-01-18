@@ -181,8 +181,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    screenwidth = MediaQuery.of(context).size.width;
-    darkModeColorChanger(context);
     if (user.choosenSemester == "noSemesterChoosed") {
       return SemesterScreen();
     } else if (!user.emailVerification) {

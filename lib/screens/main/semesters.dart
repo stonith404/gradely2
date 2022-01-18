@@ -149,6 +149,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
       ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColorDark,
+          foregroundColor: Theme.of(context).primaryColorLight,
           child: Icon(Icons.add),
           onPressed: () {
             Navigator.push(
