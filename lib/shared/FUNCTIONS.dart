@@ -76,19 +76,33 @@ Future<bool> isSignedIn() async {
   }
 }
 
-//checks if client is connected to the server
-
+//checks if client is connected to the server. The function stores the value for 5 seconds
+// to reduce requests.
 Future internetConnection({BuildContext context}) async {
+  var _cache = jsonDecode(prefs.getString("internetConnection_cache") ??
+      '{"time": 0, "state" : false}');
+  var timestamp = (DateTime.now().millisecondsSinceEpoch / 1000).round();
+  saveCache(state) {
+    prefs.setString(
+        "internetConnection_cache", '{"time": $timestamp, "state" : $state}');
+  }
   if (kIsWeb) {
     return true;
+  } else if (timestamp - _cache["time"] <= 5) {
+    return _cache["state"];
   } else {
     try {
-      await account.get().timeout(Duration(milliseconds: 500));
+      await account.get().timeout(Duration(milliseconds: 3000));
+      saveCache(true);
       return true;
-    } on AppwriteException {
-      return true;
-    } catch (_) {
-      return false;
+    } catch (e) {
+      if (e.code != null) {
+        saveCache(true);
+        return true;
+      } else {
+        saveCache(false);
+        return false;
+      }
     }
   }
 }

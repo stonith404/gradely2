@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:gradely2/shared/VARIABLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:universal_io/io.dart';
 
 BoxDecoration listContainerDecoration(context, {int index, List list}) {
   return (() {
@@ -119,15 +120,24 @@ Widget gradelyButton(
               ),
             ),
             child: isLoading
-                ? Theme(
-                    data: ThemeData(
-                        cupertinoOverrideTheme: CupertinoThemeData(
-                            brightness:
-                                MediaQuery.of(context).platformBrightness ==
-                                        Brightness.dark
-                                    ? Brightness.light
-                                    : Brightness.dark)),
-                    child: CupertinoActivityIndicator())
+                ? Platform.isIOS || Platform.isMacOS
+                    ? Theme(
+                        data: ThemeData(
+                            cupertinoOverrideTheme: CupertinoThemeData(
+                                brightness:
+                                    MediaQuery.of(context).platformBrightness ==
+                                            Brightness.dark
+                                        ? Brightness.light
+                                        : Brightness.dark)),
+                        child: CupertinoActivityIndicator())
+                    : Container(
+                        height: 15,
+                        width: 15,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Theme.of(context).primaryColorLight,
+                        ),
+                      )
                 : Text(text,
                     style: TextStyle(
                         color:

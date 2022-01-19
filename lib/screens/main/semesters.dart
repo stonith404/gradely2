@@ -310,6 +310,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                     width: 10,
                   ),
                   CupertinoSlidingSegmentedControl(
+                      thumbColor: CupertinoColors.darkBackgroundGray,
                       groupValue: roundTo,
                       children: {
                         0.1: Text("0.1"),

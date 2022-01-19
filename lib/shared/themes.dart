@@ -79,7 +79,7 @@ final ThemeData darkTheme = lightTheme.copyWith(
     appBarTheme: AppBarTheme(
       elevation: 0,
       foregroundColor: Colors.white,
-      backgroundColor: Color(0xFF010001),
+      backgroundColor: Colors.black,
       titleTextStyle: TextStyle(
         color: Colors.white,
         fontSize: 20,
