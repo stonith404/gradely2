@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/shared/WIDGETS.dart';
+import 'package:gradely2/components/functions/app.dart';
+import 'package:gradely2/components/widgets/buttons.dart';
 
 class ContributeScreen extends StatelessWidget {
   @override

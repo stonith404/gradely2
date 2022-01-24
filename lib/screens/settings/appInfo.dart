@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gradely2/shared/FUNCTIONS.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/shared/WIDGETS.dart';
+import 'package:gradely2/components/functions/app.dart';
+import 'package:gradely2/components/widgets/decorations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class _AppInfo {

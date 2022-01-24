@@ -13,15 +13,16 @@ import 'package:gradely2/screens/settings/contact.dart';
 import 'package:gradely2/screens/settings/contribute.dart';
 import 'package:gradely2/screens/settings/support.dart';
 import 'package:gradely2/screens/settings/userInfo.dart';
-import 'package:gradely2/shared/FUNCTIONS.dart';
-import 'package:gradely2/shared/VARIABLES.dart';
+import 'package:gradely2/components/variables.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/shared/api.dart';
-import 'package:gradely2/shared/maintenance.dart';
-import 'package:gradely2/shared/themes.dart';
-import 'package:gradely2/shared/update_app.dart';
+import 'package:gradely2/components/functions/api.dart';
+import 'package:gradely2/screens/various/maintenance.dart';
+import 'package:gradely2/themes.dart';
+import 'package:gradely2/screens/various/update_app.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'components/functions/app.dart';
+import 'components/functions/user.dart';
 
 bool _isSignedIn = false;
 bool _isMaintenance;
@@ -49,9 +50,7 @@ void main() async {
   locale = appwrite.Locale(client);
   storage = appwrite.Storage(client);
   functions = appwrite.Functions(client);
-  client
-      .setEndpoint('https://aw.cloud.eliasschneider.com/v1')
-      .setProject('60f40cb212896');
+  client.setEndpoint('https://gradelyapp.com/v1').setProject('60f40cb212896');
 
   await _executeJobs();
   runApp(EasyLocalization(

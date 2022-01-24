@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:gradely2/shared/VARIABLES.dart';
-import 'package:gradely2/shared/WIDGETS.dart';
+import 'package:gradely2/components/widgets/buttons.dart';
+import 'package:gradely2/components/widgets/decorations.dart';
+import 'package:gradely2/components/widgets/dialogs.dart';
+import 'package:gradely2/components/variables.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ContactScreen extends StatefulWidget {

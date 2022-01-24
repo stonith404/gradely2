@@ -1,5 +1,12 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/foundation.dart';
+import 'package:gradely2/components/functions/app.dart';
+import 'package:gradely2/components/functions/grades.dart';
+import 'package:gradely2/components/functions/user.dart';
+import 'package:gradely2/components/widgets/buttons.dart';
+import 'package:gradely2/components/widgets/decorations.dart';
+import 'package:gradely2/components/widgets/dialogs.dart';
+import 'package:gradely2/components/widgets/loading.dart';
 import 'package:gradely2/screens/auth/introScreen.dart' as introScreen;
 import 'package:showcaseview/showcaseview.dart';
 import 'package:universal_io/io.dart';
@@ -8,11 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gradely2/screens/settings/settings.dart';
-import 'package:gradely2/shared/MODELS.dart';
-import 'package:gradely2/shared/FUNCTIONS.dart';
-import 'package:gradely2/shared/VARIABLES.dart';
-import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:gradely2/shared/loading.dart';
+import 'package:gradely2/components/models.dart';
+import 'package:gradely2/components/variables.dart';
 import 'semesters.dart';
 import 'dart:math' as math;
 import 'package:easy_localization/easy_localization.dart';
@@ -136,9 +140,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     super.initState();
     getLessons(true, true);
     getLessons(true, false);
-
     getUserInfo();
-
     SchedulerBinding.instance.addPostFrameCallback((_) {
       //notify the user that Gradely 2 Web isn't recommended.
       if (!(prefs.getBool("webNotRecommendedPopUp_viewed") ?? false) &&

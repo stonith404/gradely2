@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
-import 'package:gradely2/shared/MODELS.dart';
-import 'package:gradely2/shared/api.dart';
+import 'package:gradely2/components/functions/api.dart';
+import 'package:gradely2/components/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 List lessonList = [];

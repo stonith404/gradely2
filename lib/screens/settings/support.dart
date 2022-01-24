@@ -2,11 +2,12 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/shared/FUNCTIONS.dart';
-import 'package:gradely2/shared/VARIABLES.dart';
-import 'package:gradely2/shared/WIDGETS.dart';
+import 'package:gradely2/components/functions/app.dart';
+import 'package:gradely2/components/widgets/buttons.dart';
+import 'package:gradely2/components/widgets/dialogs.dart';
+import 'package:gradely2/components/widgets/loading.dart';
+import 'package:gradely2/components/variables.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
-import 'package:gradely2/shared/loading.dart';
 
 class SupportAppScreen extends StatefulWidget {
   @override
@@ -46,7 +47,6 @@ class _SupportAppState extends State<SupportAppScreen> {
   finishPurchase(token) async {
     FlutterInappPurchase.instance.consumePurchaseAndroid(token);
     isLoadingController.add(false);
-
     gradelyDialog(
         context: context,
         title: "thank_you".tr(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gradely2/shared/VARIABLES.dart';
-import 'package:gradely2/shared/WIDGETS.dart';
+import 'package:gradely2/components/widgets/buttons.dart';
+import 'package:gradely2/components/variables.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class AuthHomeScreen extends StatefulWidget {

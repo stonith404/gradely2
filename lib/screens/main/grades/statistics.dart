@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gradely2/shared/MODELS.dart';
-import 'package:gradely2/shared/VARIABLES.dart';
+import 'package:gradely2/components/models.dart';
+import 'package:gradely2/components/variables.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:easy_localization/easy_localization.dart';

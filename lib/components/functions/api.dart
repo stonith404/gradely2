@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
-import 'package:gradely2/shared/FUNCTIONS.dart';
-import 'package:gradely2/shared/VARIABLES.dart';
-import 'package:gradely2/shared/WIDGETS.dart';
+import 'package:gradely2/components/functions/app.dart';
+import 'package:gradely2/components/widgets/dialogs.dart';
+import 'package:gradely2/components/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GradelyApi {

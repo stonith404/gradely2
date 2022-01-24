@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:gradely2/components/widgets/decorations.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gradely2/screens/settings/settings.dart';
-import 'package:gradely2/shared/WIDGETS.dart';
 import 'dart:math' as math;
 
 class LoadingScreen extends StatefulWidget {
