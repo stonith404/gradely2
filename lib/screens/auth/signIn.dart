@@ -26,7 +26,11 @@ class _SignInScreenState extends State<SignInScreen> {
     await result.then((response) async {
       prefs.setBool("signedIn", true);
       await getUserInfo();
-      Navigator.pushNamed(context, "subjects");
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        "subjects",
+        (Route<dynamic> route) => false,
+      );
 
       passwordController.text = "";
     }).catchError((error) {

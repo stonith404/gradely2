@@ -487,7 +487,8 @@ class _GradesScreenState extends State<GradesScreen> {
                         text: "error_grade_badly_formatted".tr());
                   }
                 },
-                icon: Icon(Icons.edit)),
+                icon: Icon(Icons.edit,
+                    color: Theme.of(context).primaryColorLight)),
           ],
         ),
         Padding(
@@ -635,7 +636,9 @@ class _GradesScreenState extends State<GradesScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             gradelyIconButton(
-                onPressed: () => uploadGrade(), icon: Icon(Icons.add)),
+                onPressed: () => uploadGrade(),
+                icon: Icon(Icons.add,
+                    color: Theme.of(context).primaryColorLight)),
           ],
         ),
         Padding(
