@@ -7,7 +7,7 @@ import 'package:gradely2/components/widgets/buttons.dart';
 import 'package:gradely2/components/widgets/decorations.dart';
 import 'package:gradely2/components/widgets/dialogs.dart';
 import 'package:gradely2/components/widgets/loading.dart';
-import 'package:gradely2/screens/auth/introScreen.dart' as introScreen;
+import 'package:gradely2/screens/auth/intro_screen.dart' as intro_screen;
 import 'package:showcaseview/showcaseview.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,9 +25,9 @@ import 'package:emoji_chooser/emoji_chooser.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:native_context_menu/native_context_menu.dart';
 
-String selectedLesson = "";
+String selectedLesson = '';
 String selectedLessonName;
-String _selectedEmoji = "";
+String _selectedEmoji = '';
 double _averageOfSemester = 0 / -0;
 double _averageOfSemesterPP = 0 / -0;
 Semester selectedSemester;
@@ -35,17 +35,19 @@ String switchedGradeType = user.gradeType;
 double _initialSemesterRound = selectedSemester.round;
 
 class SubjectScreen extends StatefulWidget {
+  const SubjectScreen({Key key}) : super(key: key);
+
   @override
   _SubjectScreenState createState() => _SubjectScreenState();
 }
 
 class _SubjectScreenState extends State<SubjectScreen> {
-  GlobalKey _showCase1 = GlobalKey();
-  GlobalKey _showCase2 = GlobalKey();
-  GlobalKey _showCase3 = GlobalKey();
+  final GlobalKey _showCase1 = GlobalKey();
+  final GlobalKey _showCase2 = GlobalKey();
+  final GlobalKey _showCase3 = GlobalKey();
 
   getSemesterAverage() {
-    if (lessonList.length == 0) {
+    if (lessonList.isEmpty) {
       _averageOfSemesterPP = -99;
       _averageOfSemester = -99;
     } else {
@@ -71,27 +73,27 @@ class _SubjectScreenState extends State<SubjectScreen> {
 //get choosen semester name
     var semesterResponse = await api.listDocuments(
         collection: collectionSemester,
-        name: "semesterName",
-        queries: [Query.equal("\$id", user.choosenSemester)],
+        name: 'semesterName',
+        queries: [Query.equal('\$id', user.choosenSemester)],
         offlineMode: offlineMode);
     if (semesterResponse.isEmpty) {
       Navigator.pushNamedAndRemoveUntil(
-          context, "semesters", (Route<dynamic> route) => false);
+          context, 'semesters', (Route<dynamic> route) => false);
     } else {
       setState(() {
         selectedSemester = semesterResponse
-            .map((r) => Semester(r["\$id"], r["name"], r["round"]))
+            .map((r) => Semester(r['\$id'], r['name'], r['round']))
             .toList()[0];
       });
       setState(() => isLoading = false);
 
       lessonList = (await api.listDocuments(
               collection: collectionLessons,
-              name: "lessonList_${user.choosenSemester}",
-              queries: [Query.equal("parentId", user.choosenSemester)],
+              name: 'lessonList_${user.choosenSemester}',
+              queries: [Query.equal('parentId', user.choosenSemester)],
               offlineMode: offlineMode))
-          .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
-              double.parse(r["average"].toString())))
+          .map((r) => Lesson(r['\$id'], r['name'], r['emoji'],
+              double.parse(r['average'].toString())))
           .toList();
       setState(() {
         lessonList.sort((a, b) => b.average.compareTo(a.average));
@@ -103,12 +105,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
   deleteLesson(index) {
     gradelyDialog(
       context: context,
-      title: "warning".tr(),
-      text: "delete_confirmation".tr(args: [lessonList[index].name]),
+      title: 'warning'.tr(),
+      text: 'delete_confirmation'.tr(args: [lessonList[index].name]),
       actions: <Widget>[
         CupertinoButton(
           child: Text(
-            "no".tr(),
+            'no'.tr(),
             style: TextStyle(color: Theme.of(context).primaryColorDark),
           ),
           onPressed: () {
@@ -117,7 +119,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
         ),
         CupertinoButton(
           child: Text(
-            "delete".tr(),
+            'delete'.tr(),
             style: TextStyle(color: Colors.red),
           ),
           onPressed: () async {
@@ -143,25 +145,25 @@ class _SubjectScreenState extends State<SubjectScreen> {
     getUserInfo();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       //notify the user that Gradely 2 Web isn't recommended.
-      if (!(prefs.getBool("webNotRecommendedPopUp_viewed") ?? false) &&
+      if (!(prefs.getBool('webNotRecommendedPopUp_viewed') ?? false) &&
           kIsWeb) {
         gradelyDialog(
             context: context,
-            title: "web_popup_title".tr(),
-            text: "web_popup_description".tr(),
+            title: 'web_popup_title'.tr(),
+            text: 'web_popup_description'.tr(),
             actions: [
               TextButton(
                   onPressed: () {
-                    prefs.setBool("webNotRecommendedPopUp_viewed", true);
-                    launchURL("https://gradelyapp.com#download");
+                    prefs.setBool('webNotRecommendedPopUp_viewed', true);
+                    launchURL('https://gradelyapp.com#download');
                   },
-                  child: Text("download".tr())),
+                  child: Text('download'.tr())),
               TextButton(
                   onPressed: () {
-                    prefs.setBool("webNotRecommendedPopUp_viewed", true);
+                    prefs.setBool('webNotRecommendedPopUp_viewed', true);
                     Navigator.of(context).pop();
                   },
-                  child: Text("Ok".tr()))
+                  child: Text('Ok'.tr()))
             ]);
       }
       if (!(user.showcaseViewed ?? false)) {
@@ -175,6 +177,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     });
   }
 
+  @override
   void setState(fn) {
     if (mounted) {
       super.setState(fn);
@@ -183,10 +186,10 @@ class _SubjectScreenState extends State<SubjectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (user.choosenSemester == "noSemesterChoosed") {
+    if (user.choosenSemester == 'noSemesterChoosed') {
       return SemesterScreen();
     } else if (!user.emailVerification) {
-      return introScreen.Intro6();
+      return intro_screen.Intro6();
     } else if (isLoading) {
       return LoadingScreen();
     } else {
@@ -201,7 +204,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       (BuildContext context, bool innerBoxIsScrolled) {
                     return <Widget>[
                       SliverAppBar(
-                        title: SvgPicture.asset("assets/images/logo.svg",
+                        title: SvgPicture.asset('assets/images/logo.svg',
                             color: Theme.of(context).primaryColorDark,
                             height: 30),
                         leading: Transform(
@@ -227,7 +230,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                 icon: Icon(Icons.switch_left,
                                     color: Theme.of(context).primaryColorDark),
                                 onPressed: () async {
-                                  Navigator.pushNamed(context, "semesters")
+                                  Navigator.pushNamed(context, 'semesters')
                                       .then(
                                           (value) => getLessons(false, false));
                                 }),
@@ -266,7 +269,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                         children: [
                                           InkWell(
                                             onTap: () {
-                                              if (user.gradeType == "av") {
+                                              if (user.gradeType == 'av') {
                                                 setState(() => selectedSemester
                                                             .round ==
                                                         _initialSemesterRound
@@ -276,12 +279,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                                         _initialSemesterRound);
                                               } else {
                                                 setState(() =>
-                                                    switchedGradeType = "av");
+                                                    switchedGradeType = 'av');
                                               }
                                             },
                                             child: Row(
                                               children: [
-                                                Text("Ø",
+                                                Text('Ø',
                                                     style: TextStyle(
                                                       fontSize: 19,
                                                       color: Theme.of(context)
@@ -294,7 +297,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                                     _averageOfSemester.isNaN ||
                                                             _averageOfSemester ==
                                                                 -99
-                                                        ? "-"
+                                                        ? '-'
                                                         : roundGrade(
                                                             _averageOfSemester,
                                                             selectedSemester
@@ -313,11 +316,11 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                           InkWell(
                                             onTap: () {
                                               setState(() =>
-                                                  switchedGradeType = "pp");
+                                                  switchedGradeType = 'pp');
                                             },
                                             child: Row(
                                               children: [
-                                                user.gradeType == "av"
+                                                user.gradeType == 'av'
                                                     ? Container()
                                                     : Icon(
                                                         Icons
@@ -328,14 +331,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                                 SizedBox(
                                                   width: 5,
                                                 ),
-                                                user.gradeType == "av"
+                                                user.gradeType == 'av'
                                                     ? Container()
                                                     : Text(
                                                         _averageOfSemester
                                                                     .isNaN ||
                                                                 _averageOfSemester ==
                                                                     -99
-                                                            ? "0"
+                                                            ? '0'
                                                             : _averageOfSemesterPP
                                                                 .toString(),
                                                         style: TextStyle(
@@ -380,29 +383,27 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               height: 10,
                             )
                           : Container(),
-                      Container(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          primary: false,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: lessonList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return index == 0 && !user.showcaseViewed
-                                ? Showcase(
-                                    key: _showCase3,
-                                    title: 'grades'.tr(),
-                                    description: Platform.isWindows ||
-                                            Platform.isMacOS
-                                        ? 'showcase_subject_list_desktop'.tr()
-                                        : 'showcase_subject_list'.tr(),
-                                    disableAnimation: false,
-                                    shapeBorder: CircleBorder(),
-                                    radius:
-                                        BorderRadius.all(Radius.circular(15)),
-                                    child: subjectListTile(index))
-                                : subjectListTile(index);
-                          },
-                        ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: lessonList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return index == 0 && !user.showcaseViewed
+                              ? Showcase(
+                                  key: _showCase3,
+                                  title: 'grades'.tr(),
+                                  description: Platform.isWindows ||
+                                          Platform.isMacOS
+                                      ? 'showcase_subject_list_desktop'.tr()
+                                      : 'showcase_subject_list'.tr(),
+                                  disableAnimation: false,
+                                  shapeBorder: CircleBorder(),
+                                  radius:
+                                      BorderRadius.all(Radius.circular(15)),
+                                  child: subjectListTile(index))
+                              : subjectListTile(index);
+                        },
                       ),
                     ]),
                   ),
@@ -475,7 +476,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 child: ListTile(
                   title: Row(
                     children: [
-                      Text(lessonList[index].emoji + "  ",
+                      Text(lessonList[index].emoji + '  ',
                           style: TextStyle(
                             shadows: [
                               Shadow(
@@ -501,9 +502,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   trailing: Text(
                     (() {
                       if (lessonList[index].average == -99) {
-                        return "-";
-                      } else if (user.gradeType == "pp" &&
-                          switchedGradeType == "pp") {
+                        return '-';
+                      } else if (user.gradeType == 'pp' &&
+                          switchedGradeType == 'pp') {
                         return getPluspoints(lessonList[index].average)
                             .toString();
                       } else {
@@ -514,7 +515,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   ),
                   onTap: () {
                     ShowCaseWidget.of(context).completed(_showCase3);
-                    Navigator.pushNamed(context, "grades").then((value) {
+                    Navigator.pushNamed(context, 'grades').then((value) {
                       getLessons(false, false);
                     });
 
@@ -534,7 +535,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
         builder: (BuildContext context, StateSetter setState) {
       return Scaffold(
         appBar: AppBar(
-          title: Text("add_lesson".tr()),
+          title: Text('add_lesson'.tr()),
         ),
         body: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -545,14 +546,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
               GestureDetector(
                 onDoubleTap: () {
                   setState(() {
-                    _selectedEmoji = "";
+                    _selectedEmoji = '';
                   });
                 },
                 onTap: () {
                   showModalBottomSheet(
                     context: context,
                     builder: (BuildContext subcontext) {
-                      return Container(
+                      return SizedBox(
                         height: 290,
                         child: Column(
                           children: [
@@ -594,9 +595,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   );
                 },
                 child: ((() {
-                  if (_selectedEmoji == "") {
+                  if (_selectedEmoji == '') {
                     return Text(
-                      "no_emoji_choosed".tr(),
+                      'no_emoji_choosed'.tr(),
                       style:
                           TextStyle(color: Theme.of(context).primaryColorDark),
                     );
@@ -613,27 +614,27 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   inputFormatters: [emojiRegex()],
                   controller: addLessonController,
                   textAlign: TextAlign.left,
-                  decoration: inputDec(context, label: "lesson_name".tr())),
+                  decoration: inputDec(context, label: 'lesson_name'.tr())),
               SizedBox(
                 height: 40,
               ),
               gradelyButton(
-                text: "add".tr(),
+                text: 'add'.tr(),
                 onPressed: () async {
                   isLoadingController.add(true);
                   await api.createDocument(
                     context,
                     collectionId: collectionLessons,
                     data: {
-                      "parentId": user.choosenSemester,
-                      "name": addLessonController.text,
-                      "average": -99,
-                      "emoji": _selectedEmoji
+                      'parentId': user.choosenSemester,
+                      'name': addLessonController.text,
+                      'average': -99,
+                      'emoji': _selectedEmoji
                     },
                   );
                   isLoadingController.add(false);
                   Navigator.of(context).pop();
-                  addLessonController.text = "";
+                  addLessonController.text = '';
                 },
               ),
               Spacer(flex: 5),
@@ -650,7 +651,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
         builder: (BuildContext context, StateSetter setState) {
       return Scaffold(
         appBar: AppBar(
-          title: Text("edit".tr()),
+          title: Text('edit'.tr()),
         ),
         body: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -661,14 +662,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
               GestureDetector(
                 onDoubleTap: () {
                   setState(() {
-                    _selectedEmoji = "";
+                    _selectedEmoji = '';
                   });
                 },
                 onTap: () {
                   showModalBottomSheet(
                     context: context,
                     builder: (BuildContext subcontext) {
-                      return Container(
+                      return SizedBox(
                         height: 290,
                         child: Column(
                           children: [
@@ -710,9 +711,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   );
                 },
                 child: ((() {
-                  if (_selectedEmoji == "") {
+                  if (_selectedEmoji == '') {
                     return Text(
-                      "no_emoji_choosed".tr(),
+                      'no_emoji_choosed'.tr(),
                       style:
                           TextStyle(color: Theme.of(context).primaryColorDark),
                     );
@@ -729,25 +730,25 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   controller: renameTestWeightController,
                   inputFormatters: [emojiRegex()],
                   textAlign: TextAlign.left,
-                  decoration: inputDec(context, label: "lesson_name".tr())),
+                  decoration: inputDec(context, label: 'lesson_name'.tr())),
               SizedBox(
                 height: 40,
               ),
               gradelyButton(
-                text: "save".tr(),
+                text: 'save'.tr(),
                 onPressed: () async {
                   isLoadingController.add(true);
                   await api.updateDocument(context,
                       collectionId: collectionLessons,
                       documentId: selectedLesson,
                       data: {
-                        "name": renameTestWeightController.text,
-                        "emoji": _selectedEmoji
+                        'name': renameTestWeightController.text,
+                        'emoji': _selectedEmoji
                       });
                   await getLessons(false, false);
                   Navigator.of(context).pop();
 
-                  renameTestWeightController.text = "";
+                  renameTestWeightController.text = '';
                   isLoadingController.add(false);
                 },
               ),

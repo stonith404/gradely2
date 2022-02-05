@@ -15,21 +15,23 @@ class _AppInfo {
 List<_AppInfo> _appInfoList = [];
 
 class AppInfoScreen extends StatefulWidget {
+  const AppInfoScreen({Key key}) : super(key: key);
+
   @override
   _AppInfoScreenState createState() => _AppInfoScreenState();
 }
 
 class _AppInfoScreenState extends State<AppInfoScreen> {
   String _serverUp;
-  String packageName = "";
-  String version = "";
-  String buildNumber = "";
+  String packageName = '';
+  String version = '';
+  String buildNumber = '';
   deviceInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     if (await internetConnection()) {
-      _serverUp = "connected";
+      _serverUp = 'connected';
     } else {
-      _serverUp = "not connected";
+      _serverUp = 'not connected';
     }
 
     setState(() {
@@ -38,18 +40,18 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
       buildNumber = packageInfo.buildNumber;
     });
     _appInfoList = [
-      _AppInfo("version".tr(), version),
-      _AppInfo("build".tr(), buildNumber),
+      _AppInfo('version'.tr(), version),
+      _AppInfo('build'.tr(), buildNumber),
       _AppInfo(
-        "server_location".tr(),
-        "Nuremberg, Germany",
+        'server_location'.tr(),
+        'Nuremberg, Germany',
       ),
-      _AppInfo("app_language".tr(), Localizations.localeOf(context).toString()),
+      _AppInfo('app_language'.tr(), Localizations.localeOf(context).toString()),
       _AppInfo(
-        "server_connection".tr(),
+        'server_connection'.tr(),
         _serverUp.toString(),
       ),
-      _AppInfo("licenses".tr(), "licenses")
+      _AppInfo('licenses'.tr(), 'licenses')
     ];
   }
 
@@ -63,7 +65,7 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: FittedBox(child: Text("app_info".tr())),
+        title: FittedBox(child: Text('app_info'.tr())),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -84,13 +86,13 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
                           leading: Text(
                             _appInfoList[index].leading,
                           ),
-                          trailing: _appInfoList[index].ending == "licenses"
+                          trailing: _appInfoList[index].ending == 'licenses'
                               ? IconButton(
                                   onPressed: () {
                                     showLicensePage(
                                         context: context,
                                         applicationIcon: SvgPicture.asset(
-                                            "assets/images/logo.svg",
+                                            'assets/images/logo.svg',
                                             color: Theme.of(context)
                                                 .primaryColorDark,
                                             height: 30));
@@ -99,8 +101,8 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
                               : Text(_appInfoList[index].ending,
                                   style: TextStyle(
                                       color: _appInfoList[index].leading ==
-                                              "server_connection".tr()
-                                          ? (_serverUp == "connected"
+                                              'server_connection'.tr()
+                                          ? (_serverUp == 'connected'
                                               ? Colors.green
                                               : Colors.red)
                                           : Colors.grey[700])),

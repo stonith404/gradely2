@@ -9,6 +9,8 @@ import 'package:gradely2/screens/settings/settings.dart';
 import 'dart:math' as math;
 
 class LoadingScreen extends StatefulWidget {
+  const LoadingScreen({Key key}) : super(key: key);
+
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
@@ -36,7 +38,7 @@ class _LoadingScreenState extends State<LoadingScreen>
       } else if (controllerOne.status == AnimationStatus.dismissed) {
         controllerOne.forward();
       }
-      this.setState(() {});
+      setState(() {});
     });
   }
 
@@ -62,7 +64,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                       backgroundColor:
                           Theme.of(context).scaffoldBackgroundColor,
                       elevation: 0,
-                      title: SvgPicture.asset("assets/images/logo.svg",
+                      title: SvgPicture.asset('assets/images/logo.svg',
                           color: Theme.of(context).primaryColorDark,
                           height: 30),
                       leading: Transform(
@@ -210,6 +212,8 @@ class _LoadingScreenState extends State<LoadingScreen>
 }
 
 class GradelyLoadingIndicator extends StatefulWidget {
+  const GradelyLoadingIndicator({Key key}) : super(key: key);
+
   @override
   _GradelyLoadingIndicatorState createState() =>
       _GradelyLoadingIndicatorState();
@@ -234,6 +238,7 @@ class _GradelyLoadingIndicatorState extends State<GradelyLoadingIndicator> {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Center(
@@ -252,7 +257,7 @@ class _GradelyLoadingIndicatorState extends State<GradelyLoadingIndicator> {
               ),
               show
                   ? Text(
-                      "no_network_offline_loading".tr(),
+                      'no_network_offline_loading'.tr(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Theme.of(context).primaryColorDark,

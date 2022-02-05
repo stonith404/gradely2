@@ -25,7 +25,7 @@ Future<Widget> gradelyDialog(
                 [
                   TextButton(
                       child: Text(
-                        "Ok",
+                        'Ok',
                         style: TextStyle(
                             color: Theme.of(context).primaryColorDark),
                       ),
@@ -46,7 +46,7 @@ errorSuccessDialog(
     titleText: Padding(
       padding: EdgeInsets.only(left: 30),
       child: Text(
-        title ?? (error ? "error".tr() : "success".tr()),
+        title ?? (error ? 'error'.tr() : 'success'.tr()),
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     ),
@@ -72,7 +72,7 @@ errorSuccessDialog(
     margin: EdgeInsets.only(bottom: 13),
     borderRadius: BorderRadius.circular(15),
     duration: Duration(seconds: 5),
-    boxShadows: [
+    boxShadows: const [
       BoxShadow(
         color: Colors.black26,
         offset: Offset(0, 0),
@@ -83,5 +83,5 @@ errorSuccessDialog(
     dismissDirection: FlushbarDismissDirection.VERTICAL,
     // The default curve is Curves.easeOut
     animationDuration: Duration(milliseconds: 500),
-  )..show(context);
+  ).show(context);
 }

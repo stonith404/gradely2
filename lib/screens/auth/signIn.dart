@@ -11,6 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 bool _obsecuredText = true;
 
 class SignInScreen extends StatefulWidget {
+  const SignInScreen({Key key}) : super(key: key);
+
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
@@ -24,15 +26,15 @@ class _SignInScreenState extends State<SignInScreen> {
       password: passwordController.text,
     );
     await result.then((response) async {
-      prefs.setBool("signedIn", true);
+      prefs.setBool('signedIn', true);
       await getUserInfo();
       Navigator.pushNamedAndRemoveUntil(
         context,
-        "subjects",
+        'subjects',
         (Route<dynamic> route) => false,
       );
 
-      passwordController.text = "";
+      passwordController.text = '';
     }).catchError((error) {
       print(error);
       errorSuccessDialog(context: context, error: true, text: error.message);
@@ -57,7 +59,7 @@ class _SignInScreenState extends State<SignInScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset("assets/images/logo.svg",
+                SvgPicture.asset('assets/images/logo.svg',
                     color: Theme.of(context).primaryColorDark,
                     height: keyboardActive ? 60 : 30),
                 keyboardActive
@@ -65,7 +67,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     : Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text(
-                          "sign_in".tr(),
+                          'sign_in'.tr(),
                           style: title,
                         ),
                       )
@@ -78,7 +80,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 ? Row(
                     children: [
                       Text(
-                        "sign_in".tr(),
+                        'sign_in'.tr(),
                         style: title,
                       ),
                     ],
@@ -91,7 +93,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 keyboardType: TextInputType.emailAddress,
                 controller: emailController,
                 textAlign: TextAlign.left,
-                decoration: inputDec(context, label: "your_email".tr())),
+                decoration: inputDec(context, label: 'your_email'.tr())),
             Spacer(
               flex: 1,
             ),
@@ -101,7 +103,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 obscureText: _obsecuredText,
                 decoration: inputDec(
                   context,
-                  label: "your_password".tr(),
+                  label: 'your_password'.tr(),
                   suffixIcon: IconButton(
                     onPressed: () {
                       setState(() {
@@ -115,22 +117,22 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 )),
             Spacer(flex: keyboardActive ? 4 : 2),
-            gradelyButton(text: "sign_in".tr(), onPressed: () => signInUser()),
+            gradelyButton(text: 'sign_in'.tr(), onPressed: () => signInUser()),
             Spacer(flex: 12),
             TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "auth/home");
+                  Navigator.pushNamed(context, 'auth/home');
                 },
                 child: Text(
-                  "question_no_account".tr(),
+                  'question_no_account'.tr(),
                   style: TextStyle(color: Theme.of(context).primaryColorDark),
                 )),
             TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "auth/resetPassword");
+                  Navigator.pushNamed(context, 'auth/resetPassword');
                 },
                 child: Text(
-                  "question_forgot_password".tr(),
+                  'question_forgot_password'.tr(),
                   style: TextStyle(color: Theme.of(context).primaryColorDark),
                 )),
             Spacer(flex: 4),

@@ -16,18 +16,18 @@ import 'package:http/http.dart' as http;
 //checks if client is connected to the server. The function stores the value for 5 seconds
 // to reduce requests.
 Future internetConnection({BuildContext context}) async {
-  var _cache = jsonDecode(prefs.getString("internetConnection_cache") ??
+  var _cache = jsonDecode(prefs.getString('internetConnection_cache') ??
       '{"time": 0, "state" : false}');
   var timestamp = (DateTime.now().millisecondsSinceEpoch / 1000).round();
   saveCache(state) {
     prefs.setString(
-        "internetConnection_cache", '{"time": $timestamp, "state" : $state}');
+        'internetConnection_cache', '{"time": $timestamp, "state" : $state}');
   }
 
   if (kIsWeb) {
     return true;
-  } else if (timestamp - _cache["time"] <= 5) {
-    return _cache["state"];
+  } else if (timestamp - _cache['time'] <= 5) {
+    return _cache['state'];
   } else {
     try {
       await account.get().timeout(Duration(milliseconds: 3000));
@@ -48,9 +48,9 @@ Future internetConnection({BuildContext context}) async {
 Future<bool> isMaintenance() async {
   try {
     var request = await http
-        .get(Uri.parse("https://gradelyapp.com/static-api"))
+        .get(Uri.parse('https://gradelyapp.com/static-api'))
         .timeout(const Duration(seconds: 2));
-    return jsonDecode(request.body)["maintenance"];
+    return jsonDecode(request.body)['maintenance'];
   } catch (_) {
     return false;
   }
@@ -62,8 +62,8 @@ void noNetworkDialog(context) async {
     errorSuccessDialog(
         context: context,
         error: true,
-        title: "network_needed_title".tr(),
-        text: "network_needed_text".tr());
+        title: 'network_needed_title'.tr(),
+        text: 'network_needed_text'.tr());
   }
 }
 
@@ -102,7 +102,7 @@ askForInAppRating() async {
 
   try {
     isLastAskedOlderThen14Days =
-        (today - prefs.getInt("timestamp_asked_for_review") > 1296000);
+        (today - prefs.getInt('timestamp_asked_for_review') > 1296000);
   } catch (_) {
     isLastAskedOlderThen14Days = true;
   }
@@ -115,45 +115,45 @@ askForInAppRating() async {
       (Platform.isIOS || Platform.isMacOS || Platform.isAndroid) &&
       await inAppReview.isAvailable()) {
     inAppReview.requestReview();
-    prefs.setInt("timestamp_asked_for_review", today);
+    prefs.setInt('timestamp_asked_for_review', today);
   }
 }
 
 Future minAppVersion() async {
   try {
     if (kIsWeb) {
-      return {"isUpToDate": true};
+      return {'isUpToDate': true};
     }
     String currentVersion = (await PackageInfo.fromPlatform()).version;
     String minAppVersion = (await api.listDocuments(
-        collection: "61d43a3784b50",
-        name: "minAppVersion",
+        collection: '61d43a3784b50',
+        name: 'minAppVersion',
         queries: [
           Query.equal(
-              "key",
-              "min_" +
+              'key',
+              'min_' +
                   (() {
                     if (Platform.isIOS) {
-                      return "ios";
+                      return 'ios';
                     } else if (Platform.isAndroid) {
-                      return "android";
+                      return 'android';
                     } else if (Platform.isMacOS) {
-                      return "macos";
+                      return 'macos';
                     } else if (Platform.isWindows) {
-                      return "windows";
+                      return 'windows';
                     } else {
-                      return {"isUpToDate": true};
+                      return {'isUpToDate': true};
                     }
                   }()) +
-                  "_version")
-        ]))[0]["value"];
+                  '_version')
+        ]))[0]['value'];
     return {
-      "isUpToDate": int.parse(currentVersion.replaceAll(".", "")) >=
-          int.parse(minAppVersion.replaceAll(".", "")),
-      "currentVersion": currentVersion,
-      "minAppVersion": minAppVersion
+      'isUpToDate': int.parse(currentVersion.replaceAll('.', '')) >=
+          int.parse(minAppVersion.replaceAll('.', '')),
+      'currentVersion': currentVersion,
+      'minAppVersion': minAppVersion
     };
   } catch (_) {
-    return {"isUpToDate": true};
+    return {'isUpToDate': true};
   }
 }

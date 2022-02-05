@@ -27,7 +27,7 @@ class GradelyApi {
       }
       prefs.setString(name, jsonEncode(result));
     } else {
-      var res = jsonDecode(prefs.getString(name) ?? "{}");
+      var res = jsonDecode(prefs.getString(name) ?? '{}');
 
       for (var i = 0; i < res.length; i++) {
         result.add(res[i]);
@@ -56,7 +56,7 @@ class GradelyApi {
     } else {
       try {
         return await database.createDocument(
-            documentId: "unique()", collectionId: collectionId, data: data);
+            documentId: 'unique()', collectionId: collectionId, data: data);
       } on AppwriteException catch (e) {
         errorSuccessDialog(context: context, error: true, text: e.message);
       }

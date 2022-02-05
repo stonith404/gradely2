@@ -10,6 +10,8 @@ import 'package:gradely2/components/variables.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
 class SupportAppScreen extends StatefulWidget {
+  const SupportAppScreen({Key key}) : super(key: key);
+
   @override
   _SupportAppState createState() => _SupportAppState();
 }
@@ -34,9 +36,9 @@ class _SupportAppState extends State<SupportAppScreen> {
     if (Platform.isIOS || Platform.isAndroid) {
       await FlutterInappPurchase.instance.clearTransactionIOS();
       iapList = (await FlutterInappPurchase.instance.getProducts([
-        "com.eliasschneider.gradely2.iap.gradelyplus",
-        "com.eliasschneider.gradely2.iap.gradelyplus2",
-        "com.eliasschneider.gradely2.iap.gradelyplus5"
+        'com.eliasschneider.gradely2.iap.gradelyplus',
+        'com.eliasschneider.gradely2.iap.gradelyplus2',
+        'com.eliasschneider.gradely2.iap.gradelyplus5'
       ]));
       setState(() {
         iapList = iapList;
@@ -49,8 +51,8 @@ class _SupportAppState extends State<SupportAppScreen> {
     isLoadingController.add(false);
     gradelyDialog(
         context: context,
-        title: "thank_you".tr(),
-        text: "tip_success_text".tr());
+        title: 'thank_you'.tr(),
+        text: 'tip_success_text'.tr());
   }
 
   @override
@@ -98,26 +100,26 @@ class _SupportAppState extends State<SupportAppScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("support".tr()),
+        title: Text('support'.tr()),
       ),
       body: SingleChildScrollView(
         child: Padding(
             padding: const EdgeInsets.all(24.0),
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width * 1,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: 10),
                     Text(
-                      "tip_description".tr(),
+                      'tip_description'.tr(),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(
                       height: 30,
                     ),
                     Text(
-                      "tip".tr(),
+                      'tip'.tr(),
                       style: TextStyle(fontWeight: FontWeight.w800),
                     ),
                     SizedBox(
@@ -126,7 +128,7 @@ class _SupportAppState extends State<SupportAppScreen> {
                     iapList.isEmpty && (Platform.isIOS || Platform.isAndroid)
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               GradelyLoadingIndicator(),
                             ],
                           )
@@ -139,37 +141,37 @@ class _SupportAppState extends State<SupportAppScreen> {
                                     gradelyButton(
                                         onPressed: () async {
                                           buyProduct(
-                                              "com.eliasschneider.gradely2.iap.gradelyplus");
+                                              'com.eliasschneider.gradely2.iap.gradelyplus');
                                         },
                                         text:
                                             "☕️ ${iapList[0].localizedPrice ?? "-"}"),
                                     gradelyButton(
                                         onPressed: () async => buyProduct(
-                                            "com.eliasschneider.gradely2.iap.gradelyplus2"),
+                                            'com.eliasschneider.gradely2.iap.gradelyplus2'),
                                         text:
                                             "🍺 ${iapList[1].localizedPrice ?? "-"}"),
                                     gradelyButton(
                                         onPressed: () async => buyProduct(
-                                            "com.eliasschneider.gradely2.iap.gradelyplus5"),
+                                            'com.eliasschneider.gradely2.iap.gradelyplus5'),
                                         text:
                                             "🥃 ${iapList[2].localizedPrice ?? "-"}"),
                                   ],
                                 )
                               ])
-                            : Text("tip_only_mobile".tr(),
+                            : Text('tip_only_mobile'.tr(),
                                 style: TextStyle(fontStyle: FontStyle.italic)),
                     SizedBox(
                       height: 40,
                     ),
                     Text(
-                      "contribute".tr(),
+                      'contribute'.tr(),
                       style: TextStyle(fontWeight: FontWeight.w800),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
-                      "tip_contribute".tr(),
+                      'tip_contribute'.tr(),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(
@@ -177,37 +179,37 @@ class _SupportAppState extends State<SupportAppScreen> {
                     ),
                     gradelyButton(
                         onPressed: () =>
-                            Navigator.pushNamed(context, "settings/contribute"),
-                        text: "contribute".tr(),
+                            Navigator.pushNamed(context, 'settings/contribute'),
+                        text: 'contribute'.tr(),
                         color: Theme.of(context).primaryColorLight,
                         textColor: Theme.of(context).primaryColorDark),
                     SizedBox(
                       height: 40,
                     ),
                     Text(
-                      "rate_app".tr(),
+                      'rate_app'.tr(),
                       style: TextStyle(fontWeight: FontWeight.w800),
                     ),
                     SizedBox(
                       height: 10,
                     ),
-                    Text("rate_app_description".tr()),
+                    Text('rate_app_description'.tr()),
                     SizedBox(
                       height: 20,
                     ),
                     gradelyButton(
                         onPressed: () => launchURL((() {
                               if (Platform.isIOS || Platform.isMacOS) {
-                                return "https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974";
+                                return 'https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974';
                               } else if (Platform.isAndroid) {
-                                return "https://play.google.com/store/apps/details?id=com.eliasschneider.gradely2";
+                                return 'https://play.google.com/store/apps/details?id=com.eliasschneider.gradely2';
                               } else if (Platform.isWindows) {
-                                return "https://www.microsoft.com/store/apps/9MW4FPN80D7D";
+                                return 'https://www.microsoft.com/store/apps/9MW4FPN80D7D';
                               } else {
-                                return "https://gradelyapp.com";
+                                return 'https://gradelyapp.com';
                               }
                             }())),
-                        text: "rate".tr(),
+                        text: 'rate'.tr(),
                         color: Theme.of(context).primaryColorLight,
                         textColor: Theme.of(context).primaryColorDark)
                   ]),

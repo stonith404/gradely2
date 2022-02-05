@@ -23,7 +23,7 @@ class _IntroScreenWrapper extends StatelessWidget {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: SvgPicture.asset("assets/images/logo.svg",
+          title: SvgPicture.asset('assets/images/logo.svg',
               color: Theme.of(context).primaryColorDark, height: 30),
           actions: [
             progress >= 0.76
@@ -49,6 +49,8 @@ Widget progressIndicator(context) {
 }
 
 class Intro1 extends StatelessWidget {
+  const Intro1({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     progress = 0.16;
@@ -66,12 +68,12 @@ class Intro1 extends StatelessWidget {
           Spacer(
             flex: 1,
           ),
-          Text("welcome".tr(), textAlign: TextAlign.center, style: bigTitle),
+          Text('welcome'.tr(), textAlign: TextAlign.center, style: bigTitle),
           Spacer(
             flex: 1,
           ),
           Text(
-            "intro_gradely_helps_monitoring".tr(),
+            'intro_gradely_helps_monitoring'.tr(),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 17,
@@ -125,13 +127,13 @@ class _Intro2 extends StatelessWidget {
           Spacer(
             flex: 1,
           ),
-          Text("everywhere_available".tr(),
+          Text('everywhere_available'.tr(),
               textAlign: TextAlign.center, style: bigTitle),
           Spacer(
             flex: 1,
           ),
           Text(
-            "intro_messaqge_sync".tr(),
+            'intro_messaqge_sync'.tr(),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 17,
@@ -186,13 +188,13 @@ class _Intro3 extends StatelessWidget {
           Spacer(
             flex: 1,
           ),
-          Text("pluspoints_or_average".tr(),
+          Text('pluspoints_or_average'.tr(),
               textAlign: TextAlign.center, style: bigTitle),
           Spacer(
             flex: 1,
           ),
           Text(
-            "grade_result_change_in_settings".tr(),
+            'grade_result_change_in_settings'.tr(),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 17,
@@ -238,7 +240,7 @@ class _Intro4State extends State<_Intro4> {
   createUser() async {
     isLoadingController.add(true);
     Future<User> resultCreateAccount = account.create(
-      userId: "unique()",
+      userId: 'unique()',
       name: nameController.text,
       email: emailController.text,
       password: passwordController.text,
@@ -250,13 +252,13 @@ class _Intro4State extends State<_Intro4> {
       );
 
       await api.createDocument(context, collectionId: collectionUser, data: {
-        "uid": response.$id,
-        "gradeType": "av",
-        "choosenSemester": "noSemesterChoosed"
+        'uid': response.$id,
+        'gradeType': 'av',
+        'choosenSemester': 'noSemesterChoosed'
       });
       await getUserInfo();
-      prefs.setBool("signedIn", true);
-      passwordController.text = "";
+      prefs.setBool('signedIn', true);
+      passwordController.text = '';
       Navigator.pushAndRemoveUntil(
         context,
         GradelyPageRoute(builder: (context) => _Intro5()),
@@ -277,14 +279,14 @@ class _Intro4State extends State<_Intro4> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("lets_get_started".tr(),
+          Text('lets_get_started'.tr(),
               textAlign: TextAlign.center, style: bigTitle),
           Spacer(
             flex: 3,
           ),
           keyboardActive
               ? Text(
-                  "intro_get_started_description".tr(),
+                  'intro_get_started_description'.tr(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
@@ -297,7 +299,7 @@ class _Intro4State extends State<_Intro4> {
           TextField(
               controller: nameController,
               textAlign: TextAlign.left,
-              decoration: inputDec(context, label: "your_name".tr())),
+              decoration: inputDec(context, label: 'your_name'.tr())),
           Spacer(
             flex: keyboardActive ? 3 : 2,
           ),
@@ -305,7 +307,7 @@ class _Intro4State extends State<_Intro4> {
               keyboardType: TextInputType.emailAddress,
               controller: emailController,
               textAlign: TextAlign.left,
-              decoration: inputDec(context, label: "your_email".tr())),
+              decoration: inputDec(context, label: 'your_email'.tr())),
           Spacer(
             flex: keyboardActive ? 3 : 2,
           ),
@@ -315,7 +317,7 @@ class _Intro4State extends State<_Intro4> {
               obscureText: _obsecuredText,
               decoration: inputDec(
                 context,
-                label: "your_password".tr(),
+                label: 'your_password'.tr(),
                 suffixIcon: IconButton(
                   onPressed: () {
                     setState(() {
@@ -367,13 +369,13 @@ class _Intro5 extends StatelessWidget {
           Spacer(
             flex: 1,
           ),
-          Text("add_first_semester".tr(),
+          Text('add_first_semester'.tr(),
               textAlign: TextAlign.center, style: bigTitle),
           Spacer(
             flex: 1,
           ),
           Text(
-            "intro_add_semester".tr(),
+            'intro_add_semester'.tr(),
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 17),
           ),
@@ -383,7 +385,7 @@ class _Intro5 extends StatelessWidget {
           TextField(
               controller: addSemesterController,
               textAlign: TextAlign.left,
-              decoration: inputDec(context, label: "Semester Name")),
+              decoration: inputDec(context, label: 'Semester Name')),
           Spacer(
             flex: 10,
           ),
@@ -397,14 +399,14 @@ class _Intro5 extends StatelessWidget {
                     Future result = api.createDocument(context,
                         collectionId: collectionSemester,
                         data: {
-                          "parentId": user.dbID,
-                          "name": addSemesterController.text
+                          'parentId': user.dbID,
+                          'name': addSemesterController.text
                         });
                     result.then((response) {
                       api.updateDocument(context,
                           collectionId: collectionUser,
                           documentId: user.dbID,
-                          data: {"choosenSemester": response.$id});
+                          data: {'choosenSemester': response.$id});
                     }).catchError((error) {
                       print(error.response);
                     });
@@ -412,9 +414,9 @@ class _Intro5 extends StatelessWidget {
                     errorSuccessDialog(
                         context: context,
                         error: false,
-                        text: "success_semester_added".tr());
+                        text: 'success_semester_added'.tr());
 
-                    addLessonController.text = "";
+                    addLessonController.text = '';
                     semesterList = [];
                     isLoadingController.add(false);
                     Navigator.push(
@@ -440,6 +442,8 @@ class _Intro5 extends StatelessWidget {
 }
 
 class Intro6 extends StatefulWidget {
+  const Intro6({Key key}) : super(key: key);
+
   @override
   State<Intro6> createState() => _Intro6State();
 }
@@ -448,7 +452,7 @@ class _Intro6State extends State<Intro6> {
   @override
   void initState() {
     super.initState();
-    account.createVerification(url: "https://gradelyapp.com/user/verifyEmail");
+    account.createVerification(url: 'https://gradelyapp.com/user/verifyEmail');
   }
 
   @override
@@ -465,18 +469,18 @@ class _Intro6State extends State<Intro6> {
           Spacer(
             flex: 1,
           ),
-          Text("almost_finished".tr(),
+          Text('almost_finished'.tr(),
               textAlign: TextAlign.center, style: bigTitle),
           Spacer(
             flex: 1,
           ),
           Text(
-            "intro_email_verification".tr() + " " + user.email,
+            'intro_email_verification'.tr() + ' ' + user.email,
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 19),
           ),
           Text(
-            "\n" + "check_email_spam".tr(),
+            '\n' + 'check_email_spam'.tr(),
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 15),
           ),
@@ -486,19 +490,19 @@ class _Intro6State extends State<Intro6> {
           TextButton(
               onPressed: () {
                 Future result = account.createVerification(
-                    url: "https://gradelyapp.com/user/verifyEmail");
+                    url: 'https://gradelyapp.com/user/verifyEmail');
 
                 result.then((response) {
                   errorSuccessDialog(
                       context: context,
                       error: false,
-                      text: "success_email_sent".tr());
+                      text: 'success_email_sent'.tr());
                 }).catchError((error) {
                   errorSuccessDialog(
                       context: context, error: true, text: error.message);
                 });
               },
-              child: Text("send_again".tr())),
+              child: Text('send_again'.tr())),
           Theme(
             data: ThemeData().copyWith(
                 dividerColor: Colors.transparent,
@@ -512,7 +516,7 @@ class _Intro6State extends State<Intro6> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("        " + "change_email".tr(),
+                  Text('        ' + 'change_email'.tr(),
                       style: TextStyle(
                         fontSize: 14,
                       )),
@@ -528,7 +532,7 @@ class _Intro6State extends State<Intro6> {
                           keyboardType: TextInputType.emailAddress,
                           controller: changeEmailController,
                           textAlign: TextAlign.left,
-                          decoration: inputDec(context, label: "email".tr())),
+                          decoration: inputDec(context, label: 'email'.tr())),
                     ),
                     IconButton(
                       onPressed: () async {
@@ -560,17 +564,17 @@ class _Intro6State extends State<Intro6> {
                     if (user.emailVerification) {
                       Navigator.pushNamed(
                         context,
-                        "subjects",
+                        'subjects',
                       );
                       errorSuccessDialog(
                           context: context,
                           error: false,
-                          text: "success_email_verified".tr());
+                          text: 'success_email_verified'.tr());
                     } else {
                       errorSuccessDialog(
                           context: context,
                           error: true,
-                          text: "error_email_not_verified".tr());
+                          text: 'error_email_not_verified'.tr());
                     }
 
                     isLoadingController.add(false);

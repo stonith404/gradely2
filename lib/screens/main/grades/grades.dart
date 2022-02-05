@@ -19,21 +19,23 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:native_context_menu/native_context_menu.dart';
 
-String errorMessage = "";
+String errorMessage = '';
 double averageOfGrades = 0;
 num _sumW = 0;
 num _sum = 0;
 
 Future<String> getFileName(fileid) async {
-  return jsonDecode((await storage.getFile(fileId: fileid)).toString())["name"];
+  return jsonDecode((await storage.getFile(fileId: fileid)).toString())['name'];
 }
 
 var selectedDate = DateTime.now();
-TextEditingController editTestInfoName = new TextEditingController();
-TextEditingController editTestInfoGrade = new TextEditingController();
-TextEditingController editTestInfoWeight = new TextEditingController();
+TextEditingController editTestInfoName = TextEditingController();
+TextEditingController editTestInfoGrade = TextEditingController();
+TextEditingController editTestInfoWeight = TextEditingController();
 
 class GradesScreen extends StatefulWidget {
+  const GradesScreen({Key key}) : super(key: key);
+
   @override
   _GradesScreenState createState() => _GradesScreenState();
 }
@@ -56,7 +58,7 @@ class _GradesScreenState extends State<GradesScreen> {
         documentId: selectedLesson,
         collectionId: collectionLessons,
         data: {
-          "average": (() {
+          'average': (() {
             if (averageOfGrades.isNaN) {
               return -99;
             } else {
@@ -76,17 +78,17 @@ class _GradesScreenState extends State<GradesScreen> {
     choosenSemester = user.choosenSemester;
 
     gradeList = (await api.listDocuments(
-      orderField: "date",
+      orderField: 'date',
       collection: collectionGrades,
-      name: "gradeList_$selectedLesson",
-      queries: [Query.equal("parentId", selectedLesson)],
+      name: 'gradeList_$selectedLesson',
+      queries: [Query.equal('parentId', selectedLesson)],
     ))
         .map((r) => Grade(
-              r["\$id"],
-              r["name"],
-              double.parse(r["grade"].toString()),
-              double.parse(r["weight"].toString()),
-              r["date"] ?? "-",
+              r['\$id'],
+              r['name'],
+              double.parse(r['grade'].toString()),
+              double.parse(r['weight'].toString()),
+              r['date'] ?? '-',
             ))
         .toList();
 
@@ -106,12 +108,14 @@ class _GradesScreenState extends State<GradesScreen> {
     updateAverage();
   }
 
+  @override
   void initState() {
     super.initState();
     getTests();
     ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   }
 
+  @override
   void setState(fn) {
     if (mounted) {
       super.setState(fn);
@@ -129,7 +133,7 @@ class _GradesScreenState extends State<GradesScreen> {
           isLoading
               ? GradelyLoadingIndicator()
               : Expanded(
-                  child: gradeList.length == 0
+                  child: gradeList.isEmpty
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
@@ -137,7 +141,7 @@ class _GradesScreenState extends State<GradesScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "empty_lesson_p1".tr() + " 🔎\n",
+                                  'empty_lesson_p1'.tr() + ' 🔎\n',
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
@@ -153,7 +157,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                               .primaryColorDark),
                                       children: [
                                         TextSpan(
-                                          text: "empty_lesson_p2".tr() + " ",
+                                          text: 'empty_lesson_p2'.tr() + ' ',
                                         ),
                                         WidgetSpan(
                                           child: Icon(
@@ -162,7 +166,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: " " + "empty_lesson_p3".tr(),
+                                          text: ' ' + 'empty_lesson_p3'.tr(),
                                         ),
                                       ],
                                     ),
@@ -221,7 +225,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                                   gradeList[index].name,
                                                 ),
                                                 subtitle: gradeList.isEmpty
-                                                    ? Text("")
+                                                    ? Text('')
                                                     : Row(
                                                         children: [
                                                           Icon(
@@ -229,11 +233,11 @@ class _GradesScreenState extends State<GradesScreen> {
                                                                 .calculate_outlined,
                                                             size: 20,
                                                           ),
-                                                          Text(" " +
+                                                          Text(' ' +
                                                               gradeList[index]
                                                                   .weight
                                                                   .toString() +
-                                                              "   "),
+                                                              '   '),
                                                           Icon(
                                                             Icons.date_range,
                                                             size: 20,
@@ -241,10 +245,10 @@ class _GradesScreenState extends State<GradesScreen> {
                                                           Text((() {
                                                             if (gradeList[index]
                                                                     .date ==
-                                                                "") {
-                                                              return "  -";
+                                                                '') {
+                                                              return '  -';
                                                             } else {
-                                                              return " " +
+                                                              return ' ' +
                                                                   formatDateForClient(gradeList[
                                                                               index]
                                                                           .date
@@ -257,7 +261,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                                 trailing: Text(gradeList[index]
                                                             .grade ==
                                                         -99
-                                                    ? "-"
+                                                    ? '-'
                                                     : gradeList[index]
                                                         .grade
                                                         .toStringAsFixed(2)),
@@ -284,7 +288,7 @@ class _GradesScreenState extends State<GradesScreen> {
                 topLeft: Radius.circular(25),
                 topRight: Radius.circular(25),
               ),
-              boxShadow: [],
+              boxShadow: const [],
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
@@ -293,7 +297,7 @@ class _GradesScreenState extends State<GradesScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    user.gradeType == "pp"
+                    user.gradeType == 'pp'
                         ? Column(
                             children: [
                               Text(
@@ -303,7 +307,7 @@ class _GradesScreenState extends State<GradesScreen> {
                               Text(
                                 (() {
                                   if (averageOfGrades.isNaN) {
-                                    return "-";
+                                    return '-';
                                   } else {
                                     return averageOfGrades.toStringAsFixed(2);
                                   }
@@ -315,7 +319,7 @@ class _GradesScreenState extends State<GradesScreen> {
                           )
                         : Text((() {
                             if (averageOfGrades.isNaN) {
-                              return "-";
+                              return '-';
                             } else {
                               return averageOfGrades.toStringAsFixed(2);
                             }
@@ -337,7 +341,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               context: context,
-                              builder: (context) => Container(
+                              builder: (context) => SizedBox(
                                     height: 150,
                                     child: Row(
                                       mainAxisAlignment:
@@ -368,7 +372,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            Text("dream_grade".tr())
+                                            Text('dream_grade'.tr())
                                           ],
                                         ),
                                         Spacer(flex: 5),
@@ -394,16 +398,16 @@ class _GradesScreenState extends State<GradesScreen> {
                                                       if (gradeList
                                                           .where((element) =>
                                                               element.date ==
-                                                                  "" ||
+                                                                  '' ||
                                                               element.date ==
-                                                                  "-")
+                                                                  '-')
                                                           .toList()
                                                           .isNotEmpty) {
                                                         gradelyDialog(
                                                             context: context,
-                                                            title: "error".tr(),
+                                                            title: 'error'.tr(),
                                                             text:
-                                                                "error_stats_contain_no_date"
+                                                                'error_stats_contain_no_date'
                                                                     .tr());
                                                       } else {
                                                         statisticsScreen(
@@ -413,7 +417,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            Text("statistics".tr())
+                                            Text('statistics'.tr())
                                           ],
                                         ),
                                         Spacer(flex: 10),
@@ -433,7 +437,7 @@ class _GradesScreenState extends State<GradesScreen> {
 
   Future testDetail(BuildContext context, Grade selectedTest) {
     editTestInfoGrade.text =
-        selectedTest.grade == -99 ? "" : selectedTest.grade.toString();
+        selectedTest.grade == -99 ? '' : selectedTest.grade.toString();
     editTestInfoName.text = selectedTest.name;
     editTestInfoWeight.text = selectedTest.weight.toString();
     editTestDateController.text =
@@ -456,23 +460,23 @@ class _GradesScreenState extends State<GradesScreen> {
                         collectionId: collectionGrades,
                         documentId: selectedTest.id,
                         data: {
-                          "name": editTestInfoName.text,
-                          "grade": (() {
+                          'name': editTestInfoName.text,
+                          'grade': (() {
                             try {
                               return double.parse(
-                                  editTestInfoGrade.text.replaceAll(",", "."));
+                                  editTestInfoGrade.text.replaceAll(',', '.'));
                             } catch (_) {
                               return -99.0;
                             }
                           }()),
-                          "weight": double.parse(
-                              editTestInfoWeight.text.replaceAll(",", ".")),
-                          "date": (() {
+                          'weight': double.parse(
+                              editTestInfoWeight.text.replaceAll(',', '.')),
+                          'date': (() {
                             try {
                               return formatDateForDB(
                                   editTestDateController.text);
                             } catch (_) {
-                              return "";
+                              return '';
                             }
                           }())
                         });
@@ -484,7 +488,7 @@ class _GradesScreenState extends State<GradesScreen> {
                     errorSuccessDialog(
                         context: context,
                         error: true,
-                        text: "error_grade_badly_formatted".tr());
+                        text: 'error_grade_badly_formatted'.tr());
                   }
                 },
                 icon: Icon(Icons.edit,
@@ -509,7 +513,7 @@ class _GradesScreenState extends State<GradesScreen> {
           child: TextField(
             controller: editTestInfoName,
             textAlign: TextAlign.left,
-            decoration: inputDec(context, label: "exam_name".tr()),
+            decoration: inputDec(context, label: 'exam_name'.tr()),
             inputFormatters: [emojiRegex()],
           ),
         ),
@@ -539,16 +543,17 @@ class _GradesScreenState extends State<GradesScreen> {
                       child: child,
                     );
                   });
-              if (picked != null && picked != selectedDate)
+              if (picked != null && picked != selectedDate) {
                 setState(() {
                   editTestDateController.text = formatDateForClient(picked);
                 });
+              }
             },
             child: AbsorbPointer(
               child: TextField(
                   controller: editTestDateController,
                   textAlign: TextAlign.left,
-                  decoration: inputDec(context, label: "date".tr())),
+                  decoration: inputDec(context, label: 'date'.tr())),
             ),
           ),
         ),
@@ -558,7 +563,7 @@ class _GradesScreenState extends State<GradesScreen> {
             controller: editTestInfoGrade,
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             textAlign: TextAlign.left,
-            decoration: inputDec(context, label: "grade".tr()),
+            decoration: inputDec(context, label: 'grade'.tr()),
           ),
         ),
         Padding(
@@ -567,7 +572,7 @@ class _GradesScreenState extends State<GradesScreen> {
             controller: editTestInfoWeight,
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             textAlign: TextAlign.left,
-            decoration: inputDec(context, label: "weight".tr()),
+            decoration: inputDec(context, label: 'weight'.tr()),
           ),
         ),
       ],
@@ -584,19 +589,19 @@ class _GradesScreenState extends State<GradesScreen> {
           context,
           collectionId: collectionGrades,
           data: {
-            "parentId": selectedLesson,
-            "name": addTestNameController.text,
-            "grade": (() {
+            'parentId': selectedLesson,
+            'name': addTestNameController.text,
+            'grade': (() {
               try {
                 return double.parse(
-                    addTestGradeController.text.replaceAll(",", "."));
+                    addTestGradeController.text.replaceAll(',', '.'));
               } catch (_) {
                 return -99.0;
               }
             }()),
-            "weight":
-                double.parse(addTestWeightController.text.replaceAll(",", ".")),
-            "date": (() {
+            'weight':
+                double.parse(addTestWeightController.text.replaceAll(',', '.')),
+            'date': (() {
               try {
                 return formatDateForDB(addTestDateController.text);
               } catch (_) {
@@ -606,7 +611,7 @@ class _GradesScreenState extends State<GradesScreen> {
           },
         );
         await getTests();
-        addLessonController.text = "";
+        addLessonController.text = '';
         succeded = true;
         Navigator.of(context).pop();
         isLoadingController.add(false);
@@ -616,15 +621,15 @@ class _GradesScreenState extends State<GradesScreen> {
         errorSuccessDialog(
             context: context,
             error: true,
-            text: "error_grade_badly_formatted".tr());
+            text: 'error_grade_badly_formatted'.tr());
       }
       return succeded;
     }
 
-    addTestNameController.text = "exam".tr() + " ${gradeList.length + 1}";
-    addTestGradeController.text = "";
-    addTestDateController.text = "";
-    addTestWeightController.text = "1";
+    addTestNameController.text = 'exam'.tr() + ' ${gradeList.length + 1}';
+    addTestGradeController.text = '';
+    addTestDateController.text = '';
+    addTestWeightController.text = '1';
 
     return gradelyModalSheet(
       context: context,
@@ -645,7 +650,7 @@ class _GradesScreenState extends State<GradesScreen> {
           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: FittedBox(
             child: Text(
-              "add_exam".tr(),
+              'add_exam'.tr(),
               style: bigTitle,
             ),
           ),
@@ -661,7 +666,7 @@ class _GradesScreenState extends State<GradesScreen> {
           child: TextField(
             controller: addTestNameController,
             textAlign: TextAlign.left,
-            decoration: inputDec(context, label: "exam_name".tr()),
+            decoration: inputDec(context, label: 'exam_name'.tr()),
             inputFormatters: [emojiRegex()],
           ),
         ),
@@ -692,17 +697,18 @@ class _GradesScreenState extends State<GradesScreen> {
                     );
                   });
 
-              if (picked != null && picked != selectedDate)
+              if (picked != null && picked != selectedDate) {
                 setState(() {
                   DateTime.parse(picked.toString());
                   addTestDateController.text = formatDateForClient(picked);
                 });
+              }
             },
             child: AbsorbPointer(
               child: TextField(
                   controller: addTestDateController,
                   textAlign: TextAlign.left,
-                  decoration: inputDec(context, label: "date".tr())),
+                  decoration: inputDec(context, label: 'date'.tr())),
             ),
           ),
         ),
@@ -712,7 +718,7 @@ class _GradesScreenState extends State<GradesScreen> {
               controller: addTestGradeController,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               textAlign: TextAlign.left,
-              decoration: inputDec(context, label: "grade".tr())),
+              decoration: inputDec(context, label: 'grade'.tr())),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -720,7 +726,7 @@ class _GradesScreenState extends State<GradesScreen> {
               controller: addTestWeightController,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               textAlign: TextAlign.left,
-              decoration: inputDec(context, label: "weight".tr())),
+              decoration: inputDec(context, label: 'weight'.tr())),
         ),
         SizedBox(
           height: 10,
@@ -731,8 +737,8 @@ class _GradesScreenState extends State<GradesScreen> {
 }
 
 Future dreamGradeC(BuildContext context) {
-  dreamGradeGrade.text = "";
-  dreamGradeWeight.text = "1";
+  dreamGradeGrade.text = '';
+  dreamGradeWeight.text = '1';
   num dreamgradeResult = 0;
   double dreamgrade = 0;
   double dreamgradeWeight = 1;
@@ -774,7 +780,7 @@ Future dreamGradeC(BuildContext context) {
                           child: FittedBox(
                               child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text("dream_grade_calulator".tr(), style: title),
+                        child: Text('dream_grade_calulator'.tr(), style: title),
                       ))),
                       CircleAvatar(
                         radius: 22,
@@ -797,13 +803,13 @@ Future dreamGradeC(BuildContext context) {
                       controller: dreamGradeGrade,
                       onChanged: (String value) async {
                         dreamgrade = double.tryParse(
-                            dreamGradeGrade.text.replaceAll(",", "."));
+                            dreamGradeGrade.text.replaceAll(',', '.'));
                         getDreamGrade();
                       },
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
-                      decoration: inputDec(context, label: "dream_grade".tr()),
+                      decoration: inputDec(context, label: 'dream_grade'.tr()),
                     ),
                   ),
                   Padding(
@@ -812,14 +818,14 @@ Future dreamGradeC(BuildContext context) {
                       controller: dreamGradeWeight,
                       onChanged: (String value) async {
                         dreamgradeWeight = double.tryParse(
-                            dreamGradeWeight.text.replaceAll(",", "."));
+                            dreamGradeWeight.text.replaceAll(',', '.'));
                         getDreamGrade();
                       },
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       textAlign: TextAlign.left,
                       decoration:
-                          inputDec(context, label: "dream _grade_weight".tr()),
+                          inputDec(context, label: 'dream _grade_weight'.tr()),
                     ),
                   ),
                   SizedBox(
@@ -831,11 +837,11 @@ Future dreamGradeC(BuildContext context) {
                       style:
                           TextStyle(color: Theme.of(context).primaryColorDark),
                       children: [
-                        TextSpan(text: "dream_grade_result_text".tr() + "  "),
+                        TextSpan(text: 'dream_grade_result_text'.tr() + '  '),
                         TextSpan(
                             text: (() {
                               if (dreamgradeResult.isInfinite) {
-                                return "-";
+                                return '-';
                               } else {
                                 return dreamgradeResult.toStringAsFixed(2);
                               }

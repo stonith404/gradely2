@@ -20,6 +20,8 @@ String choosenSemester;
 Semester _selectedSemester;
 
 class SemesterScreen extends StatefulWidget {
+  const SemesterScreen({Key key}) : super(key: key);
+
   @override
   _SemesterScreenState createState() => _SemesterScreenState();
 }
@@ -31,9 +33,9 @@ class _SemesterScreenState extends State<SemesterScreen> {
 
     semesterList = (await api.listDocuments(
             collection: collectionSemester,
-            name: "semesterList",
-            queries: [Query.equal("parentId", user.dbID)]))
-        .map((r) => Semester(r["\$id"], r["name"], r["round"]))
+            name: 'semesterList',
+            queries: [Query.equal('parentId', user.dbID)]))
+        .map((r) => Semester(r['\$id'], r['name'], r['round']))
         .toList();
     setState(() => isLoading = false);
   }
@@ -43,18 +45,18 @@ class _SemesterScreenState extends State<SemesterScreen> {
     await api.updateDocument(context,
         collectionId: collectionUser,
         documentId: user.dbID,
-        data: {"choosenSemester": _choosenSemester});
+        data: {'choosenSemester': _choosenSemester});
   }
 
   deleteSemester(index) {
     return gradelyDialog(
       context: context,
-      title: "warning".tr(),
-      text: "delete_confirmation".tr(args: [semesterList[index].name]),
+      title: 'warning'.tr(),
+      text: 'delete_confirmation'.tr(args: [semesterList[index].name]),
       actions: <Widget>[
         CupertinoButton(
           child: Text(
-            "no".tr(),
+            'no'.tr(),
             style: TextStyle(color: Theme.of(context).primaryColorDark),
           ),
           onPressed: () {
@@ -63,12 +65,12 @@ class _SemesterScreenState extends State<SemesterScreen> {
         ),
         CupertinoButton(
           child: Text(
-            "delete".tr(),
+            'delete'.tr(),
             style: TextStyle(color: Colors.red),
           ),
           onPressed: () {
             if (user.choosenSemester == semesterList[index].id) {
-              saveChoosenSemester("noSemesterChoosed");
+              saveChoosenSemester('noSemesterChoosed');
             }
             api.deleteDocument(context,
                 collectionId: collectionSemester,
@@ -88,31 +90,31 @@ class _SemesterScreenState extends State<SemesterScreen> {
   duplicateSemester(index) {
     gradelyDialog(
         context: context,
-        title: "duplicate_semester".tr(),
-        text: "duplicate_semester_text".tr(),
+        title: 'duplicate_semester'.tr(),
+        text: 'duplicate_semester_text'.tr(),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text("cancel".tr()),
+            child: Text('cancel'.tr()),
           ),
           TextButton(
               onPressed: () async {
                 var lessonsList = (await api.listDocuments(
                         collection: collectionLessons,
-                        name: "lessonList_${semesterList[index].id}",
+                        name: 'lessonList_${semesterList[index].id}',
                         queries: [
-                      Query.equal("parentId", semesterList[index].id)
+                      Query.equal('parentId', semesterList[index].id)
                     ]))
-                    .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
-                        double.parse(r["average"].toString())))
+                    .map((r) => Lesson(r['\$id'], r['name'], r['emoji'],
+                        double.parse(r['average'].toString())))
                     .toList();
 
                 String newSemester = (await api.createDocument(context,
                         collectionId: collectionSemester,
                         data: {
-                      "parentId": user.dbID,
-                      "name": semesterList[index].name + " - ${'copy'.tr()}",
-                      "round": semesterList[index].round
+                      'parentId': user.dbID,
+                      'name': semesterList[index].name + " - ${'copy'.tr()}",
+                      'round': semesterList[index].round
                     }))
                     .$id;
 
@@ -120,16 +122,16 @@ class _SemesterScreenState extends State<SemesterScreen> {
                   api.createDocument(context,
                       collectionId: collectionLessons,
                       data: {
-                        "parentId": newSemester,
-                        "name": lessonsList[i].name,
-                        "average": -99,
-                        "emoji": lessonsList[i].emoji
+                        'parentId': newSemester,
+                        'name': lessonsList[i].name,
+                        'average': -99,
+                        'emoji': lessonsList[i].emoji
                       });
                 }
                 Navigator.of(context).pop();
                 getSemesters();
               },
-              child: Text("continue".tr()))
+              child: Text('continue'.tr()))
         ]);
   }
 
@@ -139,6 +141,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
     getSemesters();
   }
 
+  @override
   void setState(fn) {
     if (mounted) {
       super.setState(fn);
@@ -149,7 +152,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Semester"),
+        title: Text('Semester'),
       ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColorDark,
@@ -263,7 +266,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                               semesterList[index].id);
                                           Navigator.pushNamedAndRemoveUntil(
                                             context,
-                                            "subjects",
+                                            'subjects',
                                             (Route<dynamic> route) => false,
                                           );
                                         }),
@@ -290,7 +293,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
       return Scaffold(
         appBar: AppBar(
           title: Text(
-            "edit_semester".tr(),
+            'edit_semester'.tr(),
           ),
         ),
         body: Padding(
@@ -302,14 +305,14 @@ class _SemesterScreenState extends State<SemesterScreen> {
                   controller: renameSemesterController,
                   textAlign: TextAlign.left,
                   inputFormatters: [emojiRegex()],
-                  decoration: inputDec(context, label: "Semester Name")),
+                  decoration: inputDec(context, label: 'Semester Name')),
               SizedBox(
                 height: 30,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("edit_semester_round".tr()),
+                  Text('edit_semester_round'.tr()),
                   SizedBox(
                     width: 10,
                   ),
@@ -317,9 +320,9 @@ class _SemesterScreenState extends State<SemesterScreen> {
                       thumbColor: CupertinoColors.darkBackgroundGray,
                       groupValue: roundTo,
                       children: {
-                        0.1: Text("0.1"),
-                        0.5: Text("0.5"),
-                        0.01: Text("0.01")
+                        0.1: Text('0.1'),
+                        0.5: Text('0.5'),
+                        0.01: Text('0.01')
                       },
                       onValueChanged: (n) => {setState(() => roundTo = n)}),
                 ],
@@ -328,21 +331,21 @@ class _SemesterScreenState extends State<SemesterScreen> {
                 height: 30,
               ),
               gradelyButton(
-                text: "save".tr(),
+                text: 'save'.tr(),
                 onPressed: () async {
                   isLoadingController.add(true);
                   await api.updateDocument(context,
                       collectionId: collectionSemester,
                       documentId: _selectedSemester.id,
                       data: {
-                        "name": renameSemesterController.text,
-                        "round": roundTo
+                        'name': renameSemesterController.text,
+                        'round': roundTo
                       });
 
                   await getSemesters();
                   Navigator.of(context).pop();
 
-                  renameSemesterController.text = "";
+                  renameSemesterController.text = '';
                   isLoadingController.add(false);
                 },
               ),
@@ -359,7 +362,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
         builder: (BuildContext context, StateSetter setState) {
       return Scaffold(
         appBar: AppBar(
-          title: Text("add_semester".tr()),
+          title: Text('add_semester'.tr()),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -370,23 +373,23 @@ class _SemesterScreenState extends State<SemesterScreen> {
                   inputFormatters: [emojiRegex()],
                   controller: addSemesterController,
                   textAlign: TextAlign.left,
-                  decoration: inputDec(context, label: "Semester Name")),
+                  decoration: inputDec(context, label: 'Semester Name')),
               SizedBox(
                 height: 30,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("edit_semester_round".tr()),
+                  Text('edit_semester_round'.tr()),
                   SizedBox(
                     width: 10,
                   ),
                   CupertinoSlidingSegmentedControl(
                       groupValue: roundTo,
                       children: {
-                        0.1: Text("0.1"),
-                        0.5: Text("0.5"),
-                        0.01: Text("0.01")
+                        0.1: Text('0.1'),
+                        0.5: Text('0.5'),
+                        0.01: Text('0.01')
                       },
                       onValueChanged: (n) => {setState(() => roundTo = n)}),
                 ],
@@ -395,21 +398,21 @@ class _SemesterScreenState extends State<SemesterScreen> {
                 height: 30,
               ),
               gradelyButton(
-                  text: "add".tr(),
+                  text: 'add'.tr(),
                   onPressed: () async {
                     isLoadingController.add(true);
                     await getUserInfo();
                     await api.createDocument(context,
                         collectionId: collectionSemester,
                         data: {
-                          "parentId": user.dbID,
-                          "name": addSemesterController.text,
-                          "round": roundTo
+                          'parentId': user.dbID,
+                          'name': addSemesterController.text,
+                          'round': roundTo
                         });
 
                     await getSemesters();
                     Navigator.of(context).pop();
-                    addSemesterController.text = "";
+                    addSemesterController.text = '';
                     isLoadingController.add(false);
                   })
             ],

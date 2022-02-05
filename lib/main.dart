@@ -1,8 +1,8 @@
 import 'package:appwrite/appwrite.dart' as appwrite;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gradely2/screens/auth/authHome.dart';
-import 'package:gradely2/screens/auth/introScreen.dart';
+import 'package:gradely2/screens/auth/auth_home.dart';
+import 'package:gradely2/screens/auth/intro_screen.dart';
 import 'package:gradely2/screens/auth/resetPassword.dart';
 import 'package:gradely2/screens/auth/signIn.dart';
 import 'package:gradely2/screens/main/grades/grades.dart';
@@ -28,11 +28,11 @@ bool _isSignedIn = false;
 bool _isMaintenance;
 var _appVersionCheck;
 final plausible =
-    Plausible("https://analytics.eliasschneider.com", "app.gradelyapp.com");
+    Plausible('https://analytics.eliasschneider.com', 'app.gradelyapp.com');
 
 Future _executeJobs() async {
   _appVersionCheck = (await minAppVersion());
-  if (_appVersionCheck["isUpToDate"]) {
+  if (_appVersionCheck['isUpToDate']) {
     await getUserInfo();
     _isSignedIn = await isSignedIn();
     _isMaintenance = await isMaintenance();
@@ -54,7 +54,7 @@ void main() async {
 
   await _executeJobs();
   runApp(EasyLocalization(
-      supportedLocales: [Locale('de'), Locale('en'), Locale("fr")],
+      supportedLocales: const [Locale('de'), Locale('en'), Locale('fr')],
       useOnlyLangCode: true,
       path: 'assets/translations',
       fallbackLocale: Locale('en'),
@@ -93,11 +93,11 @@ class MaterialWrapper extends StatelessWidget {
           api.updateDocument(context,
               collectionId: collectionUser,
               documentId: user.dbID,
-              data: {"showcase_viewed": true});
+              data: {'showcase_viewed': true});
         },
         builder: Builder(
           builder: (context) => MaterialApp(
-              title: "Gradely 2",
+              title: 'Gradely 2',
               initialRoute: '/',
               onGenerateRoute: (settings) {
                 plausible.enabled = kDebugMode || kIsWeb ? false : true;
@@ -117,6 +117,8 @@ class MaterialWrapper extends StatelessWidget {
 }
 
 class HomeWrapper extends StatefulWidget {
+  const HomeWrapper({Key key}) : super(key: key);
+
   @override
   _State createState() => _State();
 }
@@ -135,9 +137,9 @@ class _State extends State<HomeWrapper> {
     internetConnection(context: context);
     client.setLocale(Localizations.localeOf(context).toString());
     _executeJobs();
-    if (!_appVersionCheck["isUpToDate"]) {
-      return UpdateAppScreen(_appVersionCheck["minAppVersion"],
-          _appVersionCheck["currentVersion"]);
+    if (!_appVersionCheck['isUpToDate']) {
+      return UpdateAppScreen(_appVersionCheck['minAppVersion'],
+          _appVersionCheck['currentVersion']);
     } else if (_isMaintenance) {
       return MaintenanceScreen();
     } else {

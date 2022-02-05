@@ -58,7 +58,7 @@ BoxDecoration boxDec(context) {
 
 InputDecoration inputDec(context, {String label, var suffixIcon}) {
   return InputDecoration(
-    suffixIcon: suffixIcon ?? Container(height: 1, width: 1),
+    suffixIcon: suffixIcon ?? SizedBox(height: 1, width: 1),
     disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         borderSide: BorderSide.none),

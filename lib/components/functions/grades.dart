@@ -51,13 +51,13 @@ String formatDateForDB(date) {
       }
     }())}";
   } catch (_) {
-    return "${date.substring(6, 10)}.${date.substring(3, 5)}.${date.substring(0, 2)}";
+    return '${date.substring(6, 10)}.${date.substring(3, 5)}.${date.substring(0, 2)}';
   }
 }
 
 String formatDateForClient(date) {
-  if (date == "") {
-    return "-";
+  if (date == '') {
+    return '-';
   } else {
     try {
       var _formatted = DateTime.parse(date.toString());
@@ -75,7 +75,7 @@ String formatDateForClient(date) {
         }
       }())}.${_formatted.year}";
     } catch (_) {
-      return "${date.substring(8, 10)}.${date.substring(5, 7)}.${date.substring(0, 4)}";
+      return '${date.substring(8, 10)}.${date.substring(5, 7)}.${date.substring(0, 4)}';
     }
   }
 }

@@ -35,7 +35,7 @@ Widget gradelyButton(
                                         ? Brightness.light
                                         : Brightness.dark)),
                         child: CupertinoActivityIndicator())
-                    : Container(
+                    : SizedBox(
                         height: 15,
                         width: 15,
                         child: CircularProgressIndicator(
@@ -73,7 +73,7 @@ Widget gradelyIconButton({Function onPressed, Icon icon}) {
                                         ? Brightness.light
                                         : Brightness.dark)),
                             child: CupertinoActivityIndicator())
-                        : Container(
+                        : SizedBox(
                             height: 15,
                             width: 15,
                             child: CircularProgressIndicator(

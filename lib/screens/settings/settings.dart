@@ -65,7 +65,7 @@ Future settingsScreen(BuildContext context) {
                     ),
                   ],
                 ),
-                Text("options".tr(), style: title),
+                Text('options'.tr(), style: title),
                 SizedBox(
                   height: 20,
                 ),
@@ -79,7 +79,7 @@ Future settingsScreen(BuildContext context) {
                                 context: context,
                                 onTap: () {
                                   Navigator.pushNamed(
-                                      context, "settings/userInfo");
+                                      context, 'settings/userInfo');
                                 },
                                 items: [
                                   Icon(FontAwesome5Solid.user,
@@ -90,7 +90,7 @@ Future settingsScreen(BuildContext context) {
                                     width: 10,
                                   ),
                                   Text(
-                                      user.name == "" ? user.email : user.name),
+                                      user.name == '' ? user.email : user.name),
                                   Spacer(
                                     flex: 1,
                                   ),
@@ -104,7 +104,7 @@ Future settingsScreen(BuildContext context) {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text("grade_result".tr()),
+                                Text('grade_result'.tr()),
                                 Spacer(
                                   flex: 1,
                                 ),
@@ -121,25 +121,25 @@ Future settingsScreen(BuildContext context) {
                                     'av'.tr(),
                                     'pp'.tr(),
                                   ].map((String value) {
-                                    return new DropdownMenuItem<String>(
+                                    return DropdownMenuItem<String>(
                                       value: value,
-                                      child: new Text(value),
+                                      child: Text(value),
                                     );
                                   }).toList(),
                                   onChanged: (value) {
-                                    var newValue = "av";
-                                    if (value == "Pluspunkte") {
-                                      newValue = "pp";
-                                    } else if (value == "Pluspoints") {
-                                      newValue = "pp";
+                                    var newValue = 'av';
+                                    if (value == 'Pluspunkte') {
+                                      newValue = 'pp';
+                                    } else if (value == 'Pluspoints') {
+                                      newValue = 'pp';
                                     } else {
-                                      newValue = "av";
+                                      newValue = 'av';
                                     }
                                     api.updateDocument(context,
                                         documentId: user.dbID,
                                         collectionId: collectionUser,
                                         data: {
-                                          "gradeType": newValue,
+                                          'gradeType': newValue,
                                         });
                                     setState(() {
                                       gradesResult = newValue;
@@ -169,11 +169,11 @@ Future settingsScreen(BuildContext context) {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text("support".tr()),
+                                  Text('support'.tr()),
                                 ],
                                 onTap: () {
                                   Navigator.pushNamed(
-                                      context, "settings/supportApp");
+                                      context, 'settings/supportApp');
                                 },
                               ),
                               settingsListTile(
@@ -185,10 +185,10 @@ Future settingsScreen(BuildContext context) {
                                     SizedBox(
                                       width: 10,
                                     ),
-                                    Text("downloads".tr()),
+                                    Text('downloads'.tr()),
                                   ],
                                   onTap: () => launchURL(
-                                      "https://gradelyapp.com#download")),
+                                      'https://gradelyapp.com#download')),
                               settingsListTile(
                                 context: context,
                                 items: [
@@ -199,11 +199,11 @@ Future settingsScreen(BuildContext context) {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text("app_info".tr()),
+                                  Text('app_info'.tr()),
                                 ],
                                 onTap: () {
                                   Navigator.pushNamed(
-                                      context, "settings/appInfo");
+                                      context, 'settings/appInfo');
                                 },
                               ),
                             ],
@@ -213,11 +213,11 @@ Future settingsScreen(BuildContext context) {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
+                      padding: EdgeInsets.only(bottom: 20.0),
                       child: Text(
-                        "www.gradelyapp.com",
+                        'www.gradelyapp.com',
                         style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),

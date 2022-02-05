@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:gradely2/components/functions/api.dart';
@@ -14,6 +15,9 @@ SharedPreferences prefs;
 
 //bools
 bool isLoading = false;
+bool isCupertino = (() {
+  return Platform.isIOS || Platform.isMacOS;
+}());
 
 //num's
 double screenwidth = 0;
@@ -28,43 +32,43 @@ Functions functions;
 GradelyApi api;
 
 //final
-final collectionUser = "60f40d07accb6";
-final collectionSemester = "60f40d1b66424";
-final collectionLessons = "60f40d0ed5da4";
-final collectionGrades = "60f71651520e5";
+const collectionUser = '60f40d07accb6';
+const collectionSemester = '60f40d1b66424';
+const collectionLessons = '60f40d0ed5da4';
+const collectionGrades = '60f71651520e5';
 
 //vars for customizing
 var bigTitle = TextStyle(
-    fontWeight: FontWeight.w900, fontFamily: "PlayfairDisplay", fontSize: 30);
+    fontWeight: FontWeight.w900, fontFamily: 'PlayfairDisplay', fontSize: 30);
 
 var title = TextStyle(
-    fontWeight: FontWeight.w900, fontFamily: "PlayfairDisplay", fontSize: 21);
+    fontWeight: FontWeight.w900, fontFamily: 'PlayfairDisplay', fontSize: 21);
 
 //text controllers
 
-TextEditingController addLessonController = new TextEditingController();
-TextEditingController changeEmailController = new TextEditingController();
-TextEditingController changeDisplayName = new TextEditingController();
-TextEditingController addSemesterController = new TextEditingController();
-TextEditingController renameTestWeightController = new TextEditingController();
-TextEditingController renameSemesterController = new TextEditingController();
-TextEditingController addGradeNameController = new TextEditingController();
-TextEditingController addGradeGradeController = new TextEditingController();
-TextEditingController addTestNameController = new TextEditingController();
-TextEditingController addTestGradeController = new TextEditingController();
-TextEditingController addTestWeightController = new TextEditingController();
-TextEditingController addTestDateController = new TextEditingController();
-TextEditingController editTestDateController = new TextEditingController();
-TextEditingController contactMessage = new TextEditingController();
-TextEditingController dreamGradeGrade = new TextEditingController();
-TextEditingController dreamGradeWeight = new TextEditingController();
-TextEditingController emailController = new TextEditingController();
-TextEditingController nameController = new TextEditingController();
-TextEditingController passwordController = new TextEditingController();
-TextEditingController passwordPlaceholder = new TextEditingController();
-TextEditingController editTestInfoName = new TextEditingController();
-TextEditingController editTestInfoGrade = new TextEditingController();
-TextEditingController editTestInfoWeight = new TextEditingController();
+TextEditingController addLessonController = TextEditingController();
+TextEditingController changeEmailController = TextEditingController();
+TextEditingController changeDisplayName = TextEditingController();
+TextEditingController addSemesterController = TextEditingController();
+TextEditingController renameTestWeightController = TextEditingController();
+TextEditingController renameSemesterController = TextEditingController();
+TextEditingController addGradeNameController = TextEditingController();
+TextEditingController addGradeGradeController = TextEditingController();
+TextEditingController addTestNameController = TextEditingController();
+TextEditingController addTestGradeController = TextEditingController();
+TextEditingController addTestWeightController = TextEditingController();
+TextEditingController addTestDateController = TextEditingController();
+TextEditingController editTestDateController = TextEditingController();
+TextEditingController contactMessage = TextEditingController();
+TextEditingController dreamGradeGrade = TextEditingController();
+TextEditingController dreamGradeWeight = TextEditingController();
+TextEditingController emailController = TextEditingController();
+TextEditingController nameController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
+TextEditingController passwordPlaceholder = TextEditingController();
+TextEditingController editTestInfoName = TextEditingController();
+TextEditingController editTestInfoGrade = TextEditingController();
+TextEditingController editTestInfoWeight = TextEditingController();
 
 //Streams
 StreamController<bool> isLoadingController = StreamController<bool>.broadcast();

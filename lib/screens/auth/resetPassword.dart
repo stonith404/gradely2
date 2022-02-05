@@ -7,6 +7,8 @@ import 'package:gradely2/components/widgets/dialogs.dart';
 import 'package:gradely2/components/variables.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({Key key}) : super(key: key);
+
   @override
   _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
 }
@@ -35,7 +37,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             Spacer(
               flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 8 : 6,
             ),
-            SvgPicture.asset("assets/images/logo.svg",
+            SvgPicture.asset('assets/images/logo.svg',
                 color: Theme.of(context).primaryColorDark, height: 60),
             Spacer(
               flex: MediaQuery.of(context).viewInsets.bottom == 0 ? 6 : 2,
@@ -43,7 +45,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             Row(
               children: [
                 Text(
-                  "reset_password".tr(),
+                  'reset_password'.tr(),
                   style: title,
                 ),
               ],
@@ -52,7 +54,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               flex: 2,
             ),
             TextField(
-              decoration: inputDec(context, label: "your_email".tr()),
+              decoration: inputDec(context, label: 'your_email'.tr()),
               keyboardType: TextInputType.emailAddress,
               controller: emailController,
               textAlign: TextAlign.left,
@@ -62,21 +64,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 onPressed: () {
                   sendPasswordResetEmail(emailController.text);
 
-                  Navigator.pushNamed(context, "auth/signIn");
+                  Navigator.pushNamed(context, 'auth/signIn');
                   errorSuccessDialog(
                       context: context,
                       error: false,
-                      text: "password_reset_success_text".tr(),
-                      title: "sent".tr());
+                      text: 'password_reset_success_text'.tr(),
+                      title: 'sent'.tr());
                 },
-                text: "request_link".tr()),
+                text: 'request_link'.tr()),
             Spacer(flex: 16),
             TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
                 child: Text(
-                  "password_remembered".tr(),
+                  'password_remembered'.tr(),
                   style: TextStyle(color: Theme.of(context).primaryColorDark),
                 )),
             Spacer(flex: 4),

@@ -5,18 +5,20 @@ import 'package:gradely2/components/functions/app.dart';
 import 'package:gradely2/components/functions/user.dart';
 import 'package:gradely2/components/widgets/buttons.dart';
 import 'package:gradely2/components/widgets/dialogs.dart';
-import 'package:gradely2/screens/auth/authHome.dart';
+import 'package:gradely2/screens/auth/auth_home.dart';
 import 'package:gradely2/screens/main/subjects.dart';
 import 'package:gradely2/components/variables.dart';
 
 class MaintenanceScreen extends StatelessWidget {
+  const MaintenanceScreen({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width * 1,
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -24,7 +26,7 @@ class MaintenanceScreen extends StatelessWidget {
               flex: 12,
             ),
             SvgPicture.asset(
-              "assets/images/DumpingDoodle.svg",
+              'assets/images/DumpingDoodle.svg',
               color: Theme.of(context).primaryColorDark,
               height: 200,
             ),
@@ -32,7 +34,7 @@ class MaintenanceScreen extends StatelessWidget {
               flex: 4,
             ),
             Text(
-              "maintenance".tr(),
+              'maintenance'.tr(),
               style: bigTitle,
               textAlign: TextAlign.center,
             ),
@@ -40,17 +42,17 @@ class MaintenanceScreen extends StatelessWidget {
               flex: 1,
             ),
             Text(
-              "maintenance_description".tr(),
+              'maintenance_description'.tr(),
               textAlign: TextAlign.center,
             ),
             Text(
-              "maintenance_hurry".tr(),
+              'maintenance_hurry'.tr(),
               textAlign: TextAlign.center,
             ),
             Spacer(
               flex: 20,
             ),
-            Container(
+            SizedBox(
                 width: 300,
                 child: gradelyButton(
                     onPressed: () async {
@@ -59,8 +61,8 @@ class MaintenanceScreen extends StatelessWidget {
                         errorSuccessDialog(
                             context: context,
                             error: true,
-                            title: "sorry".tr(),
-                            text: "still_maintenance".tr());
+                            title: 'sorry'.tr(),
+                            text: 'still_maintenance'.tr());
                       } else if (await isSignedIn()) {
                         Navigator.pushReplacement(
                           context,
@@ -76,7 +78,7 @@ class MaintenanceScreen extends StatelessWidget {
                       }
                       isLoadingController.add(false);
                     },
-                    text: "try_again".tr())),
+                    text: 'try_again'.tr())),
             Spacer(
               flex: 1,
             ),
