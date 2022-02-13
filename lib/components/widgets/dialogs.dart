@@ -1,9 +1,9 @@
 //default gradely dialog
 
-import 'package:another_flushbar/flushbar.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
+import "package:another_flushbar/flushbar.dart";
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:easy_localization/easy_localization.dart";
 
 Future<Widget> gradelyDialog(
     {@required BuildContext context,
@@ -25,7 +25,7 @@ Future<Widget> gradelyDialog(
                 [
                   TextButton(
                       child: Text(
-                        'Ok',
+                        "Ok",
                         style: TextStyle(
                             color: Theme.of(context).primaryColorDark),
                       ),
@@ -46,7 +46,7 @@ errorSuccessDialog(
     titleText: Padding(
       padding: EdgeInsets.only(left: 30),
       child: Text(
-        title ?? (error ? 'error'.tr() : 'success'.tr()),
+        title ?? (error ? "error".tr() : "success".tr()),
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     ),

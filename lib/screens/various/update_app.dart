@@ -1,18 +1,19 @@
-import 'dart:io';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:gradely2/components/functions/app.dart';
-import 'package:gradely2/components/widgets/buttons.dart';
+import "dart:io";
+import "package:easy_localization/easy_localization.dart";
+import "package:flutter/material.dart";
+import "package:flutter_svg/svg.dart";
+import "package:gradely2/components/utils/app.dart";
+import "package:gradely2/components/widgets/buttons.dart";
 
-import 'package:gradely2/components/variables.dart';
+import "package:gradely2/components/variables.dart";
 
 // ignore: must_be_immutable
 class UpdateAppScreen extends StatelessWidget {
   String minAppVersion;
   String currentVersion;
 
-  UpdateAppScreen(this.minAppVersion, this.currentVersion, {Key key}) : super(key: key);
+  UpdateAppScreen(this.minAppVersion, this.currentVersion, {Key key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +28,7 @@ class UpdateAppScreen extends StatelessWidget {
               flex: 12,
             ),
             SvgPicture.asset(
-              'assets/images/DumpingDoodle.svg',
+              "assets/images/DumpingDoodle.svg",
               color: Theme.of(context).primaryColorDark,
               height: 200,
             ),
@@ -35,7 +36,7 @@ class UpdateAppScreen extends StatelessWidget {
               flex: 4,
             ),
             Text(
-              'updated_needed'.tr(),
+              "updated_needed".tr(),
               style: bigTitle,
               textAlign: TextAlign.center,
             ),
@@ -43,14 +44,14 @@ class UpdateAppScreen extends StatelessWidget {
               flex: 2,
             ),
             Text(
-              'updated_needed_description'.tr(),
+              "updated_needed_description".tr(),
               textAlign: TextAlign.center,
             ),
             Spacer(
               flex: 3,
             ),
             Text(
-              'updated_needed_version'
+              "updated_needed_version"
                   .tr(args: [currentVersion, minAppVersion]),
               textAlign: TextAlign.center,
             ),
@@ -62,16 +63,16 @@ class UpdateAppScreen extends StatelessWidget {
                 child: gradelyButton(
                     onPressed: () => launchURL((() {
                           if (Platform.isIOS || Platform.isMacOS) {
-                            return 'https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974';
+                            return "https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974";
                           } else if (Platform.isAndroid) {
-                            return 'https://play.google.com/store/apps/details?id=com.eliasschneider.gradely2';
+                            return "https://play.google.com/store/apps/details?id=com.eliasschneider.gradely2";
                           } else if (Platform.isWindows) {
-                            return 'https://www.microsoft.com/store/apps/9MW4FPN80D7D';
+                            return "https://www.microsoft.com/store/apps/9MW4FPN80D7D";
                           } else {
-                            return 'https://gradelyapp.com';
+                            return "https://gradelyapp.com";
                           }
                         }())),
-                    text: 'update_now'.tr())),
+                    text: "update_now".tr())),
             Spacer(
               flex: 1,
             ),

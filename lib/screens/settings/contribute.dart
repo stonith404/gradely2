@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/components/functions/app.dart';
-import 'package:gradely2/components/widgets/buttons.dart';
+import "package:flutter/material.dart";
+import "package:flutter_svg/svg.dart";
+import "package:easy_localization/easy_localization.dart";
+import "package:gradely2/components/utils/app.dart";
+import "package:gradely2/components/widgets/buttons.dart";
 
 class ContributeScreen extends StatelessWidget {
   const ContributeScreen({Key key}) : super(key: key);
@@ -11,7 +11,7 @@ class ContributeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('contribute'.tr()),
+        title: Text("contribute".tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -21,7 +21,7 @@ class ContributeScreen extends StatelessWidget {
               height: 20,
             ),
             SvgPicture.asset(
-              'assets/images/ZombieingDoodle.svg',
+              "assets/images/ZombieingDoodle.svg",
               width: 150,
               color: Theme.of(context).primaryColorDark,
             ),
@@ -30,7 +30,7 @@ class ContributeScreen extends StatelessWidget {
             ),
             whiteContainer(context, children: [
               Text(
-                'contribute_leading_text'.tr(),
+                "contribute_leading_text".tr(),
               ),
             ]),
             SizedBox(
@@ -38,23 +38,23 @@ class ContributeScreen extends StatelessWidget {
             ),
             whiteContainer(context, children: [
               Text(
-                'languages'.tr(),
+                "languages".tr(),
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               Text(
-                'contribute_translate_p1'.tr() + '\n',
+                "contribute_translate_p1".tr() + "\n",
               ),
               Text(
-                'contribute_translate_p2'.tr() + '\n\n',
+                "contribute_translate_p2".tr() + "\n\n",
               ),
-              Text('bug_or_improvement',
+              Text("bug_or_improvement",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16))
                   .tr(),
               Text(
-                'contribute_feature_bug_suggestion'.tr() + '\n\n',
+                "contribute_feature_bug_suggestion".tr() + "\n\n",
               ),
-              Text('or_something_else'.tr(),
+              Text("or_something_else".tr(),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             ]),
             SizedBox(
@@ -67,14 +67,14 @@ class ContributeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 gradelyButton(
-                    text: 'contact_me'.tr(),
+                    text: "contact_me".tr(),
                     onPressed: () {
-                      Navigator.pushNamed(context, 'settings/contact');
+                      Navigator.pushNamed(context, "settings/contact");
                     }),
                 gradelyButton(
-                    text: 'view_github'.tr(),
+                    text: "view_github".tr(),
                     onPressed: () {
-                      launchURL('https://github.com/generalxhd/Gradely2');
+                      launchURL("https://github.com/generalxhd/Gradely2");
                     }),
               ],
             ),

@@ -1,16 +1,15 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:appwrite/appwrite.dart';
-import 'package:appwrite/models.dart';
-import 'package:gradely2/components/functions/app.dart';
-import 'package:gradely2/components/widgets/decorations.dart';
-import 'package:gradely2/components/widgets/dialogs.dart';
-import 'package:universal_io/io.dart';
-import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/components/variables.dart';
-import 'package:gradely2/components/models.dart' as models;
-
+import "dart:async";
+import "dart:convert";
+import "package:appwrite/appwrite.dart";
+import "package:appwrite/models.dart";
+import "package:gradely2/components/utils/app.dart";
+import "package:gradely2/components/widgets/decorations.dart";
+import "package:gradely2/components/widgets/dialogs.dart";
+import "package:universal_io/io.dart";
+import "package:flutter/material.dart";
+import "package:easy_localization/easy_localization.dart";
+import "package:gradely2/components/variables.dart";
+import "package:gradely2/components/models.dart" as models;
 
 //get info of current logged in user
 Future getUserInfo() async {
@@ -18,25 +17,25 @@ Future getUserInfo() async {
     User accountR;
     if (await internetConnection()) {
       accountR = await account.get();
-      prefs.setString('accountResult', jsonEncode(accountR.toMap()));
+      prefs.setString("accountResult", jsonEncode(accountR.toMap()));
     } else {
-      var prefsRes = jsonDecode(prefs.getString('accountResult'));
+      var prefsRes = jsonDecode(prefs.getString("accountResult"));
 
       accountR = User(
-          $id: prefsRes['\$id'],
-          name: prefsRes['name'],
-          registration: prefsRes['registration'],
-          status: prefsRes['status'],
-          passwordUpdate: prefsRes['passwordUpdate'],
-          email: prefsRes['email'],
-          emailVerification: prefsRes['emailVerification'],
-          prefs: Preferences(data: prefsRes['prefs']));
+          $id: prefsRes["\$id"],
+          name: prefsRes["name"],
+          registration: prefsRes["registration"],
+          status: prefsRes["status"],
+          passwordUpdate: prefsRes["passwordUpdate"],
+          email: prefsRes["email"],
+          emailVerification: prefsRes["emailVerification"],
+          prefs: Preferences(data: prefsRes["prefs"]));
     }
 
     var dbResponse = (await api.listDocuments(
-        name: 'userDB',
+        name: "userDB",
         collection: collectionUser,
-        queries: [Query.equal('uid', accountR.$id)]))[0];
+        queries: [Query.equal("uid", accountR.$id)]))[0];
 
     user = models.User(
       accountR.$id,
@@ -46,10 +45,10 @@ Future getUserInfo() async {
       accountR.passwordUpdate,
       accountR.email,
       accountR.emailVerification,
-      dbResponse['gradeType'],
-      dbResponse['choosenSemester'],
-      dbResponse['showcase_viewed'] ?? false,
-      dbResponse['\$id'],
+      dbResponse["gradeType"],
+      dbResponse["choosenSemester"],
+      dbResponse["showcase_viewed"] ?? false,
+      dbResponse["\$id"],
     );
   }
 }
@@ -73,46 +72,47 @@ Future<bool> reAuthenticate(
 }
 
 void changeEmail(_email, context) async {
+  final TextEditingController _passwordController = TextEditingController();
   showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15))),
-          title: Text('action_required'.tr()),
+          title: Text("action_required".tr()),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('re_enter_password_save_changes'.tr()),
+              Text("re_enter_password_save_changes".tr()),
               SizedBox(
                 height: 20,
               ),
               TextField(
-                  controller: passwordController,
+                  controller: _passwordController,
                   textAlign: TextAlign.left,
                   obscureText: true,
-                  decoration: inputDec(context, label: 'your_password'.tr())),
+                  decoration: inputDec(context, label: "your_password".tr())),
             ],
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('done'.tr()),
+              child: Text("done".tr()),
               onPressed: () async {
                 try {
                   await account.updateEmail(
                     email: _email,
-                    password: passwordController.text,
+                    password: _passwordController.text,
                   );
                   Navigator.of(context).pop();
                   errorSuccessDialog(
                       context: context,
                       error: false,
-                      text: 'email_updated'.tr());
+                      text: "email_updated".tr());
 
                   Future.delayed(Duration(seconds: 2));
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    'subjects',
+                    "subjects",
                     (Route<dynamic> route) => false,
                   );
                 } catch (e) {
@@ -121,7 +121,6 @@ void changeEmail(_email, context) async {
                   errorSuccessDialog(
                       context: context, error: true, text: e.message);
                 }
-                passwordController.text = '';
               },
             ),
           ],
@@ -130,12 +129,12 @@ void changeEmail(_email, context) async {
 }
 
 Future signOut(context) async {
-  await account.deleteSession(sessionId: 'current');
-  prefs.setBool('signedIn', false);
+  await account.deleteSession(sessionId: "current");
+  prefs.setBool("signedIn", false);
   clearVariables();
   Navigator.pushNamedAndRemoveUntil(
     context,
-    'auth/home',
+    "auth/home",
     (Route<dynamic> route) => false,
   );
 }
@@ -144,13 +143,13 @@ Future<bool> isSignedIn() async {
   if (await internetConnection()) {
     try {
       await account.get();
-      prefs.setBool('signedIn', true);
+      prefs.setBool("signedIn", true);
       return true;
     } catch (_) {
-      prefs.setBool('signedIn', false);
+      prefs.setBool("signedIn", false);
       return false;
     }
-  } else if (prefs.getBool('signedIn') ?? false) {
+  } else if (prefs.getBool("signedIn") ?? false) {
     return true;
   } else {
     return false;
@@ -160,14 +159,14 @@ Future<bool> isSignedIn() async {
 String getUserAgent() {
   String platform;
   if (Platform.isIOS) {
-    platform = 'iPhone OS';
+    platform = "iPhone OS";
   } else if (Platform.isAndroid) {
-    platform = 'Android';
+    platform = "Android";
   } else if (Platform.isMacOS) {
-    platform = 'Mac OS X';
+    platform = "Mac OS X";
   } else if (Platform.isWindows) {
-    platform = 'Windows';
+    platform = "Windows";
   }
 
-  return 'Mozilla/5.0 ($platform, Firefox)';
+  return "Mozilla/5.0 ($platform, Firefox)";
 }

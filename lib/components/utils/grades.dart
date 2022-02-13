@@ -1,5 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/services.dart';
+import "package:easy_localization/easy_localization.dart";
 
 double getPluspoints(num value) {
   double plusPoints;
@@ -51,13 +50,13 @@ String formatDateForDB(date) {
       }
     }())}";
   } catch (_) {
-    return '${date.substring(6, 10)}.${date.substring(3, 5)}.${date.substring(0, 2)}';
+    return "${date.substring(6, 10)}.${date.substring(3, 5)}.${date.substring(0, 2)}";
   }
 }
 
 String formatDateForClient(date) {
-  if (date == '') {
-    return '-';
+  if (date == "") {
+    return "-";
   } else {
     try {
       var _formatted = DateTime.parse(date.toString());
@@ -75,7 +74,7 @@ String formatDateForClient(date) {
         }
       }())}.${_formatted.year}";
     } catch (_) {
-      return '${date.substring(8, 10)}.${date.substring(5, 7)}.${date.substring(0, 4)}';
+      return "${date.substring(8, 10)}.${date.substring(5, 7)}.${date.substring(0, 4)}";
     }
   }
 }
@@ -90,10 +89,4 @@ String roundGrade(double value, double x) {
   } else {
     return value.toStringAsFixed(2);
   }
-}
-
-
-FilteringTextInputFormatter emojiRegex() {
-  return FilteringTextInputFormatter.deny(RegExp(
-      r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'));
 }

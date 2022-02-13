@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely2/components/functions/app.dart';
-import 'package:gradely2/components/functions/user.dart';
-import 'package:gradely2/components/widgets/buttons.dart';
-import 'package:gradely2/components/widgets/decorations.dart';
-import 'package:gradely2/components/widgets/dialogs.dart';
-import 'package:gradely2/components/variables.dart';
-import 'package:easy_localization/easy_localization.dart';
+import "package:flutter/material.dart";
+import "package:flutter_icons/flutter_icons.dart";
+import "package:gradely2/components/utils/app.dart";
+import "package:gradely2/components/utils/user.dart";
+import "package:gradely2/components/widgets/buttons.dart";
+import "package:gradely2/components/widgets/decorations.dart";
+import "package:gradely2/components/widgets/dialogs.dart";
+import "package:gradely2/components/variables.dart";
+import "package:easy_localization/easy_localization.dart";
 
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({Key key}) : super(key: key);
@@ -16,13 +16,18 @@ class UserInfoScreen extends StatefulWidget {
 }
 
 class _UserInfoScreenState extends State<UserInfoScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordPlaceholderController =
+      TextEditingController();
+
   @override
   void initState() {
     super.initState();
-
-    changeEmailController.text = user.email;
-    changeDisplayName.text = user.name ?? '';
-    passwordPlaceholder.text = '123456789';
+    _nameController.text = user.email;
+    _emailController.text = user.name ?? "";
+    _passwordPlaceholderController.text = "123456789";
   }
 
   @override
@@ -38,7 +43,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               ),
               onPressed: () => signOut(context))
         ],
-        title: Text('account'.tr()),
+        title: Text("account".tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -49,23 +54,23 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               children: [
                 Expanded(
                   child: TextField(
-                      controller: changeDisplayName,
+                      controller: _nameController,
                       textAlign: TextAlign.left,
-                      decoration: inputDec(context, label: 'your_name'.tr())),
+                      decoration: inputDec(context, label: "your_name".tr())),
                 ),
                 IconButton(
                   onPressed: () async {
                     try {
-                      await account.updateName(name: changeDisplayName.text);
+                      await account.updateName(name: _nameController.text);
                       errorSuccessDialog(
                           context: context,
                           error: false,
-                          text: 'name_updated'.tr());
+                          text: "name_updated".tr());
                     } catch (e) {
                       errorSuccessDialog(
                           context: context,
                           error: true,
-                          text: 'error_unknown'.tr());
+                          text: "error_unknown".tr());
                     }
                   },
                   icon: Icon(FontAwesome5Solid.save),
@@ -81,19 +86,19 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 Expanded(
                   child: TextField(
                       keyboardType: TextInputType.emailAddress,
-                      controller: changeEmailController,
+                      controller: _emailController,
                       textAlign: TextAlign.left,
-                      decoration: inputDec(context, label: 'email'.tr())),
+                      decoration: inputDec(context, label: "email".tr())),
                 ),
                 IconButton(
                   onPressed: () async {
                     try {
-                      changeEmail(changeEmailController.text, context);
+                      changeEmail(_emailController.text, context);
                     } catch (e) {
                       errorSuccessDialog(
                           context: context,
                           error: true,
-                          text: 'error_unknown'.tr());
+                          text: "error_unknown".tr());
                     }
                   },
                   icon: Icon(FontAwesome5Solid.save),
@@ -113,11 +118,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         shape: RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(15))),
-                        title: Text('change_password'.tr()),
+                        title: Text("change_password".tr()),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text('change_password_text'.tr()),
+                            Text("change_password_text".tr()),
                             SizedBox(height: 20),
                             gradelyButton(
                                 onPressed: () {
@@ -125,15 +130,15 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                   Future result = account.createRecovery(
                                     email: user.email,
                                     url:
-                                        'https://gradelyapp.com/user/changePassword',
+                                        "https://gradelyapp.com/user/changePassword",
                                   );
                                   result.then((response) {
                                     errorSuccessDialog(
                                         context: context,
                                         error: false,
                                         text:
-                                            'password_reset_success_text'.tr(),
-                                        title: 'sent'.tr());
+                                            "password_reset_success_text".tr(),
+                                        title: "sent".tr());
                                   }).catchError((error) {
                                     errorSuccessDialog(
                                         context: context,
@@ -144,7 +149,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                   Navigator.of(context).pop();
                                   isLoadingController.add(false);
                                 },
-                                text: 'send'.tr())
+                                text: "send".tr())
                           ],
                         ),
                       );
@@ -153,9 +158,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               child: TextField(
                   enabled: false,
                   obscureText: true,
-                  controller: passwordPlaceholder,
+                  controller: _passwordPlaceholderController,
                   textAlign: TextAlign.left,
-                  decoration: inputDec(context, label: 'password'.tr())),
+                  decoration: inputDec(context, label: "password".tr())),
             ),
             SizedBox(
               height: 20,
@@ -172,45 +177,45 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(15))),
-                            title: Text('delete_account'.tr()),
+                            title: Text("delete_account".tr()),
                             content: SizedBox(
                               height: 150,
                               child: Column(
                                 children: [
-                                  Text('delete_account_text'.tr()),
+                                  Text("delete_account_text".tr()),
                                   SizedBox(height: 30),
                                   TextField(
-                                      controller: passwordController,
+                                      controller: _passwordController,
                                       textAlign: TextAlign.left,
                                       obscureText: true,
                                       decoration: inputDec(context,
-                                          label: 'your_password'.tr())),
+                                          label: "your_password".tr())),
                                 ],
                               ),
                             ),
                             actions: <Widget>[
                               TextButton(
-                                  child: Text('delete'.tr()),
+                                  child: Text("delete".tr()),
                                   onPressed: () async {
                                     Navigator.of(contextP).pop();
                                     if (await reAuthenticate(
                                         email: user.email,
-                                        password: passwordController.text)) {
+                                        password: _passwordController.text)) {
                                       await functions.createExecution(
-                                          functionId: 'fcn_delete_account');
+                                          functionId: "fcn_delete_account");
                                       clearVariables();
-                                      passwordController.text = '';
+                                      _passwordController.text = "";
                                       Navigator.pushNamedAndRemoveUntil(
                                         context,
-                                        'auth/home',
+                                        "auth/home",
                                         (Route<dynamic> route) => false,
                                       );
-                                      prefs.setBool('signedIn', false);
+                                      prefs.setBool("signedIn", false);
                                     } else {
                                       errorSuccessDialog(
                                           context: context,
                                           error: true,
-                                          text: 'error_wrong_password'.tr());
+                                          text: "error_wrong_password".tr());
                                     }
                                   }),
                             ],
@@ -218,7 +223,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         });
                   },
                   child: Text(
-                    'delete_account'.tr(),
+                    "delete_account".tr(),
                     style: TextStyle(color: Colors.red),
                   )),
             )

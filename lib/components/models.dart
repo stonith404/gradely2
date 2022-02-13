@@ -38,7 +38,6 @@ class User {
   bool showcaseViewed;
   String dbID;
 
-
   User(
     this.id,
     this.name,

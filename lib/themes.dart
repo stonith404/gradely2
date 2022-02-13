@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // -----------
 //
@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 final ThemeData lightTheme = ThemeData(
     textTheme: TextTheme(
         headline1: TextStyle(
-            fontFamily: 'PlayfairDisplay',
+            fontFamily: "PlayfairDisplay",
             fontWeight: FontWeight.w900,
             fontSize: 28,
             color: Colors.white)),
@@ -36,7 +36,7 @@ final ThemeData lightTheme = ThemeData(
         color: Colors.black,
         fontSize: 20,
         fontWeight: FontWeight.w900,
-        fontFamily: 'PlayfairDisplay',
+        fontFamily: "PlayfairDisplay",
       ),
       centerTitle: true,
       iconTheme: IconThemeData(color: Colors.black),
@@ -59,7 +59,7 @@ final ThemeData lightTheme = ThemeData(
 final ThemeData darkTheme = lightTheme.copyWith(
     textTheme: TextTheme(
         headline1: TextStyle(
-            fontFamily: 'PlayfairDisplay',
+            fontFamily: "PlayfairDisplay",
             fontWeight: FontWeight.w900,
             fontSize: 28,
             color: Colors.black)),
@@ -84,7 +84,7 @@ final ThemeData darkTheme = lightTheme.copyWith(
         color: Colors.white,
         fontSize: 20,
         fontWeight: FontWeight.w900,
-        fontFamily: 'PlayfairDisplay',
+        fontFamily: "PlayfairDisplay",
       ),
       centerTitle: true,
       iconTheme: IconThemeData(color: Colors.white),

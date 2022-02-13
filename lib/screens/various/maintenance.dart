@@ -1,13 +1,13 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:gradely2/components/functions/app.dart';
-import 'package:gradely2/components/functions/user.dart';
-import 'package:gradely2/components/widgets/buttons.dart';
-import 'package:gradely2/components/widgets/dialogs.dart';
-import 'package:gradely2/screens/auth/auth_home.dart';
-import 'package:gradely2/screens/main/subjects.dart';
-import 'package:gradely2/components/variables.dart';
+import "package:easy_localization/easy_localization.dart";
+import "package:flutter/material.dart";
+import "package:flutter_svg/svg.dart";
+import "package:gradely2/components/utils/app.dart";
+import "package:gradely2/components/utils/user.dart";
+import "package:gradely2/components/widgets/buttons.dart";
+import "package:gradely2/components/widgets/dialogs.dart";
+import "package:gradely2/screens/auth/auth_home.dart";
+import "package:gradely2/screens/main/subjects/subjects.dart";
+import "package:gradely2/components/variables.dart";
 
 class MaintenanceScreen extends StatelessWidget {
   const MaintenanceScreen({Key key}) : super(key: key);
@@ -26,7 +26,7 @@ class MaintenanceScreen extends StatelessWidget {
               flex: 12,
             ),
             SvgPicture.asset(
-              'assets/images/DumpingDoodle.svg',
+              "assets/images/DumpingDoodle.svg",
               color: Theme.of(context).primaryColorDark,
               height: 200,
             ),
@@ -34,7 +34,7 @@ class MaintenanceScreen extends StatelessWidget {
               flex: 4,
             ),
             Text(
-              'maintenance'.tr(),
+              "maintenance".tr(),
               style: bigTitle,
               textAlign: TextAlign.center,
             ),
@@ -42,11 +42,11 @@ class MaintenanceScreen extends StatelessWidget {
               flex: 1,
             ),
             Text(
-              'maintenance_description'.tr(),
+              "maintenance_description".tr(),
               textAlign: TextAlign.center,
             ),
             Text(
-              'maintenance_hurry'.tr(),
+              "maintenance_hurry".tr(),
               textAlign: TextAlign.center,
             ),
             Spacer(
@@ -61,8 +61,8 @@ class MaintenanceScreen extends StatelessWidget {
                         errorSuccessDialog(
                             context: context,
                             error: true,
-                            title: 'sorry'.tr(),
-                            text: 'still_maintenance'.tr());
+                            title: "sorry".tr(),
+                            text: "still_maintenance".tr());
                       } else if (await isSignedIn()) {
                         Navigator.pushReplacement(
                           context,
@@ -78,7 +78,7 @@ class MaintenanceScreen extends StatelessWidget {
                       }
                       isLoadingController.add(false);
                     },
-                    text: 'try_again'.tr())),
+                    text: "try_again".tr())),
             Spacer(
               flex: 1,
             ),

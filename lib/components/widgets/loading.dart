@@ -1,12 +1,12 @@
-import 'dart:async';
-import 'package:flutter/cupertino.dart';
-import 'package:gradely2/components/widgets/decorations.dart';
-import 'package:universal_io/io.dart';
-import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:gradely2/screens/settings/settings.dart';
-import 'dart:math' as math;
+import "dart:async";
+import "package:flutter/cupertino.dart";
+import "package:gradely2/components/widgets/decorations.dart";
+import "package:universal_io/io.dart";
+import "package:flutter/material.dart";
+import "package:easy_localization/easy_localization.dart";
+import "package:flutter_svg/svg.dart";
+import "package:gradely2/screens/settings/settings.dart";
+import "dart:math" as math;
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key key}) : super(key: key);
@@ -64,7 +64,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                       backgroundColor:
                           Theme.of(context).scaffoldBackgroundColor,
                       elevation: 0,
-                      title: SvgPicture.asset('assets/images/logo.svg',
+                      title: SvgPicture.asset("assets/images/logo.svg",
                           color: Theme.of(context).primaryColorDark,
                           height: 30),
                       leading: Transform(
@@ -257,7 +257,7 @@ class _GradelyLoadingIndicatorState extends State<GradelyLoadingIndicator> {
               ),
               show
                   ? Text(
-                      'no_network_offline_loading'.tr(),
+                      "no_network_offline_loading".tr(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Theme.of(context).primaryColorDark,

@@ -1,38 +1,39 @@
-import 'package:appwrite/appwrite.dart' as appwrite;
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:gradely2/screens/auth/auth_home.dart';
-import 'package:gradely2/screens/auth/intro_screen.dart';
-import 'package:gradely2/screens/auth/resetPassword.dart';
-import 'package:gradely2/screens/auth/signIn.dart';
-import 'package:gradely2/screens/main/grades/grades.dart';
-import 'package:gradely2/screens/main/subjects.dart';
-import 'package:gradely2/screens/main/semesters.dart';
-import 'package:gradely2/screens/settings/appInfo.dart';
-import 'package:gradely2/screens/settings/contact.dart';
-import 'package:gradely2/screens/settings/contribute.dart';
-import 'package:gradely2/screens/settings/support.dart';
-import 'package:gradely2/screens/settings/userInfo.dart';
-import 'package:gradely2/components/variables.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/components/functions/api.dart';
-import 'package:gradely2/screens/various/maintenance.dart';
-import 'package:gradely2/themes.dart';
-import 'package:gradely2/screens/various/update_app.dart';
-import 'package:plausible_analytics/plausible_analytics.dart';
-import 'package:showcaseview/showcaseview.dart';
-import 'components/functions/app.dart';
-import 'components/functions/user.dart';
+import "package:appwrite/appwrite.dart" as appwrite;
+import "package:flutter/foundation.dart";
+import "package:flutter/material.dart";
+import "package:gradely2/screens/auth/auth_home.dart";
+import "package:gradely2/screens/auth/intro_screen.dart";
+import "package:gradely2/screens/auth/resetPassword.dart";
+import "package:gradely2/screens/auth/signIn.dart";
+import "package:gradely2/screens/main/grades/grades.dart";
+import "package:gradely2/screens/main/subjects/subjects.dart";
+import "package:gradely2/screens/main/semesters/semesters.dart";
+import "package:gradely2/screens/settings/appInfo.dart";
+import "package:gradely2/screens/settings/contact.dart";
+import "package:gradely2/screens/settings/contribute.dart";
+import "package:gradely2/screens/settings/support.dart";
+import "package:gradely2/screens/settings/user_info.dart";
+import "package:gradely2/components/variables.dart";
+import "package:easy_localization/easy_localization.dart";
+import "package:gradely2/components/utils/api.dart";
+import "package:gradely2/screens/various/maintenance.dart";
+import "package:gradely2/themes.dart";
+import "package:gradely2/screens/various/update_app.dart";
+import "package:plausible_analytics/plausible_analytics.dart";
+import "package:showcaseview/showcaseview.dart";
+import "components/utils/app.dart";
+import "components/utils/user.dart";
 
+final navigatorKey = GlobalKey<NavigatorState>();
 bool _isSignedIn = false;
 bool _isMaintenance;
 var _appVersionCheck;
 final plausible =
-    Plausible('https://analytics.eliasschneider.com', 'app.gradelyapp.com');
+    Plausible("https://analytics.eliasschneider.com", "app.gradelyapp.com");
 
 Future _executeJobs() async {
   _appVersionCheck = (await minAppVersion());
-  if (_appVersionCheck['isUpToDate']) {
+  if (_appVersionCheck["isUpToDate"]) {
     await getUserInfo();
     _isSignedIn = await isSignedIn();
     _isMaintenance = await isMaintenance();
@@ -50,33 +51,33 @@ void main() async {
   locale = appwrite.Locale(client);
   storage = appwrite.Storage(client);
   functions = appwrite.Functions(client);
-  client.setEndpoint('https://gradelyapp.com/v1').setProject('60f40cb212896');
+  client.setEndpoint("https://gradelyapp.com/v1").setProject("60f40cb212896");
 
   await _executeJobs();
   runApp(EasyLocalization(
-      supportedLocales: const [Locale('de'), Locale('en'), Locale('fr')],
+      supportedLocales: const [Locale("de"), Locale("en"), Locale("fr")],
       useOnlyLangCode: true,
-      path: 'assets/translations',
-      fallbackLocale: Locale('en'),
+      path: "assets/translations",
+      fallbackLocale: Locale("en"),
       saveLocale: true,
       child: MaterialWrapper()));
 }
 
 var routes = {
-  '/': (context) => HomeWrapper(),
-  'auth/home': (context) => AuthHomeScreen(),
-  'auth/signUp': (context) => Intro1(),
-  'auth/resetPassword': (context) => ResetPasswordScreen(),
-  'auth/signIn': (context) => SignInScreen(),
-  'semesters': (context) => SemesterScreen(),
-  'subjects': (context) => SubjectScreen(),
-  'grades': (context) => GradesScreen(),
-  'settings/supportApp': (context) => SupportAppScreen(),
-  'settings/userInfo': (context) => UserInfoScreen(),
-  'settings/contribute': (context) => ContributeScreen(),
-  'settings/appInfo': (context) => AppInfoScreen(),
-  'settings/contact': (context) => ContactScreen(),
-  'maintenance': (context) => MaintenanceScreen(),
+  "/": (context) => HomeWrapper(),
+  "auth/home": (context) => AuthHomeScreen(),
+  "auth/signUp": (context) => Intro1(),
+  "auth/resetPassword": (context) => ResetPasswordScreen(),
+  "auth/signIn": (context) => SignInScreen(),
+  "semesters": (context) => SemesterScreen(),
+  "subjects": (context) => SubjectScreen(),
+  "grades": (context) => GradesScreen(),
+  "settings/supportApp": (context) => SupportAppScreen(),
+  "settings/userInfo": (context) => UserInfoScreen(),
+  "settings/contribute": (context) => ContributeScreen(),
+  "settings/appInfo": (context) => AppInfoScreen(),
+  "settings/contact": (context) => ContactScreen(),
+  "maintenance": (context) => MaintenanceScreen(),
 };
 
 class MaterialWrapper extends StatelessWidget {
@@ -93,12 +94,13 @@ class MaterialWrapper extends StatelessWidget {
           api.updateDocument(context,
               collectionId: collectionUser,
               documentId: user.dbID,
-              data: {'showcase_viewed': true});
+              data: {"showcase_viewed": true});
         },
         builder: Builder(
           builder: (context) => MaterialApp(
-              title: 'Gradely 2',
-              initialRoute: '/',
+              title: "Gradely 2",
+              initialRoute: "/",
+              navigatorKey: navigatorKey,
               onGenerateRoute: (settings) {
                 plausible.enabled = kDebugMode || kIsWeb ? false : true;
                 plausible.userAgent = getUserAgent();
@@ -137,9 +139,9 @@ class _State extends State<HomeWrapper> {
     internetConnection(context: context);
     client.setLocale(Localizations.localeOf(context).toString());
     _executeJobs();
-    if (!_appVersionCheck['isUpToDate']) {
-      return UpdateAppScreen(_appVersionCheck['minAppVersion'],
-          _appVersionCheck['currentVersion']);
+    if (!_appVersionCheck["isUpToDate"]) {
+      return UpdateAppScreen(_appVersionCheck["minAppVersion"],
+          _appVersionCheck["currentVersion"]);
     } else if (_isMaintenance) {
       return MaintenanceScreen();
     } else {
