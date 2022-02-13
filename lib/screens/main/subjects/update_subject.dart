@@ -6,11 +6,11 @@ import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 
 class UpdateSubject extends StatelessWidget {
-  final Lesson lesson;
+  final Subject subject;
   final TextEditingController _nameController = TextEditingController();
 
-  UpdateSubject({Key key, this.lesson}) : super(key: key) {
-    _nameController.text = lesson.name;
+  UpdateSubject({Key key, this.subject}) : super(key: key) {
+    _nameController.text = subject.name;
   }
 
   @override
@@ -31,7 +31,7 @@ class UpdateSubject extends StatelessWidget {
               TextField(
                   controller: _nameController,
                   textAlign: TextAlign.left,
-                  decoration: inputDec(context, label: "lesson_name".tr())),
+                  decoration: inputDec(context, label: "subject_name".tr())),
               SizedBox(
                 height: 40,
               ),
@@ -39,7 +39,7 @@ class UpdateSubject extends StatelessWidget {
                 text: "save".tr(),
                 onPressed: () async {
                   SubjectController(context)
-                      .update(id: lesson.id, name: _nameController.text);
+                      .update(id: subject.id, name: _nameController.text);
                   Navigator.of(context).pop();
                 },
               ),

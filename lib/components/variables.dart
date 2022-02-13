@@ -27,7 +27,7 @@ GradelyApi api;
 //final
 const collectionUser = "60f40d07accb6";
 const collectionSemester = "60f40d1b66424";
-const collectionLessons = "60f40d0ed5da4";
+const collectionSubjects = "60f40d0ed5da4";
 const collectionGrades = "60f71651520e5";
 
 //vars for customizing

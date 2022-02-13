@@ -31,7 +31,7 @@ double _averageOfSemester = 0 / -0;
 double _averageOfSemesterPP = 0 / -0;
 
 String switchedGradeType = user.gradeType;
-Lesson selectedSubject;
+Subject selectedSubject;
 
 class SubjectScreen extends StatefulWidget {
   const SubjectScreen({Key key}) : super(key: key);
@@ -46,7 +46,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   final SemesterController semesterController =
       SemesterController(navigatorKey.currentContext);
 
-  List<Lesson> _lessonList = [];
+  List<Subject> _subjectList = [];
   Semester currentSemester;
   double _initialSemesterRound;
 
@@ -55,36 +55,38 @@ class _SubjectScreenState extends State<SubjectScreen> {
   final GlobalKey _showCase2 = GlobalKey();
   final GlobalKey _showCase3 = GlobalKey();
 
-  Future<void> getLessons({bool initalFetch = false}) async {
+  Future<void> getSubjects({bool initalFetch = false}) async {
     if (initalFetch) setState(() => isLoading = true);
-    _lessonList = await subjectController.list(getFromCache: initalFetch);
+    _subjectList = await subjectController.list(getFromCache: initalFetch);
     try {
       currentSemester = await semesterController.getById(user.choosenSemester);
     } catch (_) {
-      // If semester doesn't exist
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        "semesters",
-        (Route<dynamic> route) => false,
-      );
+      if (await internetConnection()) {
+        // If semester doesn't exist
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          "semesters",
+          (Route<dynamic> route) => false,
+        );
+      }
     }
     getSemesterAverage();
     setState(() {
-      _lessonList;
+      _subjectList;
       currentSemester;
     });
     setState(() => isLoading = false);
   }
 
   void getSemesterAverage() {
-    if (_lessonList.isEmpty) {
+    if (_subjectList.isEmpty) {
       _averageOfSemesterPP = -99;
       _averageOfSemester = -99;
     } else {
       double _sum = 0;
       double _ppSum = 0;
       double _count = 0;
-      for (var e in _lessonList) {
+      for (var e in _subjectList) {
         if (e.average != -99) {
           _sum += e.average;
           _ppSum += getPluspoints(e.average);
@@ -98,11 +100,11 @@ class _SubjectScreenState extends State<SubjectScreen> {
     }
   }
 
-  Future<Widget> deleteLesson(index) {
+  Future<Widget> deleteSubject(index) {
     return gradelyDialog(
       context: context,
       title: "warning".tr(),
-      text: "delete_confirmation".tr(args: [_lessonList[index].name]),
+      text: "delete_confirmation".tr(args: [_subjectList[index].name]),
       actions: <Widget>[
         CupertinoButton(
           child: Text(
@@ -119,9 +121,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
             style: TextStyle(color: Colors.red),
           ),
           onPressed: () async {
-            subjectController.delete(_lessonList[index].id);
-            setState(() => _lessonList
-                .removeWhere((item) => item.id == _lessonList[index].id));
+            subjectController.delete(_subjectList[index].id);
+            setState(() => _subjectList
+                .removeWhere((item) => item.id == _subjectList[index].id));
             getSemesterAverage();
             Navigator.of(context).pop();
           },
@@ -154,14 +156,25 @@ class _SubjectScreenState extends State<SubjectScreen> {
     }
   }
 
+  Future<void> noInternetWarning() async {
+    if (!(await internetConnection())) {
+      errorSuccessDialog(
+          context: context,
+          error: true,
+          text: "no_network".tr(),
+          title: "network_needed_title".tr());
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    getLessons(
+    getSubjects(
         initalFetch: true); // Preload from cache to decrease loading time.
-    getLessons();
+    getSubjects();
     getUserInfo();
     SchedulerBinding.instance.addPostFrameCallback((_) {
+      noInternetWarning();
       webNotRecommendedPopUP();
       // Show intro if didn't show before.
       if (!(user.showcaseViewed ?? false)) {
@@ -206,7 +219,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                   color: Theme.of(context).primaryColorDark),
                               onPressed: () async {
                                 await settingsScreen(context);
-                                getLessons();
+                                getSubjects();
                               }),
                         ),
                         actions: [
@@ -222,7 +235,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                     color: Theme.of(context).primaryColorDark),
                                 onPressed: () async {
                                   Navigator.pushNamed(context, "semesters")
-                                      .then((value) => getLessons());
+                                      .then((value) => getSubjects());
                                 }),
                           ),
                         ],
@@ -361,7 +374,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                         GradelyPageRoute(
                                             builder: (context) =>
                                                 CreateSubject()),
-                                      ).then((value) => getLessons());
+                                      ).then((value) => getSubjects());
                                     }),
                               ),
                             ],
@@ -377,7 +390,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                         shrinkWrap: true,
                         primary: false,
                         physics: NeverScrollableScrollPhysics(),
-                        itemCount: _lessonList.length,
+                        itemCount: _subjectList.length,
                         itemBuilder: (BuildContext context, int index) {
                           return index == 0 && !user.showcaseViewed
                               ? Showcase(
@@ -422,8 +435,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          UpdateSubject(lesson: _lessonList[index])),
-                ).then((_) => getLessons());
+                          UpdateSubject(subject: _subjectList[index])),
+                ).then((_) => getSubjects());
               },
             ),
           ),
@@ -438,19 +451,19 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   FontAwesome5.trash_alt,
                   color: Theme.of(context).primaryColorLight,
                 ),
-                onTap: () => deleteLesson(index)),
+                onTap: () => deleteSubject(index)),
           ),
         ],
         child: Container(
-          decoration:
-              listContainerDecoration(context, index: index, list: _lessonList),
+          decoration: listContainerDecoration(context,
+              index: index, list: _subjectList),
           child: Column(
             children: [
               ContextMenuRegion(
                 onItemSelected: (item) => {item.onSelected()},
                 menuItems: [
                   MenuItem(
-                    onSelected: () => deleteLesson(index),
+                    onSelected: () => deleteSubject(index),
                     title: "delete".tr(),
                   ),
                   MenuItem(
@@ -458,48 +471,26 @@ class _SubjectScreenState extends State<SubjectScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => UpdateSubject(
-                                      lesson: _lessonList[index],
+                                      subject: _subjectList[index],
                                     )),
-                          ).then((_) => getLessons()),
+                          ).then((_) => getSubjects()),
                       title: "edit".tr()),
                 ],
                 child: ListTile(
-                  title: Row(
-                    children: [
-                      Text(_lessonList[index].emoji + "  ",
-                          style: TextStyle(
-                            shadows: [
-                              Shadow(
-                                blurRadius: 5.0,
-                                color:
-                                    MediaQuery.of(context).platformBrightness ==
-                                            Brightness.dark
-                                        ? Colors.grey[900]
-                                        : Colors.grey[350],
-                                offset: Offset(2.0, 2.0),
-                              ),
-                            ],
-                          )),
-                      Flexible(
-                        child: FittedBox(
-                          child: Text(
-                            _lessonList[index].name,
-                          ),
-                        ),
-                      ),
-                    ],
+                  title: Text(
+                    _subjectList[index].name,
                   ),
                   trailing: Text(
                     (() {
-                      if (_lessonList[index].average == -99) {
+                      if (_subjectList[index].average == -99) {
                         return "-";
                       } else if (user.gradeType == "pp" &&
                           switchedGradeType == "pp") {
-                        return getPluspoints(_lessonList[index].average)
+                        return getPluspoints(_subjectList[index].average)
                             .toString();
                       } else {
                         return roundGrade(
-                            _lessonList[index].average, currentSemester.round);
+                            _subjectList[index].average, currentSemester.round);
                       }
                     })(),
                   ),
@@ -507,9 +498,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
                     if (!user.showcaseViewed) {
                       ShowCaseWidget.of(context).completed(_showCase3);
                     }
-                    selectedSubject = _lessonList[index];
+                    selectedSubject = _subjectList[index];
                     Navigator.pushNamed(context, "grades").then((value) {
-                      getLessons();
+                      getSubjects();
                     });
                   },
                 ),

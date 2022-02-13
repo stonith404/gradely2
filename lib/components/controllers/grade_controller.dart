@@ -7,6 +7,8 @@ import "package:gradely2/components/variables.dart";
 class GradeController {
   final BuildContext context;
   GradeController(this.context);
+
+  /// Get a list of `Grade` object where the `parentId` is `subjectId`.
   Future list(String subjectId) async {
     List<Grade> res = (await api.listDocuments(
       orderField: "date",
@@ -28,6 +30,7 @@ class GradeController {
     return res;
   }
 
+  /// Create a new grade.
   Future<void> create(
       {String subjectId,
       @required String name,
@@ -37,6 +40,7 @@ class GradeController {
     isLoadingController.add(true);
 
     await api.createDocument(
+      context,
       collectionId: collectionGrades,
       data: {
         "parentId": subjectId,
@@ -61,6 +65,7 @@ class GradeController {
     isLoadingController.add(false);
   }
 
+  /// Update an existing grade.
   Future<void> update(
       {String id,
       @required String name,
@@ -92,6 +97,7 @@ class GradeController {
     isLoadingController.add(false);
   }
 
+  /// Delete a grade.
   Future<void> delete(String id) async {
     await api.deleteDocument(context,
         collectionId: collectionGrades, documentId: id);

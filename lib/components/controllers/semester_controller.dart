@@ -11,14 +11,13 @@ class SemesterController {
 
   /// Get a list of `Semester` object that the user owns.
   list() async {
-    List<Semester> semesterList = (await api.listDocuments(
+    List<Semester> res = (await api.listDocuments(
             collection: collectionSemester,
             name: "semesterList",
             queries: [Query.equal("parentId", user.dbID)]))
         .map((r) => Semester(r["\$id"], r["name"], r["round"]))
         .toList();
-
-    return semesterList;
+    return res;
   }
 
   /// Get a semester by id.
@@ -39,7 +38,7 @@ class SemesterController {
       @required double round}) async {
     isLoadingController.add(true);
     await getUserInfo();
-    await api.createDocument(
+    await api.createDocument(context,
         collectionId: collectionSemester,
         data: {"parentId": userDbId, "name": name, "round": round});
     isLoadingController.add(false);
@@ -62,31 +61,30 @@ class SemesterController {
         collectionId: collectionSemester, documentId: id);
   }
 
-  /// Create a `Semester` and copy the `Lessons` to it.
+  /// Create a `Semester` and copy the `Subjects` to it.
   Future<void> duplicateSemester(Semester semester) async {
     isLoadingController.add(true);
-    List<Lesson> lessonsList = (await api.listDocuments(
-            collection: collectionLessons,
-            name: "lessonList_${semester.id}",
+    List<Subject> subjectsList = (await api.listDocuments(
+            collection: collectionSubjects,
+            name: "subjectList_${semester.id}",
             queries: [Query.equal("parentId", semester.id)]))
-        .map((r) => Lesson(r["\$id"], r["name"], r["emoji"],
-            double.parse(r["average"].toString())))
+        .map((r) => Subject(
+            r["\$id"], r["name"], double.parse(r["average"].toString())))
         .toList();
 
-    String newSemester =
-        (await api.createDocument(collectionId: collectionSemester, data: {
+    String newSemester = (await api
+            .createDocument(context, collectionId: collectionSemester, data: {
       "parentId": user.dbID,
       "name": semester.name + " - ${'copy'.tr()}",
       "round": semester.round
     }))
-            .$id;
+        .$id;
 
-    for (var i = 0; i < lessonsList.length; i++) {
-      api.createDocument(collectionId: collectionLessons, data: {
+    for (var i = 0; i < subjectsList.length; i++) {
+      api.createDocument(context, collectionId: collectionSubjects, data: {
         "parentId": newSemester,
-        "name": lessonsList[i].name,
+        "name": subjectsList[i].name,
         "average": -99,
-        "emoji": lessonsList[i].emoji
       });
     }
     isLoadingController.add(false);

@@ -13,7 +13,7 @@ import "package:url_launcher/url_launcher.dart";
 import "package:easy_localization/easy_localization.dart";
 import "package:http/http.dart" as http;
 
-//checks if client is connected to the server. The function stores the value for 5 seconds
+//checks if client is connected to the server. The function stores the value for 10 seconds
 // to reduce requests.
 Future internetConnection({BuildContext context}) async {
   var _cache = jsonDecode(prefs.getString("internetConnection_cache") ??
@@ -26,21 +26,19 @@ Future internetConnection({BuildContext context}) async {
 
   if (kIsWeb) {
     return true;
-  } else if (timestamp - _cache["time"] <= 5) {
+  } else if (timestamp - _cache["time"] <= 10) {
     return _cache["state"];
   } else {
     try {
-      await account.get().timeout(Duration(milliseconds: 3000));
+      await http
+          .get(Uri.parse("https://aw.cloud.eliasschneider.com/v1"))
+          .timeout(Duration(milliseconds: 3000));
       saveCache(true);
       return true;
     } catch (e) {
-      if (e.code != null) {
-        saveCache(true);
-        return true;
-      } else {
-        saveCache(false);
-        return false;
-      }
+      print(e);
+      saveCache(false);
+      return false;
     }
   }
 }
@@ -49,7 +47,7 @@ Future<bool> isMaintenance() async {
   try {
     var request = await http
         .get(Uri.parse("https://gradelyapp.com/static-api"))
-        .timeout(const Duration(seconds: 2));
+        .timeout(const Duration(seconds: 3));
     return jsonDecode(request.body)["maintenance"];
   } catch (_) {
     return false;

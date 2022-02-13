@@ -1,8 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:gradely2/components/variables.dart';
-import 'package:gradely2/components/widgets/decorations.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import "package:easy_localization/easy_localization.dart";
+import "package:flutter/material.dart";
+import "package:gradely2/components/variables.dart";
+import "package:gradely2/components/widgets/decorations.dart";
+import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 
 Future dreamGradeCalculator(BuildContext context,
     {@required int sumWeight, @required int sumGrade}) {

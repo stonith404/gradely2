@@ -1,7 +1,5 @@
-import "dart:convert";
 import "package:flutter_slidable/flutter_slidable.dart";
 import "package:gradely2/components/controllers/grade_controller.dart";
-import 'package:gradely2/components/models.dart';
 import "package:gradely2/components/utils/grades.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 import "package:gradely2/components/widgets/dialogs.dart";
@@ -51,7 +49,7 @@ class _GradesScreenState extends State<GradesScreen> {
     });
     api.updateDocument(context,
         documentId: selectedSubject.id,
-        collectionId: collectionLessons,
+        collectionId: collectionSubjects,
         data: {
           "average": (() {
             if (averageOfGrades.isNaN) {
@@ -103,7 +101,7 @@ class _GradesScreenState extends State<GradesScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "empty_lesson_p1".tr() + " 🔎\n",
+                                  "empty_subject_p1".tr() + " 🔎\n",
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
@@ -119,7 +117,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                               .primaryColorDark),
                                       children: [
                                         TextSpan(
-                                          text: "empty_lesson_p2".tr() + " ",
+                                          text: "empty_subject_p2".tr() + " ",
                                         ),
                                         WidgetSpan(
                                           child: Icon(
@@ -128,7 +126,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: " " + "empty_lesson_p3".tr(),
+                                          text: " " + "empty_subject_p3".tr(),
                                         ),
                                       ],
                                     ),

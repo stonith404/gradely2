@@ -25,8 +25,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   @override
   void initState() {
     super.initState();
-    _nameController.text = user.email;
-    _emailController.text = user.name ?? "";
+    _nameController.text = user.name ?? "";
+    _emailController.text = user.email;
     _passwordPlaceholderController.text = "123456789";
   }
 

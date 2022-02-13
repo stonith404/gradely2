@@ -8,7 +8,7 @@ client
   .setProject("60f40cb212896")
   .setKey(
     process.env.APPWRITE_API_KEY
-  ); 
+  );
 
 const collectionUser = { name: "Users", id: "60f40d07accb6" };
 const collectionSemester = { name: "Semesters", id: "60f40d1b66424" };
@@ -16,6 +16,7 @@ const collectionLessons = { name: "Lessons", id: "60f40d0ed5da4" };
 const collectionGrades = { name: "Grades", id: "60f71651520e5" };
 // Initialise
 let database = new sdk.Database(client);
+let summary = new Map();
 let deletedDocuments = 0;
 
 async function checkCollections(checkCollection, parentCollection) {
@@ -26,6 +27,8 @@ async function checkCollections(checkCollection, parentCollection) {
   let checkCollectionList = await listDocuments(checkCollection.id);
 
   let parentCollectionList = await listDocuments(parentCollection.id);
+
+  summary.set(checkCollection.name, checkCollectionList.length)
 
   for (let index = 0; index < checkCollectionList.length; index++) {
     if (
@@ -41,7 +44,7 @@ async function checkCollections(checkCollection, parentCollection) {
       deletedDocuments++;
 
       try {
-         database.deleteDocument(checkCollection.id, checkCollectionList[index]["$id"])
+        database.deleteDocument(checkCollection.id, checkCollectionList[index]["$id"])
       } catch {
         console.log("Error while deleting" + checkCollectionList[index]["$id"]);
       }
@@ -81,5 +84,11 @@ async function listDocuments(collection) {
   await checkCollections(collectionSemester, collectionUser);
   await checkCollections(collectionLessons, collectionSemester);
   await checkCollections(collectionGrades, collectionLessons);
-  console.log("\nDELETED " + deletedDocuments + " DOCUMENTS");
+  console.log("\nDELETED " + deletedDocuments + " DOCUMENTS \n");
+  console.log(`
+Documents in each collection: 
+Semesters:  ${summary.get("Semesters")}
+Lessons:  ${summary.get("Lessons")}
+Grades:  ${summary.get("Grades")}
+  `)
 })();

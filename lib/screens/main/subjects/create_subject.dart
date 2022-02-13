@@ -12,7 +12,7 @@ class CreateSubject extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("add_lesson".tr()),
+        title: Text("add_subject".tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -24,7 +24,7 @@ class CreateSubject extends StatelessWidget {
             TextField(
                 controller: _nameController,
                 textAlign: TextAlign.left,
-                decoration: inputDec(context, label: "lesson_name".tr())),
+                decoration: inputDec(context, label: "subject_name".tr())),
             SizedBox(
               height: 40,
             ),

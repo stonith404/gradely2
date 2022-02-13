@@ -253,7 +253,7 @@ class _Intro4State extends State<_Intro4> {
         password: _passwordController.text,
       );
 
-      await api.createDocument(collectionId: collectionUser, data: {
+      await api.createDocument(context, collectionId: collectionUser, data: {
         "uid": response.$id,
         "gradeType": "av",
         "choosenSemester": "noSemesterChoosed"
@@ -399,7 +399,7 @@ class _Intro5 extends StatelessWidget {
                   onPressed: () async {
                     isLoadingController.add(true);
                     await getUserInfo();
-                    Future result = api.createDocument(
+                    Future result = api.createDocument(context,
                         collectionId: collectionSemester,
                         data: {
                           "parentId": user.dbID,

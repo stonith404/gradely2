@@ -12,8 +12,7 @@ async function emojiToTitle() {
         res = (await c.database.listDocuments("60f40d0ed5da4", [Query.notEqual("emoji", "")], undefined, 2, lastId, "after")).documents;
         for (const subject of res) {
             migratedDocuments++;
-            console.log(subject.name + " " + subject.emoji)
-            c.database.updateDocument("60f40d0ed5da4", subject.$id, { "name": subject.name + " " + subject.emoji, "emoji": "" })
+            c.database.updateDocument("60f40d0ed5da4", subject.$id, { "name": subject.emoji + " " + subject.name, "emoji": "" })
         }
         try {
             lastId = res[res.length - 1].$id

@@ -1,10 +1,9 @@
-class Lesson {
+class Subject {
   String id;
   String name;
   double average;
-  String emoji;
 
-  Lesson(this.id, this.name, this.emoji, this.average);
+  Subject(this.id, this.name, this.average);
 }
 
 class Semester {
