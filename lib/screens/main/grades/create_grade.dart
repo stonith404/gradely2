@@ -8,7 +8,7 @@ import "package:gradely2/components/widgets/decorations.dart";
 import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/components/widgets/modalsheets.dart";
 
-Future<Widget> createGrade(context, {String subjectId, int gradeOffset}) {
+Future<Widget?> createGrade(context, {required String subjectId, required int gradeOffset}) {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _gradeTextController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
@@ -77,12 +77,12 @@ Future<Widget> createGrade(context, {String subjectId, int gradeOffset}) {
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
               onTap: () async {
-                final DateTime picked = await showDatePicker(
+                final DateTime? picked = await showDatePicker(
                     context: context,
                     initialDate: selectedDate,
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2035),
-                    builder: (BuildContext context, Widget child) {
+                    builder: (BuildContext context, Widget? child) {
                       return Theme(
                         data: Theme.of(context).copyWith(
                           colorScheme: ColorScheme.light(
@@ -96,7 +96,7 @@ Future<Widget> createGrade(context, {String subjectId, int gradeOffset}) {
                                 Theme.of(context).primaryColorDark),
                           )),
                         ),
-                        child: child,
+                        child: child!,
                       );
                     });
 

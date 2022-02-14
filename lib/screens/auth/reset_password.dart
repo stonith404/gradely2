@@ -7,7 +7,7 @@ import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/components/variables.dart";
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({Key key}) : super(key: key);
+  const ResetPasswordScreen({Key? key}) : super(key: key);
 
   @override
   _ResetPasswordScreenState createState() => _ResetPasswordScreenState();

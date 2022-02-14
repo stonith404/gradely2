@@ -5,7 +5,7 @@ import "package:gradely2/components/models.dart";
 import "package:gradely2/components/variables.dart";
 
 class GradeController {
-  final BuildContext context;
+  final BuildContext? context;
   GradeController(this.context);
 
   /// Get a list of `Grade` object where the `parentId` is `subjectId`.
@@ -32,11 +32,11 @@ class GradeController {
 
   /// Create a new grade.
   Future<void> create(
-      {String subjectId,
-      @required String name,
-      String grade,
-      @required String weight,
-      String date}) async {
+      {required String subjectId,
+      required String name,
+     required String grade,
+      required String weight,
+     required String date}) async {
     isLoadingController.add(true);
 
     await api.createDocument(
@@ -67,11 +67,11 @@ class GradeController {
 
   /// Update an existing grade.
   Future<void> update(
-      {String id,
-      @required String name,
-      String grade,
-      @required String weight,
-      String date}) async {
+      {required String id,
+      required String name,
+     required String grade,
+      required String weight,
+     required String date}) async {
     isLoadingController.add(true);
     await api.updateDocument(context,
         collectionId: collectionGrades,

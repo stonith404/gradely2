@@ -1,12 +1,13 @@
 import "package:appwrite/appwrite.dart";
 import "package:easy_localization/easy_localization.dart";
 import "package:flutter/material.dart";
-import "package:gradely2/components/utils/user.dart";
+import "package:gradely2/components/controllers/user_controller.dart";
 import "package:gradely2/components/models.dart";
 import "package:gradely2/components/variables.dart";
 
 class SemesterController {
-  final BuildContext context;
+  final BuildContext? context;
+  final UserController userController = UserController();
   SemesterController(this.context);
 
   /// Get a list of `Semester` object that the user owns.
@@ -33,11 +34,11 @@ class SemesterController {
 
   /// Create a new `Semester`.
   Future<void> create(
-      {@required String userDbId,
-      @required String name,
-      @required double round}) async {
+      {required String userDbId,
+      required String name,
+      required double round}) async {
     isLoadingController.add(true);
-    await getUserInfo();
+    await userController.getUserInfo();
     await api.createDocument(context,
         collectionId: collectionSemester,
         data: {"parentId": userDbId, "name": name, "round": round});
@@ -45,9 +46,10 @@ class SemesterController {
   }
 
   /// Update an existing `Semester`.
-  Future<void> update({@required String id, String name, double round}) async {
+  Future<void> update(
+      {required String id, required String name, required double round}) async {
     isLoadingController.add(true);
-    await getUserInfo();
+    await userController.getUserInfo();
     await api.updateDocument(context,
         documentId: id,
         collectionId: collectionSemester,

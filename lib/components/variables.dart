@@ -6,8 +6,8 @@ import "package:gradely2/components/utils/api.dart";
 import "package:gradely2/components/models.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
-User user;
-SharedPreferences prefs;
+late User user;
+late SharedPreferences prefs;
 
 //bools
 bool isLoading = false;
@@ -16,13 +16,13 @@ bool isCupertino = (() {
 }());
 
 //appwrite var's
-Client client;
-Account account;
-Database database;
-Locale locale;
-Storage storage;
-Functions functions;
-GradelyApi api;
+late Client client;
+late Account account;
+late Database database;
+Locale? locale;
+Storage? storage;
+late Functions functions;
+late GradelyApi api;
 
 //final
 const collectionUser = "60f40d07accb6";

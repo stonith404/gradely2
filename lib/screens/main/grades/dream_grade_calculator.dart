@@ -5,14 +5,14 @@ import "package:gradely2/components/widgets/decorations.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 
 Future dreamGradeCalculator(BuildContext context,
-    {@required double sumWeight, @required double sumGrade}) {
+    {required double sumWeight, required double sumGrade}) {
   final TextEditingController _gradeController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   _gradeController.text = "";
   _weightController.text = "1";
   num dreamgradeResult = 0;
-  double dreamgrade = 0;
-  double dreamgradeWeight = 1;
+  double? dreamgrade = 0;
+  double? dreamgradeWeight = 1;
 
   return showCupertinoModalBottomSheet(
     expand: true,
@@ -23,8 +23,8 @@ Future dreamGradeCalculator(BuildContext context,
         try {
           setState(() {
             dreamgradeResult =
-                ((dreamgrade * (sumWeight + dreamgradeWeight) - sumGrade) /
-                    dreamgradeWeight);
+                ((dreamgrade! * (sumWeight + dreamgradeWeight!) - sumGrade) /
+                    dreamgradeWeight!);
           });
         } catch (e) {
           setState(() {

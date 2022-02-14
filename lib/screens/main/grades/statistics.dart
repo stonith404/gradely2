@@ -8,7 +8,7 @@ import "package:easy_localization/easy_localization.dart";
 List<Grade> statsList = [];
 
 Future statisticsScreen(BuildContext context,
-    {@required List<Grade> gradeList}) {
+    {required List<Grade> gradeList}) {
   statsList = [];
   gradeList.sort((a, b) => a.date.compareTo(b.date));
   for (var item in gradeList) {

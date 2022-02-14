@@ -9,7 +9,7 @@ class UpdateSubject extends StatelessWidget {
   final Subject subject;
   final TextEditingController _nameController = TextEditingController();
 
-  UpdateSubject({Key key, this.subject}) : super(key: key) {
+  UpdateSubject({Key? key, required this.subject}) : super(key: key) {
     _nameController.text = subject.name;
   }
 

@@ -9,10 +9,10 @@ import "package:gradely2/components/variables.dart";
 
 // ignore: must_be_immutable
 class UpdateAppScreen extends StatelessWidget {
-  String minAppVersion;
-  String currentVersion;
+  String? minAppVersion;
+  String? currentVersion;
 
-  UpdateAppScreen(this.minAppVersion, this.currentVersion, {Key key})
+  UpdateAppScreen(this.minAppVersion, this.currentVersion, {Key? key})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class UpdateAppScreen extends StatelessWidget {
             ),
             Text(
               "updated_needed_version"
-                  .tr(args: [currentVersion, minAppVersion]),
+                  .tr(args: [currentVersion!, minAppVersion!]),
               textAlign: TextAlign.center,
             ),
             Spacer(

@@ -1,9 +1,9 @@
 import "package:flutter/foundation.dart";
 import "package:gradely2/components/controllers/semester_controller.dart";
 import "package:gradely2/components/controllers/subject_controller.dart";
+import "package:gradely2/components/controllers/user_controller.dart";
 import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/utils/grades.dart";
-import "package:gradely2/components/utils/user.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/components/widgets/loading.dart";
@@ -31,10 +31,10 @@ double _averageOfSemester = 0 / -0;
 double _averageOfSemesterPP = 0 / -0;
 
 String switchedGradeType = user.gradeType;
-Subject selectedSubject;
+late Subject selectedSubject;
 
 class SubjectScreen extends StatefulWidget {
-  const SubjectScreen({Key key}) : super(key: key);
+  const SubjectScreen({Key? key}) : super(key: key);
 
   @override
   _SubjectScreenState createState() => _SubjectScreenState();
@@ -45,10 +45,11 @@ class _SubjectScreenState extends State<SubjectScreen> {
       SubjectController(navigatorKey.currentContext);
   final SemesterController semesterController =
       SemesterController(navigatorKey.currentContext);
+        final UserController userController = UserController();
 
   List<Subject> _subjectList = [];
-  Semester currentSemester;
-  double _initialSemesterRound;
+  Semester? currentSemester;
+  double? _initialSemesterRound;
 
   // Every showcasw widget needs a GlobalKey
   final GlobalKey _showCase1 = GlobalKey();
@@ -61,7 +62,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     try {
       currentSemester = await semesterController.getById(user.choosenSemester);
     } catch (_) {
-      if (await internetConnection()) {
+      if (await (internetConnection())) {
         // If semester doesn't exist
         Navigator.pushNamedAndRemoveUntil(
           context,
@@ -89,7 +90,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
       for (var e in _subjectList) {
         if (e.average != -99) {
           _sum += e.average;
-          _ppSum += getPluspoints(e.average);
+          _ppSum += getPluspoints(e.average)!;
           _count = _count + 1;
         }
         setState(() {
@@ -100,7 +101,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     }
   }
 
-  Future<Widget> deleteSubject(index) {
+  Future<Widget?> deleteSubject(index) {
     return gradelyDialog(
       context: context,
       title: "warning".tr(),
@@ -157,7 +158,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   }
 
   Future<void> noInternetWarning() async {
-    if (!(await internetConnection())) {
+    if (!(await (internetConnection()))) {
       errorSuccessDialog(
           context: context,
           error: true,
@@ -172,14 +173,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
     getSubjects(
         initalFetch: true); // Preload from cache to decrease loading time.
     getSubjects();
-    getUserInfo();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    userController.getUserInfo();
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
       noInternetWarning();
       webNotRecommendedPopUP();
       // Show intro if didn't show before.
-      if (!(user.showcaseViewed ?? false)) {
+      if (!(user.showcaseViewed)) {
         Future.delayed(Duration(milliseconds: 1000), () {
-          ShowCaseWidget.of(context)
+          ShowCaseWidget.of(context)!
               .startShowCase([_showCase1, _showCase2, _showCase3]);
         });
       } else {
@@ -268,7 +269,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    currentSemester.name,
+                                    currentSemester!.name,
                                     style:
                                         Theme.of(context).textTheme.headline1,
                                   ),
@@ -280,13 +281,13 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                           InkWell(
                                             onTap: () {
                                               if (user.gradeType == "av") {
-                                                setState(() => currentSemester
+                                                setState(() => currentSemester!
                                                             .round ==
                                                         _initialSemesterRound
-                                                    ? currentSemester.round =
+                                                    ? currentSemester!.round =
                                                         0.01
-                                                    : currentSemester.round =
-                                                        _initialSemesterRound);
+                                                    : currentSemester!.round =
+                                                        _initialSemesterRound!);
                                               } else {
                                                 setState(() =>
                                                     switchedGradeType = "av");
@@ -310,7 +311,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                                         ? "-"
                                                         : roundGrade(
                                                             _averageOfSemester,
-                                                            currentSemester
+                                                            currentSemester!
                                                                 .round),
                                                     style: TextStyle(
                                                       fontSize: 20,
@@ -467,7 +468,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
           child: Column(
             children: [
               ContextMenuRegion(
-                onItemSelected: (item) => {item.onSelected()},
+                onItemSelected: (item) => {item.onSelected!()},
                 menuItems: [
                   MenuItem(
                     onSelected: () => deleteSubject(index),
@@ -497,13 +498,13 @@ class _SubjectScreenState extends State<SubjectScreen> {
                             .toString();
                       } else {
                         return roundGrade(
-                            _subjectList[index].average, currentSemester.round);
+                            _subjectList[index].average, currentSemester!.round);
                       }
                     })(),
                   ),
                   onTap: () {
                     if (!user.showcaseViewed) {
-                      ShowCaseWidget.of(context).completed(_showCase3);
+                      ShowCaseWidget.of(context)!.completed(_showCase3);
                     }
                     selectedSubject = _subjectList[index];
                     Navigator.pushNamed(context, "grades").then((value) {

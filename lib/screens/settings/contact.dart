@@ -7,7 +7,7 @@ import "package:gradely2/components/variables.dart";
 import "package:easy_localization/easy_localization.dart";
 
 class ContactScreen extends StatefulWidget {
-  const ContactScreen({Key key}) : super(key: key);
+  const ContactScreen({Key? key}) : super(key: key);
 
   @override
   _ContactScreenState createState() => _ContactScreenState();

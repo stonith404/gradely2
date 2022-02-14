@@ -3,8 +3,8 @@ import "package:flutter/material.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 
-Future<Widget> gradelyModalSheet(
-    {@required BuildContext context, @required List<Widget> children}) {
+Future<Widget?> gradelyModalSheet(
+    {required BuildContext context, required List<Widget> children}) {
   return showCupertinoModalBottomSheet(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       expand: true,
@@ -25,9 +25,9 @@ Future<Widget> gradelyModalSheet(
 }
 
 Widget gradelyModalSheetHeader(BuildContext context,
-    {String title,
+    {String? title,
     Icon icon = const Icon(CupertinoIcons.xmark),
-    Widget customHeader}) {
+    Widget? customHeader}) {
   return Column(
     children: [
       SizedBox(

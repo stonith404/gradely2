@@ -6,7 +6,7 @@ import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 
 class CreateSubject extends StatelessWidget {
-  CreateSubject({Key key}) : super(key: key);
+  CreateSubject({Key? key}) : super(key: key);
   final TextEditingController _nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {

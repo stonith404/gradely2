@@ -15,7 +15,7 @@ import "package:gradely2/screens/main/semesters/update_semester.dart";
 import "package:native_context_menu/native_context_menu.dart";
 
 class SemesterScreen extends StatefulWidget {
-  const SemesterScreen({Key key}) : super(key: key);
+  const SemesterScreen({Key? key}) : super(key: key);
 
   @override
   _SemesterScreenState createState() => _SemesterScreenState();
@@ -172,7 +172,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                             child: Column(
                               children: [
                                 ContextMenuRegion(
-                                  onItemSelected: (item) => {item.onSelected()},
+                                  onItemSelected: (item) => {item.onSelected!()},
                                   menuItems: [
                                     MenuItem(
                                       onSelected: () => deleteSemester(index),

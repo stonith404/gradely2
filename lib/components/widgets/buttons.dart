@@ -7,10 +7,10 @@ import "package:flutter/material.dart";
 import "package:gradely2/components/variables.dart";
 
 Widget gradelyButton(
-    {@required Function onPressed,
-    @required String text,
-    Color color,
-    Color textColor}) {
+    {required Function onPressed,
+    required String text,
+    Color? color,
+    Color? textColor}) {
   return StreamBuilder(
       stream: isLoadingStream,
       builder: (context, snapshot) {
@@ -47,13 +47,13 @@ Widget gradelyButton(
                     style: TextStyle(
                         color:
                             textColor ?? Theme.of(context).primaryColorLight)),
-            onPressed: onPressed);
+            onPressed: onPressed as void Function()?);
       });
 }
 
 //default gradely icon button
 
-Widget gradelyIconButton({Function onPressed, Icon icon}) {
+Widget gradelyIconButton({Function? onPressed, Icon? icon}) {
   return StreamBuilder(
       stream: isLoadingStream,
       builder: (context, snapshot) {
@@ -81,7 +81,7 @@ Widget gradelyIconButton({Function onPressed, Icon icon}) {
                               color: Theme.of(context).primaryColorLight,
                             ),
                           )
-                    : icon,
-                onPressed: onPressed));
+                    : icon!,
+                onPressed: onPressed as void Function()?));
       });
 }

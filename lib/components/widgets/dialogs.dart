@@ -5,10 +5,10 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:easy_localization/easy_localization.dart";
 
-Future<Widget> gradelyDialog(
-    {@required BuildContext context,
-    @required String title,
-    @required String text,
+Future<Widget?> gradelyDialog(
+    {required BuildContext context,
+    required String title,
+    required String text,
     var actions}) {
   return showDialog(
       context: context,
@@ -35,10 +35,10 @@ Future<Widget> gradelyDialog(
 }
 
 errorSuccessDialog(
-    {@required BuildContext context,
-    @required bool error,
-    String title,
-    @required String text}) {
+    {required BuildContext context,
+    required bool error,
+    String? title,
+    required String text}) {
   Flushbar(
     maxWidth: 350,
     leftBarIndicatorColor:

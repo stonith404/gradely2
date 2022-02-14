@@ -5,7 +5,7 @@ import "package:gradely2/components/variables.dart";
 import "package:easy_localization/easy_localization.dart";
 
 class AuthHomeScreen extends StatefulWidget {
-  const AuthHomeScreen({Key key}) : super(key: key);
+  const AuthHomeScreen({Key? key}) : super(key: key);
 
   @override
   _AuthHomeScreenState createState() => _AuthHomeScreenState();

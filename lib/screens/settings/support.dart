@@ -10,16 +10,16 @@ import "package:gradely2/components/variables.dart";
 import "package:flutter_inapp_purchase/flutter_inapp_purchase.dart";
 
 class SupportAppScreen extends StatefulWidget {
-  const SupportAppScreen({Key key}) : super(key: key);
+  const SupportAppScreen({Key? key}) : super(key: key);
 
   @override
   _SupportAppState createState() => _SupportAppState();
 }
 
 class _SupportAppState extends State<SupportAppScreen> {
-  StreamSubscription purchaseUpdatedSubscription;
-  StreamSubscription purchaseErrorSubscription;
-  StreamSubscription _conectionSubscription;
+  StreamSubscription? purchaseUpdatedSubscription;
+  StreamSubscription? purchaseErrorSubscription;
+  StreamSubscription? _conectionSubscription;
   List iapList = [];
 
   buyProduct(String id) async {
@@ -65,15 +65,15 @@ class _SupportAppState extends State<SupportAppScreen> {
   void dispose() {
     super.dispose();
     if (_conectionSubscription != null) {
-      _conectionSubscription.cancel();
+      _conectionSubscription!.cancel();
       _conectionSubscription = null;
     }
     if (purchaseErrorSubscription != null) {
-      purchaseErrorSubscription.cancel();
+      purchaseErrorSubscription!.cancel();
       purchaseErrorSubscription = null;
     }
     if (purchaseUpdatedSubscription != null) {
-      purchaseUpdatedSubscription.cancel();
+      purchaseUpdatedSubscription!.cancel();
       purchaseUpdatedSubscription = null;
     }
   }
@@ -86,7 +86,7 @@ class _SupportAppState extends State<SupportAppScreen> {
 
     purchaseUpdatedSubscription =
         FlutterInappPurchase.purchaseUpdated.listen((productItem) {
-      finishPurchase(productItem.purchaseToken);
+      finishPurchase(productItem!.purchaseToken);
     });
 
     purchaseErrorSubscription =

@@ -4,7 +4,7 @@ import "package:gradely2/components/models.dart";
 import "package:gradely2/components/variables.dart";
 
 class SubjectController {
-  final BuildContext context;
+  final BuildContext? context;
   SubjectController(this.context);
 
   /// Get a list of `Subject` object from the where the `parentId` is `user.choosenSemester`.
@@ -22,7 +22,7 @@ class SubjectController {
   }
 
   /// Create a new subject.
-  Future<void> create({@required String name}) async {
+  Future<void> create({required String name}) async {
     isLoadingController.add(true);
     await api.createDocument(
       context,
@@ -37,7 +37,7 @@ class SubjectController {
   }
 
   /// Update an existing subject.
-  Future<void> update({@required String id, @required String name}) async {
+  Future<void> update({required String id, required String name}) async {
     isLoadingController.add(true);
     await api.updateDocument(context,
         collectionId: collectionSubjects,

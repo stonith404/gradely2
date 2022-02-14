@@ -5,7 +5,7 @@ import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 
 class ContributeScreen extends StatelessWidget {
-  const ContributeScreen({Key key}) : super(key: key);
+  const ContributeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +88,7 @@ class ContributeScreen extends StatelessWidget {
   }
 }
 
-Widget whiteContainer(context, {List<Widget> children}) {
+Widget whiteContainer(context, {required List<Widget> children}) {
   return Container(
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(

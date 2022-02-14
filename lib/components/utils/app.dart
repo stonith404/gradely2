@@ -15,7 +15,7 @@ import "package:http/http.dart" as http;
 
 //checks if client is connected to the server. The function stores the value for 10 seconds
 // to reduce requests.
-Future internetConnection({BuildContext context}) async {
+Future<bool> internetConnection() async {
   var _cache = jsonDecode(prefs.getString("internetConnection_cache") ??
       '{"time": 0, "state" : false}');
   var timestamp = (DateTime.now().millisecondsSinceEpoch / 1000).round();
@@ -56,7 +56,7 @@ Future<bool> isMaintenance() async {
 
 //if there is no connection, show a dialog
 void noNetworkDialog(context) async {
-  if (!await internetConnection()) {
+  if (!await (internetConnection())) {
     errorSuccessDialog(
         context: context,
         error: true,
@@ -81,11 +81,11 @@ void clearVariables() {
 }
 
 // ignore: non_constant_identifier_names
-PageRoute GradelyPageRoute({Widget Function(BuildContext) builder}) {
+PageRoute GradelyPageRoute({Widget Function(BuildContext)? builder}) {
   if (Platform.isIOS) {
-    return MaterialWithModalsPageRoute(builder: builder);
+    return MaterialWithModalsPageRoute(builder: builder!);
   } else {
-    return MaterialPageRoute(builder: builder);
+    return MaterialPageRoute(builder: builder!);
   }
 }
 
@@ -97,7 +97,7 @@ askForInAppRating() async {
 
   try {
     isLastAskedOlderThen14Days =
-        (today - prefs.getInt("timestamp_asked_for_review") > 1296000);
+        (today - prefs.getInt("timestamp_asked_for_review")! > 1296000);
   } catch (_) {
     isLastAskedOlderThen14Days = true;
   }
@@ -139,7 +139,7 @@ Future minAppVersion() async {
                     } else {
                       return {"isUpToDate": true};
                     }
-                  }()) +
+                  }() as String) +
                   "_version")
         ]))[0]["value"];
     return {

@@ -8,7 +8,7 @@ import "package:gradely2/components/widgets/decorations.dart";
 import "package:gradely2/main.dart";
 
 class CreateSemester extends StatelessWidget {
-  CreateSemester({Key key}) : super(key: key);
+  CreateSemester({Key? key}) : super(key: key);
 
   final SemesterController semesterController =
       SemesterController(navigatorKey.currentContext);
@@ -50,7 +50,7 @@ class CreateSemester extends StatelessWidget {
                         0.5: Text("0.5"),
                         0.01: Text("0.01")
                       },
-                      onValueChanged: (n) => {setState(() => roundTo = n)}),
+                      onValueChanged: (dynamic n) => {setState(() => roundTo = n)}),
                 ],
               ),
               SizedBox(

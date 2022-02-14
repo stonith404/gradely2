@@ -9,7 +9,7 @@ import "package:gradely2/screens/settings/settings.dart";
 import "dart:math" as math;
 
 class LoadingScreen extends StatefulWidget {
-  const LoadingScreen({Key key}) : super(key: key);
+  const LoadingScreen({Key? key}) : super(key: key);
 
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
@@ -17,9 +17,9 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen>
     with SingleTickerProviderStateMixin {
-  AnimationController controllerOne;
-  Animation<Color> animationOne;
-  Animation<Color> animationTwo;
+  late AnimationController controllerOne;
+  late Animation<Color?> animationOne;
+  late Animation<Color?> animationTwo;
   List list = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   @override
   void initState() {
@@ -111,8 +111,8 @@ class _LoadingScreenState extends State<LoadingScreen>
                                         begin: Alignment.centerLeft,
                                         end: Alignment.centerRight,
                                         colors: [
-                                          animationOne.value,
-                                          animationTwo.value
+                                          animationOne.value!,
+                                          animationTwo.value!
                                         ]).createShader(
                                       rect,
                                     );
@@ -137,8 +137,8 @@ class _LoadingScreenState extends State<LoadingScreen>
                                           begin: Alignment.centerLeft,
                                           end: Alignment.centerRight,
                                           colors: [
-                                            animationOne.value,
-                                            animationTwo.value
+                                            animationOne.value!,
+                                            animationTwo.value!
                                           ]).createShader(
                                         rect,
                                       );
@@ -182,8 +182,8 @@ class _LoadingScreenState extends State<LoadingScreen>
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
                             colors: [
-                              animationOne.value,
-                              animationTwo.value
+                              animationOne.value!,
+                              animationTwo.value!
                             ]).createShader(
                           rect,
                         );
@@ -212,7 +212,7 @@ class _LoadingScreenState extends State<LoadingScreen>
 }
 
 class GradelyLoadingIndicator extends StatefulWidget {
-  const GradelyLoadingIndicator({Key key}) : super(key: key);
+  const GradelyLoadingIndicator({Key? key}) : super(key: key);
 
   @override
   _GradelyLoadingIndicatorState createState() =>
@@ -221,7 +221,7 @@ class GradelyLoadingIndicator extends StatefulWidget {
 
 class _GradelyLoadingIndicatorState extends State<GradelyLoadingIndicator> {
   bool show = false;
-  Timer timer;
+  Timer? timer;
   @override
   void initState() {
     super.initState();

@@ -1,15 +1,16 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:gradely2/components/controllers/user_controller.dart";
 import "package:gradely2/components/utils/app.dart";
-import "package:gradely2/components/utils/user.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:gradely2/components/variables.dart";
 import "package:easy_localization/easy_localization.dart";
 import "package:package_info_plus/package_info_plus.dart";
 
-Future settingsScreen(BuildContext context, {PackageInfo packageInfo}) {
-  String gradesResult = user.gradeType;
+Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
+    final UserController userController = UserController();
+  String? gradesResult = user.gradeType;
   return showCupertinoModalBottomSheet(
     shadow: BoxShadow(
       color: Colors.grey.withOpacity(0.3),
@@ -58,7 +59,7 @@ Future settingsScreen(BuildContext context, {PackageInfo packageInfo}) {
                           iconSize: 15,
                           color: Theme.of(context).primaryColorDark,
                           onPressed: () async {
-                            await getUserInfo();
+                            await userController.getUserInfo();
                             Navigator.of(context).pop();
                           },
                           icon: Icon(Icons.arrow_forward_ios_outlined)),
@@ -118,7 +119,7 @@ Future settingsScreen(BuildContext context, {PackageInfo packageInfo}) {
                                   dropdownColor:
                                       Theme.of(context).backgroundColor,
                                   hint: Text(
-                                    gradesResult.tr(),
+                                    gradesResult!.tr(),
                                     style: TextStyle(
                                         color:
                                             Theme.of(context).primaryColorDark),
@@ -212,7 +213,7 @@ Future settingsScreen(BuildContext context, {PackageInfo packageInfo}) {
                     Padding(
                       padding: EdgeInsets.only(bottom: 20.0),
                       child: Text(
-                        "v${packageInfo.version}",
+                        "v${packageInfo!.version}",
                         style: TextStyle(color: Colors.grey[400]),
                       ),
                     ),
@@ -228,8 +229,8 @@ Future settingsScreen(BuildContext context, {PackageInfo packageInfo}) {
 }
 
 ListTile settingsListTile({
-  BuildContext context,
-  List<Widget> items,
+  BuildContext? context,
+  required List<Widget> items,
   onTap,
   arrow = true,
 }) {

@@ -1,19 +1,21 @@
+import "package:appwrite/appwrite.dart";
 import "package:appwrite/models.dart";
 import "package:easy_localization/easy_localization.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
+import "package:gradely2/components/controllers/user_controller.dart";
 import "package:gradely2/components/utils/app.dart";
-import "package:gradely2/components/utils/user.dart";
 import "package:gradely2/components/variables.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 import "package:gradely2/components/widgets/dialogs.dart";
 
 double progress = 0;
+final UserController _userController = UserController();
 
 class _IntroScreenWrapper extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   const _IntroScreenWrapper({this.child});
 
   @override
@@ -28,7 +30,7 @@ class _IntroScreenWrapper extends StatelessWidget {
                 ? IconButton(
                     color: Theme.of(context).primaryColorDark,
                     icon: Icon(Icons.logout),
-                    onPressed: () => signOut(context))
+                    onPressed: () => _userController.signOut(context))
                 : Container(),
           ],
         ),
@@ -47,7 +49,7 @@ Widget progressIndicator(context) {
 }
 
 class Intro1 extends StatelessWidget {
-  const Intro1({Key key}) : super(key: key);
+  const Intro1({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -258,7 +260,7 @@ class _Intro4State extends State<_Intro4> {
         "gradeType": "av",
         "choosenSemester": "noSemesterChoosed"
       });
-      await getUserInfo();
+      await _userController.getUserInfo();
       prefs.setBool("signedIn", true);
       _passwordController.text = "";
       Navigator.pushAndRemoveUntil(
@@ -398,7 +400,7 @@ class _Intro5 extends StatelessWidget {
               gradelyIconButton(
                   onPressed: () async {
                     isLoadingController.add(true);
-                    await getUserInfo();
+                    await _userController.getUserInfo();
                     Future result = api.createDocument(context,
                         collectionId: collectionSemester,
                         data: {
@@ -443,7 +445,7 @@ class _Intro5 extends StatelessWidget {
 }
 
 class Intro6 extends StatefulWidget {
-  const Intro6({Key key}) : super(key: key);
+  const Intro6({Key? key}) : super(key: key);
 
   @override
   State<Intro6> createState() => _Intro6State();
@@ -539,10 +541,12 @@ class _Intro6State extends State<Intro6> {
                     IconButton(
                       onPressed: () async {
                         try {
-                          changeEmail(_changeEmailController.text, context);
-                        } catch (e) {
+                          _userController.changeEmail(_changeEmailController.text, context);
+                        } on AppwriteException catch (e) {
                           errorSuccessDialog(
-                              context: context, error: true, text: e.message);
+                              context: context,
+                              error: true,
+                              text: e.message.toString());
                         }
                       },
                       icon: Icon(
@@ -566,7 +570,7 @@ class _Intro6State extends State<Intro6> {
               gradelyIconButton(
                   onPressed: () async {
                     isLoadingController.add(true);
-                    await getUserInfo();
+                    await _userController.getUserInfo();
                     if (user.emailVerification) {
                       Navigator.pushNamed(
                         context,

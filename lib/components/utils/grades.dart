@@ -1,7 +1,7 @@
 import "package:easy_localization/easy_localization.dart";
 
-double getPluspoints(num value) {
-  double plusPoints;
+double? getPluspoints(num value) {
+  double? plusPoints;
 
   if (value >= 5.75) {
     plusPoints = 2;
@@ -79,7 +79,7 @@ String formatDateForClient(date) {
   }
 }
 
-String roundGrade(double value, double x) {
+String roundGrade(double value, double? x) {
   if (x == 0.1) {
     return value.toStringAsFixed(1);
   } else if (x == 1) {

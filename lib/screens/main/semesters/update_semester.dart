@@ -13,14 +13,14 @@ class UpdateSemester extends StatelessWidget {
   final SemesterController semesterController =
       SemesterController(navigatorKey.currentContext);
   final TextEditingController _nameController = TextEditingController();
-  UpdateSemester({Key key, this.semester}) : super(key: key) {
+  UpdateSemester({Key? key, required this.semester}) : super(key: key) {
     _nameController.text = semester.name;
   }
 
   @override
   Widget build(BuildContext context) {
     _nameController.text = semester.name;
-    double roundTo = semester.round ?? 0.01;
+    double roundTo = semester.round;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
       return Scaffold(
@@ -56,7 +56,7 @@ class UpdateSemester extends StatelessWidget {
                         0.5: Text("0.5"),
                         0.01: Text("0.01")
                       },
-                      onValueChanged: (n) => {setState(() => roundTo = n)}),
+                      onValueChanged: (dynamic n) => {setState(() => roundTo = n)}),
                 ],
               ),
               SizedBox(

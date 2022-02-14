@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:easy_localization/easy_localization.dart";
 import "package:flutter_svg/flutter_svg.dart";
-import "package:gradely2/components/utils/user.dart";
+import "package:gradely2/components/controllers/user_controller.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 import "package:gradely2/components/widgets/dialogs.dart";
@@ -11,13 +11,14 @@ import "package:shared_preferences/shared_preferences.dart";
 bool _obsecuredText = true;
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key key}) : super(key: key);
+  const SignInScreen({Key? key}) : super(key: key);
 
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+    final UserController userController = UserController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   signInUser() async {
@@ -29,7 +30,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
     await result.then((response) async {
       prefs.setBool("signedIn", true);
-      await getUserInfo();
+      await userController.getUserInfo();
       Navigator.pushNamedAndRemoveUntil(
         context,
         "subjects",

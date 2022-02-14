@@ -1,6 +1,7 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter_slidable/flutter_slidable.dart";
 import "package:gradely2/components/controllers/grade_controller.dart";
+import "package:gradely2/components/models.dart";
 import "package:gradely2/components/utils/grades.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 import "package:gradely2/components/widgets/dialogs.dart";
@@ -23,7 +24,7 @@ num _sumW = 0;
 num _sum = 0;
 
 class GradesScreen extends StatefulWidget {
-  const GradesScreen({Key key}) : super(key: key);
+  const GradesScreen({Key? key}) : super(key: key);
 
   @override
   _GradesScreenState createState() => _GradesScreenState();
@@ -32,12 +33,12 @@ class GradesScreen extends StatefulWidget {
 class _GradesScreenState extends State<GradesScreen> {
   GradeController gradeController =
       GradeController(navigatorKey.currentContext);
-  List _gradeList = [];
+  List<Grade> _gradeList = [];
 
   updateAverage() async {
     _sumW = 0;
     _sum = 0;
-    await Future.forEach(_gradeList, (e) async {
+    await Future.forEach(_gradeList, (dynamic e) async {
       if (e.grade != -99) {
         _sumW += e.weight;
         _sum += e.grade * e.weight;
@@ -63,7 +64,7 @@ class _GradesScreenState extends State<GradesScreen> {
 
   Future<void> getTests({bool initalFetch = false}) async {
     if (initalFetch) setState(() => isLoading = true);
-    _gradeList = await gradeController.list(selectedSubject.id);
+    _gradeList = await (gradeController.list(selectedSubject.id));
     updateAverage();
     setState(() => _gradeList);
     setState(() => isLoading = false);
@@ -176,7 +177,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                         children: [
                                           ContextMenuRegion(
                                             onItemSelected: (item) =>
-                                                {item.onSelected()},
+                                                {item.onSelected!()},
                                             menuItems: [
                                               MenuItem(
                                                 onSelected: () =>
@@ -351,8 +352,8 @@ class _GradesScreenState extends State<GradesScreen> {
                                                           .pop();
                                                       dreamGradeCalculator(
                                                           context,
-                                                          sumWeight: _sumW,
-                                                          sumGrade: _sum);
+                                                          sumWeight: _sumW as double,
+                                                          sumGrade: _sum as double);
                                                     })),
                                             SizedBox(
                                               height: 10,

@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 
-BoxDecoration listContainerDecoration(context, {int index, List list}) {
+BoxDecoration listContainerDecoration(context, {int? index, List? list}) {
   return (() {
-    if (list.length == 1) {
+    if (list!.length == 1) {
       return BoxDecoration(
           color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.all(
@@ -56,7 +56,7 @@ BoxDecoration boxDec(context) {
 }
 //default input decoration for gradely
 
-InputDecoration inputDec(context, {String label, var suffixIcon}) {
+InputDecoration inputDec(context, {String? label, var suffixIcon}) {
   return InputDecoration(
     suffixIcon: suffixIcon ?? SizedBox(height: 1, width: 1),
     disabledBorder: OutlineInputBorder(

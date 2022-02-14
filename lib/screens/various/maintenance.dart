@@ -1,8 +1,8 @@
 import "package:easy_localization/easy_localization.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
+import "package:gradely2/components/controllers/user_controller.dart";
 import "package:gradely2/components/utils/app.dart";
-import "package:gradely2/components/utils/user.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/screens/auth/auth_home.dart";
@@ -10,7 +10,8 @@ import "package:gradely2/screens/main/subjects/subjects.dart";
 import "package:gradely2/components/variables.dart";
 
 class MaintenanceScreen extends StatelessWidget {
-  const MaintenanceScreen({Key key}) : super(key: key);
+  MaintenanceScreen({Key? key}) : super(key: key);
+  final UserController userController = UserController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +58,13 @@ class MaintenanceScreen extends StatelessWidget {
                 child: gradelyButton(
                     onPressed: () async {
                       isLoadingController.add(true);
-                      if (await isMaintenance()) {
+                      if (await (isMaintenance())) {
                         errorSuccessDialog(
                             context: context,
                             error: true,
                             title: "sorry".tr(),
                             text: "still_maintenance".tr());
-                      } else if (await isSignedIn()) {
+                      } else if (await userController.isSignedIn()) {
                         Navigator.pushReplacement(
                           context,
                           GradelyPageRoute(

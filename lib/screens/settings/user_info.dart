@@ -1,7 +1,7 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:gradely2/components/controllers/user_controller.dart";
 import "package:gradely2/components/utils/app.dart";
-import "package:gradely2/components/utils/user.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 import "package:gradely2/components/widgets/dialogs.dart";
@@ -9,13 +9,14 @@ import "package:gradely2/components/variables.dart";
 import "package:easy_localization/easy_localization.dart";
 
 class UserInfoScreen extends StatefulWidget {
-  const UserInfoScreen({Key key}) : super(key: key);
+  const UserInfoScreen({Key? key}) : super(key: key);
 
   @override
   _UserInfoScreenState createState() => _UserInfoScreenState();
 }
 
 class _UserInfoScreenState extends State<UserInfoScreen> {
+    final UserController userController = UserController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -25,7 +26,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   @override
   void initState() {
     super.initState();
-    _nameController.text = user.name ?? "";
+    _nameController.text = user.name;
     _emailController.text = user.email;
     _passwordPlaceholderController.text = "123456789";
   }
@@ -41,7 +42,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 size: 20,
                 color: Theme.of(context).primaryColorDark,
               ),
-              onPressed: () => signOut(context))
+              onPressed: () => userController.signOut(context))
         ],
         title: Text("account".tr()),
       ),
@@ -97,7 +98,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 IconButton(
                   onPressed: () async {
                     try {
-                      changeEmail(_emailController.text, context);
+                      userController.changeEmail(_emailController.text, context);
                     } catch (e) {
                       errorSuccessDialog(
                           context: context,
@@ -206,7 +207,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                   child: Text("delete".tr()),
                                   onPressed: () async {
                                     Navigator.of(contextP).pop();
-                                    if (await reAuthenticate(
+                                    if (await userController.reAuthenticate(
                                         email: user.email,
                                         password: _passwordController.text)) {
                                       await functions.createExecution(
