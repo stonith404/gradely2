@@ -1,5 +1,5 @@
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import "package:flutter_icons/flutter_icons.dart";
 import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/utils/user.dart";
 import "package:gradely2/components/widgets/buttons.dart";
@@ -37,7 +37,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         actions: [
           IconButton(
               icon: Icon(
-                FontAwesome5Solid.sign_out_alt,
+                Icons.logout,
                 size: 20,
                 color: Theme.of(context).primaryColorDark,
               ),
@@ -73,7 +73,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                           text: "error_unknown".tr());
                     }
                   },
-                  icon: Icon(FontAwesome5Solid.save),
+                  icon: Icon(
+                    isCupertino
+                        ? CupertinoIcons.square_arrow_down
+                        : Icons.save_outlined,
+                  ),
                   color: Theme.of(context).primaryColorDark,
                 ),
               ],
@@ -101,7 +105,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                           text: "error_unknown".tr());
                     }
                   },
-                  icon: Icon(FontAwesome5Solid.save),
+                  icon: Icon(
+                    isCupertino
+                        ? CupertinoIcons.square_arrow_down
+                        : Icons.save_outlined,
+                  ),
                   color: Theme.of(context).primaryColorDark,
                 ),
               ],

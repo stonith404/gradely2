@@ -1,3 +1,4 @@
+import "package:flutter/cupertino.dart";
 import "package:flutter_slidable/flutter_slidable.dart";
 import "package:gradely2/components/controllers/grade_controller.dart";
 import "package:gradely2/components/utils/grades.dart";
@@ -14,7 +15,6 @@ import "package:gradely2/screens/main/grades/statistics.dart";
 import "package:flutter/material.dart";
 import "dart:async";
 import "package:easy_localization/easy_localization.dart";
-import "package:flutter_icons/flutter_icons.dart";
 import "package:native_context_menu/native_context_menu.dart";
 
 String errorMessage = "";
@@ -121,7 +121,9 @@ class _GradesScreenState extends State<GradesScreen> {
                                         ),
                                         WidgetSpan(
                                           child: Icon(
-                                            FontAwesome5Solid.plus,
+                                            isCupertino
+                                                ? CupertinoIcons.plus
+                                                : Icons.add,
                                             size: 15,
                                           ),
                                         ),
@@ -161,7 +163,9 @@ class _GradesScreenState extends State<GradesScreen> {
                                               color: Theme.of(context)
                                                   .primaryColorDark,
                                               iconWidget: Icon(
-                                                FontAwesome5.trash_alt,
+                                                isCupertino
+                                                    ? CupertinoIcons.delete
+                                                    : Icons.delete_outline,
                                                 color: Theme.of(context)
                                                     .primaryColorLight,
                                               ),
@@ -189,8 +193,11 @@ class _GradesScreenState extends State<GradesScreen> {
                                                     : Row(
                                                         children: [
                                                           Icon(
-                                                            Icons
-                                                                .calculate_outlined,
+                                                            isCupertino
+                                                                ? CupertinoIcons
+                                                                    .bag
+                                                                : Icons
+                                                                    .calculate_outlined,
                                                             size: 20,
                                                           ),
                                                           Text(" " +
@@ -199,7 +206,11 @@ class _GradesScreenState extends State<GradesScreen> {
                                                                   .toString() +
                                                               "   "),
                                                           Icon(
-                                                            Icons.date_range,
+                                                            isCupertino
+                                                                ? CupertinoIcons
+                                                                    .calendar
+                                                                : Icons
+                                                                    .date_range,
                                                             size: 20,
                                                           ),
                                                           Text((() {
@@ -296,7 +307,11 @@ class _GradesScreenState extends State<GradesScreen> {
                             ).then((_) => getTests())),
                     IconButton(
                         color: Theme.of(context).primaryColorDark,
-                        icon: Icon(FontAwesome5Solid.calculator, size: 17),
+                        icon: Icon(
+                            isCupertino
+                                ? CupertinoIcons.plus_slash_minus
+                                : Icons.calculate,
+                            size: 17),
                         onPressed: () {
                           showModalBottomSheet(
                               backgroundColor:
@@ -323,8 +338,11 @@ class _GradesScreenState extends State<GradesScreen> {
                                                         .primaryColorDark,
                                                 child: IconButton(
                                                     icon: Icon(
-                                                      FontAwesome5Solid
-                                                          .calculator,
+                                                      isCupertino
+                                                          ? CupertinoIcons
+                                                              .plus_slash_minus
+                                                          : Icons
+                                                              .calculate_outlined,
                                                       color: Theme.of(context)
                                                           .primaryColorLight,
                                                     ),
@@ -354,7 +372,11 @@ class _GradesScreenState extends State<GradesScreen> {
                                                         .primaryColorDark,
                                                 child: IconButton(
                                                     icon: Icon(
-                                                      FontAwesome5.chart_bar,
+                                                      isCupertino
+                                                          ? CupertinoIcons
+                                                              .chart_bar
+                                                          : Icons
+                                                              .bar_chart_outlined,
                                                       color: Theme.of(context)
                                                           .primaryColorLight,
                                                     ),

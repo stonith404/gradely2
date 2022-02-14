@@ -1,7 +1,5 @@
-import 'package:another_flushbar/flushbar.dart';
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import "package:flutter_icons/flutter_icons.dart";
 import "package:flutter_slidable/flutter_slidable.dart";
 import "package:gradely2/components/controllers/semester_controller.dart";
 import "package:gradely2/components/utils/app.dart";
@@ -130,7 +128,9 @@ class _SemesterScreenState extends State<SemesterScreen> {
                               child: IconSlideAction(
                                   color: Theme.of(context).primaryColorDark,
                                   iconWidget: Icon(
-                                    FontAwesome5Solid.clone,
+                                    isCupertino
+                                        ? CupertinoIcons.rectangle_on_rectangle
+                                        : Icons.copy,
                                     color: Theme.of(context).primaryColorLight,
                                   ),
                                   onTap: () => duplicateSemester(index)),
@@ -138,7 +138,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                             IconSlideAction(
                               color: Theme.of(context).primaryColorDark,
                               iconWidget: Icon(
-                                FontAwesome5Solid.pencil_alt,
+                                isCupertino ? CupertinoIcons.pen : Icons.edit,
                                 color: Theme.of(context).primaryColorLight,
                               ),
                               onTap: () {
@@ -158,7 +158,9 @@ class _SemesterScreenState extends State<SemesterScreen> {
                               child: IconSlideAction(
                                   color: Theme.of(context).primaryColorDark,
                                   iconWidget: Icon(
-                                    FontAwesome5.trash_alt,
+                                    isCupertino
+                                        ? CupertinoIcons.delete
+                                        : Icons.delete_outline,
                                     color: Theme.of(context).primaryColorLight,
                                   ),
                                   onTap: () => deleteSemester(index)),

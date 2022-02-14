@@ -1,14 +1,14 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import "package:flutter_icons/flutter_icons.dart";
 import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/utils/user.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:gradely2/components/variables.dart";
 import "package:easy_localization/easy_localization.dart";
+import "package:package_info_plus/package_info_plus.dart";
 
-Future settingsScreen(BuildContext context) {
+Future settingsScreen(BuildContext context, {PackageInfo packageInfo}) {
   String gradesResult = user.gradeType;
   return showCupertinoModalBottomSheet(
     shadow: BoxShadow(
@@ -82,7 +82,10 @@ Future settingsScreen(BuildContext context) {
                                       context, "settings/userInfo");
                                 },
                                 items: [
-                                  Icon(FontAwesome5Solid.user,
+                                  Icon(
+                                      isCupertino
+                                          ? CupertinoIcons.person
+                                          : Icons.person,
                                       size: 15,
                                       color:
                                           Theme.of(context).primaryColorDark),
@@ -98,7 +101,10 @@ Future settingsScreen(BuildContext context) {
                             settingsListTile(
                               arrow: false,
                               items: [
-                                Icon(CupertinoIcons.plus_slash_minus,
+                                Icon(
+                                    isCupertino
+                                        ? CupertinoIcons.plus_slash_minus
+                                        : Icons.calculate_outlined,
                                     size: 15,
                                     color: Theme.of(context).primaryColorDark),
                                 SizedBox(
@@ -162,7 +168,10 @@ Future settingsScreen(BuildContext context) {
                               settingsListTile(
                                 context: context,
                                 items: [
-                                  Icon(FontAwesome5Solid.heart,
+                                  Icon(
+                                      isCupertino
+                                          ? CupertinoIcons.heart
+                                          : Icons.favorite_outline,
                                       size: 15,
                                       color:
                                           Theme.of(context).primaryColorDark),
@@ -178,7 +187,10 @@ Future settingsScreen(BuildContext context) {
                               ),
                               settingsListTile(
                                   items: [
-                                    Icon(FontAwesome5Solid.laptop,
+                                    Icon(
+                                        isCupertino
+                                            ? CupertinoIcons.cloud_download
+                                            : Icons.download_outlined,
                                         size: 15,
                                         color:
                                             Theme.of(context).primaryColorDark),
@@ -189,23 +201,6 @@ Future settingsScreen(BuildContext context) {
                                   ],
                                   onTap: () => launchURL(
                                       "https://gradelyapp.com#download")),
-                              settingsListTile(
-                                context: context,
-                                items: [
-                                  Icon(FontAwesome5Solid.info_circle,
-                                      size: 15,
-                                      color:
-                                          Theme.of(context).primaryColorDark),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("app_info".tr()),
-                                ],
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, "settings/appInfo");
-                                },
-                              ),
                             ],
                           ))
                     ],
@@ -213,12 +208,12 @@ Future settingsScreen(BuildContext context) {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Padding(
                       padding: EdgeInsets.only(bottom: 20.0),
                       child: Text(
-                        "www.gradelyapp.com",
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        "v${packageInfo.version}",
+                        style: TextStyle(color: Colors.grey[400]),
                       ),
                     ),
                   ],

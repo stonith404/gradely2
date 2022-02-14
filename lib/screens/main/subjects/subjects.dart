@@ -11,6 +11,7 @@ import "package:gradely2/main.dart";
 import "package:gradely2/screens/auth/intro_screen.dart" as intro_screen;
 import "package:gradely2/screens/main/subjects/create_subject.dart";
 import "package:gradely2/screens/main/subjects/update_subject.dart";
+import "package:package_info_plus/package_info_plus.dart";
 import "package:showcaseview/showcaseview.dart";
 import "package:universal_io/io.dart";
 import "package:flutter/cupertino.dart";
@@ -23,7 +24,6 @@ import "package:gradely2/components/variables.dart";
 import "../semesters/semesters.dart";
 import "dart:math" as math;
 import "package:easy_localization/easy_localization.dart";
-import "package:flutter_icons/flutter_icons.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:native_context_menu/native_context_menu.dart";
 
@@ -218,7 +218,10 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               icon: Icon(Icons.segment,
                                   color: Theme.of(context).primaryColorDark),
                               onPressed: () async {
-                                await settingsScreen(context);
+                                PackageInfo packageInfo =
+                                    await PackageInfo.fromPlatform();
+                                await settingsScreen(context,
+                                    packageInfo: packageInfo);
                                 getSubjects();
                               }),
                         ),
@@ -231,7 +234,11 @@ class _SubjectScreenState extends State<SubjectScreen> {
                             shapeBorder: CircleBorder(),
                             radius: BorderRadius.all(Radius.circular(40)),
                             child: IconButton(
-                                icon: Icon(Icons.switch_left,
+                                icon: Icon(
+                                    isCupertino
+                                        ? CupertinoIcons
+                                            .arrow_right_arrow_left_circle
+                                        : Icons.switch_left,
                                     color: Theme.of(context).primaryColorDark),
                                 onPressed: () async {
                                   Navigator.pushNamed(context, "semesters")
@@ -427,7 +434,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
             child: IconSlideAction(
               color: Theme.of(context).primaryColorDark,
               iconWidget: Icon(
-                FontAwesome5Solid.pencil_alt,
+                isCupertino ? CupertinoIcons.pen : Icons.edit_outlined,
                 color: Theme.of(context).primaryColorLight,
               ),
               onTap: () {
@@ -448,7 +455,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
             child: IconSlideAction(
                 color: Theme.of(context).primaryColorDark,
                 iconWidget: Icon(
-                  FontAwesome5.trash_alt,
+                  isCupertino ? CupertinoIcons.delete : Icons.delete_outline,
                   color: Theme.of(context).primaryColorLight,
                 ),
                 onTap: () => deleteSubject(index)),

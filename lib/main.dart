@@ -8,7 +8,6 @@ import "package:gradely2/screens/auth/signIn.dart";
 import "package:gradely2/screens/main/grades/grades.dart";
 import "package:gradely2/screens/main/subjects/subjects.dart";
 import "package:gradely2/screens/main/semesters/semesters.dart";
-import "package:gradely2/screens/settings/appInfo.dart";
 import "package:gradely2/screens/settings/contact.dart";
 import "package:gradely2/screens/settings/contribute.dart";
 import "package:gradely2/screens/settings/support.dart";
@@ -75,7 +74,6 @@ var routes = {
   "settings/supportApp": (context) => SupportAppScreen(),
   "settings/userInfo": (context) => UserInfoScreen(),
   "settings/contribute": (context) => ContributeScreen(),
-  "settings/appInfo": (context) => AppInfoScreen(),
   "settings/contact": (context) => ContactScreen(),
   "maintenance": (context) => MaintenanceScreen(),
 };

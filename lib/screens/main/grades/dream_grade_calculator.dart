@@ -5,7 +5,7 @@ import "package:gradely2/components/widgets/decorations.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 
 Future dreamGradeCalculator(BuildContext context,
-    {@required int sumWeight, @required int sumGrade}) {
+    {@required double sumWeight, @required double sumGrade}) {
   final TextEditingController _gradeController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   _gradeController.text = "";

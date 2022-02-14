@@ -1,7 +1,7 @@
 import "package:appwrite/models.dart";
 import "package:easy_localization/easy_localization.dart";
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import "package:flutter_icons/flutter_icons.dart";
 import "package:flutter_svg/svg.dart";
 import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/utils/user.dart";
@@ -27,7 +27,7 @@ class _IntroScreenWrapper extends StatelessWidget {
             progress >= 0.76
                 ? IconButton(
                     color: Theme.of(context).primaryColorDark,
-                    icon: Icon(FontAwesome5Solid.sign_out_alt),
+                    icon: Icon(Icons.logout),
                     onPressed: () => signOut(context))
                 : Container(),
           ],
@@ -545,7 +545,11 @@ class _Intro6State extends State<Intro6> {
                               context: context, error: true, text: e.message);
                         }
                       },
-                      icon: Icon(FontAwesome5Solid.save),
+                      icon: Icon(
+                        isCupertino
+                            ? CupertinoIcons.square_arrow_down
+                            : Icons.save_outlined,
+                      ),
                       color: Theme.of(context).primaryColorDark,
                     ),
                   ],

@@ -22,7 +22,6 @@ dependencies:
   flutter_launcher_icons: ^0.9.2
   easy_localization: ^3.0.0
   url_launcher: ^6.0.17
-  flutter_icons: ^1.1.0
   shared_preferences: ^2.0.6
   syncfusion_flutter_charts: ^19.3.57
   flutter_inapp_purchase: ^5.1.2
@@ -34,8 +33,6 @@ dependencies:
   native_context_menu: ^0.2.0+3
   in_app_review: ^2.0.3
   showcaseview: ^1.1.4
-  # Packages that should be removed in the future versions:
-  emoji_chooser: ^0.9.2 # Isn't maintained anymore
 
 dev_dependencies:
   flutter_test:
