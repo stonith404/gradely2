@@ -16,7 +16,7 @@ class UserInfoScreen extends StatefulWidget {
 }
 
 class _UserInfoScreenState extends State<UserInfoScreen> {
-    final UserController userController = UserController();
+  final UserController userController = UserController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -98,7 +98,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 IconButton(
                   onPressed: () async {
                     try {
-                      userController.changeEmail(_emailController.text, context);
+                      userController.changeEmail(
+                          _emailController.text, context);
                     } catch (e) {
                       errorSuccessDialog(
                           context: context,

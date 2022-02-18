@@ -45,7 +45,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
       SubjectController(navigatorKey.currentContext);
   final SemesterController semesterController =
       SemesterController(navigatorKey.currentContext);
-        final UserController userController = UserController();
+  final UserController userController = UserController();
 
   List<Subject> _subjectList = [];
   Semester? currentSemester;
@@ -54,13 +54,13 @@ class _SubjectScreenState extends State<SubjectScreen> {
   // Every showcasw widget needs a GlobalKey
   final GlobalKey _showCase1 = GlobalKey();
   final GlobalKey _showCase2 = GlobalKey();
-  final GlobalKey _showCase3 = GlobalKey();
 
   Future<void> getSubjects({bool initalFetch = false}) async {
     if (initalFetch) setState(() => isLoading = true);
     _subjectList = await subjectController.list(getFromCache: initalFetch);
     try {
       currentSemester = await semesterController.getById(user.choosenSemester);
+      _initialSemesterRound = currentSemester!.round;
     } catch (_) {
       if (await (internetConnection())) {
         // If semester doesn't exist
@@ -180,11 +180,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
       // Show intro if didn't show before.
       if (!(user.showcaseViewed)) {
         Future.delayed(Duration(milliseconds: 1000), () {
-          ShowCaseWidget.of(context)!
-              .startShowCase([_showCase1, _showCase2, _showCase3]);
+          ShowCaseWidget.of(context)!.startShowCase([
+            _showCase1,
+            _showCase2,
+          ]);
         });
       } else {
-        Future.delayed(Duration(milliseconds: 7000), () => askForInAppRating());
+        Future.delayed(
+            Duration(milliseconds: 7000), () => askForInAppRating(context));
       }
     });
   }
@@ -209,45 +212,23 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       (BuildContext context, bool innerBoxIsScrolled) {
                     return <Widget>[
                       SliverAppBar(
-                        title: SvgPicture.asset("assets/images/logo.svg",
-                            color: Theme.of(context).primaryColorDark,
-                            height: 30),
-                        leading: Transform(
-                          alignment: Alignment.center,
-                          transform: Matrix4.rotationY(math.pi),
-                          child: IconButton(
-                              icon: Icon(Icons.segment,
-                                  color: Theme.of(context).primaryColorDark),
-                              onPressed: () async {
-                                PackageInfo packageInfo =
-                                    await PackageInfo.fromPlatform();
-                                await settingsScreen(context,
-                                    packageInfo: packageInfo);
-                                getSubjects();
-                              }),
-                        ),
-                        actions: [
-                          Showcase(
-                            key: _showCase1,
-                            title: "semesters".tr(),
-                            description: "showcase_semester_button".tr(),
-                            disableAnimation: false,
-                            shapeBorder: CircleBorder(),
-                            radius: BorderRadius.all(Radius.circular(40)),
+                          title: SvgPicture.asset("assets/images/logo.svg",
+                              color: Theme.of(context).primaryColorDark,
+                              height: 30),
+                          leading: Transform(
+                            alignment: Alignment.center,
+                            transform: Matrix4.rotationY(math.pi),
                             child: IconButton(
-                                icon: Icon(
-                                    isCupertino
-                                        ? CupertinoIcons
-                                            .arrow_right_arrow_left_circle
-                                        : Icons.switch_left,
+                                icon: Icon(Icons.segment,
                                     color: Theme.of(context).primaryColorDark),
                                 onPressed: () async {
-                                  Navigator.pushNamed(context, "semesters")
-                                      .then((value) => getSubjects());
+                                  PackageInfo packageInfo =
+                                      await PackageInfo.fromPlatform();
+                                  await settingsScreen(context,
+                                      packageInfo: packageInfo);
+                                  getSubjects();
                                 }),
-                          ),
-                        ],
-                      ),
+                          ))
                     ];
                   },
                   body: Padding(
@@ -367,7 +348,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               ),
                               Spacer(flex: 1),
                               Showcase(
-                                key: _showCase2,
+                                key: _showCase1,
                                 title: "subjects".tr(),
                                 description: "showcase_add_subject_button".tr(),
                                 disableAnimation: false,
@@ -402,7 +383,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           return index == 0 && !user.showcaseViewed
                               ? Showcase(
-                                  key: _showCase3,
+                                  key: _showCase2,
                                   title: "grades".tr(),
                                   description:
                                       Platform.isWindows || Platform.isMacOS
@@ -497,14 +478,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
                         return getPluspoints(_subjectList[index].average)
                             .toString();
                       } else {
-                        return roundGrade(
-                            _subjectList[index].average, currentSemester!.round);
+                        return roundGrade(_subjectList[index].average,
+                            currentSemester!.round);
                       }
                     })(),
                   ),
                   onTap: () {
                     if (!user.showcaseViewed) {
-                      ShowCaseWidget.of(context)!.completed(_showCase3);
+                      ShowCaseWidget.of(context)!.completed(_showCase2);
                     }
                     selectedSubject = _subjectList[index];
                     Navigator.pushNamed(context, "grades").then((value) {

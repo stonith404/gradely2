@@ -92,7 +92,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Semester"),
+        title: Text("semesters".tr()),
       ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColorDark,
@@ -172,7 +172,8 @@ class _SemesterScreenState extends State<SemesterScreen> {
                             child: Column(
                               children: [
                                 ContextMenuRegion(
-                                  onItemSelected: (item) => {item.onSelected!()},
+                                  onItemSelected: (item) =>
+                                      {item.onSelected!()},
                                   menuItems: [
                                     MenuItem(
                                       onSelected: () => deleteSemester(index),

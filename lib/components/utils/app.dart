@@ -91,9 +91,10 @@ PageRoute GradelyPageRoute({Widget Function(BuildContext)? builder}) {
 
 // ask for an in app rating. This gets executed when the account is older then 30 days.
 
-askForInAppRating() async {
+askForInAppRating(context) async {
   int today = (DateTime.now().millisecondsSinceEpoch / 1000).round();
   bool isLastAskedOlderThen14Days;
+  bool neverAskAgain = prefs.getBool("never_ask_again_review") ?? false;
 
   try {
     isLastAskedOlderThen14Days =
@@ -105,12 +106,39 @@ askForInAppRating() async {
   bool isAccountOlderThen30Days = (today - user.registration) > 2592000;
   final InAppReview inAppReview = InAppReview.instance;
 
-  if (isAccountOlderThen30Days &&
+  if (!neverAskAgain &&
+      isAccountOlderThen30Days &&
       isLastAskedOlderThen14Days &&
       (Platform.isIOS || Platform.isMacOS || Platform.isAndroid) &&
       await inAppReview.isAvailable()) {
-    inAppReview.requestReview();
-    prefs.setInt("timestamp_asked_for_review", today);
+    gradelyDialog(
+        context: context,
+        title: "rate".tr(),
+         text:
+            "rate_gradely2_popup".tr(),
+        actions: [
+          TextButton(
+              onPressed: () {
+                prefs.setBool("never_ask_again_review", true);
+                Navigator.of(context).pop();
+              },
+              child: Text("never".tr())),
+          TextButton(
+              onPressed: () {
+                prefs.setInt("timestamp_asked_for_review", today);
+                Navigator.of(context).pop();
+              },
+              child: Text("maybe_later".tr())),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                inAppReview.requestReview();
+                prefs.setInt("timestamp_asked_for_review", today);
+                prefs.setBool("never_ask_again_review", true);
+              },
+              child: Text("sure".tr()))
+        ],
+       );
   }
 }
 

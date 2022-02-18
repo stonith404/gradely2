@@ -38,7 +38,6 @@ Future _executeJobs() async {
     _isSignedIn = await _userController.isSignedIn();
     _isMaintenance = await isMaintenance();
   }
-  print(_appVersionCheck.runtimeType);
 }
 
 void main() async {

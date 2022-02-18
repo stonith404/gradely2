@@ -9,7 +9,7 @@ import "package:easy_localization/easy_localization.dart";
 import "package:package_info_plus/package_info_plus.dart";
 
 Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
-    final UserController userController = UserController();
+  final UserController userController = UserController();
   String? gradesResult = user.gradeType;
   return showCupertinoModalBottomSheet(
     shadow: BoxShadow(
@@ -56,7 +56,7 @@ Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
                             Radius.circular(25),
                           )),
                       child: IconButton(
-                          iconSize: 15,
+                          iconSize: 20,
                           color: Theme.of(context).primaryColorDark,
                           onPressed: () async {
                             await userController.getUserInfo();
@@ -87,7 +87,7 @@ Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
                                       isCupertino
                                           ? CupertinoIcons.person
                                           : Icons.person,
-                                      size: 15,
+                                      size: 20,
                                       color:
                                           Theme.of(context).primaryColorDark),
                                   SizedBox(
@@ -100,13 +100,31 @@ Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
                                   ),
                                 ]),
                             settingsListTile(
+                                context: context,
+                                onTap: () {
+                                  Navigator.pushNamed(context, "semesters");
+                                },
+                                items: [
+                                  Icon(CupertinoIcons.square_stack,
+                                      size: 20,
+                                      color:
+                                          Theme.of(context).primaryColorDark),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("semesters".tr()),
+                                  Spacer(
+                                    flex: 1,
+                                  ),
+                                ]),
+                            settingsListTile(
                               arrow: false,
                               items: [
                                 Icon(
                                     isCupertino
                                         ? CupertinoIcons.plus_slash_minus
                                         : Icons.calculate_outlined,
-                                    size: 15,
+                                    size: 20,
                                     color: Theme.of(context).primaryColorDark),
                                 SizedBox(
                                   width: 10,
@@ -173,7 +191,7 @@ Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
                                       isCupertino
                                           ? CupertinoIcons.heart
                                           : Icons.favorite_outline,
-                                      size: 15,
+                                      size: 20,
                                       color:
                                           Theme.of(context).primaryColorDark),
                                   SizedBox(
@@ -192,7 +210,7 @@ Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
                                         isCupertino
                                             ? CupertinoIcons.cloud_download
                                             : Icons.download_outlined,
-                                        size: 15,
+                                        size: 20,
                                         color:
                                             Theme.of(context).primaryColorDark),
                                     SizedBox(

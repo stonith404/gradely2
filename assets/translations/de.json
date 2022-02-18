@@ -162,5 +162,9 @@
   "updated_needed": "Aktualisierung erforderlich",
   "updated_needed_description": "Du benutzt eine alte Version von Gradely 2. Bitte aktualisiere die App auf die neueste Version.",
   "updated_needed_version": "Diese Version: {} | Benötigt Version: {}",
-  "update_now": "Jetzt aktualisieren"
+  "update_now": "Jetzt aktualisieren",
+  "rate_gradely2_popup": "Gradely 2 ist komplett gratis. Es hilft mir sehr viel wenn du Gradely 2 bewerten würdest.",
+  "sure": "Klar",
+  "maybe_later": "Vielleicht später",
+  "never": "Nie"
 }

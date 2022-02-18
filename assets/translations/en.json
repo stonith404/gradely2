@@ -162,5 +162,9 @@
   "updated_needed": "Update required",
   "updated_needed_description": "You're using an old version of Gradely 2. Please update to the latest version.",
   "updated_needed_version": "This Version: {} | Needed Version: {}",
-  "update_now": "Update now"
+  "update_now": "Update now",
+  "rate_gradely2_popup": "Gradely 2 is completly free and without ads. It helps me very much if you would rate Gradely 2.",
+  "sure": "Sure",
+  "maybe_later": "Maybe later",
+  "never": "Never"
 }
