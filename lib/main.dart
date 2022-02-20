@@ -111,6 +111,7 @@ class MaterialWrapper extends StatelessWidget {
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,
+              themeMode: kIsWeb ? ThemeMode.light : ThemeMode.system,
               theme: lightTheme,
               darkTheme: darkTheme),
         ));

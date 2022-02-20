@@ -74,7 +74,7 @@ class ContributeScreen extends StatelessWidget {
                 gradelyButton(
                     text: "view_github".tr(),
                     onPressed: () {
-                      launchURL("https://github.com/generalxhd/Gradely2");
+                      launchURL("https://github.com/stonith404/Gradely2");
                     }),
               ],
             ),
