@@ -1,4 +1,4 @@
-import {Client, Users, Database } from "node-appwrite";
+import { Client, Users, Database } from "node-appwrite";
 import dotenv from "dotenv";
 dotenv.config()
 
@@ -13,7 +13,7 @@ client
 let users = new Users(client);
 let database = new Database(client);
 
-export default {
+export {
     client,
     users,
     database

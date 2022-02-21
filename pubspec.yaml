@@ -13,7 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   #custom dependencies
-  msix: ^3.0.1
+  msix: ^3.1.6
   cupertino_icons: ^1.0.4
   appwrite: ^3.0.1
   http: ^0.13.4
