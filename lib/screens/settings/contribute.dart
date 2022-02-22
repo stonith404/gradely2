@@ -1,21 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:gradely2/shared/FUNCTIONS.dart';
-import 'package:gradely2/shared/VARIABLES.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/shared/WIDGETS.dart';
+import "package:flutter/material.dart";
+import "package:flutter_svg/svg.dart";
+import "package:easy_localization/easy_localization.dart";
+import "package:gradely2/components/utils/app.dart";
+import "package:gradely2/components/widgets/buttons.dart";
 
 class ContributeScreen extends StatelessWidget {
+  const ContributeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: primaryColor,
-        ),
-        backgroundColor: defaultBGColor,
-        elevation: 0,
-        title: Text("contribute".tr(), style: appBarTextTheme),
+        title: Text("contribute".tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -25,14 +21,14 @@ class ContributeScreen extends StatelessWidget {
               height: 20,
             ),
             SvgPicture.asset(
-              'assets/images/ZombieingDoodle.svg',
+              "assets/images/ZombieingDoodle.svg",
               width: 150,
-              color: primaryColor,
+              color: Theme.of(context).primaryColorDark,
             ),
             SizedBox(
               height: 15,
             ),
-            whiteContainer(children: [
+            whiteContainer(context, children: [
               Text(
                 "contribute_leading_text".tr(),
               ),
@@ -40,7 +36,7 @@ class ContributeScreen extends StatelessWidget {
             SizedBox(
               height: 15,
             ),
-            whiteContainer(children: [
+            whiteContainer(context, children: [
               Text(
                 "languages".tr(),
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -73,15 +69,12 @@ class ContributeScreen extends StatelessWidget {
                 gradelyButton(
                     text: "contact_me".tr(),
                     onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                       "settings/contact"
-                      );
+                      Navigator.pushNamed(context, "settings/contact");
                     }),
                 gradelyButton(
                     text: "view_github".tr(),
                     onPressed: () {
-                      launchURL("https://github.com/generalxhd/Gradely2");
+                      launchURL("https://github.com/stonith404/Gradely2");
                     }),
               ],
             ),
@@ -95,13 +88,13 @@ class ContributeScreen extends StatelessWidget {
   }
 }
 
-Widget whiteContainer({List<Widget> children}) {
+Widget whiteContainer(context, {required List<Widget> children}) {
   return Container(
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
           Radius.circular(10),
         ),
-        color: bwColor),
+        color: Theme.of(context).backgroundColor),
     child: Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(

@@ -1,0 +1,13 @@
+{
+  "name": "cloud-functions-delete-account",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+  },
+  "author": "Elias Schneider",
+  "license": "ISC",
+  "type" : "module",
+  "dependencies": {
+    "node-appwrite": "^4.0.2"
+  }
+}

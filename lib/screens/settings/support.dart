@@ -1,22 +1,26 @@
-import 'dart:io';
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:gradely2/shared/FUNCTIONS.dart';
-import 'package:gradely2/shared/VARIABLES.dart';
-import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
-import 'package:gradely2/shared/loading.dart';
+import 'package:flutter/foundation.dart';
+import "package:universal_io/io.dart";
+import "dart:async";
+import "package:flutter/material.dart";
+import "package:easy_localization/easy_localization.dart";
+import "package:gradely2/components/utils/app.dart";
+import "package:gradely2/components/widgets/buttons.dart";
+import "package:gradely2/components/widgets/dialogs.dart";
+import "package:gradely2/components/widgets/loading.dart";
+import "package:gradely2/components/variables.dart";
+import "package:flutter_inapp_purchase/flutter_inapp_purchase.dart";
 
 class SupportAppScreen extends StatefulWidget {
+  const SupportAppScreen({Key? key}) : super(key: key);
+
   @override
   _SupportAppState createState() => _SupportAppState();
 }
 
 class _SupportAppState extends State<SupportAppScreen> {
-  StreamSubscription purchaseUpdatedSubscription;
-  StreamSubscription purchaseErrorSubscription;
-  StreamSubscription _conectionSubscription;
+  StreamSubscription? purchaseUpdatedSubscription;
+  StreamSubscription? purchaseErrorSubscription;
+  StreamSubscription? _conectionSubscription;
   List iapList = [];
 
   buyProduct(String id) async {
@@ -46,7 +50,6 @@ class _SupportAppState extends State<SupportAppScreen> {
   finishPurchase(token) async {
     FlutterInappPurchase.instance.consumePurchaseAndroid(token);
     isLoadingController.add(false);
-
     gradelyDialog(
         context: context,
         title: "thank_you".tr(),
@@ -63,15 +66,15 @@ class _SupportAppState extends State<SupportAppScreen> {
   void dispose() {
     super.dispose();
     if (_conectionSubscription != null) {
-      _conectionSubscription.cancel();
+      _conectionSubscription!.cancel();
       _conectionSubscription = null;
     }
     if (purchaseErrorSubscription != null) {
-      purchaseErrorSubscription.cancel();
+      purchaseErrorSubscription!.cancel();
       purchaseErrorSubscription = null;
     }
     if (purchaseUpdatedSubscription != null) {
-      purchaseUpdatedSubscription.cancel();
+      purchaseUpdatedSubscription!.cancel();
       purchaseUpdatedSubscription = null;
     }
   }
@@ -84,13 +87,13 @@ class _SupportAppState extends State<SupportAppScreen> {
 
     purchaseUpdatedSubscription =
         FlutterInappPurchase.purchaseUpdated.listen((productItem) {
-      finishPurchase(productItem.purchaseToken);
+      finishPurchase(productItem!.purchaseToken);
     });
 
     purchaseErrorSubscription =
         FlutterInappPurchase.purchaseError.listen((purchaseError) {
       isLoadingController.add(false);
-      print('purchase-error: $purchaseError');
+      print("purchase-error: $purchaseError");
     });
   }
 
@@ -98,17 +101,12 @@ class _SupportAppState extends State<SupportAppScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: primaryColor,
-        ),
-        backgroundColor: defaultBGColor,
-        elevation: 0,
-        title: Text("support".tr(), style: appBarTextTheme),
+        title: Text("support".tr()),
       ),
       body: SingleChildScrollView(
         child: Padding(
             padding: const EdgeInsets.all(24.0),
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width * 1,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,10 +126,10 @@ class _SupportAppState extends State<SupportAppScreen> {
                     SizedBox(
                       height: 10,
                     ),
-                    iapList.isEmpty && (Platform.isIOS || Platform.isAndroid)
+                    iapList.isEmpty && !kIsWeb && (Platform.isIOS || Platform.isAndroid)
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               GradelyLoadingIndicator(),
                             ],
                           )
@@ -184,8 +182,8 @@ class _SupportAppState extends State<SupportAppScreen> {
                         onPressed: () =>
                             Navigator.pushNamed(context, "settings/contribute"),
                         text: "contribute".tr(),
-                        color: frontColor(),
-                        textColor: primaryColor),
+                        color: Theme.of(context).primaryColorLight,
+                        textColor: Theme.of(context).primaryColorDark),
                     SizedBox(
                       height: 40,
                     ),
@@ -201,7 +199,7 @@ class _SupportAppState extends State<SupportAppScreen> {
                       height: 20,
                     ),
                     gradelyButton(
-                        onPressed: ()=>launchURL((() {
+                        onPressed: () => launchURL((() {
                               if (Platform.isIOS || Platform.isMacOS) {
                                 return "https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974";
                               } else if (Platform.isAndroid) {
@@ -213,8 +211,8 @@ class _SupportAppState extends State<SupportAppScreen> {
                               }
                             }())),
                         text: "rate".tr(),
-                        color: frontColor(),
-                        textColor: primaryColor)
+                        color: Theme.of(context).primaryColorLight,
+                        textColor: Theme.of(context).primaryColorDark)
                   ]),
             )),
       ),

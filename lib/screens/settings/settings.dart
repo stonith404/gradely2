@@ -1,14 +1,16 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gradely2/shared/WIDGETS.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:gradely2/shared/FUNCTIONS.dart';
-import 'package:gradely2/shared/VARIABLES.dart';
-import 'package:easy_localization/easy_localization.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:gradely2/components/controllers/user_controller.dart";
+import "package:gradely2/components/utils/app.dart";
+import "package:gradely2/components/widgets/decorations.dart";
+import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
+import "package:gradely2/components/variables.dart";
+import "package:easy_localization/easy_localization.dart";
+import "package:package_info_plus/package_info_plus.dart";
 
-Future settingsScreen(BuildContext context) {
-  String gradesResult = user.gradeType;
+Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
+  final UserController userController = UserController();
+  String? gradesResult = user.gradeType;
   return showCupertinoModalBottomSheet(
     shadow: BoxShadow(
       color: Colors.grey.withOpacity(0.3),
@@ -20,7 +22,7 @@ Future settingsScreen(BuildContext context) {
     builder: (context) => StatefulBuilder(builder:
         (BuildContext context, StateSetter setState /*You can rename this!*/) {
       return Material(
-        color: defaultBGColor,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 1,
           child: Padding(
@@ -40,22 +42,24 @@ Future settingsScreen(BuildContext context) {
                       decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: bwColor.withOpacity(0.3),
+                              color: Theme.of(context)
+                                  .backgroundColor
+                                  .withOpacity(0.3),
                               spreadRadius: 5,
                               blurRadius: 7,
                               offset:
                                   Offset(0, 3), // changes position of shadow
                             ),
                           ],
-                          color: bwColor,
+                          color: Theme.of(context).backgroundColor,
                           borderRadius: BorderRadius.all(
                             Radius.circular(25),
                           )),
                       child: IconButton(
-                          iconSize: 15,
-                          color: wbColor,
+                          iconSize: 20,
+                          color: Theme.of(context).primaryColorDark,
                           onPressed: () async {
-                            await getUserInfo();
+                            await userController.getUserInfo();
                             Navigator.of(context).pop();
                           },
                           icon: Icon(Icons.arrow_forward_ios_outlined)),
@@ -79,8 +83,13 @@ Future settingsScreen(BuildContext context) {
                                       context, "settings/userInfo");
                                 },
                                 items: [
-                                  Icon(FontAwesome5Solid.user,
-                                      size: 15, color: primaryColor),
+                                  Icon(
+                                      isCupertino
+                                          ? CupertinoIcons.person
+                                          : Icons.person,
+                                      size: 20,
+                                      color:
+                                          Theme.of(context).primaryColorDark),
                                   SizedBox(
                                     width: 10,
                                   ),
@@ -91,10 +100,32 @@ Future settingsScreen(BuildContext context) {
                                   ),
                                 ]),
                             settingsListTile(
+                                context: context,
+                                onTap: () {
+                                  Navigator.pushNamed(context, "semesters");
+                                },
+                                items: [
+                                  Icon(CupertinoIcons.square_stack,
+                                      size: 20,
+                                      color:
+                                          Theme.of(context).primaryColorDark),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("semesters".tr()),
+                                  Spacer(
+                                    flex: 1,
+                                  ),
+                                ]),
+                            settingsListTile(
                               arrow: false,
                               items: [
-                                Icon(CupertinoIcons.plus_slash_minus,
-                                    size: 15, color: primaryColor),
+                                Icon(
+                                    isCupertino
+                                        ? CupertinoIcons.plus_slash_minus
+                                        : Icons.calculate_outlined,
+                                    size: 20,
+                                    color: Theme.of(context).primaryColorDark),
                                 SizedBox(
                                   width: 10,
                                 ),
@@ -103,14 +134,21 @@ Future settingsScreen(BuildContext context) {
                                   flex: 1,
                                 ),
                                 DropdownButton<String>(
-                                  hint: Text(gradesResult.tr()),
+                                  dropdownColor:
+                                      Theme.of(context).backgroundColor,
+                                  hint: Text(
+                                    gradesResult!.tr(),
+                                    style: TextStyle(
+                                        color:
+                                            Theme.of(context).primaryColorDark),
+                                  ),
                                   items: <String>[
-                                    'av'.tr(),
-                                    'pp'.tr(),
+                                    "av".tr(),
+                                    "pp".tr(),
                                   ].map((String value) {
-                                    return new DropdownMenuItem<String>(
+                                    return DropdownMenuItem<String>(
                                       value: value,
-                                      child: new Text(value),
+                                      child: Text(value),
                                     );
                                   }).toList(),
                                   onChanged: (value) {
@@ -137,20 +175,25 @@ Future settingsScreen(BuildContext context) {
                             ),
                           ],
                         ),
-                        decoration: boxDec(),
+                        decoration: boxDec(context),
                       ),
                       SizedBox(
                         height: 40,
                       ),
                       Container(
-                          decoration: boxDec(),
+                          decoration: boxDec(context),
                           child: Column(
                             children: [
                               settingsListTile(
                                 context: context,
                                 items: [
-                                  Icon(FontAwesome5Solid.heart,
-                                      size: 15, color: primaryColor),
+                                  Icon(
+                                      isCupertino
+                                          ? CupertinoIcons.heart
+                                          : Icons.favorite_outline,
+                                      size: 20,
+                                      color:
+                                          Theme.of(context).primaryColorDark),
                                   SizedBox(
                                     width: 10,
                                   ),
@@ -163,8 +206,13 @@ Future settingsScreen(BuildContext context) {
                               ),
                               settingsListTile(
                                   items: [
-                                    Icon(FontAwesome5Solid.laptop,
-                                        size: 15, color: primaryColor),
+                                    Icon(
+                                        isCupertino
+                                            ? CupertinoIcons.cloud_download
+                                            : Icons.download_outlined,
+                                        size: 20,
+                                        color:
+                                            Theme.of(context).primaryColorDark),
                                     SizedBox(
                                       width: 10,
                                     ),
@@ -172,21 +220,6 @@ Future settingsScreen(BuildContext context) {
                                   ],
                                   onTap: () => launchURL(
                                       "https://gradelyapp.com#download")),
-                              settingsListTile(
-                                context: context,
-                                items: [
-                                  Icon(FontAwesome5Solid.info_circle,
-                                      size: 15, color: primaryColor),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("app_info".tr()),
-                                ],
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, "settings/appInfo");
-                                },
-                              ),
                             ],
                           ))
                     ],
@@ -196,10 +229,10 @@ Future settingsScreen(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
+                      padding: EdgeInsets.only(bottom: 20.0),
                       child: Text(
-                        "www.gradelyapp.com",
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        "v${packageInfo!.version}",
+                        style: TextStyle(color: Colors.grey[400]),
                       ),
                     ),
                   ],
@@ -214,8 +247,8 @@ Future settingsScreen(BuildContext context) {
 }
 
 ListTile settingsListTile({
-  BuildContext context,
-  List<Widget> items,
+  BuildContext? context,
+  required List<Widget> items,
   onTap,
   arrow = true,
 }) {
