@@ -21,10 +21,10 @@ let users = new Users(client);
     while (res.length != 0) {
         res = (await users.list(undefined, 100, undefined, lastId, "after")).users;
         for (const user of res) {
-            let isOlderThenThreeMonths = (Date.now() / 1000 - user.registration) > 3600 * 24 * 31 * 3
+            let isOlderThenThreeMonths = (Date.now() / 1000 - user.registration) > 3600 * 24 * 31 * 3 // 3 Months
             if (!user.emailVerification && isOlderThenThreeMonths) {
-                console.log(user)
-                migratedDocuments++;
+                users.delete(user.$id)
+                deletedUsers++;
             }
         }
         try {
