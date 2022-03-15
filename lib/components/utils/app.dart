@@ -75,10 +75,6 @@ Future sharedPrefs() async {
 
 void launchURL(_url) async => await launch(_url);
 
-//clears all variables when user sign out
-void clearVariables() {
-  prefs.clear();
-}
 
 // ignore: non_constant_identifier_names
 PageRoute GradelyPageRoute({Widget Function(BuildContext)? builder}) {
