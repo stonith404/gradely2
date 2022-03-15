@@ -4,7 +4,7 @@ description: Your grades on every device.
 # The following line prevents the package from being accidentally published to pub.dev using `pub publish`.
 publish_to: "none"
 
-version: 1.1.4+14
+version: 1.1.6+15
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -67,7 +67,7 @@ msix_config:
   display_name: Gradely 2
   publisher_display_name: Elias Schneider
   identity_name: 58500EliasSchneider.Gradely2
-  msix_version: 1.1.5.0
+  msix_version: 1.1.6.0
   publisher: CN=26AFB924-E2D8-4326-B33D-B268D9E4FB49
   architecture: x64
   capabilities: "internetClient"
