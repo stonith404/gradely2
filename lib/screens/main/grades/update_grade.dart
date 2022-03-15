@@ -33,7 +33,7 @@ Future<Widget?> updateGrade(context, {required Grade grade}) {
           gradelyIconButton(
               onPressed: () async {
                 try {
-                  GradeController(context).update(
+                  await GradeController(context).update(
                       id: grade.id,
                       name: _nameController.text,
                       grade: _gradeTextController.text,
@@ -46,6 +46,7 @@ Future<Widget?> updateGrade(context, {required Grade grade}) {
                       error: true,
                       text: "error_grade_badly_formatted".tr());
                 }
+                Navigator.of(context).pop();
               },
               icon:
                   Icon(Icons.edit, color: Theme.of(context).primaryColorLight)),

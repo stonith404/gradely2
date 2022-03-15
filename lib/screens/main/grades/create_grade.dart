@@ -8,7 +8,8 @@ import "package:gradely2/components/widgets/decorations.dart";
 import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/components/widgets/modalsheets.dart";
 
-Future<Widget?> createGrade(context, {required String subjectId, required int gradeOffset}) {
+Future<Widget?> createGrade(context,
+    {required String subjectId, required int gradeOffset}) {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _gradeTextController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
@@ -27,9 +28,9 @@ Future<Widget?> createGrade(context, {required String subjectId, required int gr
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           gradelyIconButton(
-              onPressed: () {
+              onPressed: () async {
                 try {
-                  GradeController(context).create(
+                  await GradeController(context).create(
                       subjectId: subjectId,
                       name: _nameController.text,
                       grade: _gradeTextController.text,
