@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import "package:flutter/foundation.dart";
 import "package:universal_io/io.dart";
 import "dart:async";
 import "package:flutter/material.dart";
@@ -126,7 +126,9 @@ class _SupportAppState extends State<SupportAppScreen> {
                     SizedBox(
                       height: 10,
                     ),
-                    iapList.isEmpty && !kIsWeb && (Platform.isIOS || Platform.isAndroid)
+                    iapList.isEmpty &&
+                            !kIsWeb &&
+                            (Platform.isIOS || Platform.isAndroid)
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [

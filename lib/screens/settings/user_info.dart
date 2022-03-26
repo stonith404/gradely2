@@ -1,7 +1,6 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:gradely2/components/controllers/user_controller.dart";
-import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 import "package:gradely2/components/widgets/dialogs.dart";
@@ -213,7 +212,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                         password: _passwordController.text)) {
                                       await functions.createExecution(
                                           functionId: "fcn_delete_account");
-                                      clearVariables();
                                       _passwordController.text = "";
                                       Navigator.pushNamedAndRemoveUntil(
                                         context,

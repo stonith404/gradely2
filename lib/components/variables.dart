@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 import "package:gradely2/components/utils/api.dart";
 import "package:gradely2/components/models.dart";
 import "package:shared_preferences/shared_preferences.dart";
-import 'package:universal_io/io.dart';
+import "package:universal_io/io.dart";
 
 late User user;
 late SharedPreferences prefs;

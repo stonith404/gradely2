@@ -130,11 +130,10 @@ class UserController {
         });
   }
 
-  /// Sign the ouser out.
+  /// Sign the user out.
   Future signOut(context) async {
     await account.deleteSession(sessionId: "current");
     prefs.setBool("signedIn", false);
-    clearVariables();
     Navigator.pushNamedAndRemoveUntil(
       context,
       "auth/home",
