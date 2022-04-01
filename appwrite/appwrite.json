@@ -1,0 +1,50 @@
+{
+  "projectId": "60f40cb212896",
+  "projectName": "Gradely 2",
+  "functions": [
+    {
+      "$id": "fcn_delete_account",
+      "name": "Delete User",
+      "runtime": "node-16.0",
+      "path": "functions/delete_user",
+      "entrypoint": "src/index.js",
+      "execute": ["role:all"],
+      "events": [],
+      "schedule": "",
+      "timeout": 15
+    },
+    {
+      "$id": "fcn_contact",
+      "name": "Contact email",
+      "runtime": "node-16.0",
+      "path": "functions/contact_mail",
+      "entrypoint": "src/index.js",
+      "execute": ["role:all"],
+      "events": [],
+      "schedule": "",
+      "timeout": 15
+    },
+    {
+      "$id": "fcn_cascade_delete_documents",
+      "name": "Cascade delete documents",
+      "runtime": "node-16.0",
+      "path": "functions/clean_deleted_docs",
+      "entrypoint": "src/index.js",
+      "execute": [],
+      "events": [],
+      "schedule": "00 01 * * 1",
+      "timeout": 300
+    },
+    {
+      "$id": "fcn_delete_unverified_users",
+      "name": "Delete unverified users",
+      "runtime": "node-16.0",
+      "path": "functions/delete_unverified_users",
+      "entrypoint": "src/index.js",
+      "execute": [],
+      "events": [],
+      "schedule": "00 01 * * 1",
+      "timeout": 300
+    }
+  ]
+}

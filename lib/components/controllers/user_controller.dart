@@ -2,14 +2,14 @@ import "dart:async";
 import "dart:convert";
 import "package:appwrite/appwrite.dart";
 import "package:appwrite/models.dart";
+import "package:easy_localization/easy_localization.dart";
+import "package:flutter/material.dart";
+import "package:gradely2/components/models.dart" as models;
 import "package:gradely2/components/utils/app.dart";
+import "package:gradely2/components/variables.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 import "package:gradely2/components/widgets/dialogs.dart";
 import "package:universal_io/io.dart";
-import "package:flutter/material.dart";
-import "package:easy_localization/easy_localization.dart";
-import "package:gradely2/components/variables.dart";
-import "package:gradely2/components/models.dart" as models;
 
 class UserController {
   /// Get info of current logged in user

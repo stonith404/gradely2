@@ -21,7 +21,7 @@ class GradelyApi {
         collectionId: collection,
       );
 
-      for (var i = 0; i < res.sum; i++) {
+      for (var i = 0; i < res.total; i++) {
         result.add(res.documents[i].data);
       }
       prefs.setString(name, jsonEncode(result));

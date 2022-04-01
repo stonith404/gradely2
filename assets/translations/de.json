@@ -166,5 +166,6 @@
   "rate_gradely2_popup": "Gradely 2 ist komplett gratis. Es hilft mir sehr viel wenn du Gradely 2 bewerten würdest.",
   "sure": "Klar",
   "maybe_later": "Vielleicht später",
-  "never": "Nie"
+  "never": "Nie",
+  "error_dream_grade_calculator_empty": "Du hast keine Noten, deshalb keine ich deine Wunschnote nicht berechnen."
 }

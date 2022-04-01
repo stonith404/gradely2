@@ -166,5 +166,6 @@
   "rate_gradely2_popup": "Gradely 2 is completly free and without ads. It helps me very much if you would rate Gradely 2.",
   "sure": "Sure",
   "maybe_later": "Maybe later",
-  "never": "Never"
+  "never": "Never",
+  "error_dream_grade_calculator_empty": "You don't have any grades, so I can't calculate your dream grade."
 }

@@ -232,7 +232,7 @@ Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
                       padding: EdgeInsets.only(bottom: 20.0),
                       child: Text(
                         "v${packageInfo!.version}",
-                        style: TextStyle(color: Colors.grey[400]),
+                        style: TextStyle(color: Colors.grey[400], fontSize: 10),
                       ),
                     ),
                   ],
