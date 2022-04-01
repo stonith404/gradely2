@@ -38,7 +38,7 @@ class UpdateSubject extends StatelessWidget {
               gradelyButton(
                 text: "save".tr(),
                 onPressed: () async {
-                  SubjectController(context)
+                  await SubjectController(context)
                       .update(id: subject.id, name: _nameController.text);
                   Navigator.of(context).pop();
                 },

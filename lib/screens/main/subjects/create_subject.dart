@@ -32,7 +32,8 @@ class CreateSubject extends StatelessWidget {
               text: "add".tr(),
               onPressed: () async {
                 isLoadingController.add(true);
-                SubjectController(context).create(name: _nameController.text);
+                await SubjectController(context)
+                    .create(name: _nameController.text);
                 Navigator.of(context).pop();
               },
             ),
