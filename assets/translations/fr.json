@@ -166,5 +166,6 @@
   "rate_gradely2_popup": "Gradely 2 est entièrement gratuit et sans publicité. Cela m'aiderait beaucoup si vous notiez Gradely 2.",
   "sure": "Sûr",
   "maybe_later": "Plus tard",
-  "never": "Jamais"
+  "never": "Jamais",
+  "error_dream_grade_calculator_empty": "Tu n'as pas de notes, donc je ne peux pas calculer ta note de rêve."
 }

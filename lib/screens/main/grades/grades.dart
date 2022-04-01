@@ -350,10 +350,21 @@ class _GradesScreenState extends State<GradesScreen> {
                                                     onPressed: () {
                                                       Navigator.of(context)
                                                           .pop();
-                                                      dreamGradeCalculator(
-                                                          context,
-                                                          sumWeight: _sumW as double,
-                                                          sumGrade: _sum as double);
+                                                      if (_gradeList.isEmpty) {
+                                                        errorSuccessDialog(
+                                                            context: context,
+                                                            error: true,
+                                                            text:
+                                                                "error_dream_grade_calculator_empty"
+                                                                    .tr());
+                                                      } else {
+                                                        dreamGradeCalculator(
+                                                            context,
+                                                            sumWeight:
+                                                                _sumW as double,
+                                                            sumGrade:
+                                                                _sum as double);
+                                                      }
                                                     })),
                                             SizedBox(
                                               height: 10,
