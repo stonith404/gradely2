@@ -22,14 +22,14 @@ import "package:gradely2/screens/various/update_app.dart";
 import "package:plausible_analytics/plausible_analytics.dart";
 import "package:showcaseview/showcaseview.dart";
 import "components/utils/app.dart";
+import "env.dart" as env;
 
 final navigatorKey = GlobalKey<NavigatorState>();
 bool _isSignedIn = false;
 bool? _isMaintenance;
 final UserController _userController = UserController();
 late var _appVersionCheck = {};
-final plausible =
-    Plausible("https://analytics.eliasschneider.com", "app.gradelyapp.com");
+final plausible = Plausible(env.PLAUSIBLE_ENDPOINT, "app.gradelyapp.com");
 
 Future _executeJobs() async {
   _appVersionCheck = (await minAppVersion());
@@ -51,7 +51,7 @@ void main() async {
   locale = appwrite.Locale(client);
   storage = appwrite.Storage(client);
   functions = appwrite.Functions(client);
-  client.setEndpoint("https://gradelyapp.com/v1").setProject("60f40cb212896");
+  client.setEndpoint(env.APPWRITE_ENDPOINT).setProject(env.APPWRITE_PROJECT_ID);
 
   await _executeJobs();
   runApp(EasyLocalization(
