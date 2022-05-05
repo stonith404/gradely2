@@ -55,7 +55,7 @@ void main() async {
 
   await _executeJobs();
   runApp(EasyLocalization(
-      supportedLocales: const [Locale("de"), Locale("en"), Locale("fr")],
+      supportedLocales: const [Locale("de"), Locale("en"), Locale("fr"), Locale("es")],
       useOnlyLangCode: true,
       path: "assets/translations",
       fallbackLocale: Locale("en"),
