@@ -4,7 +4,7 @@ A grade monitoring and calculation App, that syncs all your grades across all yo
 
 <br>
 
-## Screenshots
+## 📸 Screenshots
 
 <table>
   <tr>
@@ -23,7 +23,7 @@ A grade monitoring and calculation App, that syncs all your grades across all yo
  
 <br>
 
-## Platforms
+## 💻 Platforms
 
 Gradely 2 is available on:
 
@@ -35,7 +35,7 @@ Gradely 2 is available on:
 
 You can download Gradely 2 on https://gradelyapp.com.
 
-## Features
+## ✨ Features
 
 - Semesters
 - Subjects
@@ -47,7 +47,7 @@ You can download Gradely 2 on https://gradelyapp.com.
 
 <br>
 
-## Contribute
+## ❤️ Contribute
 
 ### Improvements or bugs
 
@@ -59,17 +59,18 @@ Gradely 2 isn't supported in your language or did you find a language issue? You
 
 Currently supported languages:
 
-- German
-- English
-- (French)
+- 🇩🇪 German
+- 🏴󠁧󠁢󠁥󠁮󠁧󠁿 English
+- 🇪🇸 Spanish (Thanks to [@Komodroid](https://github.com/Komodroid))
+- 🇫🇷 French (beta)
 
 <br>
 
-## Selfhosted
+## 👨‍🔧 Selfhosted
 
 (Coming Soon)
 
-## More about the project
+## 💁 More about the project
 
 Gradely 2's fronted is developed with Flutter and the backend is Appwrite.
 
