@@ -12,6 +12,7 @@ import "package:shared_preferences/shared_preferences.dart";
 import "package:url_launcher/url_launcher.dart";
 import "package:easy_localization/easy_localization.dart";
 import "package:http/http.dart" as http;
+import "package:gradely2/env.dart" as env;
 
 //checks if client is connected to the server. The function stores the value for 10 seconds
 // to reduce requests.
@@ -31,7 +32,7 @@ Future<bool> internetConnection() async {
   } else {
     try {
       await http
-          .get(Uri.parse("https://aw.cloud.eliasschneider.com/v1"))
+          .get(Uri.parse(env.APPWRITE_ENDPOINT))
           .timeout(Duration(milliseconds: 3000));
       saveCache(true);
       return true;
@@ -46,7 +47,7 @@ Future<bool> internetConnection() async {
 Future<bool> isMaintenance() async {
   try {
     var request = await http
-        .get(Uri.parse("https://gradelyapp.com/static-api"))
+        .get(Uri.parse(env.STATIC_API_ENDPOINT))
         .timeout(const Duration(seconds: 3));
     return jsonDecode(request.body)["maintenance"];
   } catch (_) {
@@ -74,7 +75,6 @@ Future sharedPrefs() async {
 //launch url with the package "url launcher"
 
 void launchURL(_url) async => await launch(_url);
-
 
 // ignore: non_constant_identifier_names
 PageRoute GradelyPageRoute({Widget Function(BuildContext)? builder}) {
@@ -108,33 +108,32 @@ askForInAppRating(context) async {
       (Platform.isIOS || Platform.isMacOS || Platform.isAndroid) &&
       await inAppReview.isAvailable()) {
     gradelyDialog(
-        context: context,
-        title: "rate".tr(),
-         text:
-            "rate_gradely2_popup".tr(),
-        actions: [
-          TextButton(
-              onPressed: () {
-                prefs.setBool("never_ask_again_review", true);
-                Navigator.of(context).pop();
-              },
-              child: Text("never".tr())),
-          TextButton(
-              onPressed: () {
-                prefs.setInt("timestamp_asked_for_review", today);
-                Navigator.of(context).pop();
-              },
-              child: Text("maybe_later".tr())),
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                inAppReview.requestReview();
-                prefs.setInt("timestamp_asked_for_review", today);
-                prefs.setBool("never_ask_again_review", true);
-              },
-              child: Text("sure".tr()))
-        ],
-       );
+      context: context,
+      title: "rate".tr(),
+      text: "rate_gradely2_popup".tr(),
+      actions: [
+        TextButton(
+            onPressed: () {
+              prefs.setBool("never_ask_again_review", true);
+              Navigator.of(context).pop();
+            },
+            child: Text("never".tr())),
+        TextButton(
+            onPressed: () {
+              prefs.setInt("timestamp_asked_for_review", today);
+              Navigator.of(context).pop();
+            },
+            child: Text("maybe_later".tr())),
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              inAppReview.requestReview();
+              prefs.setInt("timestamp_asked_for_review", today);
+              prefs.setBool("never_ask_again_review", true);
+            },
+            child: Text("sure".tr()))
+      ],
+    );
   }
 }
 

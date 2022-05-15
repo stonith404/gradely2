@@ -129,7 +129,13 @@ Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text("grade_result".tr()),
+                                Container(
+                                  width: 170,
+                                  child: Text(
+                                    "grade_result".tr(),
+                                    overflow: TextOverflow.visible,
+                                  ),
+                                ),
                                 Spacer(
                                   flex: 1,
                                 ),
