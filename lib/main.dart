@@ -20,7 +20,6 @@ import "package:gradely2/screens/various/maintenance.dart";
 import "package:gradely2/themes.dart";
 import "package:gradely2/screens/various/update_app.dart";
 import "package:plausible_analytics/plausible_analytics.dart";
-import "package:showcaseview/showcaseview.dart";
 import "components/utils/app.dart";
 import "env.dart" as env;
 
@@ -86,16 +85,7 @@ class MaterialWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShowCaseWidget(
-        blurValue: 1,
-        onFinish: () {
-          user.showcaseViewed = true;
-          api.updateDocument(context,
-              collectionId: collectionUser,
-              documentId: user.dbID,
-              data: {"showcase_viewed": true});
-        },
-        builder: Builder(
+    return Builder(
           builder: (context) => MaterialApp(
               title: "Gradely 2",
               initialRoute: "/",
@@ -114,7 +104,7 @@ class MaterialWrapper extends StatelessWidget {
               themeMode: kIsWeb ? ThemeMode.light : ThemeMode.system,
               theme: lightTheme,
               darkTheme: darkTheme),
-        ));
+        );
   }
 }
 

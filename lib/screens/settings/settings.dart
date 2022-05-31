@@ -1,12 +1,12 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:gradely2/components/controllers/user_controller.dart";
-import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:gradely2/components/variables.dart";
 import "package:easy_localization/easy_localization.dart";
 import "package:package_info_plus/package_info_plus.dart";
+import "package:url_launcher/url_launcher_string.dart";
 
 Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
   final UserController userController = UserController();
@@ -129,7 +129,7 @@ Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Container(
+                                SizedBox(
                                   width: 170,
                                   child: Text(
                                     "grade_result".tr(),
@@ -224,7 +224,7 @@ Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
                                     ),
                                     Text("downloads".tr()),
                                   ],
-                                  onTap: () => launchURL(
+                                  onTap: () => launchUrlString(
                                       "https://gradelyapp.com#download")),
                             ],
                           ))

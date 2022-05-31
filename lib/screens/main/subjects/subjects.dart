@@ -12,20 +12,20 @@ import "package:gradely2/screens/auth/intro_screen.dart" as intro_screen;
 import "package:gradely2/screens/main/subjects/create_subject.dart";
 import "package:gradely2/screens/main/subjects/update_subject.dart";
 import "package:package_info_plus/package_info_plus.dart";
-import "package:showcaseview/showcaseview.dart";
 import "package:universal_io/io.dart";
-import "package:flutter/cupertino.dart";
-import "package:flutter/material.dart";
+import "package:flutter/cupertino.dart" hide MenuItem;
+import "package:flutter/material.dart" hide MenuItem;
 import "package:flutter/scheduler.dart";
 import "package:flutter_slidable/flutter_slidable.dart";
 import "package:gradely2/screens/settings/settings.dart";
 import "package:gradely2/components/models.dart";
 import "package:gradely2/components/variables.dart";
+import "package:url_launcher/url_launcher.dart";
 import "../semesters/semesters.dart";
 import "dart:math" as math;
 import "package:easy_localization/easy_localization.dart";
 import "package:flutter_svg/flutter_svg.dart";
-import "package:native_context_menu/native_context_menu.dart";
+import "package:contextual_menu/contextual_menu.dart";
 
 double _averageOfSemester = 0 / -0;
 double _averageOfSemesterPP = 0 / -0;
@@ -50,10 +50,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
   List<Subject> _subjectList = [];
   Semester? currentSemester;
   double? _initialSemesterRound;
-
-  // Every showcasw widget needs a GlobalKey
-  final GlobalKey _showCase1 = GlobalKey();
-  final GlobalKey _showCase2 = GlobalKey();
 
   Future<void> getSubjects({bool initalFetch = false}) async {
     if (initalFetch) setState(() => isLoading = true);
@@ -144,7 +140,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
             TextButton(
                 onPressed: () {
                   prefs.setBool("webNotRecommendedPopUp_viewed", true);
-                  launchURL("https://gradelyapp.com#download");
+                  launchUrl(Uri.parse("https://gradelyapp.com#download"));
                 },
                 child: Text("download".tr())),
             TextButton(
@@ -174,21 +170,11 @@ class _SubjectScreenState extends State<SubjectScreen> {
         initalFetch: true); // Preload from cache to decrease loading time.
     getSubjects();
     userController.getUserInfo();
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       noInternetWarning();
       webNotRecommendedPopUP();
-      // Show intro if didn't show before.
-      if (!(user.showcaseViewed)) {
-        Future.delayed(Duration(milliseconds: 1000), () {
-          ShowCaseWidget.of(context)!.startShowCase([
-            _showCase1,
-            _showCase2,
-          ]);
-        });
-      } else {
-        Future.delayed(
-            Duration(milliseconds: 7000), () => askForInAppRating(context));
-      }
+      Future.delayed(
+          Duration(milliseconds: 7000), () => askForInAppRating(context));
     });
   }
 
@@ -346,26 +332,17 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                       )),
                                 ],
                               ),
-                              Spacer(flex: 1),
-                              Showcase(
-                                key: _showCase1,
-                                title: "subjects".tr(),
-                                description: "showcase_add_subject_button".tr(),
-                                disableAnimation: false,
-                                shapeBorder: CircleBorder(),
-                                radius: BorderRadius.all(Radius.circular(40)),
-                                child: IconButton(
-                                    icon: Icon(Icons.add),
-                                    color: Theme.of(context).primaryColorLight,
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        GradelyPageRoute(
-                                            builder: (context) =>
-                                                CreateSubject()),
-                                      ).then((value) => getSubjects());
-                                    }),
-                              ),
+                              IconButton(
+                                  icon: Icon(Icons.add),
+                                  color: Theme.of(context).primaryColorLight,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      GradelyPageRoute(
+                                          builder: (context) =>
+                                              CreateSubject()),
+                                    ).then((value) => getSubjects());
+                                  }),
                             ],
                           ),
                         ),
@@ -381,19 +358,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: _subjectList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return index == 0 && !user.showcaseViewed
-                              ? Showcase(
-                                  key: _showCase2,
-                                  title: "grades".tr(),
-                                  description:
-                                      Platform.isWindows || Platform.isMacOS
-                                          ? "showcase_subject_list_desktop".tr()
-                                          : "showcase_subject_list".tr(),
-                                  disableAnimation: false,
-                                  shapeBorder: CircleBorder(),
-                                  radius: BorderRadius.all(Radius.circular(15)),
-                                  child: subjectListTile(index))
-                              : subjectListTile(index);
+                          return subjectListTile(index);
                         },
                       ),
                     ]),
@@ -448,23 +413,22 @@ class _SubjectScreenState extends State<SubjectScreen> {
               index: index, list: _subjectList),
           child: Column(
             children: [
-              ContextMenuRegion(
-                onItemSelected: (item) => {item.onSelected!()},
-                menuItems: [
+              GestureDetector(
+                onSecondaryTap: () => popUpContextualMenu(Menu(items: [
                   MenuItem(
-                    onSelected: () => deleteSubject(index),
-                    title: "delete".tr(),
+                    onClick: (_) => deleteSubject(index),
+                    label: "delete".tr(),
                   ),
                   MenuItem(
-                      onSelected: () => Navigator.push(
+                      onClick: (_) => Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => UpdateSubject(
                                       subject: _subjectList[index],
                                     )),
                           ).then((_) => getSubjects()),
-                      title: "edit".tr()),
-                ],
+                      label: "edit".tr()),
+                ])),
                 child: ListTile(
                   title: Text(
                     _subjectList[index].name,
@@ -484,9 +448,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
                     })(),
                   ),
                   onTap: () {
-                    if (!user.showcaseViewed) {
-                      ShowCaseWidget.of(context)!.completed(_showCase2);
-                    }
                     selectedSubject = _subjectList[index];
                     Navigator.pushNamed(context, "grades").then((value) {
                       getSubjects();

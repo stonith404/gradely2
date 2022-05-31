@@ -9,7 +9,6 @@ import "package:in_app_review/in_app_review.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:package_info_plus/package_info_plus.dart";
 import "package:shared_preferences/shared_preferences.dart";
-import "package:url_launcher/url_launcher.dart";
 import "package:easy_localization/easy_localization.dart";
 import "package:http/http.dart" as http;
 import "package:gradely2/env.dart" as env;
@@ -73,8 +72,6 @@ Future sharedPrefs() async {
 }
 
 //launch url with the package "url launcher"
-
-void launchURL(_url) async => await launch(_url);
 
 // ignore: non_constant_identifier_names
 PageRoute GradelyPageRoute({Widget Function(BuildContext)? builder}) {

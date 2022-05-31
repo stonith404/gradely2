@@ -1,4 +1,4 @@
-import "package:flutter/cupertino.dart";
+import "package:flutter/cupertino.dart" hide MenuItem;
 import "package:flutter_slidable/flutter_slidable.dart";
 import "package:gradely2/components/controllers/grade_controller.dart";
 import "package:gradely2/components/models.dart";
@@ -13,10 +13,10 @@ import "package:gradely2/screens/main/grades/update_grade.dart";
 import "package:gradely2/screens/main/subjects/subjects.dart";
 import "package:gradely2/components/variables.dart";
 import "package:gradely2/screens/main/grades/statistics.dart";
-import "package:flutter/material.dart";
+import "package:flutter/material.dart" hide MenuItem;
 import "dart:async";
 import "package:easy_localization/easy_localization.dart";
-import "package:native_context_menu/native_context_menu.dart";
+import "package:contextual_menu/contextual_menu.dart";
 
 String errorMessage = "";
 double averageOfGrades = 0;
@@ -175,16 +175,16 @@ class _GradesScreenState extends State<GradesScreen> {
                                       ],
                                       child: Column(
                                         children: [
-                                          ContextMenuRegion(
-                                            onItemSelected: (item) =>
-                                                {item.onSelected!()},
-                                            menuItems: [
+                                          GestureDetector(
+                                            onSecondaryTap: () =>
+                                                popUpContextualMenu(
+                                                    Menu(items: [
                                               MenuItem(
-                                                onSelected: () =>
+                                                onClick: (_) =>
                                                     deleteGrade(index),
-                                                title: "delete".tr(),
+                                                label: "delete".tr(),
                                               ),
-                                            ],
+                                            ])),
                                             child: ListTile(
                                                 title: Text(
                                                   _gradeList[index].name,

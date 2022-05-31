@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
 import "package:easy_localization/easy_localization.dart";
-import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/widgets/buttons.dart";
+import "package:url_launcher/url_launcher_string.dart";
 
 class ContributeScreen extends StatelessWidget {
   const ContributeScreen({Key? key}) : super(key: key);
@@ -74,7 +74,7 @@ class ContributeScreen extends StatelessWidget {
                 gradelyButton(
                     text: "view_github".tr(),
                     onPressed: () {
-                      launchURL("https://github.com/stonith404/Gradely2");
+                      launchUrlString("https://github.com/stonith404/Gradely2");
                     }),
               ],
             ),
