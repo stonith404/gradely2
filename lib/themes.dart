@@ -41,6 +41,9 @@ final ThemeData lightTheme = ThemeData(
       centerTitle: true,
       iconTheme: IconThemeData(color: Colors.black),
     ),
+    listTileTheme: const ListTileThemeData(
+      iconColor: Colors.black,
+    ),
     brightness: Brightness.light,
 
     //Colors
@@ -89,6 +92,9 @@ final ThemeData darkTheme = lightTheme.copyWith(
       ),
       centerTitle: true,
       iconTheme: IconThemeData(color: Colors.white),
+    ),
+    listTileTheme: const ListTileThemeData(
+      iconColor: Colors.white,
     ),
     brightness: Brightness.light,
 
