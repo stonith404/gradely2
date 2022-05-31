@@ -229,7 +229,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(15, 15, 15, 10),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Column(
