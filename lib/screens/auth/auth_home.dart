@@ -8,7 +8,7 @@ class AuthHomeScreen extends StatefulWidget {
   const AuthHomeScreen({Key? key}) : super(key: key);
 
   @override
-  _AuthHomeScreenState createState() => _AuthHomeScreenState();
+  State<AuthHomeScreen> createState() => _AuthHomeScreenState();
 }
 
 class _AuthHomeScreenState extends State<AuthHomeScreen> {

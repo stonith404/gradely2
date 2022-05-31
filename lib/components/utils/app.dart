@@ -16,7 +16,7 @@ import "package:gradely2/env.dart" as env;
 //checks if client is connected to the server. The function stores the value for 10 seconds
 // to reduce requests.
 Future<bool> internetConnection() async {
-  var _cache = jsonDecode(prefs.getString("internetConnection_cache") ??
+  var cache = jsonDecode(prefs.getString("internetConnection_cache") ??
       '{"time": 0, "state" : false}');
   var timestamp = (DateTime.now().millisecondsSinceEpoch / 1000).round();
   saveCache(state) {
@@ -26,8 +26,8 @@ Future<bool> internetConnection() async {
 
   if (kIsWeb) {
     return true;
-  } else if (timestamp - _cache["time"] <= 10) {
-    return _cache["state"];
+  } else if (timestamp - cache["time"] <= 10) {
+    return cache["state"];
   } else {
     try {
       await http
@@ -146,21 +146,19 @@ Future minAppVersion() async {
         queries: [
           Query.equal(
               "key",
-              "min_" +
-                  (() {
-                    if (Platform.isIOS) {
-                      return "ios";
-                    } else if (Platform.isAndroid) {
-                      return "android";
-                    } else if (Platform.isMacOS) {
-                      return "macos";
-                    } else if (Platform.isWindows) {
-                      return "windows";
-                    } else {
-                      return {"isUpToDate": true};
-                    }
-                  }() as String) +
-                  "_version")
+              "min_${() {
+                if (Platform.isIOS) {
+                  return "ios";
+                } else if (Platform.isAndroid) {
+                  return "android";
+                } else if (Platform.isMacOS) {
+                  return "macos";
+                } else if (Platform.isWindows) {
+                  return "windows";
+                } else {
+                  return {"isUpToDate": true};
+                }
+              }() as String}_version")
         ]))[0]["value"];
     return {
       "isUpToDate": int.parse(currentVersion.replaceAll(".", "")) >=

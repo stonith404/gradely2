@@ -6,10 +6,10 @@ import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 
 Future dreamGradeCalculator(BuildContext context,
     {required double sumWeight, required double sumGrade}) {
-  final TextEditingController _gradeController = TextEditingController();
-  final TextEditingController _weightController = TextEditingController();
-  _gradeController.text = "";
-  _weightController.text = "1";
+  final TextEditingController gradeController = TextEditingController();
+  final TextEditingController weightController = TextEditingController();
+  gradeController.text = "";
+  weightController.text = "1";
   num dreamgradeResult = 0;
   double? dreamgrade = 0;
   double? dreamgradeWeight = 1;
@@ -71,10 +71,10 @@ Future dreamGradeCalculator(BuildContext context,
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      controller: _gradeController,
+                      controller: gradeController,
                       onChanged: (String value) async {
                         dreamgrade = double.tryParse(
-                            _gradeController.text.replaceAll(",", "."));
+                            gradeController.text.replaceAll(",", "."));
                         getDreamGrade();
                       },
                       keyboardType:
@@ -86,10 +86,10 @@ Future dreamGradeCalculator(BuildContext context,
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: TextField(
-                      controller: _weightController,
+                      controller: weightController,
                       onChanged: (String value) async {
                         dreamgradeWeight = double.tryParse(
-                            _weightController.text.replaceAll(",", "."));
+                            weightController.text.replaceAll(",", "."));
                         getDreamGrade();
                       },
                       keyboardType:
@@ -108,7 +108,7 @@ Future dreamGradeCalculator(BuildContext context,
                       style:
                           TextStyle(color: Theme.of(context).primaryColorDark),
                       children: [
-                        TextSpan(text: "dream_grade_result_text".tr() + "  "),
+                        TextSpan(text: "${"dream_grade_result_text".tr()}  "),
                         TextSpan(
                             text: (() {
                               if (dreamgradeResult.isInfinite) {

@@ -14,7 +14,7 @@ class SupportAppScreen extends StatefulWidget {
   const SupportAppScreen({Key? key}) : super(key: key);
 
   @override
-  _SupportAppState createState() => _SupportAppState();
+  State<SupportAppScreen> createState() => _SupportAppState();
 }
 
 class _SupportAppState extends State<SupportAppScreen> {

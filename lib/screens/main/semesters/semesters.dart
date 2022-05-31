@@ -18,7 +18,7 @@ class SemesterScreen extends StatefulWidget {
   const SemesterScreen({Key? key}) : super(key: key);
 
   @override
-  _SemesterScreenState createState() => _SemesterScreenState();
+  State<SemesterScreen> createState() => _SemesterScreenState();
 }
 
 class _SemesterScreenState extends State<SemesterScreen> {

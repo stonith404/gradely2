@@ -74,6 +74,7 @@ Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
                   child: Column(
                     children: [
                       Container(
+                        decoration: boxDec(context),
                         child: Column(
                           children: [
                             settingsListTile(
@@ -181,7 +182,6 @@ Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
                             ),
                           ],
                         ),
-                        decoration: boxDec(context),
                       ),
                       SizedBox(
                         height: 40,

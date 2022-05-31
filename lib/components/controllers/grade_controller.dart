@@ -34,9 +34,9 @@ class GradeController {
   Future<void> create(
       {required String subjectId,
       required String name,
-     required String grade,
+      required String grade,
       required String weight,
-     required String date}) async {
+      required String date}) async {
     isLoadingController.add(true);
 
     await api.createDocument(
@@ -69,9 +69,9 @@ class GradeController {
   Future<void> update(
       {required String id,
       required String name,
-     required String grade,
+      required String grade,
       required String weight,
-     required String date}) async {
+      required String date}) async {
     isLoadingController.add(true);
     await api.updateDocument(context,
         collectionId: collectionGrades,

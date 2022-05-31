@@ -35,18 +35,18 @@ double? getPluspoints(num value) {
 
 String formatDateForDB(date) {
   try {
-    var _formatted = DateTime.parse(date.toString());
-    return "${_formatted.year}.${(() {
-      if ((_formatted.month).toString().length == 1) {
-        return NumberFormat("00").format(_formatted.month);
+    var formatted = DateTime.parse(date.toString());
+    return "${formatted.year}.${(() {
+      if ((formatted.month).toString().length == 1) {
+        return NumberFormat("00").format(formatted.month);
       } else {
-        return _formatted.month;
+        return formatted.month;
       }
     }())}.${(() {
-      if ((_formatted.day).toString().length == 1) {
-        return NumberFormat("00").format(_formatted.day);
+      if ((formatted.day).toString().length == 1) {
+        return NumberFormat("00").format(formatted.day);
       } else {
-        return _formatted.day;
+        return formatted.day;
       }
     }())}";
   } catch (_) {
@@ -59,20 +59,20 @@ String formatDateForClient(date) {
     return "-";
   } else {
     try {
-      var _formatted = DateTime.parse(date.toString());
+      var formatted = DateTime.parse(date.toString());
       return "${(() {
-        if ((_formatted.day).toString().length == 1) {
-          return NumberFormat("00").format(_formatted.day);
+        if ((formatted.day).toString().length == 1) {
+          return NumberFormat("00").format(formatted.day);
         } else {
-          return _formatted.day;
+          return formatted.day;
         }
       }())}.${(() {
-        if ((_formatted.month).toString().length == 1) {
-          return NumberFormat("00").format(_formatted.month);
+        if ((formatted.month).toString().length == 1) {
+          return NumberFormat("00").format(formatted.month);
         } else {
-          return _formatted.month;
+          return formatted.month;
         }
-      }())}.${_formatted.year}";
+      }())}.${formatted.year}";
     } catch (_) {
       return "${date.substring(8, 10)}.${date.substring(5, 7)}.${date.substring(0, 4)}";
     }

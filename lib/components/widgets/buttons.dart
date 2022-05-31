@@ -21,6 +21,7 @@ Widget gradelyButton(
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
+            onPressed: onPressed as void Function()?,
             child: isLoading
                 ? Platform.isIOS || Platform.isMacOS
                     ? Theme(
@@ -43,8 +44,7 @@ Widget gradelyButton(
                 : Text(text,
                     style: TextStyle(
                         color:
-                            textColor ?? Theme.of(context).primaryColorLight)),
-            onPressed: onPressed as void Function()?);
+                            textColor ?? Theme.of(context).primaryColorLight)));
       });
 }
 

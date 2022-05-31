@@ -10,16 +10,16 @@ import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/components/widgets/modalsheets.dart";
 
 Future<Widget?> updateGrade(context, {required Grade grade}) {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _gradeTextController = TextEditingController();
-  final TextEditingController _weightController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController gradeTextController = TextEditingController();
+  final TextEditingController weightController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
   DateTime selectedDate = DateTime.now();
 
-  _nameController.text = grade.name;
-  _gradeTextController.text = grade.grade == -99 ? "" : grade.grade.toString();
-  _weightController.text = grade.weight.toString();
-  _dateController.text = formatDateForClient(grade.date.toString());
+  nameController.text = grade.name;
+  gradeTextController.text = grade.grade == -99 ? "" : grade.grade.toString();
+  weightController.text = grade.weight.toString();
+  dateController.text = formatDateForClient(grade.date.toString());
 
   return gradelyModalSheet(
     context: context,
@@ -35,10 +35,10 @@ Future<Widget?> updateGrade(context, {required Grade grade}) {
                 try {
                   await GradeController(context).update(
                       id: grade.id,
-                      name: _nameController.text,
-                      grade: _gradeTextController.text,
-                      weight: _weightController.text,
-                      date: _dateController.text);
+                      name: nameController.text,
+                      grade: gradeTextController.text,
+                      weight: weightController.text,
+                      date: dateController.text);
                 } catch (_) {
                   isLoadingController.add(false);
                   errorSuccessDialog(
@@ -68,7 +68,7 @@ Future<Widget?> updateGrade(context, {required Grade grade}) {
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: _nameController,
+          controller: nameController,
           textAlign: TextAlign.left,
           decoration: inputDec(context, label: "exam_name".tr()),
         ),
@@ -103,13 +103,13 @@ Future<Widget?> updateGrade(context, {required Grade grade}) {
                     });
                 if (picked != null && picked != selectedDate) {
                   setState(() {
-                    _dateController.text = formatDateForClient(picked);
+                    dateController.text = formatDateForClient(picked);
                   });
                 }
               },
               child: AbsorbPointer(
                 child: TextField(
-                    controller: _dateController,
+                    controller: dateController,
                     textAlign: TextAlign.left,
                     decoration: inputDec(context, label: "date".tr())),
               ),
@@ -120,7 +120,7 @@ Future<Widget?> updateGrade(context, {required Grade grade}) {
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: _gradeTextController,
+          controller: gradeTextController,
           keyboardType: TextInputType.numberWithOptions(decimal: true),
           textAlign: TextAlign.left,
           decoration: inputDec(context, label: "grade".tr()),
@@ -129,7 +129,7 @@ Future<Widget?> updateGrade(context, {required Grade grade}) {
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: _weightController,
+          controller: weightController,
           keyboardType: TextInputType.numberWithOptions(decimal: true),
           textAlign: TextAlign.left,
           decoration: inputDec(context, label: "weight".tr()),

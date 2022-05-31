@@ -56,7 +56,8 @@ class UpdateSemester extends StatelessWidget {
                         0.5: Text("0.5"),
                         0.01: Text("0.01")
                       },
-                      onValueChanged: (dynamic n) => {setState(() => roundTo = n)}),
+                      onValueChanged: (dynamic n) =>
+                          {setState(() => roundTo = n)}),
                 ],
               ),
               SizedBox(

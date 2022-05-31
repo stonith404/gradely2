@@ -37,7 +37,7 @@ class SubjectScreen extends StatefulWidget {
   const SubjectScreen({Key? key}) : super(key: key);
 
   @override
-  _SubjectScreenState createState() => _SubjectScreenState();
+  State<SubjectScreen> createState() => _SubjectScreenState();
 }
 
 class _SubjectScreenState extends State<SubjectScreen> {
@@ -80,18 +80,18 @@ class _SubjectScreenState extends State<SubjectScreen> {
       _averageOfSemesterPP = -99;
       _averageOfSemester = -99;
     } else {
-      double _sum = 0;
-      double _ppSum = 0;
-      double _count = 0;
+      double sum = 0;
+      double ppSum = 0;
+      double count = 0;
       for (var e in _subjectList) {
         if (e.average != -99) {
-          _sum += e.average;
-          _ppSum += getPluspoints(e.average)!;
-          _count = _count + 1;
+          sum += e.average;
+          ppSum += getPluspoints(e.average)!;
+          count = count + 1;
         }
         setState(() {
-          _averageOfSemesterPP = _ppSum;
-          _averageOfSemester = _sum / _count;
+          _averageOfSemesterPP = ppSum;
+          _averageOfSemester = sum / count;
         });
       }
     }

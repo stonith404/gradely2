@@ -42,17 +42,17 @@ class ContributeScreen extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               Text(
-                "contribute_translate_p1".tr() + "\n",
+                "${"contribute_translate_p1".tr()}\n",
               ),
               Text(
-                "contribute_translate_p2".tr() + "\n\n",
+                "${"contribute_translate_p2".tr()}\n\n",
               ),
               Text("bug_or_improvement",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16))
                   .tr(),
               Text(
-                "contribute_feature_bug_suggestion".tr() + "\n\n",
+                "${"contribute_feature_bug_suggestion".tr()}\n\n",
               ),
               Text("or_something_else".tr(),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),

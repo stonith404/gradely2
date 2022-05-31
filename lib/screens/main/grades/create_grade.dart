@@ -10,13 +10,13 @@ import "package:gradely2/components/widgets/modalsheets.dart";
 
 Future<Widget?> createGrade(context,
     {required String subjectId, required int gradeOffset}) {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _gradeTextController = TextEditingController();
-  final TextEditingController _weightController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController gradeTextController = TextEditingController();
+  final TextEditingController weightController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
 
-  _nameController.text = "exam".tr() + " ${gradeOffset + 1}";
-  _weightController.text = "1";
+  nameController.text = "${"exam".tr()} ${gradeOffset + 1}";
+  weightController.text = "1";
   DateTime selectedDate = DateTime.now();
   return gradelyModalSheet(
     context: context,
@@ -32,10 +32,10 @@ Future<Widget?> createGrade(context,
                 try {
                   await GradeController(context).create(
                       subjectId: subjectId,
-                      name: _nameController.text,
-                      grade: _gradeTextController.text,
-                      weight: _weightController.text,
-                      date: _dateController.text);
+                      name: nameController.text,
+                      grade: gradeTextController.text,
+                      weight: weightController.text,
+                      date: dateController.text);
                 } catch (_) {
                   isLoadingController.add(false);
                   errorSuccessDialog(
@@ -67,7 +67,7 @@ Future<Widget?> createGrade(context,
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: _nameController,
+          controller: nameController,
           textAlign: TextAlign.left,
           decoration: inputDec(context, label: "exam_name".tr()),
         ),
@@ -104,13 +104,13 @@ Future<Widget?> createGrade(context,
                 if (picked != null && picked != selectedDate) {
                   setState(() {
                     DateTime.parse(picked.toString());
-                    _dateController.text = formatDateForClient(picked);
+                    dateController.text = formatDateForClient(picked);
                   });
                 }
               },
               child: AbsorbPointer(
                 child: TextField(
-                    controller: _dateController,
+                    controller: dateController,
                     textAlign: TextAlign.left,
                     decoration: inputDec(context, label: "date".tr())),
               ),
@@ -121,7 +121,7 @@ Future<Widget?> createGrade(context,
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-            controller: _gradeTextController,
+            controller: gradeTextController,
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             textAlign: TextAlign.left,
             decoration: inputDec(context, label: "grade".tr())),
@@ -129,7 +129,7 @@ Future<Widget?> createGrade(context,
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-            controller: _weightController,
+            controller: weightController,
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             textAlign: TextAlign.left,
             decoration: inputDec(context, label: "weight".tr())),

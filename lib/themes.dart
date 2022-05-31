@@ -65,6 +65,7 @@ final ThemeData darkTheme = lightTheme.copyWith(
             color: Colors.black)),
     textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.white),
     //Button Themes
+    primaryIconTheme: IconThemeData(color: Colors.white),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
       primary: Colors.white,

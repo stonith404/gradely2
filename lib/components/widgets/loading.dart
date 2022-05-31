@@ -12,7 +12,7 @@ class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
 
   @override
-  _LoadingScreenState createState() => _LoadingScreenState();
+  State<LoadingScreen> createState() => _LoadingScreenState();
 }
 
 class _LoadingScreenState extends State<LoadingScreen>
@@ -215,7 +215,7 @@ class GradelyLoadingIndicator extends StatefulWidget {
   const GradelyLoadingIndicator({Key? key}) : super(key: key);
 
   @override
-  _GradelyLoadingIndicatorState createState() =>
+  State<GradelyLoadingIndicator> createState() =>
       _GradelyLoadingIndicatorState();
 }
 

@@ -27,7 +27,7 @@ class GradesScreen extends StatefulWidget {
   const GradesScreen({Key? key}) : super(key: key);
 
   @override
-  _GradesScreenState createState() => _GradesScreenState();
+  State<GradesScreen> createState() => _GradesScreenState();
 }
 
 class _GradesScreenState extends State<GradesScreen> {
@@ -102,7 +102,7 @@ class _GradesScreenState extends State<GradesScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "empty_subject_p1".tr() + " 🔎\n",
+                                  "${"empty_subject_p1".tr()} 🔎\n",
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
@@ -118,7 +118,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                               .primaryColorDark),
                                       children: [
                                         TextSpan(
-                                          text: "empty_subject_p2".tr() + " ",
+                                          text: "${"empty_subject_p2".tr()} ",
                                         ),
                                         WidgetSpan(
                                           child: Icon(
@@ -129,7 +129,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: " " + "empty_subject_p3".tr(),
+                                          text: " ${"empty_subject_p3".tr()}",
                                         ),
                                       ],
                                     ),
@@ -201,11 +201,8 @@ class _GradesScreenState extends State<GradesScreen> {
                                                                     .calculate_outlined,
                                                             size: 20,
                                                           ),
-                                                          Text(" " +
-                                                              _gradeList[index]
-                                                                  .weight
-                                                                  .toString() +
-                                                              "   "),
+                                                          Text(
+                                                              " ${_gradeList[index].weight}   "),
                                                           Icon(
                                                             isCupertino
                                                                 ? CupertinoIcons
@@ -221,12 +218,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                                                 "") {
                                                               return "  -";
                                                             } else {
-                                                              return " " +
-                                                                  formatDateForClient(_gradeList[
-                                                                              index]
-                                                                          .date
-                                                                          .toString())
-                                                                      .toString();
+                                                              return " ${formatDateForClient(_gradeList[index].date.toString())}";
                                                             }
                                                           }())),
                                                         ],
