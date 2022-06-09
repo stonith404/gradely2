@@ -167,5 +167,6 @@
   "sure": "Klar",
   "maybe_later": "Vielleicht später",
   "never": "Nie",
-  "error_dream_grade_calculator_empty": "Du hast keine Noten, deshalb keine ich deine Wunschnote nicht berechnen."
+  "error_dream_grade_calculator_empty": "Du hast keine Noten, deshalb kann ich deine Wunschnote nicht berechnen.",
+  "info": "Info"
 }

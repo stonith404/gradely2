@@ -167,5 +167,6 @@
   "sure": "Sure",
   "maybe_later": "Maybe later",
   "never": "Never",
-  "error_dream_grade_calculator_empty": "You don't have any grades, so I can't calculate your dream grade."
+  "error_dream_grade_calculator_empty": "You don't have any grades, so I can't calculate your dream grade.",
+  "info": "Info"
 }

@@ -167,5 +167,6 @@
   "sure": "¡Claro!",
   "maybe_later": "Tal vez luego",
   "never": "Nunca",
-  "error_dream_grade_calculator_empty": "No tienes ninguna calificación, así que no puedo calcular tu nota de ensueño."
+  "error_dream_grade_calculator_empty": "No tienes ninguna calificación, así que no puedo calcular tu nota de ensueño.",
+  "info": "Información"
 }

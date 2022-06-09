@@ -167,5 +167,6 @@
   "sure": "Sûr",
   "maybe_later": "Plus tard",
   "never": "Jamais",
-  "error_dream_grade_calculator_empty": "Tu n'as pas de notes, donc je ne peux pas calculer ta note de rêve."
+  "error_dream_grade_calculator_empty": "Tu n'as pas de notes, donc je ne peux pas calculer ta note de rêve.",
+  "info": "Info"
 }
