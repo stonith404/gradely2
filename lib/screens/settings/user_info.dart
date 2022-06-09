@@ -11,7 +11,7 @@ class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({Key? key}) : super(key: key);
 
   @override
-  _UserInfoScreenState createState() => _UserInfoScreenState();
+  State<UserInfoScreen> createState() => _UserInfoScreenState();
 }
 
 class _UserInfoScreenState extends State<UserInfoScreen> {

@@ -9,7 +9,6 @@ import "package:in_app_review/in_app_review.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:package_info_plus/package_info_plus.dart";
 import "package:shared_preferences/shared_preferences.dart";
-import "package:url_launcher/url_launcher.dart";
 import "package:easy_localization/easy_localization.dart";
 import "package:http/http.dart" as http;
 import "package:gradely2/env.dart" as env;
@@ -17,7 +16,7 @@ import "package:gradely2/env.dart" as env;
 //checks if client is connected to the server. The function stores the value for 10 seconds
 // to reduce requests.
 Future<bool> internetConnection() async {
-  var _cache = jsonDecode(prefs.getString("internetConnection_cache") ??
+  var cache = jsonDecode(prefs.getString("internetConnection_cache") ??
       '{"time": 0, "state" : false}');
   var timestamp = (DateTime.now().millisecondsSinceEpoch / 1000).round();
   saveCache(state) {
@@ -27,8 +26,8 @@ Future<bool> internetConnection() async {
 
   if (kIsWeb) {
     return true;
-  } else if (timestamp - _cache["time"] <= 10) {
-    return _cache["state"];
+  } else if (timestamp - cache["time"] <= 10) {
+    return cache["state"];
   } else {
     try {
       await http
@@ -73,8 +72,6 @@ Future sharedPrefs() async {
 }
 
 //launch url with the package "url launcher"
-
-void launchURL(_url) async => await launch(_url);
 
 // ignore: non_constant_identifier_names
 PageRoute GradelyPageRoute({Widget Function(BuildContext)? builder}) {
@@ -149,21 +146,19 @@ Future minAppVersion() async {
         queries: [
           Query.equal(
               "key",
-              "min_" +
-                  (() {
-                    if (Platform.isIOS) {
-                      return "ios";
-                    } else if (Platform.isAndroid) {
-                      return "android";
-                    } else if (Platform.isMacOS) {
-                      return "macos";
-                    } else if (Platform.isWindows) {
-                      return "windows";
-                    } else {
-                      return {"isUpToDate": true};
-                    }
-                  }() as String) +
-                  "_version")
+              "min_${() {
+                if (Platform.isIOS) {
+                  return "ios";
+                } else if (Platform.isAndroid) {
+                  return "android";
+                } else if (Platform.isMacOS) {
+                  return "macos";
+                } else if (Platform.isWindows) {
+                  return "windows";
+                } else {
+                  return {"isUpToDate": true};
+                }
+              }() as String}_version")
         ]))[0]["value"];
     return {
       "isUpToDate": int.parse(currentVersion.replaceAll(".", "")) >=

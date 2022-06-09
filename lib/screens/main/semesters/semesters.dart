@@ -1,5 +1,5 @@
-import "package:flutter/cupertino.dart";
-import "package:flutter/material.dart";
+import "package:flutter/cupertino.dart" hide MenuItem;
+import "package:flutter/material.dart" hide MenuItem;
 import "package:flutter_slidable/flutter_slidable.dart";
 import "package:gradely2/components/controllers/semester_controller.dart";
 import "package:gradely2/components/utils/app.dart";
@@ -12,13 +12,13 @@ import "package:easy_localization/easy_localization.dart";
 import "package:gradely2/main.dart";
 import "package:gradely2/screens/main/semesters/create_semester.dart";
 import "package:gradely2/screens/main/semesters/update_semester.dart";
-import "package:native_context_menu/native_context_menu.dart";
+import "package:contextual_menu/contextual_menu.dart";
 
 class SemesterScreen extends StatefulWidget {
   const SemesterScreen({Key? key}) : super(key: key);
 
   @override
-  _SemesterScreenState createState() => _SemesterScreenState();
+  State<SemesterScreen> createState() => _SemesterScreenState();
 }
 
 class _SemesterScreenState extends State<SemesterScreen> {
@@ -171,31 +171,33 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                 index: index, list: _semesterList),
                             child: Column(
                               children: [
-                                ContextMenuRegion(
-                                  onItemSelected: (item) =>
-                                      {item.onSelected!()},
-                                  menuItems: [
-                                    MenuItem(
-                                      onSelected: () => deleteSemester(index),
-                                      title: "delete".tr(),
-                                    ),
-                                    MenuItem(
-                                        onSelected: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    UpdateSemester(
-                                                        semester: _semesterList[
-                                                            index])),
-                                          ).then((_) => getSemsters());
-                                        },
-                                        title: "edit".tr()),
-                                    MenuItem(
-                                        onSelected: () =>
-                                            duplicateSemester(index),
-                                        title: "duplicate".tr()),
-                                  ],
+                                GestureDetector(
+                                  onSecondaryTap: () =>
+                                      popUpContextualMenu(Menu(
+                                    items: [
+                                      MenuItem(
+                                        onClick: (_) => deleteSemester(index),
+                                        label: "delete".tr(),
+                                      ),
+                                      MenuItem(
+                                          onClick: (_) {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      UpdateSemester(
+                                                          semester:
+                                                              _semesterList[
+                                                                  index])),
+                                            ).then((_) => getSemsters());
+                                          },
+                                          label: "edit".tr()),
+                                      MenuItem(
+                                          onClick: (_) =>
+                                              duplicateSemester(index),
+                                          label: "duplicate".tr())
+                                    ],
+                                  )),
                                   child: ListTile(
                                     title: Text(
                                       _semesterList[index].name,

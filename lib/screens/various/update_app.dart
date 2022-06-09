@@ -2,10 +2,10 @@ import "dart:io";
 import "package:easy_localization/easy_localization.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
-import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 
 import "package:gradely2/components/variables.dart";
+import "package:url_launcher/url_launcher_string.dart";
 
 // ignore: must_be_immutable
 class UpdateAppScreen extends StatelessWidget {
@@ -61,7 +61,7 @@ class UpdateAppScreen extends StatelessWidget {
             SizedBox(
                 width: 300,
                 child: gradelyButton(
-                    onPressed: () => launchURL((() {
+                    onPressed: () => launchUrlString((() {
                           if (Platform.isIOS || Platform.isMacOS) {
                             return "https://apps.apple.com/app/gradely-2-grade-calculator/id1578749974";
                           } else if (Platform.isAndroid) {

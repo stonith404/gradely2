@@ -1,4 +1,4 @@
-import "package:flutter/cupertino.dart";
+import "package:flutter/cupertino.dart" hide MenuItem;
 import "package:flutter_slidable/flutter_slidable.dart";
 import "package:gradely2/components/controllers/grade_controller.dart";
 import "package:gradely2/components/models.dart";
@@ -13,10 +13,10 @@ import "package:gradely2/screens/main/grades/update_grade.dart";
 import "package:gradely2/screens/main/subjects/subjects.dart";
 import "package:gradely2/components/variables.dart";
 import "package:gradely2/screens/main/grades/statistics.dart";
-import "package:flutter/material.dart";
+import "package:flutter/material.dart" hide MenuItem;
 import "dart:async";
 import "package:easy_localization/easy_localization.dart";
-import "package:native_context_menu/native_context_menu.dart";
+import "package:contextual_menu/contextual_menu.dart";
 
 String errorMessage = "";
 double averageOfGrades = 0;
@@ -27,7 +27,7 @@ class GradesScreen extends StatefulWidget {
   const GradesScreen({Key? key}) : super(key: key);
 
   @override
-  _GradesScreenState createState() => _GradesScreenState();
+  State<GradesScreen> createState() => _GradesScreenState();
 }
 
 class _GradesScreenState extends State<GradesScreen> {
@@ -102,7 +102,7 @@ class _GradesScreenState extends State<GradesScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "empty_subject_p1".tr() + " 🔎\n",
+                                  "${"empty_subject_p1".tr()} 🔎\n",
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
@@ -118,7 +118,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                               .primaryColorDark),
                                       children: [
                                         TextSpan(
-                                          text: "empty_subject_p2".tr() + " ",
+                                          text: "${"empty_subject_p2".tr()} ",
                                         ),
                                         WidgetSpan(
                                           child: Icon(
@@ -129,7 +129,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: " " + "empty_subject_p3".tr(),
+                                          text: " ${"empty_subject_p3".tr()}",
                                         ),
                                       ],
                                     ),
@@ -175,16 +175,16 @@ class _GradesScreenState extends State<GradesScreen> {
                                       ],
                                       child: Column(
                                         children: [
-                                          ContextMenuRegion(
-                                            onItemSelected: (item) =>
-                                                {item.onSelected!()},
-                                            menuItems: [
+                                          GestureDetector(
+                                            onSecondaryTap: () =>
+                                                popUpContextualMenu(
+                                                    Menu(items: [
                                               MenuItem(
-                                                onSelected: () =>
+                                                onClick: (_) =>
                                                     deleteGrade(index),
-                                                title: "delete".tr(),
+                                                label: "delete".tr(),
                                               ),
-                                            ],
+                                            ])),
                                             child: ListTile(
                                                 title: Text(
                                                   _gradeList[index].name,
@@ -201,11 +201,8 @@ class _GradesScreenState extends State<GradesScreen> {
                                                                     .calculate_outlined,
                                                             size: 20,
                                                           ),
-                                                          Text(" " +
-                                                              _gradeList[index]
-                                                                  .weight
-                                                                  .toString() +
-                                                              "   "),
+                                                          Text(
+                                                              " ${_gradeList[index].weight}   "),
                                                           Icon(
                                                             isCupertino
                                                                 ? CupertinoIcons
@@ -221,12 +218,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                                                 "") {
                                                               return "  -";
                                                             } else {
-                                                              return " " +
-                                                                  formatDateForClient(_gradeList[
-                                                                              index]
-                                                                          .date
-                                                                          .toString())
-                                                                      .toString();
+                                                              return " ${formatDateForClient(_gradeList[index].date.toString())}";
                                                             }
                                                           }())),
                                                         ],

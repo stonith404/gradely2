@@ -479,12 +479,12 @@ class _Intro6State extends State<Intro6> {
             flex: 1,
           ),
           Text(
-            "intro_email_verification".tr() + " " + user.email,
+            "${"intro_email_verification".tr()} ${user.email}",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 19),
           ),
           Text(
-            "\n" + "check_email_spam".tr(),
+            "\n${"check_email_spam".tr()}",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 15),
           ),
@@ -520,7 +520,7 @@ class _Intro6State extends State<Intro6> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("        " + "change_email".tr(),
+                  Text("        ${"change_email".tr()}",
                       style: TextStyle(
                         fontSize: 14,
                       )),
@@ -541,7 +541,8 @@ class _Intro6State extends State<Intro6> {
                     IconButton(
                       onPressed: () async {
                         try {
-                          _userController.changeEmail(_changeEmailController.text, context);
+                          _userController.changeEmail(
+                              _changeEmailController.text, context);
                         } on AppwriteException catch (e) {
                           errorSuccessDialog(
                               context: context,

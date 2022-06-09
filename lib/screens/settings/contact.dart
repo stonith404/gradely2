@@ -10,15 +10,15 @@ class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
 
   @override
-  _ContactScreenState createState() => _ContactScreenState();
+  State<ContactScreen> createState() => _ContactScreenState();
 }
 
 class _ContactScreenState extends State<ContactScreen> {
   final TextEditingController _contactMessageController =
       TextEditingController();
 
-  sendMail(String _message) async {
-    var maildata = jsonEncode({"sender": user.email, "message": _message});
+  sendMail(String message) async {
+    var maildata = jsonEncode({"sender": user.email, "message": message});
     Future result = functions.createExecution(
         functionId: "fcn_contact", data: maildata.toString());
     await result.then((response) {

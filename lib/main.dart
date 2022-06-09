@@ -20,7 +20,6 @@ import "package:gradely2/screens/various/maintenance.dart";
 import "package:gradely2/themes.dart";
 import "package:gradely2/screens/various/update_app.dart";
 import "package:plausible_analytics/plausible_analytics.dart";
-import "package:showcaseview/showcaseview.dart";
 import "components/utils/app.dart";
 import "env.dart" as env;
 
@@ -28,7 +27,7 @@ final navigatorKey = GlobalKey<NavigatorState>();
 bool _isSignedIn = false;
 bool? _isMaintenance;
 final UserController _userController = UserController();
-late var _appVersionCheck = {};
+var _appVersionCheck = {};
 final plausible = Plausible(env.PLAUSIBLE_ENDPOINT, "app.gradelyapp.com");
 
 Future _executeJobs() async {
@@ -55,7 +54,12 @@ void main() async {
 
   await _executeJobs();
   runApp(EasyLocalization(
-      supportedLocales: const [Locale("de"), Locale("en"), Locale("fr"), Locale("es")],
+      supportedLocales: const [
+        Locale("de"),
+        Locale("en"),
+        Locale("fr"),
+        Locale("es")
+      ],
       useOnlyLangCode: true,
       path: "assets/translations",
       fallbackLocale: Locale("en"),
@@ -86,35 +90,26 @@ class MaterialWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShowCaseWidget(
-        blurValue: 1,
-        onFinish: () {
-          user.showcaseViewed = true;
-          api.updateDocument(context,
-              collectionId: collectionUser,
-              documentId: user.dbID,
-              data: {"showcase_viewed": true});
-        },
-        builder: Builder(
-          builder: (context) => MaterialApp(
-              title: "Gradely 2",
-              initialRoute: "/",
-              navigatorKey: navigatorKey,
-              onGenerateRoute: (settings) {
-                plausible.enabled = kDebugMode || kIsWeb ? false : true;
-                plausible.userAgent = _userController.getUserAgent();
-                plausible.event(page: settings.name!);
-                return GradelyPageRoute(
-                    builder: (context) => routes[settings.name!]!(context));
-              },
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              themeMode: kIsWeb ? ThemeMode.light : ThemeMode.system,
-              theme: lightTheme,
-              darkTheme: darkTheme),
-        ));
+    return Builder(
+      builder: (context) => MaterialApp(
+          title: "Gradely 2",
+          initialRoute: "/",
+          navigatorKey: navigatorKey,
+          onGenerateRoute: (settings) {
+            plausible.enabled = kDebugMode || kIsWeb ? false : true;
+            plausible.userAgent = _userController.getUserAgent();
+            plausible.event(page: settings.name!);
+            return GradelyPageRoute(
+                builder: (context) => routes[settings.name!]!(context));
+          },
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          themeMode: kIsWeb ? ThemeMode.light : ThemeMode.system,
+          theme: lightTheme,
+          darkTheme: darkTheme),
+    );
   }
 }
 
@@ -122,7 +117,7 @@ class HomeWrapper extends StatefulWidget {
   const HomeWrapper({Key? key}) : super(key: key);
 
   @override
-  _State createState() => _State();
+  State<HomeWrapper> createState() => _State();
 }
 
 class _State extends State<HomeWrapper> {

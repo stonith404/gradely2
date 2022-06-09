@@ -72,8 +72,8 @@ class UserController {
   }
 
   /// Change the email from the currently logged in user.
-  void changeEmail(_email, context) async {
-    final TextEditingController _passwordController = TextEditingController();
+  void changeEmail(email, context) async {
+    final TextEditingController passwordController = TextEditingController();
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -89,7 +89,7 @@ class UserController {
                   height: 20,
                 ),
                 TextField(
-                    controller: _passwordController,
+                    controller: passwordController,
                     textAlign: TextAlign.left,
                     obscureText: true,
                     decoration: inputDec(context, label: "your_password".tr())),
@@ -101,8 +101,8 @@ class UserController {
                 onPressed: () async {
                   try {
                     await account.updateEmail(
-                      email: _email,
-                      password: _passwordController.text,
+                      email: email,
+                      password: passwordController.text,
                     );
                     Navigator.of(context).pop();
                     errorSuccessDialog(

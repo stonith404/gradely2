@@ -77,7 +77,7 @@ class SemesterController {
     String newSemester = (await api
             .createDocument(context, collectionId: collectionSemester, data: {
       "parentId": user.dbID,
-      "name": semester.name + " - ${'copy'.tr()}",
+      "name": "${semester.name} - ${'copy'.tr()}",
       "round": semester.round
     }))
         .$id;

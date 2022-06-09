@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
 import "package:easy_localization/easy_localization.dart";
-import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/widgets/buttons.dart";
+import "package:url_launcher/url_launcher_string.dart";
 
 class ContributeScreen extends StatelessWidget {
   const ContributeScreen({Key? key}) : super(key: key);
@@ -42,17 +42,17 @@ class ContributeScreen extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               Text(
-                "contribute_translate_p1".tr() + "\n",
+                "${"contribute_translate_p1".tr()}\n",
               ),
               Text(
-                "contribute_translate_p2".tr() + "\n\n",
+                "${"contribute_translate_p2".tr()}\n\n",
               ),
               Text("bug_or_improvement",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16))
                   .tr(),
               Text(
-                "contribute_feature_bug_suggestion".tr() + "\n\n",
+                "${"contribute_feature_bug_suggestion".tr()}\n\n",
               ),
               Text("or_something_else".tr(),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
@@ -74,7 +74,7 @@ class ContributeScreen extends StatelessWidget {
                 gradelyButton(
                     text: "view_github".tr(),
                     onPressed: () {
-                      launchURL("https://github.com/stonith404/Gradely2");
+                      launchUrlString("https://github.com/stonith404/Gradely2");
                     }),
               ],
             ),
