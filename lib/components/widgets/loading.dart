@@ -77,12 +77,6 @@ class _LoadingScreenState extends State<LoadingScreen>
                               settingsScreen(context);
                             }),
                       ),
-                      actions: [
-                        IconButton(
-                            icon: Icon(Icons.switch_left,
-                                color: Theme.of(context).primaryColorDark),
-                            onPressed: () async {}),
-                      ],
                     ),
                   ];
                 },
