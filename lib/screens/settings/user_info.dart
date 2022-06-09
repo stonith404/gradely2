@@ -3,9 +3,9 @@ import "package:flutter/material.dart";
 import "package:gradely2/components/controllers/user_controller.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/decorations.dart";
-import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/components/variables.dart";
 import "package:easy_localization/easy_localization.dart";
+import "package:gradely2/components/widgets/toast.dart";
 
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({Key? key}) : super(key: key);
@@ -62,15 +62,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   onPressed: () async {
                     try {
                       await account.updateName(name: _nameController.text);
-                      errorSuccessDialog(
-                          context: context,
-                          error: false,
-                          text: "name_updated".tr());
+                      toast.success(context, text: "name_updated".tr());
                     } catch (e) {
-                      errorSuccessDialog(
-                          context: context,
-                          error: true,
-                          text: "error_unknown".tr());
+                      toast.error(context, text: "error_unknown".tr());
                     }
                   },
                   icon: Icon(
@@ -100,10 +94,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       userController.changeEmail(
                           _emailController.text, context);
                     } catch (e) {
-                      errorSuccessDialog(
-                          context: context,
-                          error: true,
-                          text: "error_unknown".tr());
+                      toast.error(context, text: "error_unknown".tr());
                     }
                   },
                   icon: Icon(
@@ -142,17 +133,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                         "https://gradelyapp.com/user/changePassword",
                                   );
                                   result.then((response) {
-                                    errorSuccessDialog(
-                                        context: context,
-                                        error: false,
+                                    toast.success(context,
                                         text:
                                             "password_reset_success_text".tr(),
                                         title: "sent".tr());
                                   }).catchError((error) {
-                                    errorSuccessDialog(
-                                        context: context,
-                                        error: true,
-                                        text: error.message);
+                                    toast.error(context, text: error.message);
                                   });
 
                                   Navigator.of(context).pop();
@@ -220,9 +206,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       );
                                       prefs.setBool("signedIn", false);
                                     } else {
-                                      errorSuccessDialog(
-                                          context: context,
-                                          error: true,
+                                      toast.error(context,
                                           text: "error_wrong_password".tr());
                                     }
                                   }),

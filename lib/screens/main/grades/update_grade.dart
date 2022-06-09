@@ -6,8 +6,8 @@ import "package:gradely2/components/models.dart";
 import "package:gradely2/components/variables.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/decorations.dart";
-import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/components/widgets/modalsheets.dart";
+import "package:gradely2/components/widgets/toast.dart";
 
 Future<Widget?> updateGrade(context, {required Grade grade}) {
   final TextEditingController nameController = TextEditingController();
@@ -41,9 +41,7 @@ Future<Widget?> updateGrade(context, {required Grade grade}) {
                       date: dateController.text);
                 } catch (_) {
                   isLoadingController.add(false);
-                  errorSuccessDialog(
-                      context: context,
-                      error: true,
+                  toast.error(context,
                       text: "error_grade_badly_formatted".tr());
                 }
                 Navigator.of(context).pop();

@@ -3,8 +3,8 @@ import "package:easy_localization/easy_localization.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/decorations.dart";
-import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/components/variables.dart";
+import "package:gradely2/components/widgets/toast.dart";
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({Key? key}) : super(key: key);
@@ -66,9 +66,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   sendPasswordResetEmail(_emailController.text);
 
                   Navigator.pushNamed(context, "auth/signIn");
-                  errorSuccessDialog(
-                      context: context,
-                      error: false,
+                  toast.success(context,
                       text: "password_reset_success_text".tr(),
                       title: "sent".tr());
                 },

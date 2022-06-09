@@ -4,7 +4,7 @@ import "package:flutter_svg/svg.dart";
 import "package:gradely2/components/controllers/user_controller.dart";
 import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/widgets/buttons.dart";
-import "package:gradely2/components/widgets/dialogs.dart";
+import "package:gradely2/components/widgets/toast.dart";
 import "package:gradely2/screens/auth/auth_home.dart";
 import "package:gradely2/screens/main/subjects/subjects.dart";
 import "package:gradely2/components/variables.dart";
@@ -59,9 +59,8 @@ class MaintenanceScreen extends StatelessWidget {
                     onPressed: () async {
                       isLoadingController.add(true);
                       if (await (isMaintenance())) {
-                        errorSuccessDialog(
-                            context: context,
-                            error: true,
+                        toast.error(
+                            context,
                             title: "sorry".tr(),
                             text: "still_maintenance".tr());
                       } else if (await userController.isSignedIn()) {

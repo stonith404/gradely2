@@ -1,4 +1,5 @@
 import "dart:convert";
+import "package:gradely2/components/widgets/toast.dart";
 import "package:universal_io/io.dart";
 import "package:appwrite/appwrite.dart";
 import "package:flutter/foundation.dart";
@@ -57,11 +58,8 @@ Future<bool> isMaintenance() async {
 //if there is no connection, show a dialog
 void noNetworkDialog(context) async {
   if (!await (internetConnection())) {
-    errorSuccessDialog(
-        context: context,
-        error: true,
-        title: "network_needed_title".tr(),
-        text: "network_needed_text".tr());
+    toast.error(context,
+        title: "network_needed_title".tr(), text: "network_needed_text".tr());
   }
 }
 

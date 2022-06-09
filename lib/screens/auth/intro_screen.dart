@@ -9,7 +9,7 @@ import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/variables.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/decorations.dart";
-import "package:gradely2/components/widgets/dialogs.dart";
+import "package:gradely2/components/widgets/toast.dart";
 
 double progress = 0;
 final UserController _userController = UserController();
@@ -269,7 +269,7 @@ class _Intro4State extends State<_Intro4> {
         (Route<dynamic> route) => false,
       );
     }).catchError((error) {
-      errorSuccessDialog(context: context, error: true, text: error.message);
+      toast.error(context, text: error.message);
     });
 
     isLoadingController.add(false);
@@ -415,12 +415,7 @@ class _Intro5 extends StatelessWidget {
                     }).catchError((error) {
                       print(error.response);
                     });
-
-                    errorSuccessDialog(
-                        context: context,
-                        error: false,
-                        text: "success_semester_added".tr());
-
+                    toast.success(context, text: "success_semester_added".tr());
                     isLoadingController.add(false);
                     Navigator.push(
                       context,
@@ -497,13 +492,9 @@ class _Intro6State extends State<Intro6> {
                     url: "https://gradelyapp.com/user/verifyEmail");
 
                 result.then((response) {
-                  errorSuccessDialog(
-                      context: context,
-                      error: false,
-                      text: "success_email_sent".tr());
+                  toast.success(context, text: "success_email_sent".tr());
                 }).catchError((error) {
-                  errorSuccessDialog(
-                      context: context, error: true, text: error.message);
+                  toast.error(context, text: error.message);
                 });
               },
               child: Text("send_again".tr())),
@@ -544,10 +535,7 @@ class _Intro6State extends State<Intro6> {
                           _userController.changeEmail(
                               _changeEmailController.text, context);
                         } on AppwriteException catch (e) {
-                          errorSuccessDialog(
-                              context: context,
-                              error: true,
-                              text: e.message.toString());
+                          toast.error(context, text: e.message.toString());
                         }
                       },
                       icon: Icon(
@@ -577,14 +565,10 @@ class _Intro6State extends State<Intro6> {
                         context,
                         "subjects",
                       );
-                      errorSuccessDialog(
-                          context: context,
-                          error: false,
+                      toast.success(context,
                           text: "success_email_verified".tr());
                     } else {
-                      errorSuccessDialog(
-                          context: context,
-                          error: true,
+                      toast.error(context,
                           text: "error_email_not_verified".tr());
                     }
 

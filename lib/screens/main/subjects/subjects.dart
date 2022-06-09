@@ -7,6 +7,7 @@ import "package:gradely2/components/utils/grades.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/components/widgets/loading.dart";
+import "package:gradely2/components/widgets/toast.dart";
 import "package:gradely2/main.dart";
 import "package:gradely2/screens/auth/intro_screen.dart" as intro_screen;
 import "package:gradely2/screens/main/subjects/create_subject.dart";
@@ -155,11 +156,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
 
   Future<void> noInternetWarning() async {
     if (!(await (internetConnection()))) {
-      errorSuccessDialog(
-          context: context,
-          error: true,
-          text: "no_network".tr(),
-          title: "network_needed_title".tr());
+      toast.info(context,
+          text: "no_network".tr(), title: "network_needed_title".tr());
     }
   }
 

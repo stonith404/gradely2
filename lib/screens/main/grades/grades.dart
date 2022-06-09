@@ -6,6 +6,7 @@ import "package:gradely2/components/utils/grades.dart";
 import "package:gradely2/components/widgets/decorations.dart";
 import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/components/widgets/loading.dart";
+import "package:gradely2/components/widgets/toast.dart";
 import "package:gradely2/main.dart";
 import "package:gradely2/screens/main/grades/create_grade.dart";
 import "package:gradely2/screens/main/grades/dream_grade_calculator.dart";
@@ -51,6 +52,7 @@ class _GradesScreenState extends State<GradesScreen> {
     api.updateDocument(context,
         documentId: selectedSubject.id,
         collectionId: collectionSubjects,
+        noInternetWarning: false,
         data: {
           "average": (() {
             if (averageOfGrades.isNaN) {
@@ -343,9 +345,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                                       Navigator.of(context)
                                                           .pop();
                                                       if (_gradeList.isEmpty) {
-                                                        errorSuccessDialog(
-                                                            context: context,
-                                                            error: true,
+                                                        toast.error(context,
                                                             text:
                                                                 "error_dream_grade_calculator_empty"
                                                                     .tr());

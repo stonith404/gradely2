@@ -2,9 +2,9 @@ import "dart:convert";
 import "package:flutter/material.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/decorations.dart";
-import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/components/variables.dart";
 import "package:easy_localization/easy_localization.dart";
+import "package:gradely2/components/widgets/toast.dart";
 
 class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
@@ -23,15 +23,12 @@ class _ContactScreenState extends State<ContactScreen> {
         functionId: "fcn_contact", data: maildata.toString());
     await result.then((response) {
       Navigator.pushNamed(context, "subjects");
-      errorSuccessDialog(
-          context: context,
-          error: false,
+      toast.success(context,
           text: "${"contact_success_text".tr()} ${user.email}.",
           title: "sent".tr());
     }).catchError((error) {
       Navigator.pushNamed(context, "subjects");
-      errorSuccessDialog(
-          context: context, error: true, text: "error_contact".tr());
+      toast.error(context, text: "error_contact".tr());
     });
   }
 

@@ -5,8 +5,8 @@ import "package:gradely2/components/utils/grades.dart";
 import "package:gradely2/components/variables.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/decorations.dart";
-import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/components/widgets/modalsheets.dart";
+import "package:gradely2/components/widgets/toast.dart";
 
 Future<Widget?> createGrade(context,
     {required String subjectId, required int gradeOffset}) {
@@ -38,9 +38,7 @@ Future<Widget?> createGrade(context,
                       date: dateController.text);
                 } catch (_) {
                   isLoadingController.add(false);
-                  errorSuccessDialog(
-                      context: context,
-                      error: true,
+                  toast.error(context,
                       text: "error_grade_badly_formatted".tr());
                 }
                 Navigator.of(context).pop();

@@ -3,7 +3,7 @@ import "package:appwrite/appwrite.dart";
 import "package:appwrite/models.dart";
 import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/variables.dart";
-import "package:gradely2/components/widgets/dialogs.dart";
+import "package:gradely2/components/widgets/toast.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 class GradelyApi {
@@ -44,7 +44,7 @@ class GradelyApi {
         return await database.deleteDocument(
             collectionId: collectionId, documentId: documentId);
       } on AppwriteException catch (e) {
-        errorSuccessDialog(context: context, error: true, text: e.message!);
+        toast.error(context, text: e.message!);
       }
     }
   }
@@ -57,20 +57,21 @@ class GradelyApi {
         return await database.createDocument(
             documentId: "unique()", collectionId: collectionId, data: data);
       } on AppwriteException catch (e) {
-        errorSuccessDialog(context: context, error: true, text: e.message!);
+        toast.error(context, text: e.message!);
       }
     }
   }
 
-  updateDocument(context, {collectionId, documentId, data}) async {
-    if (!await (internetConnection())) {
+  updateDocument(context,
+      {collectionId, documentId, data, noInternetWarning = true}) async {
+    if (noInternetWarning && !await (internetConnection())) {
       noNetworkDialog(context);
     } else {
       try {
         return await database.updateDocument(
             collectionId: collectionId, documentId: documentId, data: data);
       } on AppwriteException catch (e) {
-        errorSuccessDialog(context: context, error: true, text: e.message!);
+        toast.error(context, text: e.message!);
       }
     }
   }

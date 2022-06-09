@@ -8,7 +8,7 @@ import "package:gradely2/components/models.dart" as models;
 import "package:gradely2/components/utils/app.dart";
 import "package:gradely2/components/variables.dart";
 import "package:gradely2/components/widgets/decorations.dart";
-import "package:gradely2/components/widgets/dialogs.dart";
+import "package:gradely2/components/widgets/toast.dart";
 import "package:universal_io/io.dart";
 
 class UserController {
@@ -105,10 +105,7 @@ class UserController {
                       password: passwordController.text,
                     );
                     Navigator.of(context).pop();
-                    errorSuccessDialog(
-                        context: context,
-                        error: false,
-                        text: "email_updated".tr());
+                    toast.success(context, text: "email_updated".tr());
 
                     Future.delayed(Duration(seconds: 2));
                     Navigator.pushNamedAndRemoveUntil(
@@ -118,10 +115,7 @@ class UserController {
                     );
                   } on AppwriteException catch (e) {
                     Navigator.of(context).pop();
-                    errorSuccessDialog(
-                        context: context,
-                        error: true,
-                        text: e.message.toString());
+                    toast.error(context, text: e.message.toString());
                   }
                 },
               ),

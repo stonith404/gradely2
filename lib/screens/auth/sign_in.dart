@@ -4,8 +4,8 @@ import "package:flutter_svg/flutter_svg.dart";
 import "package:gradely2/components/controllers/user_controller.dart";
 import "package:gradely2/components/widgets/buttons.dart";
 import "package:gradely2/components/widgets/decorations.dart";
-import "package:gradely2/components/widgets/dialogs.dart";
 import "package:gradely2/components/variables.dart";
+import "package:gradely2/components/widgets/toast.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 bool _obsecuredText = true;
@@ -40,7 +40,7 @@ class _SignInScreenState extends State<SignInScreen> {
       _passwordController.text = "";
     }).catchError((error) {
       print(error);
-      errorSuccessDialog(context: context, error: true, text: error.message);
+      toast.error(context, text: error.message);
     });
     isLoadingController.add(false);
   }
