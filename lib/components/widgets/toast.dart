@@ -22,7 +22,7 @@ class Toast {
     return _toastWidget(context,
         color: Colors.greenAccent,
         title: title ?? "success".tr(),
-        icon: CupertinoIcons.xmark_circle,
+        icon: CupertinoIcons.check_mark_circled,
         text: text);
   }
 
