@@ -21,7 +21,7 @@ dependencies:
   modal_bottom_sheet: ^2.0.0
   flutter_launcher_icons: ^0.9.2
   easy_localization: ^3.0.0
-  url_launcher: ^6.0.20
+  url_launcher: ^6.1.4
   shared_preferences: ^2.0.13
   syncfusion_flutter_charts: ^20.1.57
   flutter_inapp_purchase: ^5.1.2
