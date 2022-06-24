@@ -12,15 +12,10 @@ Future settingsScreen(BuildContext context, {PackageInfo? packageInfo}) {
   final UserController userController = UserController();
   String? gradesResult = user.gradeType;
   return showCupertinoModalBottomSheet(
-    shadow: BoxShadow(
-      color: Colors.grey.withOpacity(0.3),
-      spreadRadius: 5,
-      blurRadius: 7,
-      offset: Offset(0, 3), // changes position of shadow
-    ),
+    duration: Duration(milliseconds: 250),
     context: context,
-    builder: (context) => StatefulBuilder(builder:
-        (BuildContext context, StateSetter setState /*You can rename this!*/) {
+    builder: (context) =>
+        StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
       return Material(
         color: Theme.of(context).scaffoldBackgroundColor,
         child: SizedBox(

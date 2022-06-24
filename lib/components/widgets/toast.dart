@@ -4,11 +4,6 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
 class Toast {
-  errorSuccessDialog(
-      {required BuildContext context,
-      required bool error,
-      String? title,
-      required String text}) {}
 
   Future error(BuildContext context, {String? title, required String text}) {
     return _toastWidget(context,
